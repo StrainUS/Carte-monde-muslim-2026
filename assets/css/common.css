@@ -1,0 +1,59 @@
+/* Fondations — partagées carte + pédagogie */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #06080f;
+  --surface: #0a0f1a;
+  --surface-elevated: #0f1628;
+  --border: rgba(255, 255, 255, 0.07);
+  --border-hi: rgba(255, 255, 255, 0.14);
+  --text: #e4eaf4;
+  --muted: #6b7a9a;
+  --gold: #c9a84c;
+  --gold-hi: #e8c97a;
+  --sunni-dark: #145c22;
+  --sunni: #1e8a30;
+  --sunni-hi: #5ec972;
+  --shia-dark: #0b3d8a;
+  --shia: #1456c8;
+  --shia-hi: #4d9ef5;
+  --danger: #ef5350;
+  --radius: 10px;
+  --radius-sm: 8px;
+  --font-head: "Cinzel", serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.55);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.5;
+}
+
+a {
+  color: var(--gold-hi);
+  text-decoration: none;
+  transition: color 0.2s var(--ease-out);
+}
+
+a:hover {
+  color: var(--text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
