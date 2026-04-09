@@ -206,8 +206,9 @@
     const entries = Object.entries(DATA).filter(([, d]) => d && d.p && d.m);
     const topS = entries.map(([n, d]) => ({ n, v: (d.p * d.m * d.s) / 10000 })).sort((a, b) => b.v - a.v).slice(0, 10);
     const topH = entries.map(([n, d]) => ({ n, v: (d.p * d.m * d.h) / 10000 })).sort((a, b) => b.v - a.v).slice(0, 10);
-    const mxS = topS[0].v;
-    const mxH = topH[0].v;
+    if (!topS.length || !topH.length) return;
+    const mxS = topS[0].v || 1;
+    const mxH = topH[0].v || 1;
 
     const elS = document.getElementById("rank-sunni");
     const elH = document.getElementById("rank-shia");
@@ -237,6 +238,9 @@
   async function initMap() {
     const ld = document.getElementById("loading");
     try {
+      if (typeof topojson === "undefined" || typeof topojson.feature !== "function") {
+        throw new Error("Bibliothèque topojson-client introuvable (vérifiez le script CDN avant map-core.js).");
+      }
       const resp = await fetch("https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-110m.json");
       if (!resp.ok) throw new Error("HTTP " + resp.status);
       const world = await resp.json();

@@ -13,7 +13,24 @@
   }
 
   const { DATA, CENTROIDS, QUIZ_DATA } = D;
-  const { MAP, toggleLayer: coreToggleLayer, escapeHtml } = Core;
+  const { MAP, toggleLayer: coreToggleLayer } = Core;
+  const escapeHtml =
+    typeof Core.escapeHtml === "function"
+      ? Core.escapeHtml.bind(Core)
+      : function (s) {
+          return String(s)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;");
+        };
+
+  /** HTML interne du quiz (réutilisé après « Recommencer » ou réouverture) */
+  const QUIZ_BOX_INNER_HTML =
+    '<div id="quiz-score" class="quiz-score"></div>' +
+    '<div id="quiz-question"></div>' +
+    '<div class="quiz-options" id="quiz-options"></div>' +
+    '<button type="button" id="quiz-next">Question suivante</button>';
 
   /* ── État application ── */
   let quizIdx = 0;
@@ -208,8 +225,13 @@
     box.classList.toggle("open", open);
     btn.classList.toggle("active", open);
     if (open) {
+      /* Après l’écran final, le DOM ne contient plus #quiz-options */
+      if (!document.getElementById("quiz-options")) {
+        box.innerHTML = QUIZ_BOX_INNER_HTML;
+      }
       quizIdx = 0;
       quizScore = 0;
+      quizAnswered = false;
       renderQuiz();
     }
   }
@@ -236,7 +258,8 @@
       b.dataset.quizCorrect = String(q.ans);
       opts.appendChild(b);
     });
-    document.getElementById("quiz-next").style.display = "none";
+    const nextBtn = document.getElementById("quiz-next");
+    if (nextBtn) nextBtn.style.display = "none";
   }
 
   function answerQuiz(btn) {
@@ -255,33 +278,36 @@
     });
     const scoreEl = document.getElementById("quiz-score");
     if (scoreEl) scoreEl.textContent = `Score : ${quizScore} / ${quizIdx + 1}`;
-    document.getElementById("quiz-next").style.display = "block";
+    const nextBtn = document.getElementById("quiz-next");
+    if (nextBtn) nextBtn.style.display = "block";
+  }
+
+  function restartQuizFromEnd() {
+    const box = document.getElementById("quiz-box");
+    box.innerHTML = QUIZ_BOX_INNER_HTML;
+    quizIdx = 0;
+    quizScore = 0;
+    quizAnswered = false;
+    renderQuiz();
   }
 
   function nextQuiz() {
     quizIdx++;
-    /* Fin du cycle — afficher résultat final */
+    /* Fin du cycle — afficher résultat final (Recommencer géré par délégation #quiz-box) */
     if (quizIdx >= QUIZ_DATA.length) {
       const box = document.getElementById("quiz-box");
       const pct = Math.round((quizScore / QUIZ_DATA.length) * 100);
-      box.innerHTML = `
-        <div id="quiz-question" style="text-align:center">Quiz terminé ! Score final</div>
-        <div style="text-align:center;font-size:24px;font-weight:700;color:var(--gold);padding:12px 0">${quizScore} / ${QUIZ_DATA.length}</div>
-        <div style="text-align:center;font-size:13px;color:var(--muted);margin-bottom:12px">${pct} % de bonnes réponses</div>
-        <button type="button" id="quiz-restart" class="quiz-opt" style="width:100%;justify-content:center;margin-top:4px">Recommencer</button>`;
-      document.getElementById("quiz-restart").addEventListener("click", () => {
-        /* Reconstruit le quiz-box HTML d'origine */
-        box.innerHTML = `
-          <div id="quiz-score" class="quiz-score"></div>
-          <div id="quiz-question"></div>
-          <div class="quiz-options" id="quiz-options"></div>
-          <button type="button" id="quiz-next">Question suivante</button>`;
-        document.getElementById("quiz-next").addEventListener("click", nextQuiz);
-        bindQuizDelegation();
-        quizIdx = 0;
-        quizScore = 0;
-        renderQuiz();
-      });
+      box.innerHTML =
+        '<div id="quiz-question" style="text-align:center">Quiz terminé ! Score final</div>' +
+        '<div style="text-align:center;font-size:24px;font-weight:700;color:var(--gold);padding:12px 0">' +
+        quizScore +
+        " / " +
+        QUIZ_DATA.length +
+        "</div>" +
+        '<div style="text-align:center;font-size:13px;color:var(--muted);margin-bottom:12px">' +
+        pct +
+        " % de bonnes réponses</div>" +
+        '<button type="button" id="quiz-restart" class="quiz-opt" style="width:100%;justify-content:center;margin-top:4px">Recommencer</button>';
       return;
     }
     renderQuiz();
@@ -355,7 +381,6 @@
       document.getElementById("panel-left").classList.toggle("open");
     });
     document.getElementById("right-toggle")?.addEventListener("click", toggleRight);
-    document.getElementById("quiz-next")?.addEventListener("click", nextQuiz);
   }
 
   function bindToggles() {
@@ -394,12 +419,27 @@
     });
   }
 
-  function bindQuizDelegation() {
-    const opts = document.getElementById("quiz-options");
-    if (!opts) return;
-    opts.addEventListener("click", (e) => {
-      const b = e.target.closest(".quiz-opt");
-      if (b && !quizAnswered) answerQuiz(b);
+  /**
+   * Un seul parent #quiz-box : « Question suivante », « Recommencer » et options
+   * survivent aux remplacements innerHTML (plus de boutons morts).
+   */
+  function bindQuizBoxDelegation() {
+    const box = document.getElementById("quiz-box");
+    if (!box || box.dataset.quizDelegated === "1") return;
+    box.dataset.quizDelegated = "1";
+    box.addEventListener("click", (e) => {
+      if (e.target.closest("#quiz-next")) {
+        e.preventDefault();
+        nextQuiz();
+        return;
+      }
+      if (e.target.closest("#quiz-restart")) {
+        e.preventDefault();
+        restartQuizFromEnd();
+        return;
+      }
+      const opt = e.target.closest("#quiz-options .quiz-opt");
+      if (opt && !quizAnswered) answerQuiz(opt);
     });
   }
 
@@ -435,23 +475,32 @@
     if (name) openModal(name);
   });
 
-  /* ── Init UI après chargement de la carte ── */
-  window.addEventListener("islammap:ready", () => {
+  function initUI() {
     bindNavButtons();
     bindTopbar();
     bindToggles();
     bindSearch();
-    bindQuizDelegation();
+    bindQuizBoxDelegation();
     bindModal();
+  }
+
+  /* Carte prête : redimensionner Leaflet (boutons / recherche déjà actifs) */
+  window.addEventListener("islammap:ready", () => {
     MAP.invalidateSize();
   });
 
-  /* Déclenchement du chargement de la carte */
-  document.getElementById("loading").style.transition = "opacity .5s cubic-bezier(.22,1,.36,1)";
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", () => Core.initMap());
-  } else {
+  function startApp() {
+    initUI();
     Core.initMap();
+  }
+
+  const loadingEl = document.getElementById("loading");
+  if (loadingEl) loadingEl.style.transition = "opacity .5s cubic-bezier(.22,1,.36,1)";
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", startApp);
+  } else {
+    startApp();
   }
 
   window.IslamMapUI = { openModal, closeModal, selectCountry, toggleQuiz, togglePresent };
