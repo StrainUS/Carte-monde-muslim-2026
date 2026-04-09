@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>☪ Islam Mondial 2026 — Sunnites & Chiites</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.css"/>
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+<style>
+/* ─── RESET ─── */
+*{margin:0;padding:0;box-sizing:border-box}
+
+/* ─── TOKENS ─── */
+:root{
+  --bg:#080b12;
+  --surface:#0c1120;
+  --surface2:#111827;
+  --border:rgba(255,255,255,.08);
+  --border-hi:rgba(255,255,255,.16);
+  --text:#d8e0ee;
+  --muted:#5a6785;
+  --gold:#c9a84c;
+  --gold-hi:#e8c97a;
+  --sunni-dark:#145c22;
+  --sunni:#1e8a30;
+  --sunni-hi:#5ec972;
+  --shia-dark:#0b3d8a;
+  --shia:#1456c8;
+  --shia-hi:#4d9ef5;
+  --ibadi:#6a1b9a;
+  --conflict-3:rgba(194,40,40,.5);
+  --conflict-2:rgba(220,88,0,.4);
+  --conflict-1:rgba(240,170,30,.28);
+  --radius:8px;
+  --font-head:'Cinzel',serif;
+  --font-body:'Inter',sans-serif;
+}
+
+/* ─── LAYOUT ─── */
+html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font-body);color:var(--text);background:var(--bg)}
+#app{display:flex;flex-direction:column;height:100vh}
+#main{display:flex;flex:1;min-height:0}
+
+/* ─── TOPBAR ─── */
+#topbar{
+  height:46px;flex-shrink:0;
+  display:flex;align-items:center;gap:8px;padding:0 12px;
+  background:var(--surface);border-bottom:1px solid var(--border);
+  z-index:900
+}
+.logo{font-family:var(--font-head);font-size:12px;color:var(--gold);letter-spacing:1.2px;white-space:nowrap}
+.tag{background:rgba(201,168,76,.14);border:1px solid rgba(201,168,76,.3);color:var(--gold);font-size:10px;padding:2px 8px;border-radius:20px;font-weight:600;letter-spacing:.5px}
+.divider{width:1px;height:20px;background:var(--border);flex-shrink:0}
+.spacer{flex:1}
+/* search */
+#search-wrap{position:relative}
+#search-input{
+  background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--text);
+  padding:4px 10px;border-radius:var(--radius);font-size:12px;font-family:var(--font-body);
+  width:155px;outline:none;transition:border-color .2s,width .2s
+}
+#search-input:focus{border-color:rgba(201,168,76,.55);width:195px}
+#search-input::placeholder{color:var(--muted)}
+#search-drop{
+  position:absolute;top:calc(100% + 4px);left:0;right:0;
+  background:#151e33;border:1px solid var(--border-hi);border-radius:var(--radius);
+  z-index:2000;max-height:200px;overflow-y:auto;
+  box-shadow:0 16px 48px rgba(0,0,0,.65);display:none
+}
+#search-drop.open{display:block}
+.drop-item{padding:7px 11px;cursor:pointer;font-size:12px;display:flex;align-items:center;gap:8px;transition:background .15s}
+.drop-item:hover{background:rgba(255,255,255,.07)}
+.drop-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.drop-meta{color:var(--muted);font-size:10px;margin-left:auto;white-space:nowrap}
+/* topbar buttons */
+.tb-btn{
+  display:flex;align-items:center;gap:5px;
+  background:rgba(255,255,255,.05);border:1px solid var(--border);
+  color:var(--text);padding:4px 10px;border-radius:var(--radius);
+  font-size:11px;cursor:pointer;font-family:var(--font-body);
+  transition:background .18s,border-color .18s;white-space:nowrap
+}
+.tb-btn:hover{background:rgba(255,255,255,.1);border-color:var(--border-hi)}
+.tb-btn.active{background:rgba(201,168,76,.18);border-color:var(--gold);color:var(--gold)}
+
+/* ─── LEFT PANEL ─── */
+#panel-left{
+  width:246px;flex-shrink:0;
+  background:var(--surface);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;overflow-y:auto
+}
+#panel-left::-webkit-scrollbar{width:3px}
+#panel-left::-webkit-scrollbar-thumb{background:rgba(255,255,255,.07);border-radius:2px}
+
+/* ─── RIGHT PANEL ─── */
+#panel-right{
+  width:240px;flex-shrink:0;
+  background:var(--surface);border-left:1px solid var(--border);
+  display:flex;flex-direction:column;overflow-y:auto;
+  transition:width .28s ease,opacity .28s ease
+}
+#panel-right.collapsed{width:0;opacity:0;overflow:hidden}
+#panel-right::-webkit-scrollbar{width:3px}
+#panel-right::-webkit-scrollbar-thumb{background:rgba(255,255,255,.07);border-radius:2px}
+
+/* panel sections */
+.section{padding:12px 13px;border-bottom:1px solid var(--border)}
+.section-title{font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;font-weight:600;margin-bottom:9px}
+
+/* toggles */
+.toggle{display:flex;align-items:center;gap:8px;padding:6px 7px;border-radius:6px;cursor:pointer;user-select:none;transition:background .15s;margin-bottom:3px}
+.toggle:hover{background:rgba(255,255,255,.05)}
+.toggle-sq{width:11px;height:11px;border-radius:3px;flex-shrink:0}
+.toggle-label{font-size:12px;flex:1}
+.toggle-sw{width:27px;height:15px;background:rgba(255,255,255,.1);border-radius:8px;position:relative;transition:background .2s;flex-shrink:0}
+.toggle-sw::after{content:'';position:absolute;width:10px;height:10px;border-radius:50%;background:#fff;top:2.5px;left:2px;transition:transform .2s}
+.toggle.on .toggle-sw{background:var(--gold)}
+.toggle.on .toggle-sw::after{transform:translateX(12px)}
+
+/* legend */
+.legend-row{display:flex;align-items:center;gap:9px;margin-bottom:5px;font-size:11px;color:var(--muted)}
+.legend-swatch{width:20px;height:11px;border-radius:3px;flex-shrink:0}
+
+/* ranking */
+.rank-item{display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.03);font-size:11px}
+.rank-num{width:14px;font-size:9px;color:var(--gold);font-weight:700;text-align:center;flex-shrink:0}
+.rank-body{flex:1}
+.rank-name{margin-bottom:2px;color:var(--text)}
+.rank-bar-bg{height:4px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden}
+.rank-bar-fill{height:100%;border-radius:2px}
+.rank-val{font-size:10px;color:var(--muted);white-space:nowrap;flex-shrink:0}
+
+/* ─── MAP AREA ─── */
+#map-wrap{flex:1;position:relative;overflow:hidden;touch-action:none}
+#map{width:100%;height:100%;background:#06090f}
+/* Basemap: sombre désaturé */
+.leaflet-tile-pane{filter:brightness(.4) saturate(.2) hue-rotate(210deg)}
+/* GPU layers */
+.leaflet-layer,.leaflet-zoom-animated{will-change:transform}
+/* Masquer contrôles natifs Leaflet */
+.leaflet-control-zoom,.leaflet-control-attribution{display:none!important}
+
+/* Boutons de navigation carte */
+#map-nav{position:absolute;bottom:68px;right:10px;display:flex;flex-direction:column;gap:4px;z-index:500}
+.nav-btn{
+  width:32px;height:32px;background:var(--surface);border:1px solid var(--border);
+  border-radius:7px;color:var(--text);font-size:14px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:.18s;line-height:1
+}
+.nav-btn:hover{border-color:var(--gold);color:var(--gold)}
+
+/* Bouton rétractation panneau droit */
+#right-toggle{
+  position:absolute;right:240px;top:50%;transform:translateY(-50%);
+  z-index:600;background:var(--surface);border:1px solid var(--border);border-right:none;
+  color:var(--muted);width:16px;height:46px;cursor:pointer;
+  border-radius:7px 0 0 7px;display:flex;align-items:center;justify-content:center;
+  font-size:9px;transition:right .28s ease
+}
+#right-toggle.collapsed{right:0}
+
+/* Quiz flottant */
+#quiz-box{
+  position:absolute;bottom:10px;left:50%;transform:translateX(-50%);
+  background:#0d1628;border:1px solid rgba(201,168,76,.3);border-radius:11px;
+  padding:13px 16px;z-index:600;min-width:310px;max-width:460px;
+  display:none;box-shadow:0 20px 60px rgba(0,0,0,.75)
+}
+#quiz-box.open{display:block}
+#quiz-question{font-size:13px;margin-bottom:9px;font-weight:500;line-height:1.5}
+.quiz-options{display:flex;flex-wrap:wrap;gap:6px}
+.quiz-opt{
+  background:rgba(255,255,255,.06);border:1px solid var(--border);
+  padding:5px 10px;border-radius:6px;font-size:11px;cursor:pointer;
+  transition:.18s;font-family:var(--font-body)
+}
+.quiz-opt:hover{border-color:var(--gold);color:var(--gold)}
+.quiz-opt.correct{background:rgba(27,138,48,.25);border-color:var(--sunni-hi);color:var(--sunni-hi)}
+.quiz-opt.wrong{background:rgba(194,40,40,.25);border-color:#ef5350;color:#ef5350}
+#quiz-next{
+  margin-top:9px;float:right;background:var(--gold);color:#06090f;border:none;
+  padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;
+  font-family:var(--font-body);display:none
+}
+
+/* ─── STATS BAR ─── */
+#stats-bar{
+  height:48px;flex-shrink:0;
+  background:var(--surface);border-top:1px solid var(--border);
+  display:flex;align-items:center;overflow-x:auto
+}
+#stats-bar::-webkit-scrollbar{height:0}
+.stat-block{
+  display:flex;flex-direction:column;align-items:center;
+  padding:0 16px;border-right:1px solid var(--border);white-space:nowrap;flex-shrink:0
+}
+.stat-block:last-child{border-right:none}
+.stat-value{font-family:var(--font-head);font-size:13px;color:var(--gold)}
+.stat-label{font-size:9px;color:var(--muted);letter-spacing:.9px;text-transform:uppercase;margin-top:1px}
+
+/* ─── TOOLTIP ─── */
+.leaflet-tooltip.map-tooltip{
+  background:rgba(6,9,15,.97)!important;border:1px solid rgba(201,168,76,.38)!important;
+  color:var(--text)!important;font-family:var(--font-body)!important;
+  font-size:12px!important;border-radius:9px!important;
+  padding:8px 12px!important;pointer-events:none!important;
+  box-shadow:0 8px 30px rgba(0,0,0,.6)!important;line-height:1.7!important
+}
+
+/* ─── MODAL ─── */
+#modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:3000;
+  display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px)
+}
+#modal-overlay.open{display:flex}
+#modal-box{
+  background:#0d1628;border:1px solid rgba(201,168,76,.25);border-radius:15px;
+  width:min(600px,96vw);max-height:90vh;overflow-y:auto;
+  padding:24px;position:relative;box-shadow:0 50px 120px rgba(0,0,0,.88)
+}
+#modal-box::-webkit-scrollbar{width:3px}
+#modal-box::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
+#modal-close{
+  position:absolute;top:12px;right:12px;background:rgba(255,255,255,.07);
+  border:1px solid var(--border);color:var(--text);width:26px;height:26px;
+  border-radius:50%;cursor:pointer;font-size:13px;
+  display:flex;align-items:center;justify-content:center;transition:.18s
+}
+#modal-close:hover{background:rgba(194,40,40,.35);border-color:#c62828}
+#modal-name{font-family:var(--font-head);font-size:18px;color:var(--gold);margin-bottom:3px}
+#modal-region{font-size:11px;color:var(--muted);margin-bottom:15px}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+.modal-card{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px;padding:11px}
+.modal-card-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
+.modal-card-value{font-size:16px;font-weight:600}
+.modal-card-sub{font-size:10px;color:var(--muted);margin-top:2px}
+.modal-sep{font-size:9px;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;font-weight:700;margin:14px 0 7px;padding-bottom:5px;border-bottom:1px solid rgba(201,168,76,.2)}
+.modal-bar-row{margin-bottom:9px}
+.modal-bar-label{display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px}
+.modal-bar-bg{height:8px;background:rgba(255,255,255,.07);border-radius:4px;overflow:hidden}
+.modal-bar-fill{height:100%;border-radius:4px;transition:width .6s cubic-bezier(.23,1,.32,1)}
+#modal-donut-wrap{display:flex;gap:14px;align-items:center;margin:12px 0}
+.modal-pie-legend{display:flex;flex-direction:column;gap:6px}
+.modal-pie-row{display:flex;align-items:center;gap:6px;font-size:11px}
+.modal-pie-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.conflict-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;margin-bottom:5px}
+.conflict-badge.l3{background:rgba(194,40,40,.18);border:1px solid #c62828;color:#ef5350}
+.conflict-badge.l2{background:rgba(220,88,0,.18);border:1px solid #e65100;color:#ffb74d}
+.conflict-badge.l1{background:rgba(240,170,30,.15);border:1px solid #f9a825;color:#ffe082}
+.conflict-badge.l0{background:rgba(27,138,48,.14);border:1px solid var(--sunni-hi);color:var(--sunni-hi)}
+.modal-note{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.18);border-radius:8px;padding:10px 12px;font-size:11px;color:var(--muted);line-height:1.75;margin-top:11px}
+.modal-source{font-size:10px;color:var(--muted);margin-top:11px;padding-top:9px;border-top:1px solid var(--border);line-height:1.9}
+
+/* ─── LOADING ─── */
+#loading{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;transition:opacity .55s}
+.loading-icon{font-size:48px;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+.loading-title{font-family:var(--font-head);color:var(--gold);font-size:14px;letter-spacing:3px}
+.loading-bar-bg{width:220px;height:3px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}
+.loading-bar-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-hi));animation:load 2.5s ease forwards}
+@keyframes load{from{width:0}to{width:100%}}
+.loading-sub{font-size:10px;color:var(--muted);text-align:center;line-height:1.85}
+
+/* ─── RESPONSIVE ─── */
+@media print{#topbar,#panel-left,#panel-right,#stats-bar,#map-nav,#quiz-box,#right-toggle{display:none!important}#map{width:100vw;height:100vh}}
+@media(max-width:800px){
+  #panel-left{position:absolute;left:-248px;top:46px;bottom:48px;z-index:800;transition:left .28s}
+  #panel-left.open{left:0}
+  #panel-right,#right-toggle{display:none!important}
+  #btn-mobile-menu{display:flex!important}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div id="loading">
+  <div class="loading-icon">☽</div>
+  <div class="loading-title">ISLAM 2026 — CARTE MONDIALE</div>
+  <div class="loading-bar-bg"><div class="loading-bar-fill"></div></div>
+  <div class="loading-sub">Données Pew Research 2026 · CIA World Factbook · WPR<br>Sunnites · Chiites · Ibadi · Zones de tension · Quiz enseignant</div>
+</div>
+
+<!-- APP -->
+<div id="app">
+
+<!-- TOPBAR -->
+<div id="topbar">
+  <span class="logo">☪ ISLAM MONDIAL 2026</span>
+  <span class="tag">2.0 MDS</span>
+  <div class="divider"></div>
+  <div id="search-wrap">
+    <input id="search-input" type="text" placeholder="🔍 Rechercher un pays…"
+      oninput="onSearch(this.value)"
+      onblur="setTimeout(()=>document.getElementById('search-drop').classList.remove('open'),200)">
+    <div id="search-drop"></div>
+  </div>
+  <div class="spacer"></div>
+  <button class="tb-btn" id="btn-conflicts" onclick="toggleLayer('conflict')">⚡ Conflits</button>
+  <button class="tb-btn" id="btn-quiz"      onclick="toggleQuiz()">📝 Quiz</button>
+  <button class="tb-btn" id="btn-present"   onclick="togglePresent()">🎬 Présentation</button>
+  <button class="tb-btn" onclick="window.print()">🖨 Exporter</button>
+  <button class="tb-btn" onclick="toggleFullscreen()">⛶ Plein écran [F]</button>
+  <button class="tb-btn" id="btn-mobile-menu" style="display:none" onclick="document.getElementById('panel-left').classList.toggle('open')">☰</button>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+
+  <!-- PANNEAU GAUCHE -->
+  <div id="panel-left">
+
+    <!-- Couches -->
+    <div class="section">
+      <div class="section-title">📋 Couches</div>
+      <div class="toggle on" id="tog-sunni"    onclick="toggleLayer('sunni')"   ><div class="toggle-sq" style="background:#1e8a30"></div><span class="toggle-label">☪ Sunnites</span><div class="toggle-sw"></div></div>
+      <div class="toggle on" id="tog-shia"     onclick="toggleLayer('shia')"    ><div class="toggle-sq" style="background:#1456c8"></div><span class="toggle-label">☪ Chiites</span><div class="toggle-sw"></div></div>
+      <div class="toggle"    id="tog-conflict" onclick="toggleLayer('conflict')" ><div class="toggle-sq" style="background:#c62828"></div><span class="toggle-label">⚡ Zones de conflit</span><div class="toggle-sw"></div></div>
+      <div class="toggle on" id="tog-labels"   onclick="toggleLayer('labels')"  ><div class="toggle-sq" style="background:#444"></div><span class="toggle-label">🏷 Noms de pays</span><div class="toggle-sw"></div></div>
+    </div>
+
+    <!-- Légende -->
+    <div class="section">
+      <div class="section-title">🎨 Légende</div>
+      <div class="legend-row"><div class="legend-swatch" style="background:#145c22"></div>Majorité Sunnite &gt; 80%</div>
+      <div class="legend-row"><div class="legend-swatch" style="background:#1e8a30;opacity:.7"></div>Sunnite 50–80%</div>
+      <div class="legend-row"><div class="legend-swatch" style="background:#0b3d8a"></div>Majorité Chiite &gt; 60%</div>
+      <div class="legend-row"><div class="legend-swatch" style="background:#1456c8;opacity:.75"></div>Chiite 30–60%</div>
+      <div class="legend-row"><div class="legend-swatch" style="background:#4a1478"></div>Mixte Sunni+Shia</div>
+      <div class="legend-row"><div class="legend-swatch" style="background:#6a1b9a"></div>Ibadi (Oman)</div>
+      <div class="legend-row"><div class="legend-swatch" style="background:rgba(255,255,255,.04)"></div>Moins de 5% musulmans</div>
+      <div class="legend-row"><div class="legend-swatch" style="background:#c62828;opacity:.55"></div>⚡ Conflit actif</div>
+      <div class="legend-row"><div class="legend-swatch" style="background:#e65100;opacity:.45"></div>🟠 Tensions élevées</div>
+      <div class="legend-row"><div class="legend-swatch" style="background:#f9a825;opacity:.35"></div>🟡 Tensions modérées</div>
+    </div>
+
+    <!-- Statistiques mondiales -->
+    <div class="section">
+      <div class="section-title">🌍 Chiffres 2026</div>
+      <div style="font-size:11px;color:var(--muted);line-height:2.15">
+        Musulmans totaux <b style="color:var(--text)">~2.0 milliards</b><br>
+        Part de l'humanité <b style="color:var(--text)">25.1%</b><br>
+        ☪ Sunnites <b style="color:var(--sunni-hi)">~1.74 Md · 87%</b><br>
+        ☪ Chiites <b style="color:var(--shia-hi)">~240 M · 12%</b><br>
+        Ibadi &amp; autre <b style="color:var(--text)">~20 M · 1%</b><br>
+        Ratio Sunni/Shia <b style="color:var(--gold)">7.2 : 1</b><br>
+        Pays à majorité sunnite <b style="color:var(--text)">49</b><br>
+        Pays à majorité chiite <b style="color:var(--text)">4</b>
+      </div>
+    </div>
+
+    <!-- Note enseignant -->
+    <div class="section">
+      <div class="section-title">💡 Note enseignant</div>
+      <div style="font-size:11px;color:var(--muted);line-height:1.85">
+        <b style="color:var(--sunni-hi)">Sunnites (87%)</b> — Suivent la Sunna (actes et paroles du Prophète). Quatre écoles juridiques : Hanafi, Maliki, Shafi'i, Hanbali.<br><br>
+        <b style="color:var(--shia-hi)">Chiites (12%)</b> — Reconnaissent Ali (cousin du Prophète) comme successeur légitime. Courants : Imami (12 imams), Ismaëlien, Zaïdi.<br><br>
+        <b style="color:#ffb74d">Origine (632 EC)</b> — La mort du Prophète sans successeur désigné crée une fracture politique, devenue religieuse au fil des siècles.<br><br>
+        <em style="color:rgba(255,255,255,.25)">Cliquer sur un pays pour les données complètes.</em>
+      </div>
+    </div>
+
+  </div><!-- /panel-left -->
+
+  <!-- CARTE -->
+  <div id="map-wrap">
+    <div id="map"></div>
+
+    <!-- Navigation carte -->
+    <div id="map-nav">
+      <button class="nav-btn" onclick="MAP.zoomIn()"              title="Zoom +">+</button>
+      <button class="nav-btn" onclick="MAP.zoomOut()"             title="Zoom −">−</button>
+      <button class="nav-btn" onclick="MAP.setView([20,15],2)"    title="Vue mondiale"   style="font-size:11px">⊙</button>
+      <button class="nav-btn" onclick="MAP.setView([27,42],4)"    title="Moyen-Orient"   style="font-size:10px">MO</button>
+      <button class="nav-btn" onclick="MAP.setView([8,20],3)"     title="Afrique"        style="font-size:10px">AF</button>
+      <button class="nav-btn" onclick="MAP.setView([25,82],3)"    title="Asie du Sud"    style="font-size:10px">AS</button>
+    </div>
+
+    <!-- Toggle panneau droit -->
+    <button id="right-toggle" onclick="toggleRight()" title="Masquer/afficher le panneau">◀</button>
+
+    <!-- Quiz -->
+    <div id="quiz-box">
+      <div id="quiz-question"></div>
+      <div class="quiz-options" id="quiz-options"></div>
+      <button id="quiz-next" onclick="nextQuiz()">Question suivante →</button>
+    </div>
+  </div><!-- /map-wrap -->
+
+  <!-- PANNEAU DROIT -->
+  <div id="panel-right">
+
+    <div class="section">
+      <div class="section-title" style="color:var(--sunni-hi)">☪ Top 10 populations sunnites</div>
+      <div id="rank-sunni"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-title" style="color:var(--shia-hi)">☪ Top 10 populations chiites</div>
+      <div id="rank-shia"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-title" style="color:#ef5350">⚡ Conflits &amp; tensions 2026</div>
+      <div style="font-size:10px;color:var(--muted);line-height:2.4">
+        🔴 <b>Yémen</b> — Houthis Zaïdi / coalition saoudienne<br>
+        🔴 <b>Syrie</b> — post-Assad, instabilité persistante<br>
+        🔴 <b>Irak</b> — PMF chiites / tensions sunnites<br>
+        🔴 <b>Soudan</b> — guerre civile FAR vs RSF<br>
+        🔴 <b>Somalie</b> — Al-Shabaab / gouvernement<br>
+        🟠 <b>Pakistan</b> — attaques sectaires TTP<br>
+        🟠 <b>Nigeria</b> — ISWAP / Boko Haram<br>
+        🟠 <b>Bahreïn</b> — maj. chiite / gouv. sunnite<br>
+        🟠 <b>Liban</b> — post-guerre 2024, Hezbollah<br>
+        🟠 <b>Mozambique</b> — ISCAP (Cabo Delgado)<br>
+        🟠 <b>Mali/Sahel</b> — GSIM / JNIM<br>
+        🟡 <b>Afghanistan</b> — Taliban / Hazara<br>
+        🟡 <b>Azerbaïdjan</b> — tensions régionales
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">📚 Sources</div>
+      <div style="font-size:10px;color:var(--muted);line-height:2.1">
+        · Pew Research Center 2026<br>
+        · CIA World Factbook 2026<br>
+        · World Population Review 2026<br>
+        · UNHCR Religious Demographics<br>
+        · Brookings Institution MENA
+      </div>
+    </div>
+
+  </div><!-- /panel-right -->
+
+</div><!-- /main -->
+
+<!-- BARRE STATS -->
+<div id="stats-bar">
+  <div class="stat-block"><div class="stat-value">2.0 Mds</div><div class="stat-label">Musulmans</div></div>
+  <div class="stat-block"><div class="stat-value" style="color:var(--sunni-hi)">1.74 Md</div><div class="stat-label">Sunnites 87%</div></div>
+  <div class="stat-block"><div class="stat-value" style="color:var(--shia-hi)">240 M</div><div class="stat-label">Chiites 12%</div></div>
+  <div class="stat-block"><div class="stat-value">25.1%</div><div class="stat-label">Part mondiale</div></div>
+  <div class="stat-block"><div class="stat-value">7.2:1</div><div class="stat-label">Ratio Sunni/Shia</div></div>
+  <div class="stat-block"><div class="stat-value">Indonésie</div><div class="stat-label">+ gde pop. sunnite</div></div>
+  <div class="stat-block"><div class="stat-value">Iran</div><div class="stat-label">+ gde pop. chiite</div></div>
+  <div class="stat-block"><div class="stat-value" style="color:#ef5350">9+</div><div class="stat-label">Conflits actifs</div></div>
+  <div class="stat-block"><div class="stat-value">632 EC</div><div class="stat-label">Origine division</div></div>
+  <div class="stat-block"><div class="stat-value" style="font-size:10px;font-family:var(--font-body)">Pew 2026 · CIA WF</div><div class="stat-label">Sources vérifiées</div></div>
+</div>
+
+</div><!-- /app -->
+
+<!-- MODAL -->
+<div id="modal-overlay" onclick="if(event.target===this)closeModal()">
+  <div id="modal-box">
+    <button id="modal-close" onclick="closeModal()">✕</button>
+    <div id="modal-name"></div>
+    <div id="modal-region"></div>
+    <div class="modal-grid" id="modal-cards"></div>
+    <div id="modal-donut-wrap">
+      <canvas id="modal-canvas" width="106" height="106"></canvas>
+      <div class="modal-pie-legend" id="modal-pie-legend"></div>
+    </div>
+    <div id="modal-bars"></div>
+    <div id="modal-conflict"></div>
+    <div class="modal-note" id="modal-note"></div>
+    <div class="modal-source" id="modal-source"></div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   DONNÉES — Sources: Pew Research Center 2026, CIA World Factbook 2026
+   iso: ISO 3166-1 numeric | p: population (M) | m: % musulmans
+   s: % sunnites (parmi muslmans) | h: % chiites | ib: % ibadi
+   c: niveau conflit (0=aucun 1=modéré 2=élevé 3=actif)
+   r: région | n: note pédagogique
+   ═══════════════════════════════════════════════════════════════════ */
+const DATA = {
+/* ── ASIE DU SUD-EST ── */
+"Indonésie":      {iso:"360",p:278,  m:87, s:99,h:1,  ib:0,c:0,r:"Asie du Sud-Est", n:"Plus grande population musulmane mondiale (~242 M). Islam arrivé via commerçants arabes et yéménites aux XIIIe–XVe s. Deux grandes organisations : Nahdlatul Ulama (90 M) et Muhammadiyah (60 M), très modérées."},
+"Malaisie":       {iso:"458",p:34,   m:61, s:99,h:1,  ib:0,c:0,r:"Asie du Sud-Est", n:"Islam religion d'État (art. 3 de la constitution). Chiisme légalement interdit. École shafi'i dominante. JAKIM = autorité religieuse nationale."},
+"Philippines":    {iso:"608",p:114,  m:6,  s:99,h:1,  ib:0,c:2,r:"Asie du Sud-Est", n:"Bangsamoro (Mindanao) : région autonome musulmane depuis 2019. Accord de paix MILF signé. Abu Sayyaf lié à Daech encore actif. ~7 M de Moros."},
+"Thaïlande":      {iso:"764",p:72,   m:5,  s:99,h:1,  ib:0,c:2,r:"Asie du Sud-Est", n:"4 provinces du sud (Pattani, Yala, Narathiwat) : Malais musulmans. Insurrection à bas bruit depuis 2004, ~7 000 morts. 3,7 M de musulmans."},
+"Myanmar":        {iso:"104",p:54,   m:4,  s:99,h:1,  ib:0,c:3,r:"Asie du Sud-Est", n:"Génocide des Rohingyas reconnu par la CIJ (2019). 1 M+ réfugiés à Cox's Bazar (Bangladesh). Junte militaire au pouvoir depuis 2021."},
+"Cambodge":       {iso:"116",p:17,   m:2,  s:99,h:1,  ib:0,c:0,r:"Asie du Sud-Est", n:"Chams : rescapés du génocide khmer rouge (1/3 exterminé 1975-1979). Islam depuis le XIVe s."},
+"Brunei":         {iso:"096",p:0.46, m:79, s:99,h:1,  ib:0,c:0,r:"Asie du Sud-Est", n:"Sultanat appliquant la charia pénale depuis 2019. Sultan Hassanal Bolkiah, l'un des hommes les plus riches du monde."},
+"Singapour":      {iso:"702",p:5.9,  m:15, s:99,h:1,  ib:0,c:0,r:"Asie du Sud-Est", n:"Malais musulmans (15 %). Multiculturalisme légal strict. MUIS = autorité islamique nationale."},
+"Timor oriental": {iso:"626",p:1.3,  m:1,  s:99,h:1,  ib:0,c:0,r:"Asie du Sud-Est", n:"Majorité catholique (~97 %). Très petite minorité musulmane."},
+"Vietnam":        {iso:"704",p:98,   m:0.1,s:99,h:1,  ib:0,c:0,r:"Asie du Sud-Est", n:"Chams (~80 000). Islam pratiqué discrètement. Coexistence pacifique."},
+/* ── ASIE DU SUD ── */
+"Pakistan":       {iso:"586",p:236,  m:96, s:85,h:15, ib:0,c:2,r:"Asie du Sud",     n:"2e plus grande population musulmane mondiale. Fondé en 1947 comme État des musulmans d'Inde. ~35 M chiites = plus grande population chiite absolue au monde. Tensions sectaires dans les zones tribales."},
+"Inde":           {iso:"356",p:1441, m:14, s:85,h:15, ib:0,c:1,r:"Asie du Sud",     n:"3e population musulmane absolue (~200 M) malgré une minorité nationale. ~57 M chiites (Lucknow, Mumbai). Coexistence diverse mais tensions périodiques."},
+"Bangladesh":     {iso:"050",p:172,  m:90, s:99,h:1,  ib:0,c:0,r:"Asie du Sud",     n:"Islam soufi hanafi très modéré. Peu de tensions sectaires. Islam arrivé via le saint Shah Jalal au XIVe s."},
+"Afghanistan":    {iso:"004",p:41,   m:99, s:85,h:15, ib:0,c:3,r:"Asie Centrale",   n:"Talibans (Déobandi sunnite) au pouvoir depuis août 2021. Minorité Hazara (Imami chiite, ~15 %) persécutée. Ismaëliens dans le Badakhshan."},
+"Sri Lanka":      {iso:"144",p:22,   m:9,  s:99,h:1,  ib:0,c:0,r:"Asie du Sud",     n:"Maures de Sri Lanka : présents depuis le IXe s. Attentats du dimanche de Pâques 2019 (253 morts). Islam modéré."},
+"Népal":          {iso:"524",p:30,   m:4,  s:99,h:1,  ib:0,c:0,r:"Asie du Sud",     n:"Minorité Madhesi dans le Teraï. Coexistence avec bouddhisme et hindouisme."},
+"Maldives":       {iso:"462",p:0.52, m:98, s:99,h:1,  ib:0,c:0,r:"Océan Indien",    n:"100 % légalement musulman (Constitution 2008). État insulaire menacé par la montée des eaux (altitude moyenne : 1,8 m)."},
+/* ── ASIE CENTRALE ── */
+"Ouzbékistan":    {iso:"860",p:36,   m:96, s:99,h:1,  ib:0,c:0,r:"Asie Centrale",   n:"Samarkand et Boukhara : joyaux de la civilisation islamique médiévale. Hanafi modéré. Réformes libérales sous Mirziyoyev depuis 2016."},
+"Kazakhstan":     {iso:"398",p:20,   m:70, s:99,h:1,  ib:0,c:0,r:"Asie Centrale",   n:"Islam très sécularisé (héritage soviétique). Hanafi modéré. Tension entre identité nomade traditionnelle et Islam arabisé importé du Golfe."},
+"Kirghizistan":   {iso:"417",p:6.7,  m:90, s:99,h:1,  ib:0,c:0,r:"Asie Centrale",   n:"Islam hanafi, tradition nomade forte (épopée de Manas). Montée du conservatisme dans les années 2010."},
+"Tadjikistan":    {iso:"762",p:10,   m:96, s:95,h:5,  ib:0,c:0,r:"Asie Centrale",   n:"Lien culturel persan avec l'Iran. 3 % d'Ismaëliens (Badakhshan). Régime Rahmon : Parti islamique interdit depuis 2015."},
+"Turkménistan":   {iso:"795",p:6.1,  m:89, s:99,h:1,  ib:0,c:0,r:"Asie Centrale",   n:"Régime ultra-autoritaire. Islam pratiqué discrètement. L'un des États les plus fermés au monde."},
+"Azerbaïdjan":    {iso:"031",p:10.4, m:96, s:35,h:65, ib:0,c:1,r:"Caucase",         n:"Pays chiite le plus sécularisé au monde. Héritage soviétique : faible pratique religieuse. Victoire militaire au Haut-Karabakh (2023). Tensions avec l'Iran."},
+"Géorgie":        {iso:"268",p:3.7,  m:10, s:90,h:10, ib:0,c:0,r:"Caucase",         n:"Ajarans (Géorgiens musulmans), Azerbaïdjanais (chiites), Kists (Tchétchènes). ~400 000 musulmans."},
+/* ── MOYEN-ORIENT ── */
+"Iran":           {iso:"364",p:88,   m:99, s:5, h:95, ib:0,c:2,r:"Moyen-Orient",    n:"Centre mondial du chiisme duodécimain. République Islamique depuis la révolution Khomeini (1979). Guide suprême = autorité absolue. Axe de la résistance : Iran–Irak–Syrie–Hezbollah. Sanctions économiques américaines."},
+"Irak":           {iso:"368",p:43,   m:95, s:35,h:65, ib:0,c:3,r:"Moyen-Orient",    n:"Kerbala et Najaf = villes saintes chiites mondiales (martyrs Ali et Hussein). Invasion américaine 2003 = fracture sectaire majeure. PMF (milices chiites pro-iraniennes). Daech défait (2017) mais instabilité persistante."},
+"Arabie Saoudite":{iso:"682",p:36,   m:93, s:85,h:15, ib:0,c:1,r:"Pén. Arabique",  n:"Berceau de l'Islam (La Mecque, Médine). Doctrine wahhabite officielle depuis 1744. Gardien des Deux Saintes Mosquées. Minorité chiite à Al-Qatif/Al-Ahsa discriminée. Vision 2030 sous MBS."},
+"Yémen":          {iso:"887",p:34,   m:99, s:65,h:35, ib:0,c:3,r:"Pén. Arabique",  n:"CONFLIT ACTIF depuis 2015 : Houthis (Ansar Allah, Zaïdi chiite) vs gouvernement soutenu par la coalition saoudienne. Pire crise humanitaire mondiale selon l'ONU. 21 M personnes en besoin d'aide. +150 000 morts."},
+"Syrie":          {iso:"760",p:21,   m:90, s:74,h:15, ib:0,c:3,r:"Moyen-Orient",   n:"74 % sunnites, 12 % alaouites (branche chiite = clan Assad, renversé déc. 2024 par HTS). 13 M déplacés. Reconstruction post-guerre sous incertitude politique."},
+"Turquie":        {iso:"792",p:85,   m:99, s:74,h:26, ib:0,c:0,r:"Moyen-Orient/UE",n:"74 % sunnite Hanafi, 26 % Alevi (syncrétique, proche chiisme). Laïcité constitutionnelle depuis Atatürk (1923). Recul sous Erdoğan. 2e armée de l'OTAN."},
+"Jordanie":       {iso:"400",p:10.5, m:97, s:99,h:1,  ib:0,c:0,r:"Moyen-Orient",   n:"Monarchie hachémite stable. Roi Abdallah II = gardien de la Mosquée al-Aqsa (Jérusalem). Hôte de 1,3 M réfugiés syriens et 2,3 M Palestiniens."},
+"Liban":          {iso:"422",p:6.1,  m:55, s:28,h:27, ib:0,c:2,r:"Moyen-Orient",   n:"Équilibre confessionnel (Taïf 1989) : Président chrétien, PM sunnite, Président Parlement chiite. Hezbollah = État dans l'État. Effondrement économique depuis 2019. Guerre avec Israël 2024."},
+"Bahreïn":        {iso:"048",p:1.5,  m:73, s:30,h:70, ib:0,c:2,r:"Pén. Arabique",  n:"PARADOXE MAJEUR : 70 % de chiites gouvernés par la monarchie sunnite Al-Khalifa depuis 1783. Printemps arabe 2011 réprimé militairement (aide saoudienne)."},
+"Koweït":         {iso:"414",p:4.5,  m:76, s:70,h:30, ib:0,c:0,r:"Pén. Arabique",  n:"30 % chiites bien intégrés dans la société. État pétrolier stable. Parlement élu mais Émir détient le pouvoir réel."},
+"EAU":            {iso:"784",p:10,   m:76, s:85,h:15, ib:0,c:0,r:"Pén. Arabique",  n:"90 % d'expatriés. Gouvernance très ouverte. Dubaï = hub financier mondial. Abraham Accords avec Israël (2020). Mosquée Sheikh Zayed = une des plus grandes du monde."},
+"Qatar":          {iso:"634",p:2.9,  m:67, s:95,h:5,  ib:0,c:0,r:"Pén. Arabique",  n:"Wahhabite sunnite. Finance Al-Jazeera et Hamas. Hôte des négociations Israël-Hamas. Coupe du Monde 2022. Relations maintenues avec l'Iran."},
+"Oman":           {iso:"512",p:4.6,  m:85, s:20,h:5,  ib:75,c:0,r:"Pén. Arabique", n:"75 % IBADI — branche distincte, ni sunnite ni chiite, fondée au VIIe s. Diplomatie neutre légendaire : médiation Irak-Iran 1988, USA-Iran. Aucune tension sectaire interne."},
+"Israël":         {iso:"376",p:9.5,  m:17, s:99,h:1,  ib:0,c:3,r:"Moyen-Orient",   n:"Arabes israéliens (~20 %) : citoyens. Conflit Gaza depuis octobre 2023. Occupation de la Cisjordanie. 2,3 M Palestiniens à Gaza."},
+"Chypre":         {iso:"196",p:1.3,  m:18, s:99,h:1,  ib:0,c:0,r:"Méditerranée",   n:"Chypriotes turcs dans le Nord occupé depuis 1974. Ligne verte à Nicosie. Réunification bloquée."},
+/* ── AFRIQUE DU NORD ── */
+"Algérie":        {iso:"012",p:46,   m:99, s:99,h:1,  ib:0,c:0,r:"Afrique du Nord", n:"Maliki sunnite quasi unanime. Colonisation française 1830–1962 = blessure identitaire profonde. Décennie noire 1991–2002 (100 000+ morts). Puissance régionale, levier gazier."},
+"Égypte":         {iso:"818",p:106,  m:90, s:99,h:1,  ib:0,c:1,r:"Afrique du Nord", n:"Al-Azhar (fondée 970 EC) : plus haute autorité sunnite mondiale. 10 % Coptes (chrétiens les plus anciens d'Afrique). Coup al-Sissi 2013. Jihadistes du Sinaï résiduels."},
+"Libye":          {iso:"434",p:7.2,  m:97, s:99,h:1,  ib:0,c:2,r:"Afrique du Nord", n:"Chaos post-Kadhafi (2011). Deux gouvernements rivaux : GNU (Tripoli) vs GNS (Benghazi). Mercenaires Wagner et turcs. Pétrole = enjeu central."},
+"Tunisie":        {iso:"788",p:12,   m:98, s:99,h:1,  ib:0,c:0,r:"Afrique du Nord", n:"Pays arabe le plus avancé en droits des femmes (Code du statut personnel 1956). Berceau du Printemps arabe (Bouazizi 2010). Dérive autoritaire sous Saïed depuis 2021."},
+"Maroc":          {iso:"504",p:37,   m:99, s:99,h:1,  ib:0,c:0,r:"Afrique du Nord", n:"Maliki sunnite. Roi Mohammed VI = Chef d'État et Commandeur des croyants. Tradition soufie vivante (Tijaniyya, Qadiriyya). Sahara Occidental non résolu."},
+"Mauritanie":     {iso:"478",p:4.5,  m:99, s:99,h:1,  ib:0,c:0,r:"Afrique de l'Ouest",n:"République Islamique. Malékite soufi Tijaniyya. Esclavage résiduel documenté. Zone Sahel : menace jihadiste croissante."},
+"Sahara Occidental":{iso:"732",p:0.6, m:99, s:99,h:1, ib:0,c:1,r:"Afrique du Nord", n:"Territoire disputé entre le Maroc et le Front Polisario (soutenu par l'Algérie). L'ONU reconnaît le droit à l'autodétermination."},
+/* ── AFRIQUE DE L'OUEST ── */
+"Nigeria":        {iso:"566",p:224,  m:53, s:95,h:5,  ib:0,c:3,r:"Afrique de l'Ouest",n:"Nord musulman (Haoussa-Fulani), sud chrétien. ISWAP / Boko Haram dans le Nord-Est. 1ère économie africaine. 12 États appliquant la charia dans le nord."},
+"Niger":          {iso:"562",p:27,   m:99, s:99,h:1,  ib:0,c:2,r:"Afrique de l'Ouest",n:"IDH parmi les plus bas mondiaux. Coup militaire 2023. GSIM/JNIM dans la région des trois frontières Mali-Burkina-Niger."},
+"Mali":           {iso:"466",p:23,   m:95, s:99,h:1,  ib:0,c:2,r:"Afrique de l'Ouest",n:"Tombouctou : patrimoine islamique. Charia imposée brièvement en 2012. Putschs 2020–2021. Présence Wagner. GSIM contrôle des zones rurales."},
+"Sénégal":        {iso:"686",p:17.5, m:96, s:99,h:1,  ib:0,c:0,r:"Afrique de l'Ouest",n:"Islam soufi exemplaire : Mouridisme (Cheikh Ahmadou Bamba), Tijaniyya. Cohabitation islamo-chrétienne modèle. Démocratie stable."},
+"Guinée":         {iso:"324",p:13.5, m:87, s:99,h:1,  ib:0,c:0,r:"Afrique de l'Ouest",n:"Islam malékite, forte tradition soufie. Coup militaire 2021 (colonel Doumbouya)."},
+"Burkina Faso":   {iso:"854",p:23,   m:61, s:99,h:1,  ib:0,c:2,r:"Afrique de l'Ouest",n:"2 M+ déplacés internes. GSIM/JNIM contrôle de vastes zones rurales. Coup 2022 (Traore). Expulsion des ambassadeurs français. Rapprochement Russie/Wagner."},
+"Côte d'Ivoire":  {iso:"384",p:27,   m:43, s:99,h:1,  ib:0,c:0,r:"Afrique de l'Ouest",n:"Chrétiens 34 %, Musulmans 43 %, Animistes 20 %. Nord à majorité musulmane. Stabilité recouvrée depuis 2011."},
+"Ghana":          {iso:"288",p:33,   m:20, s:99,h:1,  ib:0,c:0,r:"Afrique de l'Ouest",n:"Nord à majorité musulmane. Démocratie modèle en Afrique. Cohabitation interreligieuse citée en exemple."},
+"Gambie":         {iso:"270",p:2.4,  m:95, s:99,h:1,  ib:0,c:0,r:"Afrique de l'Ouest",n:"Enclavé dans le Sénégal. Islam soufi modéré. Dictature Jammeh 1994–2017 ; démocratie restaurée."},
+"Sierra Leone":   {iso:"694",p:8.4,  m:78, s:99,h:1,  ib:0,c:0,r:"Afrique de l'Ouest",n:"Islam modéré, coexistence interreligieuse citée comme modèle par l'ONU. Guerre civile RUF 1991–2002."},
+"Guinée-Bissau":  {iso:"624",p:2.1,  m:45, s:99,h:1,  ib:0,c:0,r:"Afrique de l'Ouest",n:"Islam syncrétique mêlé aux traditions animistes locales. Instabilité politique chronique."},
+"Liberia":        {iso:"430",p:5.4,  m:12, s:99,h:1,  ib:0,c:0,r:"Afrique de l'Ouest",n:"Fondé par esclaves américains libérés (1847). Majorité chrétienne. Islam importé via les Mandingues."},
+"Togo":           {iso:"768",p:8.9,  m:20, s:99,h:1,  ib:0,c:0,r:"Afrique de l'Ouest",n:"Islam dans le nord. Famille Gnassingbé : 55+ ans au pouvoir."},
+"Bénin":          {iso:"204",p:13.5, m:24, s:99,h:1,  ib:0,c:0,r:"Afrique de l'Ouest",n:"Berceau du Vodoun. Islam dans le nord. Tolérance religieuse reconnue. Démocratie stable."},
+"Cap-Vert":       {iso:"132",p:0.56, m:1,  s:99,h:1,  ib:0,c:0,r:"Atlantique",         n:"Archipel majoritairement catholique. Très petite minorité musulmane."},
+/* ── AFRIQUE CENTRALE ── */
+"Cameroun":       {iso:"120",p:28,   m:24, s:99,h:1,  ib:0,c:1,r:"Afrique Centrale",  n:"Nord musulman (Fulani/Haoussa). Boko Haram à l'Extrême-Nord. Crise anglophone au NW/SW."},
+"Tchad":          {iso:"148",p:18,   m:55, s:99,h:1,  ib:0,c:1,r:"Afrique Centrale",  n:"Nord largement musulman, sud chrétien/animiste. Hub anti-Boko Haram. Déby fils au pouvoir depuis 2021."},
+"RCA":            {iso:"140",p:5.4,  m:15, s:99,h:1,  ib:0,c:2,r:"Afrique Centrale",  n:"Conflit ex-Séléka (majorité musulmane) vs Anti-balaka (chrétienne). Crimes contre l'humanité documentés. Wagner partenaire sécuritaire depuis 2018."},
+"RD Congo":       {iso:"180",p:100,  m:2,  s:99,h:1,  ib:0,c:2,r:"Afrique Centrale",  n:"Minorité musulmane dans l'Est (Kivu). Guerre de l'Est (M23/Rwanda) interminable. Pays le plus peuplé d'Afrique francophone."},
+"Congo":          {iso:"178",p:5.9,  m:2,  s:99,h:1,  ib:0,c:0,r:"Afrique Centrale",  n:"Petite minorité Haoussa/commerçants. Pays pétrolier."},
+"Gabon":          {iso:"266",p:2.3,  m:12, s:99,h:1,  ib:0,c:0,r:"Afrique Centrale",  n:"Coup militaire août 2023, fin de la famille Bongo. Islam importé via commerçants."},
+/* ── AFRIQUE DE L'EST ── */
+"Éthiopie":       {iso:"231",p:123,  m:34, s:99,h:1,  ib:0,c:1,r:"Afrique de l'Est", n:"Hégire d'Abyssinie (615 EC) : premier exil des compagnons du Prophète. Islam cohabite avec le christianisme orthodoxe (43 %). Conflit Tigré 2020–2022."},
+"Somalie":        {iso:"706",p:17.5, m:99, s:99,h:1,  ib:0,c:3,r:"Afrique de l'Est", n:"Islam sunnite shafi'i depuis le IXe s. Al-Shabaab (Al-Qaïda) contrôle des zones rurales. Puntland et Somaliland semi-autonomes."},
+"Kenya":          {iso:"404",p:56,   m:11, s:99,h:1,  ib:0,c:0,r:"Afrique de l'Est", n:"Côte et Nord-Est à majorité musulmane. Mombasa = centre islamique historique d'Afrique orientale. Attaques Al-Shabaab : Westgate 2013, Garissa 2015."},
+"Tanzanie":       {iso:"834",p:65,   m:35, s:99,h:1,  ib:0,c:0,r:"Afrique de l'Est", n:"Zanzibar (97 % sunnite) semi-autonome. Côte swahilie islamisée depuis le IXe s."},
+"Ouganda":        {iso:"800",p:48,   m:14, s:99,h:1,  ib:0,c:0,r:"Afrique de l'Est", n:"Majorité chrétienne. Islam XIXe s via commerçants swahilis. Grande Mosquée de Kampala (financement libyen, 2007)."},
+"Mozambique":     {iso:"508",p:32,   m:18, s:99,h:1,  ib:0,c:2,r:"Afrique de l'Est", n:"Cabo Delgado : insurrection ISCAP depuis 2017. Ressources gazières (Total, Eni). 1 M déplacés. Intervention SADC et Rwanda."},
+"Soudan":         {iso:"729",p:47,   m:97, s:99,h:1,  ib:0,c:3,r:"Afrique de l'Est", n:"Guerre civile depuis avril 2023 : FAR vs RSF. 10 M+ déplacés. Catastrophe humanitaire. Islam enraciné depuis le VIIe s."},
+"Soudan du Sud":  {iso:"728",p:11,   m:6,  s:99,h:1,  ib:0,c:2,r:"Afrique de l'Est", n:"Majorité animiste et chrétienne. Minorité musulmane dans le nord. Fragilité politique persistante."},
+"Djibouti":       {iso:"262",p:1.0,  m:97, s:99,h:1,  ib:0,c:0,r:"Afrique de l'Est", n:"Carrefour stratégique (Bab-el-Mandeb). Bases militaires : France, USA, Chine, Japon. Populations Afar et Issa."},
+"Érythrée":       {iso:"232",p:3.5,  m:49, s:99,h:1,  ib:0,c:0,r:"Afrique de l'Est", n:"Moitié orthodoxe éthiopienne, moitié sunnite. Coexistence historique. État autoritaire hermétique (Issaias Afeworki)."},
+"Comores":        {iso:"174",p:0.87, m:98, s:99,h:1,  ib:0,c:0,r:"Océan Indien",     n:"Quasi unanimement sunnite shafi'i. Arabe co-officiel. Plus de 20 coups d'État depuis l'indépendance 1975."},
+"Rwanda":         {iso:"646",p:14,   m:3,  s:99,h:1,  ib:0,c:0,r:"Afrique de l'Est", n:"Majorité chrétienne. Génocide 1994 : certaines mosquées ont abrité des Tutsi réfugiés."},
+"Malawi":         {iso:"454",p:20,   m:13, s:99,h:1,  ib:0,c:0,r:"Afrique de l'Est", n:"Islam du lac (région de Mangochi). Majorité chrétienne protestante."},
+"Île Maurice":    {iso:"480",p:1.3,  m:17, s:99,h:1,  ib:0,c:0,r:"Océan Indien",     n:"Indo-mauriciens musulmans (descendants travailleurs engagés). Coexistence remarquable : hindous 50 %, chrétiens 28 %, musulmans 17 %."},
+"Madagascar":     {iso:"450",p:29,   m:7,  s:99,h:1,  ib:0,c:0,r:"Océan Indien",     n:"Islam comoran et arabe dans les villes côtières. Majorité syncrétiste (christianisme + animisme Razana)."},
+/* ── AFRIQUE AUSTRALE ── */
+"Afrique du Sud": {iso:"710",p:60,   m:2,  s:90,h:10, ib:0,c:0,r:"Afrique Australe", n:"Cap Malais (descendants esclaves indonésiens XVIIe s) : communauté islamique historique au Cap. Indiens musulmans (Natal). ~800 000 musulmans."},
+"Zimbabwe":       {iso:"716",p:16,   m:1,  s:99,h:1,  ib:0,c:0,r:"Afrique Australe", n:"Majorité chrétienne. Islam mineur (commerçants asiatiques)."},
+"Zambie":         {iso:"894",p:20,   m:1,  s:99,h:1,  ib:0,c:0,r:"Afrique Australe", n:"Nation chrétienne (constitution). Très petite minorité musulmane."},
+/* ── EUROPE ── */
+"France":         {iso:"250",p:68,   m:8,  s:90,h:10, ib:0,c:0,r:"Europe Ouest",     n:"5–6 M de musulmans (8–9 %) : 2e religion de France. Maghrébins, Africains subsahariens, Turcs. Débat laïcité intense. Attentats 2015 (Paris) et 2016 (Nice). Loi contre le séparatisme 2021."},
+"Allemagne":      {iso:"276",p:84,   m:5,  s:80,h:20, ib:0,c:0,r:"Europe Ouest",     n:"4,5–5 M de musulmans : Turcs (Gastarbeiter), Arabes, Afghans. Hanafi dominant. DITIB = bras de la Diyanet turque en Allemagne."},
+"Royaume-Uni":    {iso:"826",p:67.5, m:5,  s:80,h:20, ib:0,c:0,r:"Europe Ouest",     n:"3,9 M de musulmans : Pakistanais, Bangladais, Indiens. Birmingham, East London, Bradford. Attentat Manchester Arena 2017 (22 morts)."},
+"Russie":         {iso:"643",p:146,  m:10, s:99,h:1,  ib:0,c:1,r:"Europe/Asie",      n:"15–20 M de musulmans : Tatars (Kazan), Tchétchènes, Daghestanais, Bachkirs. 2e religion de Russie. Guerres de Tchétchénie 1994–2009. Grande Mosquée de Moscou (2015)."},
+"Albanie":        {iso:"008",p:2.8,  m:57, s:80,h:5,  ib:0,c:0,r:"Europe Balkans",   n:"Bektachisme (soufi proche chiisme) : Albanie = siège mondial. Très sécularisé (religion interdite 1967–1990). Coexistence interreligieuse exemplaire."},
+"Bosnie":         {iso:"070",p:3.5,  m:51, s:99,h:1,  ib:0,c:0,r:"Europe Balkans",   n:"Bosniaques : identité musulmane européenne unique. Génocide de Srebrenica 1995 (8 000 hommes tués). Islam modéré hanafi."},
+"Kosovo":         {iso:"383",p:1.8,  m:96, s:99,h:1,  ib:0,c:0,r:"Europe Balkans",   n:"Islam hanafi très sécularisé. Indépendance 2008, reconnue par 115 pays. Très pro-occidental."},
+"Macédoine du N.":{iso:"807",p:2.1,  m:33, s:99,h:1,  ib:0,c:0,r:"Europe Balkans",   n:"Albanais ethniques (25 %) : principale minorité musulmane. Conflit 2001 résolu par l'accord d'Ohrid."},
+"Bulgarie":       {iso:"100",p:7.0,  m:15, s:99,h:1,  ib:0,c:0,r:"Europe Balkans",   n:"Pomaks (Bulgares islamisés) et Turcs bulgares (~10 %). Assimilation forcée 1984–1989 ('Processus de renaissance')."},
+"Serbie":         {iso:"688",p:7.1,  m:3,  s:99,h:1,  ib:0,c:0,r:"Europe Balkans",   n:"Bosniaques du Sandjak (Novi Pazar). Tensions post-guerres des années 1990."},
+"Monténégro":     {iso:"499",p:0.62, m:20, s:99,h:1,  ib:0,c:0,r:"Europe Balkans",   n:"Bosniaques et Albanais. Cohabitation ethnoreligieuse tendue mais stable. Indépendance 2006."},
+"Grèce":          {iso:"300",p:10.7, m:2,  s:99,h:1,  ib:0,c:0,r:"Europe Sud",       n:"Minorité turque-musulmane en Thrace (Xanthi, Komotini) : reconnue par le traité de Lausanne 1923."},
+"Suède":          {iso:"752",p:10.5, m:8,  s:80,h:20, ib:0,c:0,r:"Europe Nord",      n:"~800 000 musulmans : Irakiens, Somaliens, Afghans, Iraniens. Débat immigration polarisé (Sverigedemokraterna)."},
+"Pays-Bas":       {iso:"528",p:17.7, m:5,  s:80,h:20, ib:0,c:0,r:"Europe Ouest",     n:"~1 M de musulmans : Marocains, Turcs, Surinamiens. Assassinat Theo van Gogh 2004. PVV (Wilders) = 1er parti 2023."},
+"Belgique":       {iso:"056",p:11.6, m:6,  s:80,h:20, ib:0,c:0,r:"Europe Ouest",     n:"~700 000 musulmans : Marocains, Turcs. Molenbeek médiatisé. Attentats Bruxelles 2016 (32 morts)."},
+"Autriche":       {iso:"040",p:9.1,  m:8,  s:75,h:25, ib:0,c:0,r:"Europe Centre",    n:"~700 000 musulmans : Turcs, Bosniaques. Loi sur l'Islam 2015. Attentat de Vienne 2020."},
+"Espagne":        {iso:"724",p:47,   m:4,  s:90,h:10, ib:0,c:0,r:"Europe Sud",       n:"~2 M de musulmans. Al-Andalus 711–1492 : civilisation islamique brillante. Attentats Madrid 2004 (192 morts), Barcelone 2017."},
+"Italie":         {iso:"380",p:60,   m:3,  s:85,h:15, ib:0,c:0,r:"Europe Sud",       n:"~2 M de musulmans : Marocains, Albanais, Bangladais. Pas de grande mosquée officielle à Rome."},
+"Pologne":        {iso:"616",p:38,   m:0.1,s:99,h:1,  ib:0,c:0,r:"Europe Est",       n:"Tatars polonais : plus ancienne communauté musulmane d'Europe (XIVe s). Mosquée de Kruszyniany (1717) encore en activité."},
+"Ukraine":        {iso:"804",p:44,   m:1,  s:99,h:1,  ib:0,c:2,r:"Europe Est",       n:"Tatars de Crimée (260 000) : pro-Ukraine. Annexion russe de Crimée 2014."},
+/* ── AMÉRIQUES ── */
+"États-Unis":     {iso:"840",p:337,  m:1,  s:65,h:25, ib:0,c:0,r:"Amérique du Nord", n:"3,5–4 M de musulmans : Arabes, Pakistanais, Afro-Américains (Nation of Islam). Islamophobie post-11 Septembre. Communauté la plus diversifiée ethniquement (ISPU)."},
+"Canada":         {iso:"124",p:38,   m:4,  s:80,h:20, ib:0,c:0,r:"Amérique du Nord", n:"~1,8 M de musulmans : Pakistanais, Arabes, Somaliens. Multiculturalisme officiel. Attentat de Québec 2017 (6 morts dans une mosquée)."},
+"Brésil":         {iso:"076",p:215,  m:0.1,s:99,h:1,  ib:0,c:0,r:"Amérique du Sud",  n:"~200 000 musulmans : descendants syriens/libanais et convertis afro-brésiliens (Malês). Communauté présente depuis le XVIe s."},
+"Argentine":      {iso:"032",p:45,   m:0.5,s:99,h:1,  ib:0,c:0,r:"Amérique du Sud",  n:"~400 000 musulmans : Arabes Levantins et convertis. Grande Mosquée du Roi Fahd, Buenos Aires (1996)."},
+"Mexique":        {iso:"484",p:127,  m:0.1,s:99,h:1,  ib:0,c:0,r:"Amérique du Nord", n:"~100 000 musulmans. Communauté chiapanèque (conversions depuis 1995). Islam en croissance."},
+"Trinidad et Tobago":{iso:"780",p:1.4, m:6, s:95,h:5, ib:0,c:0,r:"Caraïbes",        n:"Indo-Trinidadiens musulmans (travailleurs engagés XIXe s). Islam présent depuis 1845."},
+"Guyana":         {iso:"328",p:0.8,  m:7,  s:99,h:1,  ib:0,c:0,r:"Amérique du Sud",  n:"Indiens guyaniens musulmans. Descendance des travailleurs engagés sous colonisation britannique."},
+"Suriname":       {iso:"740",p:0.63, m:14, s:99,h:1,  ib:0,c:0,r:"Amérique du Sud",  n:"Javanais et Hindoustanais musulmans. Diversité remarquable : 35 ethnies, 15 religions coexistent."},
+/* ── ASIE DE L'EST ── */
+"Chine":          {iso:"156",p:1415, m:1.8,s:99,h:1,  ib:0,c:1,r:"Asie de l'Est",   n:"~27 M de musulmans : Ouïghours (Xinjiang), Hui (toute la Chine), Kazakhs. Camps de 'rééducation' du Xinjiang (1–1,8 M internés selon l'ONU). Assimilation forcée."},
+"Japon":          {iso:"392",p:124,  m:0.1,s:99,h:1,  ib:0,c:0,r:"Asie de l'Est",   n:"~230 000 musulmans. Tokyo Camii = plus grande mosquée du Japon (don turc 2000). Communauté d'Indonésiens et Bangladais principalement."},
+"Corée du Sud":   {iso:"410",p:51,   m:0.2,s:99,h:1,  ib:0,c:0,r:"Asie de l'Est",   n:"~100 000 musulmans, dont 35 000 Coréens convertis. Islam introduit par des soldats turcs (Guerre de Corée). Mosquée centrale de Séoul (1976)."},
+"Mongolie":       {iso:"496",p:3.4,  m:5,  s:99,h:1,  ib:0,c:0,r:"Asie de l'Est",   n:"Kazakhs de l'Ouest (~140 000). Islam turcophone. Tradition nomade et chamanique dominante."},
+/* ── OCÉANIE ── */
+"Australie":      {iso:"036",p:26,   m:3,  s:80,h:20, ib:0,c:0,r:"Océanie",          n:"~800 000 musulmans : Libanais, Bangladais, Afghans. Sydney et Melbourne : grandes communautés. Attentat de Sydney 2014."},
+"Nouvelle-Zélande":{iso:"554",p:5.1, m:1,  s:80,h:20, ib:0,c:0,r:"Océanie",         n:"~65 000 musulmans. Attentat de Christchurch 15 mars 2019 (51 morts). Réponse exemplaire d'Ardern."},
+"Fidji":          {iso:"242",p:0.93, m:7,  s:99,h:1,  ib:0,c:0,r:"Océanie",          n:"Indo-Fidjiens musulmans (travailleurs engagés XIXe s). Cohabitation avec les Mélanésiens."},
+};
+
+/* ──────────────────────────────────────────────────
+   CENTROIDS PRÉCIS — Coordonnées [lat, lng] manuellement
+   vérifiées pour éviter que les labels tombent en mer
+   (problème des pays avec des territoires épars ou non-convexes)
+   ────────────────────────────────────────────────── */
+const CENTROIDS = {
+  "Indonésie":[   -2.5, 118.0],"Malaisie":[   3.8, 109.7],"Philippines":[ 12.5, 122.5],
+  "Thaïlande":[  15.0, 101.0],"Myanmar":[   20.0,  96.0],"Cambodge":[   12.5, 104.9],
+  "Brunei":[      4.5, 114.7],"Singapour":[   1.3, 103.8],"Vietnam":[    16.5, 107.5],
+  "Pakistan":[   30.0,  69.0],"Inde":[        22.0,  79.0],"Bangladesh":[ 23.7,  90.3],
+  "Afghanistan":[ 33.5,  66.0],"Sri Lanka":[   7.6,  80.7],"Népal":[      28.3,  84.1],
+  "Maldives":[    3.2,  73.2],"Timor oriental":[-8.8, 125.8],
+  "Ouzbékistan":[ 41.3,  63.9],"Kazakhstan":[  48.0,  67.0],"Kirghizistan":[ 41.5,  74.5],
+  "Tadjikistan":[ 38.5,  71.0],"Turkménistan":[ 40.0,  59.0],"Azerbaïdjan":[ 40.4,  47.5],
+  "Géorgie":[    42.0,  43.5],
+  "Iran":[       32.5,  53.7],"Irak":[        33.0,  44.0],"Arabie Saoudite":[ 24.0,  45.0],
+  "Yémen":[      15.5,  47.5],"Syrie":[       35.0,  38.0],"Turquie":[    39.0,  35.0],
+  "Jordanie":[   31.0,  36.5],"Liban":[       33.9,  35.9],"Bahreïn":[    26.0,  50.5],
+  "Koweït":[     29.3,  47.6],"EAU":[         24.0,  54.0],"Qatar":[      25.2,  51.2],
+  "Oman":[       22.0,  57.0],"Israël":[      31.5,  35.0],"Chypre":[     35.0,  33.0],
+  "Algérie":[    28.0,   2.5],"Égypte":[      26.5,  30.0],"Libye":[      27.0,  17.0],
+  "Tunisie":[    34.0,   9.0],"Maroc":[       32.0,  -6.0],"Mauritanie":[ 20.0, -12.0],
+  "Sahara Occidental":[ 24.5, -13.0],
+  "Nigeria":[    10.0,   8.0],"Niger":[       17.0,   8.5],"Mali":[       17.5,  -1.5],
+  "Sénégal":[    14.5, -14.0],"Guinée":[      11.0, -11.5],"Burkina Faso":[ 12.5, -1.5],
+  "Côte d'Ivoire":[ 7.5, -5.5],"Ghana":[       8.0,  -1.0],"Gambie":[     13.5, -15.5],
+  "Sierra Leone":[ 8.5, -11.8],"Guinée-Bissau":[ 12.0, -15.0],"Liberia":[  6.4, -9.5],
+  "Togo":[        8.5,   0.8],"Bénin":[        9.5,   2.3],"Cap-Vert":[  15.0, -23.5],
+  "Cameroun":[    4.5,  12.5],"Tchad":[       15.5,  18.5],"RCA":[        6.5,  20.0],
+  "RD Congo":[   -4.0,  24.0],"Congo":[       -1.0,  15.5],"Gabon":[     -1.0,  11.8],
+  "Éthiopie":[   10.0,  39.0],"Somalie":[      7.5,  46.0],"Kenya":[      1.0,  37.5],
+  "Tanzanie":[   -6.5,  35.0],"Ouganda":[      1.5,  32.0],"Mozambique":[-18.0,  35.0],
+  "Soudan":[     15.0,  30.0],"Soudan du Sud":[ 7.0,  30.5],"Djibouti":[  11.8,  42.5],
+  "Érythrée":[   15.5,  39.0],"Comores":[    -12.0,  44.3],"Rwanda":[    -2.0,  29.9],
+  "Malawi":[    -13.5,  34.3],"Île Maurice":[-20.2,  57.5],"Madagascar":[-20.0,  47.0],
+  "Afrique du Sud":[-29.0,  25.0],"Zimbabwe":[-20.0,  30.0],"Zambie":[-14.0,  28.0],
+  "France":[     46.5,   2.5],"Allemagne":[   51.5,  10.5],"Royaume-Uni":[ 54.0,  -2.5],
+  "Russie":[     61.0,  65.0],"Albanie":[     41.1,  20.1],"Bosnie":[     44.0,  17.5],
+  "Kosovo":[     42.6,  21.0],"Macédoine du N.":[ 41.6,  21.7],"Bulgarie":[ 42.7,  25.5],
+  "Serbie":[     44.0,  21.0],"Monténégro":[  42.7,  19.4],"Grèce":[     39.5,  22.5],
+  "Suède":[      62.0,  16.0],"Pays-Bas":[    52.3,   5.3],"Belgique":[  50.8,   4.5],
+  "Autriche":[   47.5,  14.5],"Espagne":[     40.0,  -3.5],"Italie":[    42.5,  12.5],
+  "Pologne":[    51.9,  19.0],"Ukraine":[     49.0,  31.5],
+  "États-Unis":[ 39.5, -98.0],"Canada":[      56.0, -96.0],"Brésil":[   -10.0, -53.0],
+  "Argentine":[  -38.0, -65.0],"Mexique":[    24.0,-102.0],
+  "Trinidad et Tobago":[ 10.7, -61.3],"Guyana":[  4.8, -58.9],"Suriname":[  4.0, -56.0],
+  "Chine":[      36.0, 103.0],"Japon":[       36.5, 138.0],"Corée du Sud":[ 36.5, 127.5],
+  "Mongolie":[   46.0, 104.0],
+  "Australie":[ -25.5, 134.0],"Nouvelle-Zélande":[-42.0, 172.0],"Fidji":[-17.7, 178.0],
+};
+
+/* ── Index ISO ── */
+const BY_ISO = {};
+Object.entries(DATA).forEach(([name, d]) => { if (d.iso) BY_ISO[d.iso] = name; });
+
+/* ═══════════════════════ CARTE ═══════════════════════ */
+const MAP = L.map('map', {
+  center: [20, 15], zoom: 2, minZoom: 1.5, maxZoom: 10,
+  zoomControl: false,
+  worldCopyJump: true,
+  scrollWheelZoom: false,   /* Remplacé par smooth zoom ci-dessous */
+  zoomSnap: 0.25,
+  zoomDelta: 0.5
+});
+
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+  subdomains: 'abcd', maxZoom: 20
+}).addTo(MAP);
+
+/* ── SMOOTH WHEEL ZOOM — Mac M1 / trackpad fix ──
+   Accumule les micro-deltas trackpad et applique un flyTo fluide centré curseur */
+(function () {
+  const el = document.getElementById('map');
+  let acc = 0, raf = null, lastPt = null;
+
+  function normDelta(e) {
+    let d = e.deltaY;
+    if (e.deltaMode === 1) d *= 20; /* Firefox : lignes → px */
+    if (e.deltaMode === 2) d *= 200; /* pages → px */
+    return Math.abs(d) < 50 ? d * 0.038 : d * 0.0018; /* trackpad vs molette */
+  }
+
+  el.addEventListener('wheel', function (e) {
+    e.preventDefault();
+    acc += normDelta(e);
+    lastPt = MAP.mouseEventToContainerPoint(e);
+    if (raf) cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(() => {
+      if (Math.abs(acc) < 0.04) { acc = 0; return; }
+      const target = Math.max(MAP.getMinZoom(),
+        Math.min(MAP.getMaxZoom(), MAP.getZoom() - acc));
+      const ll = lastPt ? MAP.containerPointToLatLng(lastPt) : MAP.getCenter();
+      MAP.flyTo(ll, target, { animate: true, duration: 0.16, easeLinearity: 0.55, noMoveStart: true });
+      acc = 0; raf = null;
+    });
+  }, { passive: false });
+}());
+
+/* ── FIX ANTIMERIDIAN ──
+   Russie/Fidji/Alaska : polygones qui croisent le méridien 180°.
+   Leaflet trace une ligne horizontale sur tout l'écran si deux
+   sommets consécutifs sautent de +170° à -170°.
+   Solution : décaler chaque sommet pour que l'anneau reste continu. */
+function fixRing(ring) {
+  if (!ring || ring.length < 2) return ring;
+  const out = [ring[0].slice()];
+  for (let i = 1; i < ring.length; i++) {
+    const prev = out[i - 1], cur = ring[i].slice();
+    const dx = cur[0] - prev[0];
+    if (dx > 180) cur[0] -= 360;
+    else if (dx < -180) cur[0] += 360;
+    out.push(cur);
+  }
+  return out;
+}
+function fixGeom(g) {
+  if (!g) return;
+  if (g.type === 'Polygon') g.coordinates = g.coordinates.map(fixRing);
+  else if (g.type === 'MultiPolygon') g.coordinates = g.coordinates.map(p => p.map(fixRing));
+}
+
+/* ── COULEURS ── */
+function countryColor(name) {
+  const d = DATA[name];
+  if (!d || d.m < 3) return 'rgba(255,255,255,.028)';
+  const m = d.m / 100, s = d.s / 100, h = d.h / 100;
+  if (d.ib > 50)        return `rgba(106,27,154,${.22 + m * .6})`;
+  if (h > .6)           return `rgba(11,61,138,${.26 + m * h * .9})`;
+  if (h > .4)           return `rgba(20,86,200,${.26 + m * h * .85})`;
+  if (h > .2 && s > .5) return `rgba(74,20,120,${.2  + m * .55})`;
+  if (s > .8)           return `rgba(20,92,34,${.16  + m * s * .8})`;
+  return                       `rgba(30,138,48,${.12 + m * s * .65})`;
+}
+function conflictColor(name) {
+  const d = DATA[name]; if (!d) return null;
+  if (d.c === 3) return 'rgba(194,40,40,.52)';
+  if (d.c === 2) return 'rgba(220,88,0,.42)';
+  if (d.c === 1) return 'rgba(240,170,30,.28)';
+  return null;
+}
+
+/* ── ÉTAT DES COUCHES ── */
+const LAYERS = { sunni: true, shia: true, conflict: false, labels: true };
+let geoLayer = null, conflictLayer = null, labelMarkers = [];
+
+/* ═══════════ CHARGEMENT GÉOJSON ═══════════ */
+async function initMap() {
+  try {
+    const resp = await fetch('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-110m.json');
+    const world = await resp.json();
+    const geo = topojson.feature(world, world.objects.countries);
+
+    /* Application du fix antimeridian sur toutes les géométries */
+    geo.features.forEach(f => fixGeom(f.geometry));
+
+    /* Lookup id → nom pays */
+    const nameById = {};
+    geo.features.forEach(f => {
+      nameById[String(f.id).padStart(3, '0')] = BY_ISO[String(f.id).padStart(3, '0')] || null;
+    });
+
+    /* ── Layer pays (couleurs) ── */
+    geoLayer = L.geoJSON(geo, {
+      style: f => ({
+        fillColor: countryColor(nameById[String(f.id).padStart(3, '0')]),
+        fillOpacity: 1,
+        color: 'rgba(255,255,255,.09)',
+        weight: .4
+      }),
+      onEachFeature: (f, layer) => {
+        const name = nameById[String(f.id).padStart(3, '0')];
+        const d = DATA[name];
+
+        layer.on('mouseover', () => {
+          if (!d) return;
+          const mAbs = (d.p * d.m / 100).toFixed(1);
+          const flag = ['', '🟡', '🟠', '🔴'][d.c] || '';
+          layer.bindTooltip(
+            `<b style="color:#c9a84c">${name}</b> ${flag}<br>
+             Pop. : <b>${d.p} M</b> &nbsp; Musulmans : <b>${d.m} %</b> (${mAbs} M)<br>
+             <span style="color:#5ec972">☪ Sunnites : ${d.s} %</span> &nbsp;
+             <span style="color:#4d9ef5">☪ Chiites : ${d.h} %</span>
+             ${d.ib > 5 ? '<br><span style="color:#ce93d8">⊙ Ibadi : ' + d.ib + ' %</span>' : ''}`,
+            { className: 'map-tooltip', sticky: true }
+          ).openTooltip();
+          layer.setStyle({ color: 'rgba(201,168,76,.85)', weight: 1.5 });
+        });
+        layer.on('mouseout', () => {
+          layer.closeTooltip();
+          layer.setStyle({ color: 'rgba(255,255,255,.09)', weight: .4 });
+        });
+        layer.on('click', () => { if (name && d) openModal(name); });
+      }
+    }).addTo(MAP);
+
+    /* ── Layer conflits ── */
+    conflictLayer = L.geoJSON(geo, {
+      style: f => {
+        const cc = conflictColor(nameById[String(f.id).padStart(3, '0')]);
+        return { fillColor: cc || 'transparent', fillOpacity: cc ? 1 : 0, color: 'transparent', weight: 0 };
+      }
+    });
+
+    buildLabels(nameById);
+    buildRankLists();
+
+    const ld = document.getElementById('loading');
+    ld.style.opacity = '0';
+    setTimeout(() => ld.style.display = 'none', 580);
+
+  } catch (err) {
+    document.getElementById('loading').innerHTML =
+      `<div style="color:#ef5350;text-align:center;padding:30px;font-size:14px">
+        ⚠ Erreur de chargement de la carte<br><br>
+        <small style="color:var(--muted)">Vérifiez votre connexion. Source : cdn.jsdelivr.net</small>
+       </div>`;
+    console.error('[Carte Islam 2026]', err);
+  }
+}
+
+/* ── Labels : utilise CENTROIDS précis en priorité ── */
+function buildLabels(nameById) {
+  labelMarkers.forEach(m => MAP.removeLayer(m));
+  labelMarkers = [];
+  if (!LAYERS.labels) return;
+
+  /* Rassembler les centroïdes calculés (bounding box) par iso, pour fallback */
+  const bboxById = {};
+  if (geoLayer) {
+    geoLayer.eachLayer(l => {
+      const id = String(l.feature.id).padStart(3, '0');
+      try { bboxById[id] = L.geoJSON(l.feature).getBounds().getCenter(); } catch (_) {}
+    });
+  }
+
+  const seen = new Set();
+  Object.entries(DATA).forEach(([name]) => {
+    if (seen.has(name)) return;
+    seen.add(name);
+
+    /* Centroïde précis en priorité, bounding-box centre en fallback */
+    let pos = null;
+    if (CENTROIDS[name]) {
+      pos = L.latLng(CENTROIDS[name][0], CENTROIDS[name][1]);
+    } else {
+      const iso = DATA[name].iso;
+      if (iso && bboxById[iso]) pos = bboxById[iso];
+    }
+    if (!pos) return;
+
+    /* Afficher label uniquement pour pays avec population significative */
+    const d = DATA[name];
+    const fontSize = d && d.m > 40 ? '10px' : '9px';
+    const opacity  = d && d.m > 5  ? '.82' : '.48';
+
+    const m = L.marker(pos, {
+      icon: L.divIcon({
+        className: '',
+        html: `<div style="font-family:'Inter',sans-serif;font-size:${fontSize};font-weight:600;
+               color:rgba(255,255,255,${opacity});
+               text-shadow:0 0 3px #000,0 0 6px #000,0 0 10px #000;
+               white-space:nowrap;transform:translate(-50%,-50%);
+               pointer-events:none">${name}</div>`,
+        iconSize: [0, 0], iconAnchor: [0, 0]
+      }),
+      interactive: false, zIndexOffset: -100
+    });
+    m.addTo(MAP);
+    labelMarkers.push(m);
+  });
+}
+
+/* ── Top 10 Sunnites / Chiites ── */
+function buildRankLists() {
+  const entries = Object.entries(DATA).filter(([, d]) => d && d.p && d.m);
+  const topS = entries.map(([n, d]) => ({ n, v: d.p * d.m / 100 * d.s / 100 })).sort((a, b) => b.v - a.v).slice(0, 10);
+  const topH = entries.map(([n, d]) => ({ n, v: d.p * d.m / 100 * d.h / 100 })).sort((a, b) => b.v - a.v).slice(0, 10);
+  const mxS = topS[0].v, mxH = topH[0].v;
+
+  const elS = document.getElementById('rank-sunni');
+  const elH = document.getElementById('rank-shia');
+
+  topS.forEach((x, i) => {
+    elS.innerHTML += `<div class="rank-item">
+      <span class="rank-num">${i + 1}</span>
+      <div class="rank-body">
+        <div class="rank-name">${x.n}</div>
+        <div class="rank-bar-bg"><div class="rank-bar-fill" style="width:${x.v/mxS*100}%;background:linear-gradient(90deg,#145c22,#5ec972)"></div></div>
+      </div>
+      <span class="rank-val">${x.v.toFixed(0)} M</span>
+    </div>`;
+  });
+  topH.forEach((x, i) => {
+    elH.innerHTML += `<div class="rank-item">
+      <span class="rank-num">${i + 1}</span>
+      <div class="rank-body">
+        <div class="rank-name">${x.n}</div>
+        <div class="rank-bar-bg"><div class="rank-bar-fill" style="width:${x.v/mxH*100}%;background:linear-gradient(90deg,#0b3d8a,#4d9ef5)"></div></div>
+      </div>
+      <span class="rank-val">${x.v.toFixed(1)} M</span>
+    </div>`;
+  });
+}
+
+/* ═══════════ MODAL ═══════════ */
+function openModal(name) {
+  const d = DATA[name]; if (!d) return;
+  const mT = d.p * d.m / 100;
+  const sAbs = (mT * d.s / 100).toFixed(1);
+  const hAbs = (mT * d.h / 100).toFixed(1);
+  const ibAbs = (mT * d.ib / 100).toFixed(1);
+
+  document.getElementById('modal-name').textContent = name;
+  document.getElementById('modal-region').textContent = `📍 ${d.r}  —  Sources : Pew Research Center 2026 · CIA World Factbook 2026`;
+
+  document.getElementById('modal-cards').innerHTML = `
+    <div class="modal-card">
+      <div class="modal-card-label">Population totale 2026</div>
+      <div class="modal-card-value">${d.p} M</div>
+      <div class="modal-card-sub">habitants estimés</div>
+    </div>
+    <div class="modal-card">
+      <div class="modal-card-label">Musulmans totaux</div>
+      <div class="modal-card-value">${d.m} %</div>
+      <div class="modal-card-sub">${mT.toFixed(1)} M personnes</div>
+    </div>
+    <div class="modal-card" style="border-color:rgba(30,138,48,.38)">
+      <div class="modal-card-label" style="color:#5ec972">☪ Sunnites (parmi les musulmans)</div>
+      <div class="modal-card-value" style="color:#5ec972">${d.s} %</div>
+      <div class="modal-card-sub">${sAbs} M personnes</div>
+    </div>
+    <div class="modal-card" style="border-color:rgba(20,86,200,.38)">
+      <div class="modal-card-label" style="color:#4d9ef5">☪ Chiites (parmi les musulmans)</div>
+      <div class="modal-card-value" style="color:#4d9ef5">${d.h} %</div>
+      <div class="modal-card-sub">${hAbs} M personnes</div>
+    </div>
+    ${d.ib > 3 ? `<div class="modal-card" style="border-color:rgba(106,27,154,.38)">
+      <div class="modal-card-label" style="color:#ce93d8">⊙ Ibadi (parmi les musulmans)</div>
+      <div class="modal-card-value" style="color:#ce93d8">${d.ib} %</div>
+      <div class="modal-card-sub">${ibAbs} M — Oman uniquement</div>
+    </div>` : ''}`;
+
+  /* Camembert */
+  const cv = document.getElementById('modal-canvas');
+  const ctx = cv.getContext('2d');
+  ctx.clearRect(0, 0, 106, 106);
+  const slices = [
+    { pct: d.s * (d.m / 100), col: '#145c22', lbl: 'Sunnites' },
+    { pct: d.h * (d.m / 100), col: '#0b3d8a', lbl: 'Chiites' },
+    { pct: d.ib * (d.m / 100), col: '#6a1b9a', lbl: 'Ibadi' },
+    { pct: 100 - d.m,           col: '#1c2840', lbl: 'Non-musulmans' }
+  ].filter(x => x.pct > .15);
+  let a = -Math.PI / 2;
+  slices.forEach(x => {
+    const ang = x.pct / 100 * 2 * Math.PI;
+    ctx.beginPath(); ctx.moveTo(53, 53); ctx.arc(53, 53, 48, a, a + ang); ctx.closePath();
+    ctx.fillStyle = x.col; ctx.fill(); a += ang;
+  });
+  /* Donut hole */
+  ctx.beginPath(); ctx.arc(53, 53, 24, 0, 2 * Math.PI); ctx.fillStyle = '#0d1628'; ctx.fill();
+  ctx.fillStyle = '#c9a84c'; ctx.font = 'bold 10px Inter'; ctx.textAlign = 'center';
+  ctx.fillText(d.m + ' %', 53, 57);
+
+  document.getElementById('modal-pie-legend').innerHTML = slices.map(x =>
+    `<div class="modal-pie-row"><div class="modal-pie-dot" style="background:${x.col}"></div>${x.lbl} : ${x.pct.toFixed(1)} %</div>`
+  ).join('');
+
+  document.getElementById('modal-bars').innerHTML = `
+    <div class="modal-sep">Répartition visuelle</div>
+    <div class="modal-bar-row">
+      <div class="modal-bar-label"><span>☪ Sunnites</span><span style="color:#5ec972">${d.s} %  ·  ${sAbs} M</span></div>
+      <div class="modal-bar-bg"><div class="modal-bar-fill" style="width:${d.s}%;background:linear-gradient(90deg,#145c22,#5ec972)"></div></div>
+    </div>
+    <div class="modal-bar-row">
+      <div class="modal-bar-label"><span>☪ Chiites</span><span style="color:#4d9ef5">${d.h} %  ·  ${hAbs} M</span></div>
+      <div class="modal-bar-bg"><div class="modal-bar-fill" style="width:${d.h}%;background:linear-gradient(90deg,#0b3d8a,#4d9ef5)"></div></div>
+    </div>
+    <div class="modal-bar-row">
+      <div class="modal-bar-label"><span>Musulmans / Population totale</span><span style="color:var(--gold)">${d.m} %</span></div>
+      <div class="modal-bar-bg"><div class="modal-bar-fill" style="width:${d.m}%;background:linear-gradient(90deg,#c9a84c,#e8c97a)"></div></div>
+    </div>`;
+
+  const cClass = ['l0', 'l1', 'l2', 'l3'][d.c];
+  const cText  = ['✅ Aucun conflit sectaire majeur', '🟡 Tensions modérées', '🟠 Tensions élevées', '🔴 Conflit actif (2026)'][d.c];
+  document.getElementById('modal-conflict').innerHTML = `<div class="modal-sep">Situation 2026</div><span class="conflict-badge ${cClass}">${cText}</span>`;
+  document.getElementById('modal-note').innerHTML = `💡 <b>Pour comprendre :</b> ${d.n}`;
+  document.getElementById('modal-source').innerHTML = `📚 <b>Sources :</b> Pew Research Center 2026 · CIA World Factbook 2026 · World Population Review 2026 · UNHCR Religious Demographics`;
+
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
+
+/* ═══════════ TOGGLES COUCHES ═══════════ */
+function toggleLayer(key) {
+  LAYERS[key] = !LAYERS[key];
+  const tog = document.getElementById('tog-' + key);
+  if (tog) LAYERS[key] ? tog.classList.add('on') : tog.classList.remove('on');
+
+  if (key === 'conflict') {
+    if (conflictLayer) LAYERS.conflict ? conflictLayer.addTo(MAP) : conflictLayer.remove();
+    document.getElementById('btn-conflicts').classList.toggle('active', LAYERS.conflict);
+  }
+  if (key === 'labels') {
+    labelMarkers.forEach(m => LAYERS.labels ? m.addTo(MAP) : MAP.removeLayer(m));
+  }
+  if ((key === 'sunni' || key === 'shia') && geoLayer) {
+    geoLayer.eachLayer(layer => {
+      const iso  = String(layer.feature.id).padStart(3, '0');
+      const name = BY_ISO[iso];
+      const d    = DATA[name];
+      if (!d || d.m < 5) return;
+      const dominant = d.h > d.s ? 'shia' : 'sunni';
+      layer.setStyle({ fillColor: countryColor(name), fillOpacity: !LAYERS[dominant] ? .06 : 1 });
+    });
+  }
+}
+
+/* ═══════════ RECHERCHE ═══════════ */
+function onSearch(val) {
+  const drop = document.getElementById('search-drop');
+  if (!val || val.length < 2) { drop.innerHTML = ''; drop.classList.remove('open'); return; }
+  const hits = Object.keys(DATA).filter(n => n.toLowerCase().includes(val.toLowerCase())).slice(0, 9);
+  drop.innerHTML = hits.map(name => {
+    const d = DATA[name];
+    const dotCol = d.ib > 50 ? '#6a1b9a' : d.h > 60 ? '#0b3d8a' : d.h > 30 ? '#1456c8' : '#1e8a30';
+    return `<div class="drop-item" onclick="selectCountry('${name}')">
+      <div class="drop-dot" style="background:${dotCol}"></div>
+      <span>${name}</span>
+      <span class="drop-meta">${d.m} % · ${d.r}</span>
+    </div>`;
+  }).join('');
+  drop.classList.toggle('open', hits.length > 0);
+}
+function selectCountry(name) {
+  document.getElementById('search-input').value = name;
+  document.getElementById('search-drop').classList.remove('open');
+  openModal(name);
+  /* Voler vers le pays si centroïde connu */
+  if (CENTROIDS[name]) {
+    MAP.flyTo(CENTROIDS[name], Math.max(MAP.getZoom(), 4), { duration: .8, easeLinearity: .5 });
+  }
+}
+
+/* ═══════════ QUIZ ═══════════ */
+const QUIZ_DATA = [
+  { q: "Quelle est la plus grande population sunnite mondiale ?",                   opts: ["Pakistan", "Arabie Saoudite", "Indonésie", "Bangladesh"],          ans: 2 },
+  { q: "Quel pays est le centre mondial du chiisme ?",                              opts: ["Irak", "Arabie Saoudite", "Iran", "Azerbaïdjan"],                  ans: 2 },
+  { q: "Kerbala et Najaf (villes saintes chiites) se trouvent dans quel pays ?",    opts: ["Iran", "Syrie", "Pakistan", "Irak"],                               ans: 3 },
+  { q: "L'islam ibadi est majoritaire dans quel pays ?",                            opts: ["Bahreïn", "Oman", "Koweït", "Qatar"],                             ans: 1 },
+  { q: "Origine de la division sunnite–chiite ?",                                   opts: ["Mort du Prophète (632 EC)", "Conquête de Jérusalem", "Croisades", "Naissance de l'Islam"], ans: 0 },
+  { q: "Bahreïn : quelle est sa particularité confessionnelle ?",                   opts: ["100 % sunnite", "70 % chiites gouvernés par monarchie sunnite", "50/50", "Majorité ibadi"], ans: 1 },
+  { q: "Les sunnites représentent quel pourcentage de l'islam mondial ?",           opts: ["65 %", "75 %", "87 %", "95 %"],                                   ans: 2 },
+  { q: "Les alaouites (branche chiite) ont gouverné quel pays arabe ?",             opts: ["Liban", "Syrie", "Irak", "Jordanie"],                              ans: 1 },
+  { q: "Quel conflit oppose Houthis (chiites) à la coalition saoudienne ?",         opts: ["Liban", "Bahreïn", "Yémen", "Pakistan"],                          ans: 2 },
+  { q: "Al-Azhar du Caire est :",                                                   opts: ["Université chiite", "Haute autorité sunnite mondiale", "École ibadi", "Institut wahhabite"], ans: 1 },
+];
+let quizIdx = 0, quizAnswered = false;
+
+function toggleQuiz() {
+  const box = document.getElementById('quiz-box');
+  const btn = document.getElementById('btn-quiz');
+  box.classList.toggle('open');
+  btn.classList.toggle('active', box.classList.contains('open'));
+  if (box.classList.contains('open')) { quizIdx = 0; renderQuiz(); }
+}
+function renderQuiz() {
+  quizAnswered = false;
+  const q = QUIZ_DATA[quizIdx % QUIZ_DATA.length];
+  document.getElementById('quiz-question').textContent = `❓ (${(quizIdx % QUIZ_DATA.length) + 1}/${QUIZ_DATA.length}) ${q.q}`;
+  document.getElementById('quiz-options').innerHTML = q.opts.map((o, i) =>
+    `<div class="quiz-opt" id="qopt${i}" onclick="answerQuiz(${i},${q.ans})">${o}</div>`
+  ).join('');
+  document.getElementById('quiz-next').style.display = 'none';
+}
+function answerQuiz(i, correct) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  document.getElementById(`qopt${i}`).classList.add(i === correct ? 'correct' : 'wrong');
+  if (i !== correct) document.getElementById(`qopt${correct}`).classList.add('correct');
+  document.getElementById('quiz-next').style.display = 'block';
+}
+function nextQuiz() { quizIdx++; renderQuiz(); }
+
+/* ═══════════ CONTRÔLES UI ═══════════ */
+let rightCollapsed = false;
+function toggleRight() {
+  rightCollapsed = !rightCollapsed;
+  document.getElementById('panel-right').classList.toggle('collapsed', rightCollapsed);
+  const btn = document.getElementById('right-toggle');
+  btn.textContent = rightCollapsed ? '▶' : '◀';
+  btn.classList.toggle('collapsed', rightCollapsed);
+  btn.style.right = rightCollapsed ? '0' : '240px';
+}
+
+let presentMode = false;
+function togglePresent() {
+  presentMode = !presentMode;
+  document.getElementById('btn-present').classList.toggle('active', presentMode);
+  ['panel-left', 'panel-right', 'stats-bar'].forEach(id => {
+    document.getElementById(id).style.display = presentMode ? 'none' : '';
+  });
+  if (presentMode && rightCollapsed) { /* réafficher le toggle */ }
+}
+
+function toggleFullscreen() {
+  if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(() => {});
+  else document.exitFullscreen();
+}
+
+/* Raccourcis clavier */
+document.addEventListener('keydown', e => {
+  if (e.key === 'f' || e.key === 'F') toggleFullscreen();
+  if (e.key === 'Escape') closeModal();
+  if (e.key === '+' || e.key === '=') MAP.zoomIn();
+  if (e.key === '-') MAP.zoomOut();
+});
+
+/* Empêcher la modale de se fermer lors du clic sur le canvas camembert */
+document.getElementById('modal-canvas').addEventListener('click', e => e.stopPropagation());
+
+/* ═══════════ INIT ═══════════ */
+document.getElementById('loading').style.transition = 'opacity .55s';
+initMap();
+</script>
+</body>
+</html>
