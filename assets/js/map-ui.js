@@ -12,7 +12,7 @@
     return;
   }
 
-  const { DATA, CENTROIDS, QUIZ_DATA } = D;
+  const { DATA, CENTROIDS, QUIZ_DATA, SECURITY_NOTES, TERROR_HOTSPOTS } = D;
   const { MAP, toggleLayer: coreToggleLayer } = Core;
   const escapeHtml =
     typeof Core.escapeHtml === "function"
@@ -39,6 +39,8 @@
   let rightCollapsed = false;
   let presentMode = false;
   let searchTimer = null;
+  let terrorLayerGroup = null;
+  let terrorLayerVisible = false;
 
   /* ══════════════════════════════════════
      MODALE PAYS
@@ -158,8 +160,40 @@
     document.getElementById("modal-note").innerHTML =
       "💡 <b>Pour comprendre :</b> " + escapeHtml(d.n).replace(/\n/g, "<br>");
 
-    document.getElementById("modal-source").innerHTML =
-      "📚 Synthèse pédagogique — croiser avec les <a href=\"pedagogie.html#sources\">Sources &amp; méthode</a>.";
+    const sn = SECURITY_NOTES && SECURITY_NOTES[name];
+    const setBlk = (id, title, text) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (text) {
+        el.hidden = false;
+        el.innerHTML =
+          `<div class="modal-sep">${escapeHtml(title)}</div><p class="modal-extra-text">${escapeHtml(text)}</p>`;
+      } else {
+        el.innerHTML = "";
+        el.hidden = true;
+      }
+    };
+    setBlk("modal-terror-block", "Terrorisme & groupes (synthèse)", sn && sn.terrorisme);
+    setBlk("modal-france-block", "Risques & formation France", sn && sn.france);
+    setBlk("modal-ue-block", "Cadre européen", sn && sn.ue);
+    const snConflit = document.getElementById("modal-sn-conflit");
+    if (snConflit) {
+      if (sn && sn.conflit) {
+        snConflit.hidden = false;
+        snConflit.innerHTML =
+          `<div class="modal-sep">Conflit / géopolitique</div><p class="modal-extra-text">${escapeHtml(sn.conflit)}</p>`;
+      } else {
+        snConflit.innerHTML = "";
+        snConflit.hidden = true;
+      }
+    }
+
+    const src = document.getElementById("modal-source");
+    if (src) {
+      src.innerHTML =
+        "📚 Synthèse pédagogique — <a href=\"#sources\">Références &amp; sources 2026</a> · " +
+        "<a href=\"pedagogie.html#sources\">Guide historique</a>.";
+    }
 
     document.getElementById("modal-overlay").classList.add("open");
   }
@@ -396,6 +430,22 @@
           if (e.key === "Enter" || e.key === " ") { e.preventDefault(); coreToggleLayer(key); }
         });
       });
+    const tt = document.getElementById("tog-terror");
+    if (tt) {
+      const go = () => {
+        terrorLayerVisible = !terrorLayerVisible;
+        tt.classList.toggle("on", terrorLayerVisible);
+        tt.setAttribute("aria-pressed", String(terrorLayerVisible));
+        if (terrorLayerGroup) {
+          if (terrorLayerVisible) MAP.addLayer(terrorLayerGroup);
+          else MAP.removeLayer(terrorLayerGroup);
+        }
+      };
+      tt.addEventListener("click", go);
+      tt.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); }
+      });
+    }
   }
 
   function bindSearch() {
@@ -487,9 +537,25 @@
     bindModal();
   }
 
-  /* Carte prête : redimensionner Leaflet (boutons / recherche déjà actifs) */
+  /* Carte prête : redimensionner Leaflet + hotspots terrorisme (cercles indicatifs) */
   window.addEventListener("islammap:ready", () => {
     MAP.invalidateSize();
+    if (TERROR_HOTSPOTS && TERROR_HOTSPOTS.length && !terrorLayerGroup) {
+      terrorLayerGroup = L.layerGroup();
+      TERROR_HOTSPOTS.forEach((h) => {
+        const km = h.km || 200;
+        const inten = typeof h.intensity === "number" ? h.intensity : 0.6;
+        const circle = L.circle([h.lat, h.lng], {
+          radius: km * 1000,
+          color: "rgba(198,40,40,.75)",
+          weight: 1,
+          fillColor: "#e65100",
+          fillOpacity: 0.08 + inten * 0.18,
+        });
+        circle.bindTooltip("<b>" + escapeHtml(h.label || "Zone") + "</b>", { sticky: true, direction: "auto", className: "map-tooltip" });
+        circle.addTo(terrorLayerGroup);
+      });
+    }
   });
 
   function startApp() {
