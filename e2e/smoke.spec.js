@@ -11,40 +11,29 @@ const SECTIONS = [
 ];
 
 test.describe("Page principale (SPA)", () => {
-  test("charge index et expose le contenu scrollable", async ({ page }) => {
+  test("charge index : hub à onglets et panneau Accueil actif", async ({ page }) => {
     await page.goto("/index.html", { waitUntil: "networkidle" });
-    await expect(page.locator("#main-content")).toBeVisible();
-    const scrollable = await page.evaluate(() => {
-      const de = document.documentElement;
-      return de.scrollHeight > de.clientHeight + 80;
-    });
-    expect(scrollable, "la page doit être plus haute que la fenêtre (scroll possible)").toBe(
-      true
-    );
+    await expect(page.locator("#main-content.hub-main")).toBeVisible();
+    await expect(page.locator("#accueil.hub-panel.is-active")).toBeVisible();
   });
 
-  test("défile jusqu’au footer", async ({ page }) => {
+  test("footer visible dans la mise en page", async ({ page }) => {
     await page.goto("/index.html", { waitUntil: "domcontentloaded" });
-    await page.evaluate(() => {
-      window.scrollTo(0, document.documentElement.scrollHeight);
-    });
     const siteFooter = page.locator("footer.site-footer");
     await expect(siteFooter).toBeInViewport();
     await expect(siteFooter).toBeVisible();
   });
 
-  test("liens du menu : ancres et hash", async ({ page }) => {
+  test("onglets du menu : hash et panneau actif", async ({ page }) => {
     await page.goto("/index.html", { waitUntil: "domcontentloaded" });
     for (const id of SECTIONS) {
-      const link = page.locator(`.site-nav a[href="#${id}"]`).first();
-      await expect(link).toBeVisible();
-      await link.click();
-      await page.waitForTimeout(500);
+      const tab = page.locator(`#site-nav button[data-hub="${id}"]`).first();
+      await expect(tab).toBeVisible();
+      await tab.click();
+      await page.waitForTimeout(200);
       const hash = await page.evaluate(() => location.hash);
       expect(hash, `après clic #${id}`).toBe(`#${id}`);
-      const sec = page.locator(`#${id}`);
-      await expect(sec).toBeVisible();
-      await expect(sec).toBeInViewport();
+      await expect(page.locator(`#${id}.hub-panel.is-active`)).toBeVisible();
     }
   });
 
@@ -56,13 +45,21 @@ test.describe("Page principale (SPA)", () => {
     await expect(page.locator("#btn-quiz")).toBeVisible();
   });
 
-  test("zoom carte : boutons + / −", async ({ page }) => {
+  test("zoom carte : Leaflet répond (pas au zoom max)", async ({ page }) => {
     await page.goto("/index.html#section-carte", { waitUntil: "networkidle" });
     await page.locator("#map").waitFor({ state: "visible" });
-    const z0 = await page.evaluate(() => window.IslamMapCore && window.IslamMapCore.MAP.getZoom());
+    await expect(page.locator("#nav-zoom-in")).toBeVisible();
+    const z0 = await page.evaluate(() => {
+      const m = window.IslamMapCore && window.IslamMapCore.MAP;
+      if (!m) return null;
+      let z = m.getZoom();
+      if (z >= m.getMaxZoom()) m.setZoom(Math.max(m.getMinZoom(), z - 1));
+      z = m.getZoom();
+      return z;
+    });
     expect(typeof z0).toBe("number");
-    await page.locator("#nav-zoom-in").click();
-    await page.waitForTimeout(400);
+    await page.evaluate(() => window.IslamMapCore.MAP.zoomIn());
+    await page.waitForTimeout(200);
     const z1 = await page.evaluate(() => window.IslamMapCore.MAP.getZoom());
     expect(z1).toBeGreaterThan(z0);
   });

@@ -14,45 +14,103 @@
     return Array.prototype.slice.call((root || document).querySelectorAll(sel));
   }
 
-  /* ── Scroll doux + lien actif ── */
-  function initNavHighlight() {
-    const links = $all(".site-nav a[href^='#']");
-    const sec = $all("main section[id]");
-    if (!links.length || !sec.length) return;
+  const HUB_ORDER = [
+    "accueil",
+    "section-carte",
+    "savoir",
+    "terrorisme",
+    "quiz-cert",
+    "sources",
+  ];
 
-    const map = {};
-    sec.forEach((s) => {
-      map[s.id] = s;
+  let breadcrumbRender = function () {};
+  let notifyHubVisited = function () {};
+
+  function showHub(id, opts) {
+    opts = opts || {};
+    const safe = HUB_ORDER.indexOf(id) >= 0 ? id : "accueil";
+    HUB_ORDER.forEach((hid) => {
+      const sec = document.getElementById(hid);
+      const tab = document.querySelector('#site-nav [data-hub="' + hid + '"]');
+      const on = hid === safe;
+      if (sec) {
+        sec.classList.toggle("is-active", on);
+        sec.setAttribute("aria-hidden", on ? "false" : "true");
+      }
+      if (tab && tab.getAttribute("role") === "tab") {
+        tab.setAttribute("aria-selected", String(on));
+        tab.tabIndex = on ? 0 : -1;
+      }
     });
+    if (!opts.skipHash) {
+      history.replaceState(null, "", "#" + safe);
+    }
+    requestAnimationFrame(() => {
+      try {
+        window.scrollTo(0, 0);
+        const activePanel = document.getElementById(safe);
+        if (activePanel) activePanel.scrollTop = 0;
+      } catch (_) {}
+    });
+    breadcrumbRender();
+    const nav = $("#site-nav");
+    const btn = $("#site-menu-btn");
+    if (nav && nav.classList.contains("is-open")) {
+      nav.classList.remove("is-open");
+      if (btn) btn.setAttribute("aria-expanded", "false");
+    }
+    notifyHubVisited(safe);
+    if (safe === "section-carte") {
+      const core = window.IslamMapCore;
+      const refresh = () => {
+        try {
+          if (core && core.MAP) core.MAP.invalidateSize();
+        } catch (_) {}
+      };
+      requestAnimationFrame(refresh);
+      setTimeout(refresh, 120);
+      setTimeout(refresh, 400);
+    }
+    if (safe === "savoir") loadPlotlyTimeline();
+  }
 
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((en) => {
-          if (!en.isIntersecting) return;
-          const id = en.target.id;
-          links.forEach((a) => {
-            const href = a.getAttribute("href");
-            a.classList.toggle("is-active", href === "#" + id);
-            if (href === "#" + id) a.setAttribute("aria-current", "location");
-            else a.removeAttribute("aria-current");
-          });
-        });
-      },
-      { rootMargin: "-20% 0px -55% 0px", threshold: [0, 0.1, 0.25] }
-    );
-    sec.forEach((s) => io.observe(s));
-
-    links.forEach((a) => {
-      a.addEventListener("click", (e) => {
-        const id = a.getAttribute("href").slice(1);
-        const el = map[id];
-        if (el) {
-          e.preventDefault();
-          el.scrollIntoView({ behavior: "smooth", block: "start" });
-          history.replaceState(null, "", "#" + id);
-        }
+  function initHubTabs() {
+    $all('#site-nav [data-hub]').forEach((t) => {
+      if (t.tagName !== "BUTTON") return;
+      t.addEventListener("click", () => {
+        const hid = t.getAttribute("data-hub");
+        if (hid) showHub(hid);
       });
     });
+  }
+
+  function initHubHashLinks() {
+    document.addEventListener("click", (e) => {
+      const a = e.target.closest("a[href^='#']");
+      if (!a || a.closest("#site-nav")) return;
+      const href = a.getAttribute("href") || "";
+      const raw = href.replace(/^#/, "");
+      if (HUB_ORDER.indexOf(raw) < 0) return;
+      e.preventDefault();
+      showHub(raw);
+    });
+  }
+
+  function initHubHistory() {
+    window.addEventListener("hashchange", () => {
+      const raw = (location.hash || "").replace(/^#/, "") || "accueil";
+      if (HUB_ORDER.indexOf(raw) < 0) return;
+      showHub(raw, { skipHash: true });
+    });
+  }
+
+  function initHubFromUrl() {
+    const raw = (location.hash || "").replace(/^#/, "") || "accueil";
+    const id = HUB_ORDER.indexOf(raw) >= 0 ? raw : "accueil";
+    if (id !== raw && raw) {
+      history.replaceState(null, "", "#" + id);
+    }
+    showHub(id, { skipHash: true });
   }
 
   /* ── Menu mobile site ── */
@@ -124,37 +182,32 @@
         label.replace(/</g, "&lt;") +
         "</li></ol>";
     }
+    breadcrumbRender = render;
     window.addEventListener("hashchange", render);
     render();
   }
 
-  /* ── Onglets Savoir ── */
-  function initSavoirTabs() {
-    const tabs = $all(".savoir-tab");
-    const panels = $all(".savoir-panel");
-    if (!tabs.length) return;
-
-    function activate(id) {
-      tabs.forEach((t) => {
-        const sel = t.getAttribute("data-tab") === id;
-        t.setAttribute("aria-selected", String(sel));
-        t.tabIndex = sel ? 0 : -1;
-      });
-      panels.forEach((p) => {
-        const on = p.id === "panel-" + id;
-        p.classList.toggle("is-active", on);
-        p.setAttribute("aria-hidden", String(!on));
-      });
-    }
-
-    tabs.forEach((t) => {
-      t.addEventListener("click", () => {
-        const tid = t.getAttribute("data-tab");
-        activate(tid);
-        if (tid === "timeline") loadPlotlyTimeline();
-      });
+  /* ── Diaporama Savoir (même logique que pedagogie.html + slideshow.js) ── */
+  function initSavoirSlideshow() {
+    if (!window.IslamMapSlideshow || !document.getElementById("savoir-slideshow")) return;
+    window.IslamMapSlideshow.init({
+      rootId: "savoir-slideshow",
+      prevId: "savoir-slide-prev",
+      nextId: "savoir-slide-next",
+      counterId: "savoir-slide-counter",
+      dotsId: "savoir-slide-dots",
+      onChange: function (idx) {
+        if (idx !== 0) return;
+        var sec = document.getElementById("savoir");
+        if (!sec || !sec.classList.contains("is-active")) return;
+        loadPlotlyTimeline();
+        setTimeout(function () {
+          try {
+            if (window.Plotly) window.Plotly.Plots.resize("timeline-plot");
+          } catch (_) {}
+        }, 150);
+      },
     });
-    activate("timeline");
   }
 
   let plotlyLoaded = false;
@@ -400,11 +453,18 @@
   /* ── Service Worker ── */
   function initSw() {
     if (!("serviceWorker" in navigator)) return;
-    const ok =
-      location.protocol === "https:" ||
-      location.hostname === "localhost" ||
-      location.hostname === "127.0.0.1";
-    if (!ok) return;
+    const isLocal =
+      location.hostname === "localhost" || location.hostname === "127.0.0.1";
+    if (isLocal) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker
+          .getRegistrations()
+          .then((regs) => regs.forEach((r) => r.unregister()))
+          .catch(() => {});
+      });
+      return;
+    }
+    if (location.protocol !== "https:") return;
     window.addEventListener("load", () => {
       navigator.serviceWorker.register("./sw.js").catch(() => {});
     });
@@ -412,46 +472,25 @@
 
   /* ── Raccourcis ── */
   function initArrowNav() {
-    const order = ["accueil", "section-carte", "savoir", "terrorisme", "quiz-cert", "sources"];
     document.addEventListener("keydown", (e) => {
       if (e.target.closest("input, textarea, select, [contenteditable]")) return;
       if (!e.altKey) return;
       const cur = (location.hash || "#accueil").replace("#", "") || "accueil";
-      let i = order.indexOf(cur);
+      let i = HUB_ORDER.indexOf(cur);
       if (i < 0) i = 0;
       if (e.key === "ArrowDown" || e.key === "ArrowRight") {
         e.preventDefault();
-        i = Math.min(order.length - 1, i + 1);
+        i = Math.min(HUB_ORDER.length - 1, i + 1);
       } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
         e.preventDefault();
         i = Math.max(0, i - 1);
       } else return;
-      const el = document.getElementById(order[i]);
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-      history.replaceState(null, "", "#" + order[i]);
+      showHub(HUB_ORDER[i]);
     });
   }
 
-  /* ── Lazy Plotly quand section visible ── */
-  function initLazyTimeline() {
-    const sec = document.getElementById("savoir");
-    if (!sec || !("IntersectionObserver" in window)) {
-      loadPlotlyTimeline();
-      return;
-    }
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((en) => {
-          if (en.isIntersecting) {
-            loadPlotlyTimeline();
-            io.disconnect();
-          }
-        });
-      },
-      { threshold: 0.05 }
-    );
-    io.observe(sec);
-  }
+  /* ── Plotly : chargé à l’ouverture de l’onglet Savoir (showHub) ── */
+  function initLazyTimeline() {}
 
   function initEditorial() {
     const el = $("#footer-editorial");
@@ -493,46 +532,27 @@
       persist();
     }
 
-    secIds.forEach((id) => {
-      const section = document.getElementById(id);
-      if (!section || !("IntersectionObserver" in window)) return;
-      const io = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((en) => {
-            if (en.isIntersecting) mark(id);
-          });
-        },
-        { threshold: 0.22 }
-      );
-      io.observe(section);
-    });
-
-    document.querySelectorAll('.site-nav a[href^="#"]').forEach((a) => {
-      a.addEventListener("click", () => {
-        const id = (a.getAttribute("href") || "").replace(/^#/, "");
-        if (id) mark(id);
-      });
-    });
+    notifyHubVisited = function (id) {
+      mark(id);
+    };
 
     persist();
   }
 
-  function initHashScroll() {
-    const id = (location.hash || "").replace(/^#/, "");
-    if (!id) return;
-    const el = document.getElementById(id);
-    if (!el) return;
-    requestAnimationFrame(() => {
-      el.scrollIntoView({ behavior: "auto", block: "start" });
-    });
+  function initFileProtocolBanner() {
+    const el = document.getElementById("file-protocol-banner");
+    if (el && location.protocol === "file:") el.hidden = false;
   }
 
   function boot() {
-    initNavHighlight();
+    initFileProtocolBanner();
+    initBreadcrumb();
+    initHubTabs();
+    initHubHashLinks();
+    initHubHistory();
     initSiteMenu();
     initTheme();
-    initBreadcrumb();
-    initSavoirTabs();
+    initSavoirSlideshow();
     initGlossary();
     initQuizCert();
     initSavoirMiniQuiz();
@@ -543,7 +563,7 @@
     initMapResize();
     initEditorial();
     initSectionProgress();
-    initHashScroll();
+    initHubFromUrl();
   }
 
   function initMapResize() {

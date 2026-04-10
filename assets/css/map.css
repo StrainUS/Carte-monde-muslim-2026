@@ -422,6 +422,8 @@ body.map-page:not(.spa-mode) {
   position: relative;
   overflow: hidden;
   touch-action: none;
+  /* Au-dessus du #topbar (900) : même colonne, évite que la barre capte les clics des contrôles */
+  z-index: 901;
 }
 
 #map {
@@ -451,7 +453,111 @@ body.map-page:not(.spa-mode) {
   display: flex;
   flex-direction: column;
   gap: 5px;
-  z-index: 500;
+  /* Au-dessus du #topbar (900) pour que zoom / vues restent cliquables */
+  z-index: 950;
+}
+
+#map-fs-popup {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 10px;
+  max-height: min(62vh, 520px);
+  background: rgba(8, 14, 28, 0.96);
+  border: 1px solid rgba(201, 168, 76, 0.28);
+  border-radius: 14px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+  transform: translateY(calc(100% + 24px));
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.22s ease, opacity 0.18s ease;
+  z-index: 940;
+}
+
+#map-fs-popup.open {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.map-fs-popup-handle {
+  width: 52px;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.26);
+  margin: 10px auto 8px;
+}
+
+.map-fs-popup-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#map-fs-popup-content {
+  max-height: min(56vh, 460px);
+  overflow-y: auto;
+  padding: 6px 14px 14px;
+}
+
+.map-fs-title {
+  margin: 0 44px 8px 0;
+  font-family: var(--font-head);
+  color: var(--gold-hi);
+  font-size: 1.1rem;
+}
+
+.map-fs-sub {
+  margin: 0 0 10px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.map-fs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.map-fs-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 9px 10px;
+}
+
+.map-fs-card b {
+  display: block;
+  color: var(--gold-hi);
+  font-size: 12px;
+}
+
+.map-fs-card span {
+  display: block;
+  margin-top: 4px;
+  color: var(--text);
+  font-size: 13px;
+}
+
+.map-fs-block {
+  margin-top: 8px;
+  padding: 10px 11px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.18);
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
 }
 
 .nav-btn {
@@ -473,6 +579,12 @@ body.map-page:not(.spa-mode) {
 .nav-btn:hover {
   border-color: var(--gold);
   color: var(--gold);
+}
+
+.nav-btn.is-active {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(201, 168, 76, 0.14);
 }
 
 .nav-btn:active {
@@ -953,11 +1065,11 @@ body.map-page:not(.spa-mode) {
   line-height: 1.85;
 }
 
-/* ─── Chargement ─── */
-#loading {
-  position: fixed;
+/* ─── Chargement (uniquement au-dessus de #app — pas plein écran page / accueil) ─── */
+#app #loading {
+  position: absolute;
   inset: 0;
-  background: var(--bg);
+  background: rgba(6, 8, 15, 0.96);
   z-index: 9999;
   display: flex;
   flex-direction: column;

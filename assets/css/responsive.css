@@ -59,13 +59,10 @@ body.map-page.spa-mode {
   min-width: 520px;
 }
 
-/* Onglets & boutons : cibles tactiles confortables */
-.savoir-tab {
+/* Diaporama Savoir (index) : boutons prev/next tactiles */
+#savoir-slideshow .slideshow-controls button {
+  min-width: var(--touch-min);
   min-height: var(--touch-min);
-  padding: 10px 16px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .btn-ghost,

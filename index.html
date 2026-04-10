@@ -17,9 +17,15 @@
   <link rel="stylesheet" href="assets/css/common.css">
   <link rel="stylesheet" href="assets/css/map.css">
   <link rel="stylesheet" href="assets/css/app-pro.css">
+  <link rel="stylesheet" href="assets/css/pedagogie.css">
   <link rel="stylesheet" href="assets/css/responsive.css">
 </head>
 <body class="map-page spa-mode">
+
+<p id="file-protocol-banner" class="file-protocol-banner" role="status" hidden>
+  <strong>Mode fichier local :</strong> la vidéo et certaines fonctions nécessitent un serveur HTTP.
+  Dans ce dossier, lancez <code>npm start</code> ou <code>python3 -m http.server 8080</code> puis ouvrez <code>http://127.0.0.1:8080</code>.
+</p>
 
 <a class="skip-link" href="#accueil">Aller au contenu principal</a>
 
@@ -29,14 +35,14 @@
     <span>Module « Terrorisme islamiste &amp; dynamiques musulmanes » — repères géopolitiques et risques</span>
   </div>
   <button type="button" id="site-menu-btn" aria-expanded="false" aria-controls="site-nav" class="no-print">☰</button>
-  <nav id="site-nav" class="site-nav" aria-label="Navigation principale">
-    <a href="#accueil">Accueil</a>
-    <a href="#section-carte">Carte interactive</a>
-    <a href="#savoir">Savoir pédagogique</a>
-    <a href="#terrorisme">Conflits / terrorisme</a>
-    <a href="#quiz-cert">Quiz &amp; certif</a>
-    <a href="#sources">Sources</a>
-    <a href="pedagogie.html">Diaporama</a>
+  <nav id="site-nav" class="site-nav hub-site-nav" role="tablist" aria-label="Modules du parcours">
+    <button type="button" class="hub-tab" role="tab" id="tab-hub-accueil" aria-selected="true" aria-controls="accueil" data-hub="accueil">Accueil</button>
+    <button type="button" class="hub-tab" role="tab" id="tab-hub-carte" aria-selected="false" aria-controls="section-carte" tabindex="-1" data-hub="section-carte">Carte</button>
+    <button type="button" class="hub-tab" role="tab" id="tab-hub-savoir" aria-selected="false" aria-controls="savoir" tabindex="-1" data-hub="savoir">Savoir</button>
+    <button type="button" class="hub-tab" role="tab" id="tab-hub-terrorisme" aria-selected="false" aria-controls="terrorisme" tabindex="-1" data-hub="terrorisme">Terrorisme</button>
+    <button type="button" class="hub-tab" role="tab" id="tab-hub-quiz" aria-selected="false" aria-controls="quiz-cert" tabindex="-1" data-hub="quiz-cert">Quiz</button>
+    <button type="button" class="hub-tab" role="tab" id="tab-hub-sources" aria-selected="false" aria-controls="sources" tabindex="-1" data-hub="sources">Sources</button>
+    <a class="hub-tab hub-tab--link" href="pedagogie.html">Diaporama</a>
   </nav>
   <button type="button" class="btn-ghost no-print" id="btn-theme-toggle" title="Basculer clair/sombre">Clair / Sombre</button>
 </header>
@@ -45,9 +51,10 @@
   <div id="breadcrumb-here"></div>
 </div>
 
-<main id="main-content">
+<main id="main-content" class="hub-main">
+<div class="hub-panels">
   <!-- ── Section 1 Accueil ── -->
-  <section id="accueil" class="pro-hero" tabindex="-1">
+  <section id="accueil" class="pro-hero hub-panel is-active" role="tabpanel" aria-labelledby="tab-hub-accueil" aria-hidden="false" tabindex="0">
     <p class="pro-kicker">Lecture 1 minute — objectifs opérationnels</p>
     <h1 class="pro-title">Cartographier les dynamiques religieuses pour mieux analyser les risques</h1>
     <p class="pro-lead">
@@ -59,34 +66,36 @@
       <div class="stat-pill"><b>~85–90 %</b> sunnites / <b>~10–15 %</b> chiites (ordres de grandeur pédagogiques)</div>
       <div class="stat-pill"><b>Objectif</b> : relier carte, histoire et signaux de risque sans stigmatisation</div>
     </div>
-    <div class="embed-responsive" role="region" aria-label="Vidéo d’introduction (chaîne éducative)">
-      <iframe
-        src="https://www.youtube-nocookie.com/embed/VCw4zRxjS94"
-        title="Introduction historique — culture islamique (Khan Academy, anglais)"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-        loading="lazy"></iframe>
+    <div class="source-cards" role="region" aria-label="Portails officiels recommandés">
+      <a class="source-card" href="https://population.un.org/wpp/" target="_blank" rel="noopener noreferrer">
+        <strong>ONU — World Population Prospects</strong>
+        <span>Séries officielles de population par pays (base de comparaison démographique).</span>
+      </a>
+      <a class="source-card" href="https://www.cia.gov/the-world-factbook/field/religions/" target="_blank" rel="noopener noreferrer">
+        <strong>CIA World Factbook — Religions</strong>
+        <span>Fiches pays indicatives, à croiser avec les rapports de méthode.</span>
+      </a>
+      <a class="source-card" href="https://www.pewresearch.org/topic/religion/" target="_blank" rel="noopener noreferrer">
+        <strong>Pew Research Center — Religion</strong>
+        <span>Rapports et méthodologie de démographie religieuse.</span>
+      </a>
     </div>
-    <p class="pro-lead" style="font-size:13px;color:var(--muted);margin-top:8px">
-      Vidéo externe illustrative (traduction orale possible en formation). Remplacez par une capsule validée par votre organisme si nécessaire.
-    </p>
   </section>
 
   <!-- ── Section 2 Carte ── -->
-  <section id="section-carte" class="pro-section pro-section--alt" aria-labelledby="carte-title">
+  <section id="section-carte" class="pro-section pro-section--alt hub-panel hub-panel--carte" role="tabpanel" aria-labelledby="tab-hub-carte" aria-hidden="true" tabindex="0">
     <h2 id="carte-title" class="pro-title" style="font-size:22px">Carte interactive — sunnites / chiites / tensions / hotspots</h2>
     <p class="pro-lead">
       Zoomez, recherchez un pays, activez <strong>Indicateur tensions</strong> et <strong>Hotspots terrorisme</strong> (cercles indicatifs Irak, Syrie, Yémen, Sahel…). Clic pays → fiche enrichie : conflit, terrorisme, angles France/UE.
     </p>
 
-    <div id="loading" aria-live="polite">
-      <div class="loading-icon" aria-hidden="true">☽</div>
-      <div class="loading-title">Chargement de la carte</div>
-      <div class="loading-bar-bg"><div class="loading-bar-fill"></div></div>
-      <p class="loading-sub">Contours pays et tuiles cartographiques…</p>
-    </div>
-
     <div id="app">
+      <div id="loading" aria-live="polite">
+        <div class="loading-icon" aria-hidden="true">☽</div>
+        <div class="loading-title">Chargement de la carte</div>
+        <div class="loading-bar-bg"><div class="loading-bar-fill"></div></div>
+        <p class="loading-sub">Contours pays et tuiles cartographiques…</p>
+      </div>
       <header id="topbar" role="banner">
         <span class="logo">☪ ISLAM 2026</span>
         <span class="tag" title="Estimation pédagogique">~2 Md</span>
@@ -146,11 +155,17 @@
           <div id="map-nav" aria-label="Zoom et vues régionales">
             <button type="button" class="nav-btn" id="nav-zoom-in" title="Zoom avant">+</button>
             <button type="button" class="nav-btn" id="nav-zoom-out" title="Zoom arrière">−</button>
+            <button type="button" class="nav-btn" id="nav-expand" title="Agrandir la carte" aria-label="Agrandir la carte">⛶</button>
             <button type="button" class="nav-btn" id="nav-world" title="Vue mondiale">⊙</button>
             <button type="button" class="nav-btn" id="nav-me" title="Moyen-Orient">MO</button>
             <button type="button" class="nav-btn" id="nav-af" title="Afrique">AF</button>
             <button type="button" class="nav-btn" id="nav-as" title="Asie du Sud">AS</button>
           </div>
+          <section id="map-fs-popup" aria-hidden="true" aria-label="Détails du pays en mode agrandi">
+            <div class="map-fs-popup-handle" id="map-fs-popup-handle" aria-hidden="true"></div>
+            <button type="button" class="map-fs-popup-close" id="map-fs-popup-close" aria-label="Fermer les détails">✕</button>
+            <div id="map-fs-popup-content"></div>
+          </section>
           <button type="button" id="right-toggle" aria-expanded="true" aria-controls="panel-right" aria-label="Replier le panneau latéral droit">◀</button>
           <div id="quiz-box" aria-live="polite">
             <div id="quiz-score" class="quiz-score"></div>
@@ -193,63 +208,93 @@
     </div>
   </section>
 
-  <!-- ── Section 3 Savoir ── -->
-  <section id="savoir" class="pro-section" tabindex="-1">
+  <!-- ── Section 3 Savoir — même diaporama que la page pédagogie ── -->
+  <section id="savoir" class="pro-section hub-panel savoir-hub" role="tabpanel" aria-labelledby="tab-hub-savoir" aria-hidden="true" tabindex="0">
     <h2 class="pro-title" style="font-size:22px">Savoir pédagogique</h2>
-    <p class="pro-lead">Timeline 610–2026, écoles théologiques, glossaire opérationnel, capsule vidéo, mini-quiz.</p>
-    <div class="savoir-tabs" role="tablist" aria-label="Modules savoir">
-      <button type="button" class="savoir-tab" role="tab" aria-selected="true" data-tab="timeline" id="tab-timeline">Timeline</button>
-      <button type="button" class="savoir-tab" role="tab" aria-selected="false" data-tab="fiches" id="tab-fiches">Fiches écoles</button>
-      <button type="button" class="savoir-tab" role="tab" aria-selected="false" data-tab="mots" id="tab-mots">Mots-clés</button>
-      <button type="button" class="savoir-tab" role="tab" aria-selected="false" data-tab="glossaire" id="tab-glossaire">Glossaire</button>
-      <button type="button" class="savoir-tab" role="tab" aria-selected="false" data-tab="video" id="tab-video">Vidéo conflits</button>
-      <button type="button" class="savoir-tab" role="tab" aria-selected="false" data-tab="savoir-quiz" id="tab-savoir-quiz">Mini-quiz 10 Q</button>
-    </div>
-    <div id="panel-timeline" class="savoir-panel is-active" role="tabpanel" aria-labelledby="tab-timeline">
-      <p class="pro-lead" style="font-size:14px">Points d’ancrage : succession du Prophète, Kerbala (680), Safavides (1501), pacte wahhabite (1744), révolution iranienne (1979), Daech (2014), transitions récentes.</p>
-      <div id="timeline-plot" role="img" aria-label="Frise chronologique interactive"></div>
-    </div>
-    <div id="panel-fiches" class="savoir-panel" role="tabpanel" aria-labelledby="tab-fiches">
-      <div class="pro-grid-2">
-        <div class="glossary-item">
-          <strong style="color:var(--sunni-hi)">Sunnisme</strong>
-          <p style="margin-top:8px;font-size:13px;color:var(--muted)">Écoles juridiques (hanafite, malékite, chaféite, hanbalite) ; diversité du salafisme ; wahhabisme lié à l’Arabie historique.</p>
+    <p class="pro-lead">Six écrans en diaporama : frise interactive, fiches courants, mots-clés, glossaire, capsule vidéo, mini-quiz — même présentation que le module <a href="pedagogie.html">Pédagogie</a> (flèches, points, clavier).</p>
+
+    <div class="slideshow savoir-slideshow" id="savoir-slideshow" aria-roledescription="carousel" aria-label="Diaporama savoir pédagogique">
+      <div class="slideshow-header">
+        <div class="slideshow-titles">
+          <h2 class="savoir-slideshow-heading">Parcours — 6 écrans</h2>
+          <p>Timeline · fiches · glossaire · vidéo · quiz</p>
         </div>
-        <div class="glossary-item">
-          <strong style="color:var(--shia-hi)">Chiisme duodécimain</strong>
-          <p style="margin-top:8px;font-size:13px;color:var(--muted)">Imamat duodécimal ; marja’iyyat (Najaf, Qom) ; proximité État iranien ≠ l’ensemble des chiites mondiaux.</p>
-        </div>
-        <div class="glossary-item">
-          <strong>Salafisme / wahhabisme</strong>
-          <p style="margin-top:8px;font-size:13px;color:var(--muted)">Spectre : pratique rigoriste non violente → instrumentalisation djihadiste (Al-Qaida, ÉI). Termes à manier avec précision en formation.</p>
-        </div>
-        <div class="glossary-item">
-          <strong>Ibadisme</strong>
-          <p style="margin-top:8px;font-size:13px;color:var(--muted)">Troisième voie (Oman) : ni sunnite ni chiite duodécimain ; utile pour éviter les amalgames géographiques.</p>
+        <div class="slideshow-controls">
+          <button type="button" id="savoir-slide-prev" aria-label="Écran précédent">‹</button>
+          <span id="savoir-slide-counter">1 / 6</span>
+          <button type="button" id="savoir-slide-next" aria-label="Écran suivant">›</button>
         </div>
       </div>
-    </div>
-    <div id="panel-mots" class="savoir-panel" role="tabpanel" aria-labelledby="tab-mots">
-      <p class="pro-lead" style="font-size:14px">Cliquez pour afficher une définition courte (voir aussi glossaire).</p>
-      <div id="glossary-mount"></div>
-    </div>
-    <div id="panel-glossaire" class="savoir-panel" role="tabpanel" aria-labelledby="tab-glossaire">
-      <p class="pro-lead">Les entrées proviennent du même référentiel que l’onglet Mots-clés.</p>
-      <div id="glossary-mount-duplicate" class="glossary-list"></div>
-    </div>
-    <div id="panel-video" class="savoir-panel" role="tabpanel" aria-labelledby="tab-video">
-      <p class="pro-lead">Origines des tensions sunnite/chiite : mémoire de Kerbala, structuration safavide, alliances contemporaines (à croiser avec fiches pays).</p>
-      <div class="embed-responsive">
-        <iframe src="https://www.youtube-nocookie.com/embed/VCw4zRxjS94" title="Culture et histoire islamiques — support externe" allowfullscreen loading="lazy"></iframe>
+      <div class="slide-viewport">
+        <article class="slide is-active" aria-hidden="false">
+          <h3>1. Timeline 610–2026</h3>
+          <p class="pro-lead" style="font-size:14px;margin-bottom:12px">Points d’ancrage : succession du Prophète, Kerbala (680), Safavides (1501), pacte wahhabite (1744), révolution iranienne (1979), Daech (2014), transitions récentes.</p>
+          <div id="timeline-plot" role="img" aria-label="Frise chronologique interactive"></div>
+        </article>
+        <article class="slide" aria-hidden="true">
+          <h3>2. Fiches écoles &amp; courants</h3>
+          <p class="pro-lead" style="font-size:14px;margin-bottom:14px">Repères factuels pour la formation — à croiser avec les fiches pays sur la carte.</p>
+          <div class="pro-grid-2">
+            <div class="glossary-item">
+              <strong style="color:var(--sunni-hi)">Sunnisme</strong>
+              <p style="margin-top:8px;font-size:13px;color:var(--muted)">Écoles juridiques (hanafite, malékite, chaféite, hanbalite) ; diversité du salafisme ; wahhabisme lié à l’Arabie historique.</p>
+            </div>
+            <div class="glossary-item">
+              <strong style="color:var(--shia-hi)">Chiisme duodécimain</strong>
+              <p style="margin-top:8px;font-size:13px;color:var(--muted)">Imamat duodécimal ; marja’iyyat (Najaf, Qom) ; proximité État iranien ≠ l’ensemble des chiites mondiaux.</p>
+            </div>
+            <div class="glossary-item">
+              <strong>Salafisme / wahhabisme</strong>
+              <p style="margin-top:8px;font-size:13px;color:var(--muted)">Spectre : pratique rigoriste non violente → instrumentalisation djihadiste (Al-Qaida, ÉI). Termes à manier avec précision en formation.</p>
+            </div>
+            <div class="glossary-item">
+              <strong>Ibadisme</strong>
+              <p style="margin-top:8px;font-size:13px;color:var(--muted)">Troisième voie (Oman) : ni sunnite ni chiite duodécimain ; utile pour éviter les amalgames géographiques.</p>
+            </div>
+          </div>
+        </article>
+        <article class="slide" aria-hidden="true">
+          <h3>3. Mots-clés</h3>
+          <p class="pro-lead" style="font-size:14px">Cliquez sur un terme pour afficher une définition courte.</p>
+          <div id="glossary-mount"></div>
+        </article>
+        <article class="slide" aria-hidden="true">
+          <h3>4. Glossaire complet</h3>
+          <p class="pro-lead">Les entrées proviennent du même référentiel que l’écran Mots-clés.</p>
+          <div id="glossary-mount-duplicate" class="glossary-list"></div>
+        </article>
+        <article class="slide" aria-hidden="true">
+          <h3>5. Ressources officielles — avril 2026</h3>
+          <p class="pro-lead" style="font-size:14px">Bloc de consultation stable sans dépendance vidéo externe : ouvrez directement les portails de référence pour vérifier définitions, séries et millésimes.</p>
+          <div class="source-cards">
+            <a class="source-card" href="https://population.un.org/wpp/" target="_blank" rel="noopener noreferrer">
+              <strong>ONU — World Population Prospects</strong>
+              <span>Données de population par pays pour calibrer les ordres de grandeur.</span>
+            </a>
+            <a class="source-card" href="https://www.cia.gov/the-world-factbook/field/religions/" target="_blank" rel="noopener noreferrer">
+              <strong>CIA World Factbook — Religions</strong>
+              <span>Fiches pays indicatives à croiser avec les sources méthodologiques.</span>
+            </a>
+            <a class="source-card" href="https://www.pewresearch.org/topic/religion/" target="_blank" rel="noopener noreferrer">
+              <strong>Pew Research Center — Religion</strong>
+              <span>Rapports et méthodes de démographie religieuse (usage académique).</span>
+            </a>
+          </div>
+          <p class="embed-fallback">Si un lien est bloqué sur votre réseau, utilisez la page <a href="pedagogie.html#references">Pédagogie → Références</a> qui garde les URL de secours.</p>
+        </article>
+        <article class="slide" aria-hidden="true">
+          <h3>6. Mini-quiz — 10 questions</h3>
+          <p class="pro-lead" style="font-size:14px">Entraînement rapide avant le <a href="#quiz-cert">quiz certification (20 Q)</a>.</p>
+          <div id="mini-quiz-mount"></div>
+        </article>
       </div>
-    </div>
-    <div id="panel-savoir-quiz" class="savoir-panel" role="tabpanel" aria-labelledby="tab-savoir-quiz">
-      <div id="mini-quiz-mount"></div>
+      <div class="slide-dots" id="savoir-slide-dots" role="tablist" aria-label="Accès direct aux écrans savoir"></div>
+      <p class="ped-hint savoir-slideshow-hint">Cliquez dans le cadre du diaporama puis utilisez <kbd>←</kbd> <kbd>→</kbd> — ou le <a href="pedagogie.html">guide Pédagogie</a> pour un diaporama illustré à part.</p>
     </div>
   </section>
 
   <!-- ── Section 4 Terrorisme ── -->
-  <section id="terrorisme" class="pro-section pro-section--alt" tabindex="-1">
+  <section id="terrorisme" class="pro-section pro-section--alt hub-panel" role="tabpanel" aria-labelledby="tab-hub-terrorisme" aria-hidden="true" tabindex="0">
     <h2 class="pro-title" style="font-size:22px">Focus terrorisme &amp; comparatif</h2>
     <p class="pro-lead">
       <strong>Pourquoi des conflits religio-politiques nourrissent-ils le terrorisme ?</strong> Parce que des acteurs étatiques ou non-étatiques instrumentalisent des récits identitaires, des réseaux financiers et des sanctuaires territoriaux.
@@ -291,7 +336,7 @@
   </section>
 
   <!-- ── Section 5 Quiz certif ── -->
-  <section id="quiz-cert" class="pro-section" tabindex="-1">
+  <section id="quiz-cert" class="pro-section hub-panel" role="tabpanel" aria-labelledby="tab-hub-quiz" aria-hidden="true" tabindex="0">
     <h2 class="pro-title" style="font-size:22px">Quiz certification — 20 questions</h2>
     <p class="pro-lead">Score automatique. Pour une attestation imprimable, utilisez le modèle ci-dessous puis <strong>Imprimer</strong> (ou Ctrl+P) — zone d’impression réservée au certificat.</p>
     <div id="quiz-cert-box"></div>
@@ -305,7 +350,7 @@
   </section>
 
   <!-- ── Section 6 Sources ── -->
-  <section id="sources" class="pro-section pro-section--alt" tabindex="-1">
+  <section id="sources" class="pro-section pro-section--alt hub-panel" role="tabpanel" aria-labelledby="tab-hub-sources" aria-hidden="true" tabindex="0">
     <h2 class="pro-title" style="font-size:22px">Sources &amp; transparence méthodologique</h2>
     <p class="pro-lead">Liens officiels à citer en formation (vérifier les millésimes sur les pages primaires).</p>
     <ul style="line-height:1.7;font-size:14px;max-width:80ch">
@@ -321,18 +366,10 @@
     <button type="button" class="btn-ghost" data-cite="cite-src">Copier la liste des sources</button>
     <pre id="cite-src" style="display:none;white-space:pre-wrap">Pew Research — Religion. BAMF — Muslime in Deutschland. Ministère de l’Intérieur (FR) — PNAT. Europol — TE-SAT. Légifrance.</pre>
   </section>
+</div>
 </main>
 
-<footer class="site-footer" role="contentinfo">
-  <p><strong>Formation Sécurité Anti-Terrorisme</strong> — Web statique v2.0 (avril 2026). Hébergement possible : GitHub Pages.</p>
-  <p id="parcours-hint" class="footer-meta" hidden>Parcours consulté : <span id="parcours-count">0 / 6</span> sections.</p>
-  <p id="footer-editorial" class="footer-meta" hidden></p>
-  <p>Avertissement : outil pédagogique — ne dispense pas du droit positif ni des consignes CNAPS/employeur.</p>
-  <div class="footer-actions">
-    <a class="btn-ghost" href="mailto:contact@example.org">Contact (à configurer)</a>
-    <a class="btn-ghost" href="docs/SOURCES.md" download>Télécharger SOURCES.md</a>
-  </div>
-</footer>
+<footer class="site-footer" role="contentinfo" aria-label="Pied de page"></footer>
 
 <div id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-name" aria-hidden="true">
   <div id="modal-box">
@@ -365,6 +402,7 @@
 <script src="assets/js/pedagogy-bundle.js"></script>
 <script src="assets/js/map-core.js"></script>
 <script src="assets/js/map-ui.js"></script>
+<script src="assets/js/slideshow.js"></script>
 <script src="assets/js/app-pro.js"></script>
 </body>
 </html>

@@ -2,6 +2,17 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
+  <script>
+    (function () {
+      try {
+        var b = document.createElement("base");
+        b.href = new URL(".", location.href).href;
+        var cs = document.querySelector("meta[charset]");
+        if (cs && cs.nextSibling) document.head.insertBefore(b, cs.nextSibling);
+        else document.head.appendChild(b);
+      } catch (e) {}
+    })();
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="description" content="Guide pédagogique : sunnisme, chiisme, ibadisme, lecture de la carte, sources officielles (Pew, ONU, CIA Factbook) et diaporama illustré.">
   <title>Pédagogie &amp; diaporama — Islam mondial 2026</title>
@@ -23,20 +34,52 @@
       </nav>
     </header>
 
-    <div class="ped-hero">
-      <h1>Support pédagogique — diversité musulmane dans le monde</h1>
-      <p>Ce document complète la <a href="index.html">carte interactive</a>. Il associe un <strong>diaporama illustré</strong> (schémas SVG) à des définitions alignées sur les usages des <strong>organismes de référence</strong> (Pew Research Center, Nations unies, <span lang="en">CIA World Factbook</span>) et sur la littérature de sciences des religions. Rien ne remplace la lecture des sources primaires pour un exposé noté ou médiatique.</p>
-    </div>
+    <main>
+    <section class="ped-hero">
+      <p class="ped-kicker">Module formation · version avril 2026</p>
+      <h1>Dossier pédagogique structuré — diversité musulmane</h1>
+      <p>Interface réorganisée pour un usage classe / présentation : <strong>lecture guidée</strong>, <strong>diaporama fiable</strong>, et <strong>sources officielles consultables</strong>. Ce support complète la <a href="index.html">carte interactive</a> sans remplacer les publications primaires.</p>
+      <div class="ped-hero-grid">
+        <div class="ped-pill"><strong>8 écrans</strong><span>diaporama local SVG</span></div>
+        <div class="ped-pill"><strong>4 blocs</strong><span>lecture, courants, conflits, références</span></div>
+        <div class="ped-pill"><strong>100% local</strong><span>fonctionne sans embed vidéo</span></div>
+      </div>
+    </section>
+
+    <section class="ped-plan">
+      <h2>Plan de séance (45 à 60 min)</h2>
+      <ol>
+        <li><strong>Introduction (5 min)</strong> : objectif, limites de la carte, vocabulaire.</li>
+        <li><strong>Diaporama (15 min)</strong> : passer les 8 écrans avec questions guidées.</li>
+        <li><strong>Étude critique (15 min)</strong> : croiser un pays avec 2 sources publiques.</li>
+        <li><strong>Restitution (10 min)</strong> : mini-quiz + citation rigoureuse des sources.</li>
+      </ol>
+    </section>
 
     <section class="slideshow" id="slideshow" aria-roledescription="carousel" aria-label="Diaporama d’introduction">
       <div class="slideshow-header">
-        <h2>Diaporama (8 écrans)</h2>
+        <div class="slideshow-titles">
+          <h2>Diaporama — 8 écrans</h2>
+          <p>Schémas vectoriels · une diapositive à la fois · flèches ou touches <kbd>←</kbd> <kbd>→</kbd></p>
+        </div>
         <div class="slideshow-controls">
-          <button type="button" id="slide-prev" aria-label="Diapositive précédente">‹</button>
-          <span id="slide-counter">1 / 8</span>
-          <button type="button" id="slide-next" aria-label="Diapositive suivante">›</button>
+          <button type="button" id="slide-prev" class="slide-nav-btn" aria-label="Diapositive précédente">
+            <span class="slide-nav-ico" aria-hidden="true">‹</span>
+            <span class="slide-nav-label">Précédent</span>
+          </button>
+          <span id="slide-counter" class="slide-counter-pill" aria-live="polite">1 / 8</span>
+          <button type="button" id="slide-next" class="slide-nav-btn" aria-label="Diapositive suivante">
+            <span class="slide-nav-label">Suivant</span>
+            <span class="slide-nav-ico" aria-hidden="true">›</span>
+          </button>
         </div>
       </div>
+      <div class="slide-progress-row" aria-hidden="true">
+        <div class="slide-progress-track">
+          <div class="slide-progress-fill" id="slide-progress-fill"></div>
+        </div>
+      </div>
+      <p id="slide-live-title" class="slide-live-sr" aria-live="polite" aria-atomic="true"></p>
       <div class="slide-viewport">
         <article class="slide is-active">
           <h3>1. Objectif</h3>
@@ -49,7 +92,7 @@
         <article class="slide">
           <h3>2. Lire la carte</h3>
           <figure class="slide-figure">
-            <img src="assets/img/pedagogie/slide-02-legende.svg" width="520" height="220" loading="lazy" decoding="async" alt="Légende schématique : bandes vertes bleues violettes et échelle de tensions 1 à 3.">
+            <img src="assets/img/pedagogie/slide-02-legende.svg" width="520" height="220" loading="eager" decoding="async" alt="Légende schématique : bandes vertes bleues violettes et échelle de tensions 1 à 3.">
           </figure>
           <ul>
             <li>Les teintes traduisent la <strong>part musulmane</strong> et, parmi les musulmans, le <strong>poids relatif sunnite/chiite</strong> selon <code>data.js</code> (agrégat pédagogique).</li>
@@ -59,7 +102,7 @@
         <article class="slide">
           <h3>3. Sunnites — définition de référence</h3>
           <figure class="slide-figure">
-            <img src="assets/img/pedagogie/slide-03-sunnisme.svg" width="520" height="200" loading="lazy" decoding="async" alt="Schéma Sunna et quatre écoles juridiques hanafite malikite chaféite hanbalite.">
+            <img src="assets/img/pedagogie/slide-03-sunnisme.svg" width="520" height="200" loading="eager" decoding="async" alt="Schéma Sunna et quatre écoles juridiques hanafite malikite chaféite hanbalite.">
           </figure>
           <p>Les <strong>sunnites</strong> constituent la <strong>majorité des musulmans dans le monde</strong> selon les synthèses démographiques publiques (ex. Pew Research Center, rapports sur la population musulmane). Ils s’appuient sur le Coran et la Sunna ; la jurisprudence se structure historiquement en <strong>écoles (madhhab)</strong> : hanafite, malikite, chaféite, hanbalite — avec une grande diversité de courants et de pratiques locales.</p>
           <p class="slide-ref">Source type : Pew Research Center, rubrique Religion — méthodologies et tableaux par région : <a href="https://www.pewresearch.org/topic/religion/">pewresearch.org/topic/religion</a></p>
@@ -67,7 +110,7 @@
         <article class="slide">
           <h3>4. Chiites — définition de référence</h3>
           <figure class="slide-figure">
-            <img src="assets/img/pedagogie/slide-04-chiisme.svg" width="520" height="210" loading="lazy" decoding="async" alt="Schéma des branches chiites : imamites, zaïdis, ismaéliens.">
+            <img src="assets/img/pedagogie/slide-04-chiisme.svg" width="520" height="210" loading="eager" decoding="async" alt="Schéma des branches chiites : imamites, zaïdis, ismaéliens.">
           </figure>
           <p>Les <strong>chiites</strong> forment une <strong>minorité au niveau mondial</strong> mais des <strong>majorités nationales ou régionales</strong> (ex. Iran, Irak pour les imamites duodécimains). La tradition met l’accent sur la lignée des <strong>imams</strong> à partir d’Ali ; il existe plusieurs branches (<strong>imamites duodécimains</strong>, <strong>ismaéliens</strong>, <strong>zaïdis</strong>, etc.). Les statistiques agrègent souvent l’ensemble sous « chiite » : il faut nuancer pays par pays.</p>
           <p class="slide-ref">À croiser : fiches « Religions » du <span lang="en">CIA World Factbook</span> (indicatif, millésime variable) : <a href="https://www.cia.gov/the-world-factbook/field/religions/">cia.gov/…/field/religions</a></p>
@@ -75,7 +118,7 @@
         <article class="slide">
           <h3>5. Ibadi et limites des statistiques</h3>
           <figure class="slide-figure">
-            <img src="assets/img/pedagogie/slide-05-ibadi.svg" width="520" height="200" loading="lazy" decoding="async" alt="Trois colonnes : sunnisme, ibadisme, chiisme.">
+            <img src="assets/img/pedagogie/slide-05-ibadi.svg" width="520" height="200" loading="eager" decoding="async" alt="Trois colonnes : sunnisme, ibadisme, chiisme.">
           </figure>
           <p>L’<strong>ibadisme</strong> est une <strong>branche distincte</strong> (référence majeure à Oman dans les données de la carte). Les catégories « sunnite / chiite » des enquêtes ne recensent pas toujours les sous-groupes (alaouites, alévis, etc.) : les pourcentages globaux peuvent <strong>masquer</strong> des réalités locales.</p>
           <p class="slide-ref">Méthode : lire les notes de bas de page et glossaires des enquêtes primaires, pas seulement les cartes agrégées.</p>
@@ -83,7 +126,7 @@
         <article class="slide">
           <h3>6. Conflits — analyse multi-factorielle</h3>
           <figure class="slide-figure">
-            <img src="assets/img/pedagogie/slide-06-conflits.svg" width="520" height="210" loading="lazy" decoding="async" alt="Schéma en étoile : politique, économie, histoire, identité autour d’un point crise.">
+            <img src="assets/img/pedagogie/slide-06-conflits.svg" width="520" height="210" loading="eager" decoding="async" alt="Schéma en étoile : politique, économie, histoire, identité autour d’un point crise.">
           </figure>
           <p>Les crises contemporaines relèvent de <strong>causes politiques, économiques, historiques et sociales</strong> entremêlées. La dimension confessionnelle peut être <strong>mobilisée</strong> dans des rivalités d’État, des guerres civiles ou des logiques identitaires : la géographie et les sciences politiques recommandent d’éviter l’explication par une seule variable (« guerre de religion »).</p>
           <p class="slide-ref">Pour les contextes humanitaires : documentation <abbr title="Organisation des Nations unies">ONU</abbr> / <abbr title="Haut Commissariat aux réfugiés">UNHCR</abbr> — à distinguer des statistiques religieuses.</p>
@@ -91,7 +134,7 @@
         <article class="slide">
           <h3>7. En classe</h3>
           <figure class="slide-figure">
-            <img src="assets/img/pedagogie/slide-07-classe.svg" width="520" height="200" loading="lazy" decoding="async" alt="Quatre étapes : carte, fiches, quiz, impression.">
+            <img src="assets/img/pedagogie/slide-07-classe.svg" width="520" height="200" loading="eager" decoding="async" alt="Quatre étapes : carte, fiches, quiz, impression.">
           </figure>
           <ul>
             <li>Ouvrir la carte : cliquer sur <strong>deux pays contrastés</strong>, comparer population, parts et notes.</li>
@@ -102,60 +145,58 @@
         <article class="slide">
           <h3>8. Sources et citation</h3>
           <figure class="slide-figure">
-            <img src="assets/img/pedagogie/slide-08-sources.svg" width="520" height="200" loading="lazy" decoding="async" alt="Pyramide : sources primaires en haut, synthèse pédagogique en bas.">
+            <img src="assets/img/pedagogie/slide-08-sources.svg" width="520" height="200" loading="eager" decoding="async" alt="Pyramide : sources primaires en haut, synthèse pédagogique en bas.">
           </figure>
           <p>Pour tout exposé, article ou rapport : citer l’<strong>enquête ou la publication primaire</strong> (titre, auteur, année, URL ou référence bibliographique). La carte et <code>data.js</code> sont une <strong>synthèse intermédiaire</strong> — transparente mais non substitut aux sources.</p>
           <p class="slide-ref">Détail méthodologique : <a href="docs/SOURCES.md">docs/SOURCES.md</a> dans le dépôt.</p>
         </article>
       </div>
       <div class="slide-dots" id="slide-dots" role="tablist" aria-label="Accès direct aux diapositives"></div>
-      <p class="callout" style="margin-top:16px;margin-bottom:0">Astuce : cliquez dans le cadre du diaporama puis utilisez les flèches <kbd>←</kbd> <kbd>→</kbd> du clavier.</p>
+      <p class="ped-hint">Astuce : cliquez dans le cadre du diaporama puis utilisez les flèches <kbd>←</kbd> <kbd>→</kbd> du clavier.</p>
     </section>
 
-    <section class="ped-section" id="lire">
-      <h2>Lire la carte sans surinterpréter</h2>
-      <p>Les frontières et les pourcentages <strong>masquent</strong> des minorités, des migrations et des identités multiples. Un État « majoritairement sunnite » peut compter des millions de chiites (et inversement).</p>
-      <p>Les chiffres proviennent d’<strong>estimations et d’agrégats</strong> : ils servent à une <strong>vision d’ensemble pédagogique</strong>. Ils ne tranchent pas des débats théologiques ni ne remplacent une enquête de terrain ou un recensement officiel lorsqu’il existe.</p>
-    </section>
+    <section class="ped-grid-sections">
+      <article class="ped-section" id="lire">
+        <h2>Lire la carte sans surinterpréter</h2>
+        <p>Les frontières et les pourcentages <strong>masquent</strong> des minorités, des migrations et des identités multiples. Un État « majoritairement sunnite » peut compter des millions de chiites (et inversement).</p>
+        <p>Les chiffres proviennent d’<strong>estimations et d’agrégats</strong> : ils servent à une <strong>vision d’ensemble pédagogique</strong>. Ils ne tranchent pas des débats théologiques ni ne remplacent une enquête de terrain ou un recensement officiel lorsqu’il existe.</p>
+      </article>
 
-    <section class="ped-section" id="courants">
-      <h2>Sunnisme, chiisme, ibadisme — rappels factuels</h2>
-      <h3>Sunnisme</h3>
-      <p>Dans la littérature de référence en démographie religieuse, les sunnites sont présentés comme le <strong>plus grand ensemble</strong> au sein du monde musulman, avec une diversité juridique (madhhab) et spirituelle importante. La carte utilise des <strong>teintes vertes</strong> lorsque le modèle retient une <strong>dominance sunnite parmi les musulmans</strong> du pays.</p>
-      <h3>Chiisme</h3>
-      <p>Les chiites sont habituellement décrits comme une <strong>minorité globale</strong> mais <strong>majoritaires dans certains pays</strong>. La carte utilise des <strong>teintes bleues</strong> lorsque le modèle retient une part chiite majoritaire ou très significative parmi les musulmans.</p>
-      <h3>Ibadisme</h3>
-      <p>L’ibadisme est traité à part (<strong>teinte violette</strong>, ex. Oman) pour rappeler qu’il ne se confond pas avec les catégories sunnite/chiite des tableaux démographiques les plus courants.</p>
-      <div class="callout"><strong>Neutralité pédagogique :</strong> en France, l’enseignement des faits religieux relève des <strong>sciences des religions</strong> et des programmes officiels ; pour toute précision théologique avancée, renvoyer vers les spécialistes et les sources académiques.</div>
+      <article class="ped-section" id="courants">
+        <h2>Sunnisme, chiisme, ibadisme — rappels factuels</h2>
+        <h3>Sunnisme</h3>
+        <p>Dans la littérature de référence en démographie religieuse, les sunnites sont présentés comme le <strong>plus grand ensemble</strong> au sein du monde musulman, avec une diversité juridique (madhhab) et spirituelle importante.</p>
+        <h3>Chiisme</h3>
+        <p>Les chiites sont habituellement décrits comme une <strong>minorité globale</strong> mais <strong>majoritaires dans certains pays</strong>. L’analyse doit être faite à l’échelle pays/région.</p>
+        <h3>Ibadisme</h3>
+        <p>L’ibadisme est traité à part (ex. Oman) pour éviter l’approximation d’un schéma binaire sunnite/chiite.</p>
+        <div class="callout"><strong>Neutralité pédagogique :</strong> démarche descriptive, non confessionnelle, fondée sur les sciences des religions et les sources publiques.</div>
+      </article>
     </section>
 
     <section class="ped-section" id="conflits">
-      <h2>Conflits et tensions — lecture critique</h2>
-      <p>La liste suivante illustre des <strong>contextes souvent étudiés</strong> en géopolitique ; elle n’est pas exhaustive et évolue dans le temps.</p>
+      <h2>Conflits et tensions — grille d’analyse</h2>
+      <p>Approche recommandée : toujours combiner facteurs <strong>politiques</strong>, <strong>historiques</strong>, <strong>sociaux</strong> et <strong>économiques</strong>. La variable religieuse est rarement suffisante seule.</p>
       <dl class="conflict-list">
-        <dt>Yémen</dt>
-        <dd>Guerre et crise humanitaire ; enjeux politiques et régionaux majeurs ; mobilisation d’identités diverses.</dd>
-        <dt>Syrie · Irak</dt>
-        <dd>Postures étatiques, groupes armés, séquelles de conflits ; analyse multi-causes indispensable.</dd>
-        <dt>Soudan · Somalie · Sahel</dt>
-        <dd>Fragilité des États, économie politique de la violence ; ne pas réduire aux seuls cadres confessionnels.</dd>
-        <dt>Pakistan · Nigeria · Mozambique</dt>
-        <dd>Insécurité où la religion peut être un facteur parmi d’autres (social, ethnique, étatique).</dd>
-        <dt>Bahreïn · Liban</dt>
-        <dd>Configurations politiques confessionnelles et tensions internes / régionales.</dd>
+        <dt>Yémen / Syrie / Irak</dt>
+        <dd>Conflits imbriqués entre institutions d’État, groupes armés, interventions externes et dynamiques locales.</dd>
+        <dt>Soudan / Somalie / Sahel</dt>
+        <dd>Fragilité institutionnelle, circulation d’armes, logiques territoriales et crises humanitaires.</dd>
+        <dt>Pakistan / Nigeria / Mozambique</dt>
+        <dd>Insécurité multicausale où l’identité religieuse s’articule à d’autres clivages.</dd>
       </dl>
     </section>
 
     <section class="ped-section" id="references">
-      <h2>Références officielles et organismes de référence</h2>
-      <p>Liens directs vers les supports utilisés habituellement pour <strong>vérifier</strong> ou <strong>actualiser</strong> les ordres de grandeur (à consulter avec leur millésime) :</p>
+      <h2>Références officielles et publiques — pointage avril 2026</h2>
+      <p>Ces liens sont retenus comme base de travail pour vérifier des ordres de grandeur et des contextes, avec obligation de citer le millésime de chaque donnée.</p>
       <ul class="ref-links">
-        <li><a href="https://www.pewresearch.org/topic/religion/">Pew Research Center — Religion</a> — enquêtes et rapports sur les populations religieuses, méthodologies publiées.</li>
-        <li><a href="https://population.un.org/wpp/">ONU — World Population Prospects</a> — populations nationales pour contrôler les « millions d’habitants ».</li>
-        <li><a href="https://www.cia.gov/the-world-factbook/field/religions/"><span lang="en">CIA World Factbook</span> — champ Religions</a> — fiches pays indicatives, à croiser.</li>
-        <li><a href="https://www.unhcr.org/">UNHCR</a> — contextes de déplacement (distinct des statistiques confessionnelles).</li>
+        <li><a href="https://population.un.org/wpp/">Nations unies — World Population Prospects</a> — séries démographiques officielles par pays.</li>
+        <li><a href="https://www.cia.gov/the-world-factbook/field/religions/"><span lang="en">CIA World Factbook</span> — champ Religions</a> — fiche pays indicative (à croiser systématiquement).</li>
+        <li><a href="https://www.unhcr.org/">UNHCR</a> — contexte des déplacements forcés et situations humanitaires.</li>
+        <li><a href="https://www.pewresearch.org/topic/religion/">Pew Research Center — Religion</a> — rapports méthodologiques de démographie religieuse.</li>
       </ul>
-      <p class="slide-ref">Les définitions des diapositives 3–4 résument des formulations courantes dans ces rapports et dans les manuels de sciences des religions ; elles ne constituent pas un avis théologique.</p>
+      <p class="slide-ref">Vérification éditoriale des URL : avril 2026. Pour une remise notée, citez date d’accès + année de publication.</p>
     </section>
 
     <section class="ped-section" id="sources">
@@ -170,11 +211,13 @@
       </ul>
       <p>Fichier détaillé : <a href="docs/SOURCES.md">docs/SOURCES.md</a> (markdown, téléchargeable depuis le dépôt).</p>
       <p><strong>Illustrations du diaporama :</strong> fichiers SVG vectoriels dans <code>assets/img/pedagogie/</code> (créés pour ce projet, domaine public pédagogique).</p>
-      <div class="callout">La mention « 2026 » sur l’interface indique une <strong>cible de mise à jour pédagogique</strong> : elle n’implique pas que toutes les enquêtes primaires soient actualisées à cette année précise.</div>
+      <div class="callout">La mention « avril 2026 » indique la date de contrôle du présent support. Les datasets externes peuvent rester à un millésime antérieur : citez toujours l’année source.</div>
     </section>
 
-    <p style="text-align:center;margin-top:48px"><a href="index.html">← Retour à la carte interactive</a></p>
+    <p class="ped-back"><a href="index.html">← Retour à la carte interactive</a></p>
+    </main>
   </div>
+  <script src="assets/js/slideshow.js"></script>
   <script src="assets/js/pedagogie.js" defer></script>
 </body>
 </html>

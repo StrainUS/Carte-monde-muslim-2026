@@ -31,6 +31,8 @@
     maxZoom: 10,
     zoomControl: false,
     worldCopyJump: true,
+    touchZoom: "center",
+    bounceAtZoomLimits: false,
     scrollWheelZoom: false, /* remplacé par zoom molette fluide ci-dessous */
     zoomSnap: 0.25,
     zoomDelta: 0.5,
@@ -48,7 +50,6 @@
     const el = document.getElementById("map");
     let acc = 0;
     let raf = null;
-    let lastPt = null;
 
     function normDelta(e) {
       let d = e.deltaY;
@@ -64,14 +65,18 @@
         if (!e.ctrlKey && !e.metaKey) return;
         e.preventDefault();
         acc += normDelta(e);
-        lastPt = MAP.mouseEventToContainerPoint(e);
         if (raf) cancelAnimationFrame(raf);
         raf = requestAnimationFrame(() => {
-          if (Math.abs(acc) < 0.035) { acc = 0; return; }
+          if (Math.abs(acc) < 0.03) {
+            acc = 0;
+            raf = null;
+            return;
+          }
           const target = Math.max(MAP.getMinZoom(), Math.min(MAP.getMaxZoom(), MAP.getZoom() - acc));
-          const ll = lastPt ? MAP.containerPointToLatLng(lastPt) : MAP.getCenter();
-          MAP.flyTo(ll, target, { animate: true, duration: 0.18, easeLinearity: 0.5, noMoveStart: true });
-          acc = 0; raf = null;
+          /* Zoom centré pour éviter les déplacements brusques au pinch 2 doigts. */
+          MAP.setZoom(target, { animate: true });
+          acc = 0;
+          raf = null;
         });
       },
       { passive: false }

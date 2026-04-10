@@ -27,6 +27,7 @@ const jsFiles = [
   "assets/js/pedagogy-bundle.js",
   "assets/js/map-core.js",
   "assets/js/map-ui.js",
+  "assets/js/slideshow.js",
   "assets/js/app-pro.js",
   "assets/js/pedagogie.js",
 ];
@@ -106,11 +107,18 @@ const reScript = /<script[^>]+src="([^"]+)"/g;
 while ((m = reScript.exec(indexHtml)) !== null) {
   if (!m[1].includes("cdn.jsdelivr")) scriptOrder.push(m[1]);
 }
-const expected = ["assets/js/data.js", "assets/js/pedagogy-bundle.js", "assets/js/map-core.js", "assets/js/map-ui.js", "assets/js/app-pro.js"];
+const expected = [
+  "assets/js/data.js",
+  "assets/js/pedagogy-bundle.js",
+  "assets/js/map-core.js",
+  "assets/js/map-ui.js",
+  "assets/js/slideshow.js",
+  "assets/js/app-pro.js",
+];
 if (JSON.stringify(scriptOrder) !== JSON.stringify(expected)) {
   fail(`ordre des scripts : attendu ${JSON.stringify(expected)}, obtenu ${JSON.stringify(scriptOrder)}`);
 } else {
-  ok("index.html : ordre des scripts data → pedagogy → core → ui → app-pro");
+  ok("index.html : ordre des scripts data → pedagogy → core → ui → slideshow → app-pro");
 }
 
 /* ── 6. Sections SPA vs app-pro.js ── */

@@ -3,9 +3,14 @@
   "private": true,
   "scripts": {
     "test": "node scripts/run-all-tests.mjs",
-    "test:e2e": "PLAYWRIGHT_BROWSERS_PATH=0 playwright test",
+    "test:e2e": "playwright test",
+    "test:e2e:install": "playwright install",
     "test:all": "npm run test && npm run test:e2e",
-    "start": "bash scripts/dev.sh",
+    "start": "node scripts/serve-open.js",
+    "startmap": "node scripts/serve-open.js",
+    "serve": "node scripts/serve-open.js",
+    "serve:py": "python3 -m http.server 8080 --bind 127.0.0.1",
+    "start:check": "bash scripts/dev.sh",
     "dev": "bash scripts/dev.sh"
   },
   "devDependencies": {

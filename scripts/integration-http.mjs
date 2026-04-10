@@ -70,7 +70,7 @@ try {
   const html = await rIndex.text();
   if (!html.includes("assets/js/pedagogy-bundle.js")) throw new Error("HTML sans pedagogy-bundle.js");
   if (!html.includes('id="modal-overlay"')) throw new Error("HTML sans modale");
-  if (!html.includes('id="parcours-count"')) throw new Error("HTML sans parcours");
+  if (!html.includes('class="site-footer"')) throw new Error("HTML sans footer");
   ok("GET /index.html : structure SPA + scripts attendus");
 
   const rJson = await fetch(base + "/assets/data/editorial.json");
@@ -84,6 +84,7 @@ try {
     "/assets/js/pedagogy-bundle.js",
     "/assets/js/map-core.js",
     "/assets/js/map-ui.js",
+    "/assets/js/slideshow.js",
     "/assets/js/app-pro.js",
     "/sw.js",
     "/assets/css/common.css",

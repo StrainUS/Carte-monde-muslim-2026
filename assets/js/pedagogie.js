@@ -1,55 +1,93 @@
 /**
- * Diaporama pédagogique : navigation clavier et points.
+ * Page pédagogique : diaporama (IslamMapSlideshow) + ancres + fallback images.
  */
 (function () {
   "use strict";
 
-  const slides = Array.from(document.querySelectorAll(".slide"));
-  const dotsWrap = document.getElementById("slide-dots");
-  const prevBtn = document.getElementById("slide-prev");
-  const nextBtn = document.getElementById("slide-next");
-  const counter = document.getElementById("slide-counter");
-  const root = document.getElementById("slideshow");
-
-  if (!slides.length || !root) return;
-
-  let index = 0;
-
-  function show(i) {
-    index = (i + slides.length) % slides.length;
-    slides.forEach((s, j) => s.classList.toggle("is-active", j === index));
-    if (dotsWrap) {
-      dotsWrap.querySelectorAll("button").forEach((b, j) => {
-        b.setAttribute("aria-current", j === index ? "true" : "false");
-      });
-    }
-    if (counter) counter.textContent = index + 1 + " / " + slides.length;
-  }
-
-  if (dotsWrap) {
-    slides.forEach((_, j) => {
-      const b = document.createElement("button");
-      b.type = "button";
-      b.setAttribute("aria-label", "Diapositive " + (j + 1));
-      b.addEventListener("click", () => show(j));
-      dotsWrap.appendChild(b);
+  function resolveSlideImageUrls() {
+    var base = document.baseURI || location.href;
+    document.querySelectorAll("#slideshow .slide-figure img[src]").forEach(function (img) {
+      var raw = img.getAttribute("src");
+      if (!raw || /^[a-z][a-z0-9+.-]*:/i.test(raw)) return;
+      try {
+        var abs = new URL(raw, base).href;
+        if (img.src !== abs) img.src = abs;
+      } catch (_) {}
     });
   }
 
-  prevBtn?.addEventListener("click", () => show(index - 1));
-  nextBtn?.addEventListener("click", () => show(index + 1));
+  function enhancePedagogyDots() {
+    document.querySelectorAll("#slide-dots button").forEach(function (b, j) {
+      b.classList.add("slide-dot-num");
+      b.textContent = String(j + 1);
+      b.setAttribute("aria-label", "Écran " + (j + 1));
+    });
+  }
 
-  root.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowLeft") {
-      e.preventDefault();
-      show(index - 1);
+  function updateSlideChrome(index, slideEl) {
+    var root = document.getElementById("slideshow");
+    if (!root) return;
+    var slides = root.querySelectorAll(".slide");
+    var n = slides.length || 8;
+    var fill = document.getElementById("slide-progress-fill");
+    if (fill) fill.style.width = ((index + 1) / n) * 100 + "%";
+    var live = document.getElementById("slide-live-title");
+    if (live && slideEl) {
+      var h = slideEl.querySelector("h3");
+      live.textContent = h ? h.textContent : "";
     }
-    if (e.key === "ArrowRight") {
-      e.preventDefault();
-      show(index + 1);
-    }
-  });
+  }
 
-  root.setAttribute("tabindex", "0");
-  show(0);
+  function initInstantAnchors() {
+    document.querySelectorAll('a[href^="#"]').forEach((a) => {
+      const href = a.getAttribute("href") || "";
+      if (href.length < 2) return;
+      const id = href.slice(1);
+      a.addEventListener("click", (e) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        e.preventDefault();
+        el.scrollIntoView({ behavior: "auto", block: "start" });
+        try {
+          history.replaceState(null, "", href);
+        } catch (_) {}
+      });
+    });
+  }
+
+  function initImgFallback() {
+    document.querySelectorAll(".slide-figure img").forEach((img) => {
+      img.addEventListener("error", function () {
+        const fig = img.closest(".slide-figure");
+        if (!fig || fig.querySelector(".img-fallback")) return;
+        const p = document.createElement("p");
+        p.className = "img-fallback";
+        p.style.cssText =
+          "padding:20px;text-align:center;color:var(--muted);font-size:13px;line-height:1.5";
+        p.innerHTML =
+          "Illustration non chargée. Utilisez un serveur local (<code>npm start</code>) ou rafraîchissez après mise à jour : le cache PWA peut garder une ancienne liste de fichiers — videz le cache du site ou désinscrivez le service worker.";
+        fig.appendChild(p);
+        img.style.display = "none";
+      });
+    });
+  }
+
+  resolveSlideImageUrls();
+
+  if (window.IslamMapSlideshow && document.getElementById("slideshow")) {
+    window.IslamMapSlideshow.init({
+      rootId: "slideshow",
+      prevId: "slide-prev",
+      nextId: "slide-next",
+      counterId: "slide-counter",
+      dotsId: "slide-dots",
+      onChange: function (i, el) {
+        updateSlideChrome(i, el);
+      },
+    });
+    enhancePedagogyDots();
+  }
+
+  initInstantAnchors();
+  initImgFallback();
 })();

@@ -49,6 +49,10 @@
   function openModal(name) {
     const d = DATA[name];
     if (!d) return;
+    if (isMapFullscreen()) {
+      openFullscreenPopup(name, d);
+      return;
+    }
 
     const mT = (d.p * d.m) / 100;
     const sAbs = ((mT * d.s) / 100).toFixed(1);
@@ -204,6 +208,41 @@
     requestAnimationFrame(() => {
       if (closeBtn && typeof closeBtn.focus === "function") closeBtn.focus();
     });
+  }
+
+  function openFullscreenPopup(name, d) {
+    const sn = D.SECURITY_NOTES && D.SECURITY_NOTES[name];
+    const mT = (d.p * d.m) / 100;
+    const box = document.getElementById("map-fs-popup");
+    const content = document.getElementById("map-fs-popup-content");
+    if (!box || !content) return;
+
+    content.innerHTML = `
+      <h3 class="map-fs-title">${escapeHtml(name)}</h3>
+      <p class="map-fs-sub">📍 ${escapeHtml(d.r)} · détail pays en mode carte agrandie</p>
+      <div class="map-fs-grid">
+        <div class="map-fs-card"><b>Population</b><span>${d.p} M</span></div>
+        <div class="map-fs-card"><b>Part musulmane</b><span>${d.m} % (${mT.toFixed(1)} M)</span></div>
+        <div class="map-fs-card"><b>Sunnites</b><span>${d.s} %</span></div>
+        <div class="map-fs-card"><b>Chiites</b><span>${d.h} %</span></div>
+      </div>
+      <div class="map-fs-block"><strong>Lecture :</strong> ${escapeHtml(d.n)}</div>
+      ${sn && sn.conflit ? `<div class="map-fs-block"><strong>Conflit / géopolitique :</strong> ${escapeHtml(sn.conflit)}</div>` : ""}
+      ${sn && sn.terrorisme ? `<div class="map-fs-block"><strong>Terrorisme (synthèse) :</strong> ${escapeHtml(sn.terrorisme)}</div>` : ""}
+      ${sn && sn.france ? `<div class="map-fs-block"><strong>Angle France :</strong> ${escapeHtml(sn.france)}</div>` : ""}
+      <div class="map-fs-block"><strong>Sources :</strong> voir <a href="#sources">section Sources</a> pour les références officielles.</div>
+    `;
+
+    box.classList.add("open");
+    box.setAttribute("aria-hidden", "false");
+    content.scrollTop = 0;
+  }
+
+  function closeFullscreenPopup() {
+    const box = document.getElementById("map-fs-popup");
+    if (!box) return;
+    box.classList.remove("open");
+    box.setAttribute("aria-hidden", "true");
   }
 
   function closeModal() {
@@ -414,16 +453,103 @@
     else document.exitFullscreen();
   }
 
+  function fullscreenElement() {
+    return document.fullscreenElement || document.webkitFullscreenElement || null;
+  }
+
+  function requestFullscreenSafe(el) {
+    if (!el) return Promise.resolve(false);
+    if (el.requestFullscreen) return el.requestFullscreen().then(() => true).catch(() => false);
+    if (el.webkitRequestFullscreen) {
+      try {
+        el.webkitRequestFullscreen();
+        return Promise.resolve(true);
+      } catch (_) {
+        return Promise.resolve(false);
+      }
+    }
+    return Promise.resolve(false);
+  }
+
+  function exitFullscreenSafe() {
+    if (document.exitFullscreen) return document.exitFullscreen().catch(() => {});
+    if (document.webkitExitFullscreen) {
+      try {
+        document.webkitExitFullscreen();
+      } catch (_) {}
+    }
+  }
+
+  function isMapFullscreen() {
+    const fs = fullscreenElement();
+    const wrap = document.getElementById("map-wrap");
+    return !!(fs && wrap && fs === wrap);
+  }
+
+  function updateMapExpandButton() {
+    const btn = document.getElementById("nav-expand");
+    if (!btn) return;
+    const active = isMapFullscreen();
+    btn.textContent = active ? "🗗" : "⛶";
+    btn.title = active ? "Quitter le mode agrandi" : "Agrandir la carte";
+    btn.setAttribute("aria-label", btn.title);
+    btn.classList.toggle("is-active", active);
+  }
+
+  function toggleMapFullscreen() {
+    const wrap = document.getElementById("map-wrap");
+    if (!wrap) return;
+    if (isMapFullscreen()) {
+      exitFullscreenSafe();
+      return;
+    }
+    requestFullscreenSafe(wrap).then((ok) => {
+      if (!ok) {
+        /* Fallback si le navigateur bloque le fullscreen de l'élément. */
+        if (!presentMode) togglePresent();
+        window.scrollTo({ top: 0, behavior: "auto" });
+      }
+      setTimeout(() => MAP.invalidateSize(), 120);
+      updateMapExpandButton();
+    });
+  }
+
   /* ══════════════════════════════════════
      BINDINGS
   ══════════════════════════════════════ */
   function bindNavButtons() {
     document.getElementById("nav-zoom-in")?.addEventListener("click", () => MAP.zoomIn());
     document.getElementById("nav-zoom-out")?.addEventListener("click", () => MAP.zoomOut());
+    document.getElementById("nav-expand")?.addEventListener("click", toggleMapFullscreen);
     document.getElementById("nav-world")?.addEventListener("click", () => MAP.setView([20, 15], 2));
     document.getElementById("nav-me")?.addEventListener("click", () => MAP.setView([27, 42], 4));
     document.getElementById("nav-af")?.addEventListener("click", () => MAP.setView([8, 20], 3));
     document.getElementById("nav-as")?.addEventListener("click", () => MAP.setView([25, 82], 3));
+  }
+
+  function bindFullscreenPopup() {
+    const closeBtn = document.getElementById("map-fs-popup-close");
+    const handle = document.getElementById("map-fs-popup-handle");
+    const content = document.getElementById("map-fs-popup-content");
+    if (closeBtn) closeBtn.addEventListener("click", closeFullscreenPopup);
+    if (!handle) return;
+
+    let startY = 0;
+    let moved = false;
+    handle.addEventListener("touchstart", (e) => {
+      moved = false;
+      startY = e.touches && e.touches[0] ? e.touches[0].clientY : 0;
+    }, { passive: true });
+    handle.addEventListener("touchmove", (e) => {
+      if (!startY) return;
+      const y = e.touches && e.touches[0] ? e.touches[0].clientY : 0;
+      if (y - startY > 28 && (!content || content.scrollTop <= 0)) moved = true;
+    }, { passive: true });
+    handle.addEventListener("touchend", () => {
+      if (moved) closeFullscreenPopup();
+      startY = 0;
+      moved = false;
+    });
   }
 
   function bindTopbar() {
@@ -562,6 +688,13 @@
   window.addEventListener("resize", () => MAP.invalidateSize());
 
   document.addEventListener("fullscreenchange", () => {
+    if (!isMapFullscreen()) closeFullscreenPopup();
+    updateMapExpandButton();
+    setTimeout(() => MAP.invalidateSize(), 120);
+  });
+  document.addEventListener("webkitfullscreenchange", () => {
+    if (!isMapFullscreen()) closeFullscreenPopup();
+    updateMapExpandButton();
     setTimeout(() => MAP.invalidateSize(), 120);
   });
 
@@ -577,6 +710,8 @@
     bindSearch();
     bindQuizBoxDelegation();
     bindModal();
+    bindFullscreenPopup();
+    updateMapExpandButton();
   }
 
   /* Carte prête : redimensionner Leaflet + hotspots terrorisme (cercles indicatifs) */

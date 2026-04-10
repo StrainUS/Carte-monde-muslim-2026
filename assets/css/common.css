@@ -38,6 +38,8 @@ html {
   /* Évite le zoom auto iOS sur les champs ; taille de texte lisible partout */
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  /* Jamais de défilement « fluide » au clic ancre / changement d’onglet */
+  scroll-behavior: auto;
 }
 
 body {

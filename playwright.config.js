@@ -1,8 +1,4 @@
 // @ts-check
-/* Navigateurs dans node_modules (reproductible Mac/Win/Linux après `npx playwright install`) */
-if (process.env.PLAYWRIGHT_BROWSERS_PATH === undefined) {
-  process.env.PLAYWRIGHT_BROWSERS_PATH = "0";
-}
 const { defineConfig, devices } = require("@playwright/test");
 
 const PORT = process.env.E2E_PORT || 5876;
