@@ -67,21 +67,10 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font-body);co
   position:absolute;top:calc(100% + 4px);left:0;right:0;
   background:#151e33;border:1px solid var(--border-hi);border-radius:var(--radius);
   z-index:2000;max-height:200px;overflow-y:auto;
-  box-shadow:0 16px 48px rgba(0,0,0,.65);
-  display:none;
-  transform-origin:top center;
-  animation:none
+  box-shadow:0 16px 48px rgba(0,0,0,.65);display:none
 }
-#search-drop.open{display:block;animation:dropIn .15s ease}
-@keyframes dropIn{from{opacity:0;transform:scaleY(.92)}to{opacity:1;transform:scaleY(1)}}
-.drop-item{
-  /* reset bouton */
-  appearance:none;-webkit-appearance:none;
-  border:none;background:transparent;width:100%;text-align:left;
-  /* styles */
-  padding:7px 11px;cursor:pointer;font-size:12px;font-family:var(--font-body);
-  color:var(--text);display:flex;align-items:center;gap:8px;transition:background .15s
-}
+#search-drop.open{display:block}
+.drop-item{padding:7px 11px;cursor:pointer;font-size:12px;display:flex;align-items:center;gap:8px;transition:background .15s}
 .drop-item:hover{background:rgba(255,255,255,.07)}
 .drop-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .drop-meta{color:var(--muted);font-size:10px;margin-left:auto;white-space:nowrap}
@@ -144,13 +133,12 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font-body);co
 .rank-val{font-size:10px;color:var(--muted);white-space:nowrap;flex-shrink:0}
 
 /* ─── MAP AREA ─── */
-#map-wrap{flex:1;position:relative;overflow:hidden;touch-action:none;overscroll-behavior:none}
-#map{width:100%;height:100%;background:#06090f;cursor:grab}
-#map:active{cursor:grabbing}
+#map-wrap{flex:1;position:relative;overflow:hidden;touch-action:none}
+#map{width:100%;height:100%;background:#06090f}
 /* Basemap: sombre désaturé */
 .leaflet-tile-pane{filter:brightness(.4) saturate(.2) hue-rotate(210deg)}
-/* GPU layers — évite le repaint à chaque frame */
-.leaflet-layer,.leaflet-zoom-animated,.leaflet-tile-container{will-change:transform;transform:translateZ(0)}
+/* GPU layers */
+.leaflet-layer,.leaflet-zoom-animated{will-change:transform}
 /* Masquer contrôles natifs Leaflet */
 .leaflet-control-zoom,.leaflet-control-attribution{display:none!important}
 
@@ -163,14 +151,15 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font-body);co
 }
 .nav-btn:hover{border-color:var(--gold);color:var(--gold)}
 
-/* Bouton rétractation panneau droit — collé au bord droit du map-wrap */
+/* Bouton rétractation panneau droit */
 #right-toggle{
-  position:absolute;right:0;top:50%;transform:translateY(-50%);
+  position:absolute;right:240px;top:50%;transform:translateY(-50%);
   z-index:600;background:var(--surface);border:1px solid var(--border);border-right:none;
   color:var(--muted);width:16px;height:46px;cursor:pointer;
   border-radius:7px 0 0 7px;display:flex;align-items:center;justify-content:center;
-  font-size:9px
+  font-size:9px;transition:right .28s ease
 }
+#right-toggle.collapsed{right:0}
 
 /* Quiz flottant */
 #quiz-box{
@@ -183,12 +172,9 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font-body);co
 #quiz-question{font-size:13px;margin-bottom:9px;font-weight:500;line-height:1.5}
 .quiz-options{display:flex;flex-wrap:wrap;gap:6px}
 .quiz-opt{
-  /* reset bouton natif */
-  appearance:none;-webkit-appearance:none;
-  /* styles */
   background:rgba(255,255,255,.06);border:1px solid var(--border);
   padding:5px 10px;border-radius:6px;font-size:11px;cursor:pointer;
-  transition:.18s;font-family:var(--font-body);color:var(--text)
+  transition:.18s;font-family:var(--font-body)
 }
 .quiz-opt:hover{border-color:var(--gold);color:var(--gold)}
 .quiz-opt.correct{background:rgba(27,138,48,.25);border-color:var(--sunni-hi);color:var(--sunni-hi)}
@@ -203,13 +189,12 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font-body);co
 #stats-bar{
   height:48px;flex-shrink:0;
   background:var(--surface);border-top:1px solid var(--border);
-  display:flex;align-items:center;overflow-x:auto;
-  -webkit-overflow-scrolling:touch;scrollbar-width:none
+  display:flex;align-items:center;overflow-x:auto
 }
-#stats-bar::-webkit-scrollbar{display:none}
+#stats-bar::-webkit-scrollbar{height:0}
 .stat-block{
   display:flex;flex-direction:column;align-items:center;
-  padding:0 16px;border-right:1px solid var(--border);white-space:nowrap;flex-shrink:0;min-width:0
+  padding:0 16px;border-right:1px solid var(--border);white-space:nowrap;flex-shrink:0
 }
 .stat-block:last-child{border-right:none}
 .stat-value{font-family:var(--font-head);font-size:13px;color:var(--gold)}
@@ -286,118 +271,6 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font-body);co
   #panel-right,#right-toggle{display:none!important}
   #btn-mobile-menu{display:flex!important}
 }
-
-/* ─── SAVOIR OVERLAY ─── */
-#savoir-overlay{
-  position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:4000;
-  display:none;align-items:flex-start;justify-content:center;
-  backdrop-filter:blur(6px);padding:20px 16px;overflow-y:auto
-}
-#savoir-overlay.open{display:flex}
-#savoir-box{
-  background:#0b1120;border:1px solid rgba(201,168,76,.28);border-radius:16px;
-  width:min(820px,98vw);position:relative;
-  box-shadow:0 60px 120px rgba(0,0,0,.9);flex-shrink:0
-}
-#savoir-close{
-  position:absolute;top:14px;right:14px;background:rgba(255,255,255,.07);
-  border:1px solid var(--border);color:var(--text);width:28px;height:28px;
-  border-radius:50%;cursor:pointer;font-size:13px;
-  display:flex;align-items:center;justify-content:center;z-index:10
-}
-#savoir-close:hover{background:rgba(194,40,40,.35)}
-/* Tabs */
-#savoir-tabs{
-  display:flex;gap:0;border-bottom:1px solid var(--border);
-  padding:0 20px;overflow-x:auto;scrollbar-width:none
-}
-#savoir-tabs::-webkit-scrollbar{display:none}
-.stab{
-  padding:14px 16px;font-size:12px;color:var(--muted);cursor:pointer;
-  border-bottom:2px solid transparent;transition:.18s;white-space:nowrap;
-  font-family:var(--font-body);background:none;border-top:none;border-left:none;border-right:none
-}
-.stab:hover{color:var(--text)}
-.stab.active{color:var(--gold);border-bottom-color:var(--gold)}
-/* Content */
-#savoir-content{padding:24px 24px 28px}
-.savoir-section{display:none}
-.savoir-section.active{display:block}
-/* Header */
-.sk-head{font-family:var(--font-head);font-size:18px;color:var(--gold);margin-bottom:6px}
-.sk-sub{font-size:11px;color:var(--muted);margin-bottom:20px;line-height:1.6}
-/* Timeline */
-.timeline{position:relative;padding-left:28px;margin:8px 0}
-.timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:rgba(201,168,76,.2)}
-.tl-item{position:relative;margin-bottom:20px}
-.tl-dot{
-  position:absolute;left:-24px;top:3px;width:12px;height:12px;
-  border-radius:50%;border:2px solid var(--gold);background:var(--bg);flex-shrink:0
-}
-.tl-dot.red{border-color:#c62828;background:rgba(194,40,40,.3)}
-.tl-dot.blue{border-color:var(--shia-hi);background:rgba(20,86,200,.3)}
-.tl-dot.green{border-color:var(--sunni-hi);background:rgba(27,122,46,.3)}
-.tl-year{font-size:10px;color:var(--gold);font-weight:700;letter-spacing:1px;margin-bottom:3px}
-.tl-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px}
-.tl-body{font-size:11px;color:var(--muted);line-height:1.75}
-/* Fiche thématique */
-.theme-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}
-@media(max-width:600px){.theme-grid{grid-template-columns:1fr}}
-.theme-card{
-  background:rgba(255,255,255,.03);border:1px solid var(--border);
-  border-radius:10px;padding:14px;cursor:pointer;transition:.18s
-}
-.theme-card:hover{border-color:rgba(201,168,76,.4);background:rgba(201,168,76,.05)}
-.theme-card-icon{font-size:20px;margin-bottom:6px}
-.theme-card-title{font-size:12px;font-weight:600;color:var(--gold);margin-bottom:4px}
-.theme-card-desc{font-size:11px;color:var(--muted);line-height:1.6}
-/* Article détaillé */
-.article-overlay{
-  position:absolute;inset:0;background:#0b1120;border-radius:16px;
-  z-index:20;display:none;overflow-y:auto;padding:24px
-}
-.article-overlay.open{display:block}
-.article-back{
-  display:flex;align-items:center;gap:8px;background:none;border:none;
-  color:var(--muted);font-size:12px;cursor:pointer;font-family:var(--font-body);
-  margin-bottom:16px;padding:0;transition:color .18s
-}
-.article-back:hover{color:var(--gold)}
-.article-head{font-family:var(--font-head);font-size:16px;color:var(--gold);margin-bottom:4px}
-.article-src{font-size:10px;color:var(--muted);margin-bottom:18px;line-height:1.7}
-.article-body{font-size:12px;color:var(--text);line-height:1.9}
-.article-body h3{font-size:12px;color:var(--gold);margin:16px 0 6px;letter-spacing:.5px;text-transform:uppercase}
-.article-body p{margin-bottom:10px}
-.article-body strong{color:var(--text)}
-.article-body em{color:var(--muted);font-style:normal}
-/* Conflict deep */
-.conflict-deep{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}
-.conflict-deep:last-child{border:none;margin-bottom:0}
-.cd-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.cd-flag{font-size:20px}
-.cd-title{font-size:14px;font-weight:600;color:var(--text)}
-.cd-level{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600}
-.cd-level.l3{background:rgba(194,40,40,.2);color:#ef5350;border:1px solid #c62828}
-.cd-level.l2{background:rgba(220,88,0,.2);color:#ffb74d;border:1px solid #e65100}
-.cd-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px}
-@media(max-width:600px){.cd-grid{grid-template-columns:1fr}}
-.cd-card{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:7px;padding:9px}
-.cd-card-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
-.cd-card-val{font-size:11px;color:var(--text);line-height:1.5}
-.cd-analysis{font-size:11px;color:var(--muted);line-height:1.8}
-/* Sources */
-.source-item{display:flex;flex-direction:column;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04)}
-.source-item:last-child{border:none}
-.source-title{font-size:12px;font-weight:600;color:var(--text);margin-bottom:3px}
-.source-meta{font-size:10px;color:var(--muted);line-height:1.7}
-.source-tag{display:inline-block;background:rgba(201,168,76,.12);color:var(--gold);border:1px solid rgba(201,168,76,.25);font-size:9px;padding:1px 7px;border-radius:10px;margin-right:4px;font-weight:600}
-/* Modal tabs */
-.modal-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin:-4px 0 14px}
-.mtab{padding:8px 14px;font-size:11px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:.15s;background:none;border-top:none;border-left:none;border-right:none;font-family:var(--font-body)}
-.mtab:hover{color:var(--text)}
-.mtab.active{color:var(--gold);border-bottom-color:var(--gold)}
-.modal-tab-content{display:none}
-.modal-tab-content.active{display:block}
 </style>
 </head>
 <body>
@@ -420,14 +293,12 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font-body);co
   <div class="divider"></div>
   <div id="search-wrap">
     <input id="search-input" type="text" placeholder="🔍 Rechercher un pays…"
-      role="combobox" aria-autocomplete="list" aria-controls="search-drop" aria-expanded="false"
       oninput="onSearch(this.value)"
-      onblur="setTimeout(()=>{document.getElementById('search-drop').classList.remove('open');document.getElementById('search-drop').setAttribute('aria-expanded','false');document.getElementById('search-input').setAttribute('aria-expanded','false')},200)">
-    <div id="search-drop" role="listbox" aria-label="Résultats de recherche" aria-expanded="false"></div>
+      onblur="setTimeout(()=>document.getElementById('search-drop').classList.remove('open'),200)">
+    <div id="search-drop"></div>
   </div>
   <div class="spacer"></div>
   <button class="tb-btn" id="btn-conflicts" onclick="toggleLayer('conflict')">⚡ Conflits</button>
-  <button class="tb-btn" id="btn-savoir"    onclick="toggleSavoir()">📖 Savoir</button>
   <button class="tb-btn" id="btn-quiz"      onclick="toggleQuiz()">📝 Quiz</button>
   <button class="tb-btn" id="btn-present"   onclick="togglePresent()">🎬 Présentation</button>
   <button class="tb-btn" onclick="window.print()">🖨 Exporter</button>
@@ -508,7 +379,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font-body);co
     </div>
 
     <!-- Toggle panneau droit -->
-    <button id="right-toggle" onclick="toggleRight()" aria-expanded="true" title="Masquer/afficher le panneau droit">◀</button>
+    <button id="right-toggle" onclick="toggleRight()" title="Masquer/afficher le panneau">◀</button>
 
     <!-- Quiz -->
     <div id="quiz-box">
@@ -587,222 +458,17 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font-body);co
     <button id="modal-close" onclick="closeModal()">✕</button>
     <div id="modal-name"></div>
     <div id="modal-region"></div>
-    <!-- Tabs modal pays -->
-    <div class="modal-tabs">
-      <button class="mtab active" onclick="switchModalTab('data',this)">📊 Données</button>
-      <button class="mtab" onclick="switchModalTab('history',this)">📜 Histoire</button>
-      <button class="mtab" onclick="switchModalTab('conflict',this)">⚡ Conflit</button>
+    <div class="modal-grid" id="modal-cards"></div>
+    <div id="modal-donut-wrap">
+      <canvas id="modal-canvas" width="106" height="106"></canvas>
+      <div class="modal-pie-legend" id="modal-pie-legend"></div>
     </div>
-    <!-- Tab Données -->
-    <div class="modal-tab-content active" id="mtab-data">
-      <div class="modal-grid" id="modal-cards"></div>
-      <div id="modal-donut-wrap">
-        <canvas id="modal-canvas" width="106" height="106"></canvas>
-        <div class="modal-pie-legend" id="modal-pie-legend"></div>
-      </div>
-      <div id="modal-bars"></div>
-    </div>
-    <!-- Tab Histoire -->
-    <div class="modal-tab-content" id="mtab-history">
-      <div id="modal-history-content"></div>
-    </div>
-    <!-- Tab Conflit -->
-    <div class="modal-tab-content" id="mtab-conflict">
-      <div id="modal-conflict"></div>
-      <div class="modal-note" id="modal-note"></div>
-    </div>
+    <div id="modal-bars"></div>
+    <div id="modal-conflict"></div>
+    <div class="modal-note" id="modal-note"></div>
     <div class="modal-source" id="modal-source"></div>
   </div>
 </div>
-
-<!-- SAVOIR OVERLAY -->
-<div id="savoir-overlay" onclick="if(event.target===this)toggleSavoir()">
-  <div id="savoir-box">
-    <button id="savoir-close" onclick="toggleSavoir()">✕</button>
-
-    <!-- Article detail overlay (sits inside savoir-box) -->
-    <div class="article-overlay" id="article-overlay">
-      <button class="article-back" onclick="closeArticle()">← Retour</button>
-      <div class="article-head" id="article-head"></div>
-      <div class="article-src" id="article-src"></div>
-      <div class="article-body" id="article-body"></div>
-    </div>
-
-    <!-- Tabs -->
-    <div id="savoir-tabs">
-      <button class="stab active" onclick="switchSavoirTab('origines',this)">🕌 Origines</button>
-      <button class="stab" onclick="switchSavoirTab('courants',this)">☪ Courants</button>
-      <button class="stab" onclick="switchSavoirTab('conflits',this)">⚔ Conflits</button>
-      <button class="stab" onclick="switchSavoirTab('geopolitique',this)">🌐 Géopolitique</button>
-      <button class="stab" onclick="switchSavoirTab('glossaire',this)">📚 Glossaire</button>
-      <button class="stab" onclick="switchSavoirTab('sources',this)">🔬 Sources</button>
-    </div>
-
-    <div id="savoir-content">
-
-      <!-- ═══ ORIGINES ═══ -->
-      <div class="savoir-section active" id="ss-origines">
-        <div class="sk-head">Origines de la division sunnite–chiite</div>
-        <div class="sk-sub">Comment la mort d'un homme en 632 après J.-C. a divisé 2 milliards de croyants pour quatorze siècles — et déclenché des guerres jusqu'à aujourd'hui.</div>
-        <div class="timeline">
-
-          <div class="tl-item">
-            <div class="tl-dot green"></div>
-            <div class="tl-year">570 EC</div>
-            <div class="tl-title">Naissance de Muhammad ibn Abdallah</div>
-            <div class="tl-body">À La Mecque (Arabie), dans le clan Hashim de la tribu Quraych. Orphelin très jeune, commerçant, marié à Khadija. Aucun successeur désigné de son vivant — cette absence sera la source de tout.</div>
-          </div>
-
-          <div class="tl-item">
-            <div class="tl-dot green"></div>
-            <div class="tl-year">610 EC</div>
-            <div class="tl-title">Première révélation — naissance de l'Islam</div>
-            <div class="tl-body">Dans la grotte de Hirâ, Muhammad reçoit la première sourate du Coran (al-Alaq). Début de la prédication monothéiste contre l'ordre polythéiste mecquois. Sa femme Khadija et son cousin <strong>Ali ibn Abi Talib</strong> sont parmi les tout premiers convertis.</div>
-          </div>
-
-          <div class="tl-item">
-            <div class="tl-dot green"></div>
-            <div class="tl-year">622 EC</div>
-            <div class="tl-title">L'Hégire — fondation de la communauté islamique (Umma)</div>
-            <div class="tl-body">Fuite de La Mecque vers Médine. Année zéro du calendrier islamique (AH). Muhammad devient à la fois prophète et chef d'État. Constitution de Médine : premier État islamique pluriconfessionnel.</div>
-          </div>
-
-          <div class="tl-item">
-            <div class="tl-dot green"></div>
-            <div class="tl-year">632 EC — 8 juin</div>
-            <div class="tl-title">⚡ Mort du Prophète — L'instant fondateur de la division</div>
-            <div class="tl-body"><strong>Muhammad meurt sans désigner explicitement de successeur.</strong> Deux camps se forment immédiatement :
-            <br><br>🟢 <strong>Camp Abu Bakr</strong> (futur sunnisme) : le successeur doit être élu par consensus (shura) parmi les compagnons. Abu Bakr, beau-père du Prophète et ami intime, est choisi 1er calife.
-            <br><br>🔵 <strong>Camp Ali</strong> (futur chiisme) : le successeur doit être désigné par le sang prophétique. Ali ibn Abi Talib — cousin, gendre et père des seuls descendants du Prophète — est le seul légitime. Ils invoquent le discours de Ghadir Khumm où Muhammad aurait dit : <em>"Celui dont je suis le maître (mawla), Ali est aussi son maître."</em></div>
-          </div>
-
-          <div class="tl-item">
-            <div class="tl-dot"></div>
-            <div class="tl-year">632–661 EC</div>
-            <div class="tl-title">Les quatre califes "bien guidés" (Rachidoun)</div>
-            <div class="tl-body">Abu Bakr (632–634) → Omar ibn al-Khattab (634–644) → Othman ibn Affan (644–656) → Ali ibn Abi Talib (656–661). Ali ne devient calife qu'en 4e position, après 24 ans d'attente. Othman et Ali sont tous deux assassinés. <strong>Ali est poignardé à la mosquée de Koufa (Irak) en 661 par un kharijite.</strong></div>
-          </div>
-
-          <div class="tl-item">
-            <div class="tl-dot red"></div>
-            <div class="tl-year">680 EC — 10 octobre</div>
-            <div class="tl-title">🩸 Bataille de Kerbala — Traumatisme fondateur du chiisme</div>
-            <div class="tl-body"><strong>Hussein ibn Ali</strong>, fils d'Ali et petit-fils du Prophète, refuse de prêter allégeance au calife omeyyade Yazid ibn Muawiya (qu'il juge illégitime et impie). Il marche sur Koufa avec 72 compagnons et membres de sa famille.
-            <br><br>L'armée omeyyade de 4 000 hommes les encercle dans le désert de Kerbala (actuel Irak). Après 10 jours de siège, Hussein et ses hommes sont massacrés. Sa tête est envoyée à Damas.
-            <br><br><em>Chaque année, l'Achoura commémore ce massacre : processions de deuil, flagellations rituelles dans certaines communautés chiites. Ce traumatisme est aussi présent dans la psyché chiite que la Croix dans le christianisme.</em></div>
-          </div>
-
-          <div class="tl-item">
-            <div class="tl-dot"></div>
-            <div class="tl-year">VIII–X siècles</div>
-            <div class="tl-title">Institutionnalisation de la fracture — Théologie et droit</div>
-            <div class="tl-body">La fracture politique se transforme en fracture théologique et juridique :
-            <br>• <strong>Sunnisme</strong> : 4 écoles juridiques (Hanafi, Maliki, Shafi'i, Hanbali). Autorité du Coran + Hadith (paroles du Prophète).
-            <br>• <strong>Chiisme imami</strong> : Imams infaillibles (12 au total) comme interprètes exclusifs de l'Islam. Le 12e Imam (Muhammad al-Mahdi) est "occulté" depuis 874 — il reviendra à la fin des temps.</div>
-          </div>
-
-          <div class="tl-item">
-            <div class="tl-dot blue"></div>
-            <div class="tl-year">1501 EC</div>
-            <div class="tl-title">Empire safavide — Le chiisme comme idéologie d'État</div>
-            <div class="tl-body">Shah Ismaïl Ier impose le chiisme duodécimain comme religion d'État en Perse (Iran actuel). <strong>Conversion forcée de la population sunnite.</strong> Naissance de l'identité nationale perse-chiite face à l'Empire ottoman sunnite. Cette ligne de fracture géopolitique Est-Ouest perdure jusqu'à aujourd'hui.</div>
-          </div>
-
-          <div class="tl-item">
-            <div class="tl-dot"></div>
-            <div class="tl-year">1744 EC</div>
-            <div class="tl-title">Pacte Wahhab-Saoud — Naissance du wahhabisme</div>
-            <div class="tl-body">Muhammad ibn Abd al-Wahhab (théologien) s'allie à Muhammad ibn Saoud (chef tribal). Doctrine : retour à un Islam puritain, destruction des sanctuaires, déclaration que chiites et soufis sont des apostats. <strong>Fondement idéologique de l'Arabie Saoudite moderne.</strong> Financé par les pétrodollars depuis 1973 → exportation mondiale.</div>
-          </div>
-
-          <div class="tl-item">
-            <div class="tl-dot red"></div>
-            <div class="tl-year">1979 EC</div>
-            <div class="tl-title">Révolution iranienne — Le chiisme reprend le pouvoir</div>
-            <div class="tl-body">L'ayatollah Khomeini renverse le Shah Reza Pahlavi (soutenu par les USA). Naissance de la première République Islamique chiite. Doctrine du <em>Velayet-e faqih</em> (gouvernement du juriste islamique). <strong>Choc géopolitique majeur</strong> : l'Arabie Saoudite voit dans cette révolution une menace existentielle → guerre froide sunni-chiite à l'échelle mondiale.</div>
-          </div>
-
-          <div class="tl-item">
-            <div class="tl-dot red"></div>
-            <div class="tl-year">1980–1988</div>
-            <div class="tl-title">Guerre Iran–Irak — 1er grand proxy war</div>
-            <div class="tl-body">Saddam Hussein (sunnite, Irak) attaque l'Iran chiite avec le soutien financier saoudien, l'armement occidental (USA, France) et soviétique. <strong>1 million de morts.</strong> Premier conflit moderne où la dimension sunni-chiite est explicitement géopolitique.</div>
-          </div>
-
-          <div class="tl-item">
-            <div class="tl-dot red"></div>
-            <div class="tl-year">2003</div>
-            <div class="tl-title">Invasion américaine de l'Irak — Boîte de Pandore</div>
-            <div class="tl-body">Renversement de Saddam Hussein. La majorité chiite (60%) prend le pouvoir. <strong>Les sunnites (35%), longtemps dominants, sont marginalisés.</strong> Terreau pour Al-Qaïda en Irak (Abu Musab al-Zarqawi) puis pour Daech (2013–2017). L'Iran étend son influence via les milices chiites (PMF). Bagdad devient un champ d'affrontement indirect Iran–Arabie Saoudite.</div>
-          </div>
-
-          <div class="tl-item">
-            <div class="tl-dot red"></div>
-            <div class="tl-year">2011</div>
-            <div class="tl-title">Printemps arabe — Révélateur des fractures</div>
-            <div class="tl-body">• <strong>Bahreïn</strong> : chiites (70%) réclament des droits → répression avec armée saoudienne.
-            <br>• <strong>Syrie</strong> : sunnites (74%) contre le régime alaouite d'Assad (12%) → guerre civile 2011–2024.
-            <br>• <strong>Yémen</strong> : Houthis zaïdis renforcés par l'Iran → conflit avec coalition saoudienne depuis 2015.</div>
-          </div>
-
-          <div class="tl-item">
-            <div class="tl-dot red"></div>
-            <div class="tl-year">2014–2017</div>
-            <div class="tl-title">Daech (ISIS) — Califat sunnite salafiste-jihadiste</div>
-            <div class="tl-body">L'État Islamique d'Irak et du Levant proclame un califat sunnite sur l'Irak et la Syrie. Massacres de chiites, yézidis, chrétiens. Attentats mondiaux. <strong>Défaite militaire en 2017</strong> mais idéologie persistante (ISWAP au Nigeria, ISIS-K en Afghanistan, ISCAP au Mozambique).</div>
-          </div>
-
-          <div class="tl-item">
-            <div class="tl-dot green"></div>
-            <div class="tl-year">2023–2026</div>
-            <div class="tl-title">Situation actuelle — Reconfiguration régionale</div>
-            <div class="tl-body">• <strong>Chute d'Assad</strong> (déc. 2024) : fin de 54 ans de pouvoir alaouite en Syrie. HTS (ex-Jabhat al-Nusra) prend Damas.
-            <br>• <strong>Accords Abraham</strong> : normalisation Israël-EAU, Bahreïn, Maroc, Soudan. Réalignement géopolitique.
-            <br>• <strong>Iran et Arabie Saoudite</strong> : accord de normalisation en 2023 (médiation chinoise) — réouverture des ambassades après 7 ans.
-            <br>• <strong>Yémen</strong> : conflit gelé/persistant malgré négociations.</div>
-          </div>
-
-        </div><!-- /timeline -->
-      </div><!-- /ss-origines -->
-
-      <!-- ═══ COURANTS ═══ -->
-      <div class="savoir-section" id="ss-courants">
-        <div class="sk-head">Les grands courants de l'Islam</div>
-        <div class="sk-sub">Sunnisme, chiisme, ibadisme, soufisme — comprendre leurs différences théologiques, juridiques et politiques.</div>
-        <div class="theme-grid" id="courants-grid"></div>
-      </div>
-
-      <!-- ═══ CONFLITS ═══ -->
-      <div class="savoir-section" id="ss-conflits">
-        <div class="sk-head">Analyse approfondie des conflits actifs 2026</div>
-        <div class="sk-sub">Causes profondes, acteurs, dimension religieuse vs géopolitique, sources officielles ONU / HRW / ICG.</div>
-        <div id="conflicts-deep-content"></div>
-      </div>
-
-      <!-- ═══ GÉOPOLITIQUE ═══ -->
-      <div class="savoir-section" id="ss-geopolitique">
-        <div class="sk-head">Géopolitique : l'Islam entre puissances et proxy wars</div>
-        <div class="sk-sub">Comment les États utilisent la religion comme outil de puissance — et pourquoi les conflits sunni-chiites sont souvent plus géopolitiques que théologiques.</div>
-        <div class="theme-grid" id="geopolitique-grid"></div>
-      </div>
-
-      <!-- ═══ GLOSSAIRE ═══ -->
-      <div class="savoir-section" id="ss-glossaire">
-        <div class="sk-head">Glossaire officiel</div>
-        <div class="sk-sub">Termes arabes, concepts théologiques et géopolitiques — définitions vérifiées par les sources académiques.</div>
-        <div id="glossaire-content"></div>
-      </div>
-
-      <!-- ═══ SOURCES ═══ -->
-      <div class="savoir-section" id="ss-sources">
-        <div class="sk-head">Sources officielles &amp; références académiques</div>
-        <div class="sk-sub">Toutes les données de cette carte sont vérifiées par des sources primaires indépendantes. Voici la liste complète avec notation et description.</div>
-        <div id="sources-content"></div>
-      </div>
-
-    </div><!-- /savoir-content -->
-  </div><!-- /savoir-box -->
-</div><!-- /savoir-overlay -->
 
 <script>
 /* ═══════════════════════════════════════════════════════════════════
@@ -1005,61 +671,45 @@ Object.entries(DATA).forEach(([name, d]) => { if (d.iso) BY_ISO[d.iso] = name; }
 
 /* ═══════════════════════ CARTE ═══════════════════════ */
 const MAP = L.map('map', {
-  center: [20, 15], zoom: 2,
-  minZoom: 1.5, maxZoom: 10,
+  center: [20, 15], zoom: 2, minZoom: 1.5, maxZoom: 10,
   zoomControl: false,
   worldCopyJump: true,
-  scrollWheelZoom: false,  /* remplacé par handler custom ci-dessous */
-  zoomSnap: 0,             /* zoom continu — pas de saut aux entiers */
-  zoomDelta: 1,
-  /* Inertie drag : décélération naturelle après relâchement */
-  inertia: true,
-  inertiaDeceleration: 3000,
-  inertiaMaxSpeed: 2000,
-  easeLinearity: 0.2
+  scrollWheelZoom: false,   /* Remplacé par smooth zoom ci-dessous */
+  zoomSnap: 0.25,
+  zoomDelta: 0.5
 });
 
 L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
   subdomains: 'abcd', maxZoom: 20
 }).addTo(MAP);
 
-/* ── ZOOM TRACKPAD / MOLETTE ─────────────────────────────────────
-   setZoomAround(pt, zoom) : le point sous le curseur reste fixe.
-   zoomSnap:0 : zoom fractionnel continu, aucun saut.
-   animate:false : rendu immédiat via GPU, pas d'animation JS.
-   ────────────────────────────────────────────────────────────── */
+/* ── SMOOTH WHEEL ZOOM — Mac M1 / trackpad fix ──
+   Accumule les micro-deltas trackpad et applique un flyTo fluide centré curseur */
 (function () {
   const el = document.getElementById('map');
-  let targetZoom = MAP.getZoom();
-  let raf = null;
-  let pt = null;
+  let acc = 0, raf = null, lastPt = null;
+
+  function normDelta(e) {
+    let d = e.deltaY;
+    if (e.deltaMode === 1) d *= 20; /* Firefox : lignes → px */
+    if (e.deltaMode === 2) d *= 200; /* pages → px */
+    return Math.abs(d) < 50 ? d * 0.038 : d * 0.0018; /* trackpad vs molette */
+  }
 
   el.addEventListener('wheel', function (e) {
     e.preventDefault();
-
-    /* Normalisation delta selon source */
-    let raw = e.deltaY;
-    if (e.deltaMode === 1) raw *= 16;   /* Firefox lignes */
-    if (e.deltaMode === 2) raw *= 400;  /* pages */
-
-    /* Courbe de sensibilité :
-       trackpad Mac  (|raw| < 50) → très doux
-       molette souris (|raw| ≥ 50) → réactive, un cran = ~0.4 zoom */
-    const factor = Math.abs(raw) < 50 ? 320 : 480;
-    targetZoom = Math.max(MAP.getMinZoom(),
-                 Math.min(MAP.getMaxZoom(), targetZoom - raw / factor));
-
-    pt = MAP.mouseEventToContainerPoint(e);
-
-    if (raf) return; /* une seule application par frame */
+    acc += normDelta(e);
+    lastPt = MAP.mouseEventToContainerPoint(e);
+    if (raf) cancelAnimationFrame(raf);
     raf = requestAnimationFrame(() => {
-      MAP.setZoomAround(pt, targetZoom, { animate: false });
-      raf = null;
+      if (Math.abs(acc) < 0.04) { acc = 0; return; }
+      const target = Math.max(MAP.getMinZoom(),
+        Math.min(MAP.getMaxZoom(), MAP.getZoom() - acc));
+      const ll = lastPt ? MAP.containerPointToLatLng(lastPt) : MAP.getCenter();
+      MAP.flyTo(ll, target, { animate: true, duration: 0.16, easeLinearity: 0.55, noMoveStart: true });
+      acc = 0; raf = null;
     });
   }, { passive: false });
-
-  /* Resync targetZoom après zoom programmatique (+/- boutons, search) */
-  MAP.on('zoomend', () => { targetZoom = MAP.getZoom(); });
 }());
 
 /* ── FIX ANTIMERIDIAN ──
@@ -1086,17 +736,16 @@ function fixGeom(g) {
 }
 
 /* ── COULEURS ── */
-const clamp = (v, lo = 0, hi = 0.95) => Math.min(hi, Math.max(lo, v));
 function countryColor(name) {
   const d = DATA[name];
   if (!d || d.m < 3) return 'rgba(255,255,255,.028)';
   const m = d.m / 100, s = d.s / 100, h = d.h / 100;
-  if (d.ib > 50)        return `rgba(106,27,154,${clamp(.22 + m * .6)})`;
-  if (h > .6)           return `rgba(11,61,138,${clamp(.26 + m * h * .9)})`;
-  if (h > .4)           return `rgba(20,86,200,${clamp(.26 + m * h * .85)})`;
-  if (h > .2 && s > .5) return `rgba(74,20,120,${clamp(.2  + m * .55)})`;
-  if (s > .8)           return `rgba(20,92,34,${clamp(.16  + m * s * .8)})`;
-  return                       `rgba(30,138,48,${clamp(.12 + m * s * .65)})`;
+  if (d.ib > 50)        return `rgba(106,27,154,${.22 + m * .6})`;
+  if (h > .6)           return `rgba(11,61,138,${.26 + m * h * .9})`;
+  if (h > .4)           return `rgba(20,86,200,${.26 + m * h * .85})`;
+  if (h > .2 && s > .5) return `rgba(74,20,120,${.2  + m * .55})`;
+  if (s > .8)           return `rgba(20,92,34,${.16  + m * s * .8})`;
+  return                       `rgba(30,138,48,${.12 + m * s * .65})`;
 }
 function conflictColor(name) {
   const d = DATA[name]; if (!d) return null;
@@ -1108,10 +757,7 @@ function conflictColor(name) {
 
 /* ── ÉTAT DES COUCHES ── */
 const LAYERS = { sunni: true, shia: true, conflict: false, labels: true };
-let geoLayer = null, conflictLayer = null;
-
-/* Labels stockés dans un LayerGroup → show/hide sans rebuild */
-const labelGroup = L.layerGroup();
+let geoLayer = null, conflictLayer = null, labelMarkers = [];
 
 /* ═══════════ CHARGEMENT GÉOJSON ═══════════ */
 async function initMap() {
@@ -1188,14 +834,13 @@ async function initMap() {
   }
 }
 
-/* ── Labels : LayerGroup → show/hide sans rebuild ── */
+/* ── Labels : utilise CENTROIDS précis en priorité ── */
 function buildLabels(nameById) {
-  /* Ne construit qu'une seule fois */
-  if (labelGroup.getLayers().length > 0) {
-    LAYERS.labels ? labelGroup.addTo(MAP) : labelGroup.remove();
-    return;
-  }
+  labelMarkers.forEach(m => MAP.removeLayer(m));
+  labelMarkers = [];
+  if (!LAYERS.labels) return;
 
+  /* Rassembler les centroïdes calculés (bounding box) par iso, pour fallback */
   const bboxById = {};
   if (geoLayer) {
     geoLayer.eachLayer(l => {
@@ -1209,6 +854,7 @@ function buildLabels(nameById) {
     if (seen.has(name)) return;
     seen.add(name);
 
+    /* Centroïde précis en priorité, bounding-box centre en fallback */
     let pos = null;
     if (CENTROIDS[name]) {
       pos = L.latLng(CENTROIDS[name][0], CENTROIDS[name][1]);
@@ -1218,11 +864,12 @@ function buildLabels(nameById) {
     }
     if (!pos) return;
 
+    /* Afficher label uniquement pour pays avec population significative */
     const d = DATA[name];
     const fontSize = d && d.m > 40 ? '10px' : '9px';
-    const opacity  = d && d.m > 5  ? '.82'  : '.48';
+    const opacity  = d && d.m > 5  ? '.82' : '.48';
 
-    labelGroup.addLayer(L.marker(pos, {
+    const m = L.marker(pos, {
       icon: L.divIcon({
         className: '',
         html: `<div style="font-family:'Inter',sans-serif;font-size:${fontSize};font-weight:600;
@@ -1233,10 +880,10 @@ function buildLabels(nameById) {
         iconSize: [0, 0], iconAnchor: [0, 0]
       }),
       interactive: false, zIndexOffset: -100
-    }));
+    });
+    m.addTo(MAP);
+    labelMarkers.push(m);
   });
-
-  if (LAYERS.labels) labelGroup.addTo(MAP);
 }
 
 /* ── Top 10 Sunnites / Chiites ── */
@@ -1355,13 +1002,6 @@ function openModal(name) {
   document.getElementById('modal-note').innerHTML = `💡 <b>Pour comprendre :</b> ${d.n}`;
   document.getElementById('modal-source').innerHTML = `📚 <b>Sources :</b> Pew Research Center 2026 · CIA World Factbook 2026 · World Population Review 2026 · UNHCR Religious Demographics`;
 
-  /* Réinitialise les onglets sur "Données" */
-  document.querySelectorAll('.mtab').forEach((b,i) => b.classList.toggle('active', i===0));
-  document.querySelectorAll('.modal-tab-content').forEach((c,i) => c.classList.toggle('active', i===0));
-
-  /* Prépare le contenu historique */
-  renderModalHistory(name);
-
   document.getElementById('modal-overlay').classList.add('open');
 }
 
@@ -1378,7 +1018,7 @@ function toggleLayer(key) {
     document.getElementById('btn-conflicts').classList.toggle('active', LAYERS.conflict);
   }
   if (key === 'labels') {
-    LAYERS.labels ? labelGroup.addTo(MAP) : labelGroup.remove();
+    labelMarkers.forEach(m => LAYERS.labels ? m.addTo(MAP) : MAP.removeLayer(m));
   }
   if ((key === 'sunni' || key === 'shia') && geoLayer) {
     geoLayer.eachLayer(layer => {
@@ -1400,15 +1040,13 @@ function onSearch(val) {
   drop.innerHTML = hits.map(name => {
     const d = DATA[name];
     const dotCol = d.ib > 50 ? '#6a1b9a' : d.h > 60 ? '#0b3d8a' : d.h > 30 ? '#1456c8' : '#1e8a30';
-    return `<button class="drop-item" role="option" onclick="selectCountry('${name}')" type="button">
+    return `<div class="drop-item" onclick="selectCountry('${name}')">
       <div class="drop-dot" style="background:${dotCol}"></div>
       <span>${name}</span>
       <span class="drop-meta">${d.m} % · ${d.r}</span>
-    </button>`;
+    </div>`;
   }).join('');
-  const isOpen = hits.length > 0;
-  drop.classList.toggle('open', isOpen);
-  drop.setAttribute('aria-expanded', String(isOpen));
+  drop.classList.toggle('open', hits.length > 0);
 }
 function selectCountry(name) {
   document.getElementById('search-input').value = name;
@@ -1422,56 +1060,41 @@ function selectCountry(name) {
 
 /* ═══════════ QUIZ ═══════════ */
 const QUIZ_DATA = [
-  { q: "Quelle est la plus grande population sunnite mondiale ?",                   opts: ["Pakistan", "Arabie Saoudite", "Indonésie", "Bangladesh"],           ans: 2 },
-  { q: "Quel pays est le centre mondial du chiisme ?",                              opts: ["Irak", "Arabie Saoudite", "Iran", "Azerbaïdjan"],                   ans: 2 },
-  { q: "Kerbala et Najaf (villes saintes chiites) se trouvent dans quel pays ?",    opts: ["Iran", "Syrie", "Pakistan", "Irak"],                                ans: 3 },
-  { q: "L'islam ibadi est majoritaire dans quel pays ?",                            opts: ["Bahreïn", "Oman", "Koweït", "Qatar"],                              ans: 1 },
+  { q: "Quelle est la plus grande population sunnite mondiale ?",                   opts: ["Pakistan", "Arabie Saoudite", "Indonésie", "Bangladesh"],          ans: 2 },
+  { q: "Quel pays est le centre mondial du chiisme ?",                              opts: ["Irak", "Arabie Saoudite", "Iran", "Azerbaïdjan"],                  ans: 2 },
+  { q: "Kerbala et Najaf (villes saintes chiites) se trouvent dans quel pays ?",    opts: ["Iran", "Syrie", "Pakistan", "Irak"],                               ans: 3 },
+  { q: "L'islam ibadi est majoritaire dans quel pays ?",                            opts: ["Bahreïn", "Oman", "Koweït", "Qatar"],                             ans: 1 },
   { q: "Origine de la division sunnite–chiite ?",                                   opts: ["Mort du Prophète (632 EC)", "Conquête de Jérusalem", "Croisades", "Naissance de l'Islam"], ans: 0 },
-  { q: "Bahreïn : quelle est sa particularité confessionnelle ?",                   opts: ["100 % sunnite", "70 % chiites / monarchie sunnite", "50/50", "Majorité ibadi"], ans: 1 },
-  { q: "Les sunnites représentent quel % de l'islam mondial ?",                     opts: ["65 %", "75 %", "87 %", "95 %"],                                    ans: 2 },
-  { q: "Les alaouites (branche chiite) ont gouverné quel pays arabe ?",             opts: ["Liban", "Syrie", "Irak", "Jordanie"],                               ans: 1 },
-  { q: "Quel conflit oppose Houthis (chiites) à la coalition saoudienne ?",         opts: ["Liban", "Bahreïn", "Yémen", "Pakistan"],                           ans: 2 },
+  { q: "Bahreïn : quelle est sa particularité confessionnelle ?",                   opts: ["100 % sunnite", "70 % chiites gouvernés par monarchie sunnite", "50/50", "Majorité ibadi"], ans: 1 },
+  { q: "Les sunnites représentent quel pourcentage de l'islam mondial ?",           opts: ["65 %", "75 %", "87 %", "95 %"],                                   ans: 2 },
+  { q: "Les alaouites (branche chiite) ont gouverné quel pays arabe ?",             opts: ["Liban", "Syrie", "Irak", "Jordanie"],                              ans: 1 },
+  { q: "Quel conflit oppose Houthis (chiites) à la coalition saoudienne ?",         opts: ["Liban", "Bahreïn", "Yémen", "Pakistan"],                          ans: 2 },
   { q: "Al-Azhar du Caire est :",                                                   opts: ["Université chiite", "Haute autorité sunnite mondiale", "École ibadi", "Institut wahhabite"], ans: 1 },
 ];
-
-let quizIdx = 0, quizAnswered = false, quizScore = 0;
+let quizIdx = 0, quizAnswered = false;
 
 function toggleQuiz() {
   const box = document.getElementById('quiz-box');
   const btn = document.getElementById('btn-quiz');
-  const isOpen = box.classList.toggle('open');
-  btn.classList.toggle('active', isOpen);
-  btn.setAttribute('aria-expanded', String(isOpen));
-  if (isOpen) { quizIdx = 0; quizScore = 0; renderQuiz(); } /* reset complet */
+  box.classList.toggle('open');
+  btn.classList.toggle('active', box.classList.contains('open'));
+  if (box.classList.contains('open')) { quizIdx = 0; renderQuiz(); }
 }
 function renderQuiz() {
   quizAnswered = false;
-  const qNum  = quizIdx % QUIZ_DATA.length;
-  const q     = QUIZ_DATA[qNum];
-  const total = QUIZ_DATA.length;
-  document.getElementById('quiz-question').textContent =
-    `❓ (${qNum + 1}/${total}  •  Score : ${quizScore}/${qNum}) ${q.q}`;
+  const q = QUIZ_DATA[quizIdx % QUIZ_DATA.length];
+  document.getElementById('quiz-question').textContent = `❓ (${(quizIdx % QUIZ_DATA.length) + 1}/${QUIZ_DATA.length}) ${q.q}`;
   document.getElementById('quiz-options').innerHTML = q.opts.map((o, i) =>
-    `<button class="quiz-opt" id="qopt${i}" onclick="answerQuiz(${i},${q.ans})" type="button">${o}</button>`
+    `<div class="quiz-opt" id="qopt${i}" onclick="answerQuiz(${i},${q.ans})">${o}</div>`
   ).join('');
   document.getElementById('quiz-next').style.display = 'none';
-  /* Dernier résumé de score si on a bouclé */
-  if (qNum === 0 && quizIdx > 0) {
-    document.getElementById('quiz-question').textContent =
-      `🎯 Quiz terminé — Score final : ${quizScore}/${total}. Relancer ?`;
-  }
 }
 function answerQuiz(i, correct) {
   if (quizAnswered) return;
   quizAnswered = true;
-  if (i === correct) quizScore++;
   document.getElementById(`qopt${i}`).classList.add(i === correct ? 'correct' : 'wrong');
   if (i !== correct) document.getElementById(`qopt${correct}`).classList.add('correct');
   document.getElementById('quiz-next').style.display = 'block';
-  /* Mise à jour du score dans la question */
-  const qNum = quizIdx % QUIZ_DATA.length;
-  document.getElementById('quiz-question').textContent =
-    `${i === correct ? '✅' : '❌'} (${qNum + 1}/${QUIZ_DATA.length}  •  Score : ${quizScore}/${qNum + 1}) ${QUIZ_DATA[qNum].q}`;
 }
 function nextQuiz() { quizIdx++; renderQuiz(); }
 
@@ -1479,40 +1102,21 @@ function nextQuiz() { quizIdx++; renderQuiz(); }
 let rightCollapsed = false;
 function toggleRight() {
   rightCollapsed = !rightCollapsed;
-  const panel = document.getElementById('panel-right');
-  const btn   = document.getElementById('right-toggle');
-  panel.classList.toggle('collapsed', rightCollapsed);
+  document.getElementById('panel-right').classList.toggle('collapsed', rightCollapsed);
+  const btn = document.getElementById('right-toggle');
   btn.textContent = rightCollapsed ? '▶' : '◀';
-  btn.setAttribute('aria-expanded', String(!rightCollapsed));
+  btn.classList.toggle('collapsed', rightCollapsed);
+  btn.style.right = rightCollapsed ? '0' : '240px';
 }
 
 let presentMode = false;
-let _rightWasCollapsed = false; /* mémorise l'état avant présentation */
 function togglePresent() {
   presentMode = !presentMode;
   document.getElementById('btn-present').classList.toggle('active', presentMode);
-
-  if (presentMode) {
-    /* Entrée présentation : masquer panneaux et mémoriser état droit */
-    _rightWasCollapsed = rightCollapsed;
-    ['panel-left', 'panel-right', 'stats-bar', 'right-toggle'].forEach(id => {
-      document.getElementById(id).style.display = 'none';
-    });
-  } else {
-    /* Sortie présentation : restaurer exactement l'état précédent */
-    ['panel-left', 'stats-bar', 'right-toggle'].forEach(id => {
-      document.getElementById(id).style.display = '';
-    });
-    /* Restaurer le panneau droit dans son état d'avant */
-    const panel = document.getElementById('panel-right');
-    panel.style.display = '';
-    if (_rightWasCollapsed !== rightCollapsed) {
-      rightCollapsed = _rightWasCollapsed;
-      panel.classList.toggle('collapsed', rightCollapsed);
-      document.getElementById('right-toggle').textContent = rightCollapsed ? '▶' : '◀';
-      document.getElementById('right-toggle').setAttribute('aria-expanded', String(!rightCollapsed));
-    }
-  }
+  ['panel-left', 'panel-right', 'stats-bar'].forEach(id => {
+    document.getElementById(id).style.display = presentMode ? 'none' : '';
+  });
+  if (presentMode && rightCollapsed) { /* réafficher le toggle */ }
 }
 
 function toggleFullscreen() {
@@ -1531,310 +1135,9 @@ document.addEventListener('keydown', e => {
 /* Empêcher la modale de se fermer lors du clic sur le canvas camembert */
 document.getElementById('modal-canvas').addEventListener('click', e => e.stopPropagation());
 
-/* ═══════════ MODAL TABS ═══════════ */
-function switchModalTab(tab, el) {
-  document.querySelectorAll('.mtab').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.modal-tab-content').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('mtab-' + tab).classList.add('active');
-}
-
-/* ═══════════ SAVOIR ═══════════ */
-const COURANTS = [
-  { icon:'☪', title:'Sunnisme (87%)', color:'#5ec972',
-    desc:'Suit la Sunna (actes et paroles du Prophète). Autorité collective des savants (ulémas). 4 écoles juridiques : Hanafi (Turquie, Asie centrale), Maliki (Afrique du Nord et de l\'Ouest), Shafi\'i (Afrique de l\'Est, Asie du Sud-Est), Hanbali (Arabie Saoudite). Pas de clergé institutionnalisé.',
-    art:'sunni' },
-  { icon:'☪', title:'Chiisme (12%)', color:'#4d9ef5',
-    desc:'Reconnaît Ali et ses descendants (Imams) comme seuls guides légitimes de la communauté. 3 branches : Imami ou Duodécimain (Iran, Irak, Liban — 12 imams), Ismaëlien (Aga Khan — 7 imams), Zaïdi (Yémen). Clergé hiérarchisé (ayatollahs, hojatoleslams).',
-    art:'shia' },
-  { icon:'⊙', title:'Ibadisme (1%)', color:'#ce93d8',
-    desc:'Branche la plus ancienne de l\'Islam, distincte des deux autres dès le 1er siècle. Seul pays à majorité ibadi : Oman. Doctrine : le calife doit être élu sur ses mérites, même s\'il n\'est pas arabe ni quraychite. Réputés pour leur tolérance et leur diplomatie.',
-    art:'ibadi' },
-  { icon:'✦', title:'Soufisme (transversal)', color:'var(--gold)',
-    desc:'Dimension mystique de l\'Islam, présente dans les deux branches. Fraternités (tariqa) : Qadiriyya, Tijaniyya (Afrique de l\'Ouest), Mouridisme (Sénégal), Bektachisme (Albanie). Accent sur l\'amour divin, la contemplation, la musique spirituelle (qawwali). Parfois critiqué par les wahhabites.',
-    art:'soufi' },
-  { icon:'⚔', title:'Wahhabisme / Salafisme', color:'#ffb74d',
-    desc:'Mouvement réformiste sunnite du XVIIIe siècle (Muhammad ibn Abd al-Wahhab, Arabie). Objectif : purifier l\'Islam de toute innovation (bid\'a). Vénération des saints interdite, sanctuaires détruits. Financé par l\'Arabie Saoudite depuis 1973. Influence sur Taliban, Daech (version jihadiste), salafisme quiétiste.',
-    art:'wahhabi' },
-  { icon:'🕌', title:'Islam politique (Islamisme)', color:'#ef9a9a',
-    desc:'Courant qui considère l\'Islam comme système politique total. Branches : Frères Musulmans (Égypte, 1928, Hassan al-Banna — réformiste), Hamas (Palestine), HTS (Syrie), Jabhat al-Nusra. À distinguer du jihadisme violent (Al-Qaïda, Daech) et de l\'islamisme démocratique (AKP Turquie, PJD Maroc).',
-    art:'islamisme' },
-];
-
-const GEOPOLITIQUE = [
-  { icon:'🛢', title:'L\'or noir et l\'Islam : pétrodollars wahhabites', color:'var(--gold)',
-    desc:'Depuis 1973 (embargo pétrolier), l\'Arabie Saoudite finance des milliers de mosquées, madrasas et institutions islamiques dans le monde entier selon la doctrine wahhabite. Estimation : 100 milliards USD en 40 ans. Transformation radicale de l\'Islam traditionnel africain, asiatique et même occidental.',
-    art:'petro' },
-  { icon:'🌙', title:'L\'axe de la résistance iranien', color:'#4d9ef5',
-    desc:'Depuis 1979, l\'Iran construit un réseau d\'alliés chiites et anti-israéliens : Hezbollah (Liban), Hamas (sunnite, Gaza), Houthis (Yémen), PMF (Irak), régime Assad (Syrie). Objectif : contrer l\'influence américano-saoudienne. Budget annuel estimé : 700M-1Mds USD selon US Treasury.',
-    art:'axe' },
-  { icon:'🇺🇸', title:'Les États-Unis et l\'Islam : alliés et ennemis', color:'#ef9a9a',
-    desc:'Paradoxe américain : soutien à l\'Arabie Saoudite wahhabite (pétrole + armement) tout en combattant Al-Qaïda (produit du wahhabisme). Invasion Afghanistan 2001, Irak 2003 — les deux guerres les plus coûteuses de l\'histoire américaine. Relations avec l\'Iran : révolution 1979, prise d\'otages, sanctions, JCPOA.',
-    art:'usa' },
-  { icon:'🇷🇺', title:'La Russie et l\'Islam : entre répression et pragmatisme', color:'#ce93d8',
-    desc:'20M de musulmans russes (Tatars, Tchétchènes, Daghestanais). Deux guerres de Tchétchénie (1994-1996, 1999-2009). Soutien à Assad en Syrie depuis 2015 (base Hmeimim, base Tartous). Wagner en Libye, Mali, CAR, Soudan. Moscou joue la carte Assad contre l\'influence américaine.',
-    art:'russie' },
-  { icon:'🇨🇳', title:'La Chine et l\'Islam : pragmatisme impérial', color:'#5ec972',
-    desc:'27M de musulmans chinois (Ouïghours, Hui, Kazakhs). Camps de "rééducation" du Xinjiang — 1-1,8M d\'internés selon l\'ONU. Mais simultanément : investissements massifs dans les pays musulmans (Ceinture et Route), médiation Iran-Arabie Saoudite (2023), respect formel de la non-ingérence.',
-    art:'chine' },
-  { icon:'🤝', title:'Accords Abraham 2020-2023 : une recomposition', color:'#ffb74d',
-    desc:'EAU, Bahreïn, Soudan, Maroc normalisent leurs relations avec Israël. Soutien américain (Trump). Motivation principale : containment de l\'Iran. La question palestinienne reléguée au second plan. Rapprochement Saudi-Israël en cours. Réaction : Hamas frappe le 7 octobre 2023 pour briser cette dynamique.',
-    art:'abraham' },
-];
-
-const CONFLICTS_DEEP = [
-  {
-    flag:'🇾🇪', name:'Yémen', level:'l3', label:'Conflit actif — depuis 2015',
-    cause_reli:'Zaïdi (Houthis) = branche chiite zaïdienne, distincte du chiisme iranien mais alignée géopolitiquement. Sunnites = 65% de la population.',
-    cause_geo:'Proxy war Iran (Houthis) vs Arabie Saoudite (coalition). Détroit de Bab el-Mandeb = passage de 10% du commerce mondial.',
-    cause_eco:'Pétrole yéménite, aide internationale détournée, économie de guerre. Yemen = pays le plus pauvre du monde arabe avant la guerre.',
-    acteurs:'Ansar Allah (Houthis, nord, soutien Iran) | Gouvernement de reconnaissance internationale (Aden, soutien coalition saoudienne) | STC séparatiste (sud, soutien EAU) | Al-Qaïda AQPA.',
-    victims:'150,000-250,000 morts directs (2015-2026). 21M en situation d\'aide humanitaire urgente. Choléra, famine, effondrement du système de santé.',
-    resolution:'Négociations ONU à Stockholm (2018), Accord d\'Hodeidah. Trêve 2022-2023 sous médiation ONU/Oman. Rupture en 2024 (attaques Houthis mer Rouge).',
-    sources:'ACLED · OCHA ONU · Human Rights Watch · International Crisis Group (ICG)'
-  },
-  {
-    flag:'🇸🇾', name:'Syrie', level:'l3', label:'Post-guerre civile — instabilité 2025-2026',
-    cause_reli:'Assad = Alaouite (branche chiite ésotérique, ~12% de la population) gouvernant 74% de sunnites. Discrimination institutionnelle de la majorité sunnite depuis 1970.',
-    cause_geo:'Couloir terrestre Iran → Irak → Syrie → Liban (Hezbollah). Perte de ce couloir = affaiblissement majeur de l\'axe de la résistance. Russie : base navale de Tartous (seule en Méditerranée).',
-    cause_eco:'Pétrole du nord-est syrien (Daech puis SDF/Kurdes). Reconstruction : 400 milliards USD selon ONU. Économie effondrée, livre syrienne à 0.',
-    acteurs:'HTS/Jabhat al-Nusra (ex-Al-Nusra affilié Al-Qaïda, Damas depuis déc. 2024) | SDF kurdes | Restes de Daech | Israël (frappes aériennes régulières) | Turquie (nord-ouest) | Iran/Hezbollah (retrait partiel).',
-    victims:'600,000 morts (2011-2026). 13M déplacés — la plus grande crise de réfugiés depuis la 2e Guerre mondiale. 70% des infrastructures détruites.',
-    resolution:'Transition sous HTS fragile. Risque de balkanisation. Conférence internationale de Bruxelles (annuelle). Mandat OPCW pour armes chimiques.',
-    sources:'SOHR · Amnesty International · ONU OCHA · Syrian Network for Human Rights'
-  },
-  {
-    flag:'🇮🇶', name:'Irak', level:'l3', label:'Instabilité chronique — conflits sectaires',
-    cause_reli:'60-65% chiites (longtemps opprimés par Saddam). 35% sunnites (marginalisés depuis 2003). Kerbala et Najaf : villes saintes chiites sous influences iraniennes.',
-    cause_geo:'Champ de bataille Iran vs USA/Israël. PMF (milices chiites, 200,000 hommes) = État dans l\'État financé par Iran. Bases américaines en Irak cibles régulières.',
-    cause_eco:'2e réserves pétrolières du monde arabe (145 milliards barils). Budget national à 93% dépendant du pétrole. Corruption massive (rang 157/180, Transparency International).',
-    acteurs:'Gouvernement fédéral (chiite dominant) | PMF Hachd al-Chaabi (pro-Iran) | Kurdistan irakien (autonome) | Restes Daech (cellules dormantes) | Tribus sunnites | USA (3,000 soldats).',
-    victims:'200,000+ morts depuis 2003. 1,200,000+ morts si guerre Iran-Irak incluse (1980-1988). Millions de déplacés.',
-    resolution:'Élections régulières depuis 2005 mais système confessionnel bloquant. Accord Erbil-Bagdad sur le pétrole kurde en suspens.',
-    sources:'UNAMI (ONU Irak) · Iraq Body Count · Middle East Eye · Carnegie Endowment'
-  },
-  {
-    flag:'🇧🇭', name:'Bahreïn', level:'l2', label:'Tensions élevées — répression chronique',
-    cause_reli:'70% de chiites gouvernés par la famille royale Al-Khalifa sunnite depuis 1783. Chiites exclus des postes militaires, sécuritaires et diplomatiques.',
-    cause_geo:'5e flotte américaine basée à Manama. Proximité Iran (30 km). Arabie Saoudite intervient militairement (Peninsula Shield Force) dès 2011.',
-    cause_eco:'Pétrole commun avec l\'Arabie Saoudite (Abu Saafa). Bahreïn = hub financier régional. Chiites = 80% des ouvriers et employés du secteur privé.',
-    acteurs:'Famille royale Al-Khalifa (sunnite) | Mouvement du 14 février (opposition chiite) | Al-Wefaq (parti chiite dissous 2016) | Mouvement Haq | Iran (soutien présumé à l\'opposition).',
-    victims:'89 morts (2011). Milliers d\'arrestations. Prison de Jau : torture documentée par Amnesty et HRW. Sheikh Ali Salman (chef d\'Al-Wefaq) condamné à 50 ans de prison.',
-    resolution:'Dialogue national 2011-2012 : boycotté par l\'opposition. Aucune réforme constitutionnelle. Normalisation avec Israël 2020 — utilisée pour obtenir un soutien américain.',
-    sources:'Amnesty International · Human Rights Watch · BCHR (Bahrain Center for Human Rights) · Al-Jazeera'
-  },
-  {
-    flag:'🇵🇰', name:'Pakistan', level:'l2', label:'Attaques sectaires récurrentes',
-    cause_reli:'85% sunnites (dont déobandis influents), 15% chiites (~35M = plus grande population chiite absolue hors Iran). Violence de groupes comme Lashkar-e-Jhangvi (LJ, anti-chiite).',
-    cause_geo:'Frontière Afghanistan (Taliban déobandi). ISI pakistanais = relations ambiguës avec groupes armés. Influence iranienne sur les Hazaras de Quetta.',
-    cause_eco:'Quetta (Baloutchistan) : épicentre des attaques contre les Hazaras chiites. Pauvreté + discrimination + absence de l\'État = terreau des extrémistes.',
-    acteurs:'TTP (Tehrik-i-Taliban Pakistan) | LJ (Lashkar-e-Jhangvi, anti-chiite) | SSP/ASWJ (idéologie anti-chiite) | Iran (soutien à certaines milices chiites) | IRGC (formation milices pro-iraniennes).',
-    victims:'4,000+ morts dans des attaques sectaires depuis 2003. Hazaras de Quetta : cibles privilégiées (attentats mines, assassinats ciblés).',
-    resolution:'Opération Zarb-e-Azb (2014) : offensive militaire contre TTP. Résultats mitigés. La question sectaire reste taboue politiquement.',
-    sources:'SATP (South Asia Terrorism Portal) · Pak Institute for Peace Studies · Human Rights Watch'
-  },
-  {
-    flag:'🇳🇬', name:'Nigeria', level:'l2', label:'Boko Haram / ISWAP — Sahel',
-    cause_reli:'Nord largement sunnite (Haoussa-Fulani). Boko Haram = "l\'éducation occidentale est interdite" (interprétation extrême sunnite déobandi). Mouvement islamique du Nigeria (IMN) = chiite, réprimé violemment.',
-    cause_geo:'Lac Tchad : zone de non-droit entre Nigeria, Niger, Tchad, Cameroun. ISWAP (branche de Daech) plus organisée et politique que Boko Haram.',
-    cause_eco:'Nord-Est du Nigeria = région la plus pauvre du pays. Marginalisation économique + État absent = terreau jihadiste. Pétrole au sud (Niger Delta) = ressentiment nord-sud.',
-    acteurs:'ISWAP (Islamic State West Africa Province) | Boko Haram (faction de l\'ancien leader Shekau, fragmentée) | Armée nigériane | MNJTF (force multinationale lac Tchad) | FMN (Forces civiles d\'autodéfense).',
-    victims:'350,000+ morts depuis 2009. 3M déplacés. Enlèvement de 276 lycéennes à Chibok (2014) — symbole mondial. Famine provoquée dans le Nord-Est.',
-    resolution:'MNJTF (force multinationale) partiellement efficace. Amnistie + déradicalisation = résultats mitigés. La pauvreté structurelle non résolue.',
-    sources:'Council on Foreign Relations · ACLED · ICG · Human Rights Watch · UNHCR'
-  }
-];
-
-const GLOSSAIRE = [
-  { t:'Sunna سنة',     d:'Ensemble des paroles (hadith), actes et approbations silencieuses du Prophète Muhammad. 2e source du droit islamique après le Coran. Fondement du sunnisme.' },
-  { t:'Shia الشيعة',   d:'"Partisans [d\'Ali]". Désigne d\'abord un parti politique (ceux qui soutenaient Ali en 632) avant de devenir un courant religieux distinct. Contraction de "Shiat Ali".' },
-  { t:'Calife خليفة',  d:'"Successeur" du Prophète, chef de la communauté islamique (umma). Pour les sunnites : élu par consensus. Pour les chiites : désigné par succession prophétique.' },
-  { t:'Imam إمام',     d:'Dans le sunnisme : dirigeant de la prière. Dans le chiisme : guide infaillible descendant d\'Ali, interprète unique de l\'Islam. Le 12e Imam est "occulté" depuis 874.' },
-  { t:'Wilaya ولاية',  d:'Tutelle ou gouvernance. Dans le chiisme : doctrine de l\'Imamat (autorité des Imams). Velayet-e faqih : "gouvernance du juriste islamique" — base constitutionnelle de l\'Iran.' },
-  { t:'Jihad جهاد',   d:'"Effort" sur la voie de Dieu. Peut être intérieur (maîtrise de soi) ou militaire (défense de la communauté). Souvent instrumentalisé politiquement. Distinct du concept de guerre sainte dans son sens originel.' },
-  { t:'Bid\'a بدعة',   d:'"Innovation" religieuse non autorisée par les textes. Condamnée par le wahhabisme/salafisme. Inclut pour eux : vénération des saints, musique religieuse, célébration de l\'anniversaire du Prophète (Mawlid).' },
-  { t:'Takfir تكفير',  d:'"Excommunication" : déclarer un autre musulman apostat. Pratique théologiquement encadrée mais instrumentalisée par Daech pour justifier les massacres de musulmans "hérétiques".' },
-  { t:'Mawla مولى',   d:'"Maître", "protecteur", "ami". Mot-clé du discours de Ghadir Khumm (632) : "Man kuntu mawlahu fa-Ali mawlahu" — au cœur de la dispute sunni-chiite sur la succession.' },
-  { t:'Achoura عاشوراء',d:'10e jour du mois de Muharram. Commémore le martyre de Hussein à Kerbala (680). Jour de deuil intense pour les chiites (processions, pleurs, flagellations dans certaines communautés). Jour de jeûne volontaire pour les sunnites.' },
-  { t:'Fatwa فتوى',   d:'Avis juridique islamique émis par un savant qualifié (mufti). Non contraignante légalement (sauf dans les États islamiques). Exemples : Khomeini contre Salman Rushdie (1989), fatwa de Bin Laden contre les "croisés".' },
-  { t:'Taqqiya تقية', d:'"Dissimulation" de sa foi pour éviter la persécution. Pratique autorisée dans le chiisme en cas de danger. Souvent déformée dans la rhétorique anti-chiite comme preuve de "duplicité".' },
-  { t:'Umma أمة',     d:'Communauté des croyants musulmans au-delà des frontières nationales. Concept central de l\'identité islamique transnationale. Exploité par les mouvements jihadistes pour nier la légitimité des États-nations.' },
-  { t:'Kharijites خوارج',d:'Premier schisme islamique (657 EC). Quittèrent Ali après l\'arbitrage de Siffin. Doctrine : tout pécheur grave est apostat. Précurseurs idéologiques du jihadisme contemporain selon de nombreux chercheurs.' },
-  { t:'PMF حشد الشعبي',d:'Popular Mobilization Forces (Hachd al-Chaabi). Coalition de milices chiites irakiennes, formée en 2014 contre Daech. Pro-iraniennes pour la majorité. Officiellement intégrées à l\'armée irakienne mais opèrent de facto de manière autonome. ~200,000 combattants.' },
-];
-
-const SOURCES_OFFICIELLES = [
-  { title:'Pew Research Center — Global Religious Futures 2026', org:'Pew Research Center (Washington DC)', type:'Think tank', fiabilite:'⭐⭐⭐⭐⭐', desc:'La référence mondiale pour les données démographiques religieuses. Méthodes d\'enquête rigoureuses dans 190+ pays. Rapports "The World\'s Muslims" (2012, 2015, 2023). Données utilisées par l\'ONU, la Banque Mondiale, les gouvernements nationaux.', url:'pewresearch.org/religion' },
-  { title:'CIA World Factbook 2026', org:'Central Intelligence Agency (USA)', type:'Source gouvernementale', fiabilite:'⭐⭐⭐⭐⭐', desc:'Compilation annuelle des données démographiques, économiques et politiques de tous les pays du monde. Section "People and Society" : religions, langues, ethnies. Données issues des recensements nationaux et des missions diplomatiques américaines.', url:'cia.gov/the-world-factbook' },
-  { title:'World Population Review — Islam by Country 2026', org:'WPR (indépendant)', type:'Agrégateur données', fiabilite:'⭐⭐⭐⭐', desc:'Agrège les données des recensements nationaux, de Pew et du CIA WF. Mise à jour annuelle. Utile pour les comparaisons rapides mais à croiser avec les sources primaires.', url:'worldpopulationreview.com' },
-  { title:'UNHCR — Religious and Minority Demographics', org:'Haut-Commissariat ONU pour les Réfugiés', type:'Organisation internationale', fiabilite:'⭐⭐⭐⭐⭐', desc:'Données sur les minorités religieuses persécutées, les déplacements forcés à base religieuse. Rapports annuels pays par pays. Référence pour les zones de conflit.', url:'unhcr.org' },
-  { title:'International Crisis Group (ICG)', org:'ONG internationale (Bruxelles)', type:'Think tank conflits', fiabilite:'⭐⭐⭐⭐⭐', desc:'Analyses approfondies de tous les conflits actifs. Présence terrain dans 80 pays. Rapports spécialisés : "Yemen\'s Houthi Movement" (2023), "Iraq\'s Sectarian Crisis" (2024), "Pakistan\'s Religious Violence" (2025). Consulté par l\'ONU et les gouvernements.', url:'crisisgroup.org' },
-  { title:'ACLED — Armed Conflict Location & Event Data', org:'ACLED (Royaume-Uni / USA)', type:'Base de données conflits', fiabilite:'⭐⭐⭐⭐⭐', desc:'Base de données temps réel de tous les événements violents mondiaux. 1,2M+ événements répertoriés. Utilisée par l\'ONU, HRW, ICG et chercheurs académiques. Distingue : batailles, explosions, violences contre civils, manifestations, etc.', url:'acleddata.com' },
-  { title:'Human Rights Watch — World Report 2026', org:'HRW (New York)', type:'ONG droits humains', fiabilite:'⭐⭐⭐⭐⭐', desc:'Rapport annuel sur la situation des droits humains dans 100+ pays. Particulièrement détaillé sur les violations à base religieuse (Ouïghours, Bahreïn, Iran, Pakistan Hazaras). Référence citée par les Nations Unies et les tribunaux internationaux.', url:'hrw.org' },
-  { title:'Amnesty International — Annual Report 2026', org:'Amnesty International (Londres)', type:'ONG droits humains', fiabilite:'⭐⭐⭐⭐⭐', desc:'Rapport annuel sur la persécution des minorités religieuses. Campagnes spécifiques : Rohingyas (Myanmar), chiites de Bahreïn, Hazaras du Pakistan et Afghanistan.', url:'amnesty.org' },
-  { title:'ONU OCHA — Humanitarian Data Exchange', org:'Bureau ONU pour la Coordination des Affaires Humanitaires', type:'Organisation internationale', fiabilite:'⭐⭐⭐⭐⭐', desc:'Données humanitaires en temps réel : déplacés internes, réfugiés, besoins alimentaires. Yémen, Soudan, Syrie, Somalia : les données humanitaires de cette carte proviennent d\'OCHA.', url:'ocha.org' },
-  { title:'Brookings Institution — Middle East Research', org:'Brookings (Washington DC)', type:'Think tank académique', fiabilite:'⭐⭐⭐⭐', desc:'Analyses géopolitiques de référence sur le Moyen-Orient. Center for Universal Education et Center for Security, Strategy and Technology. Auteurs : Bruce Riedel, Tamara Cofman Wittes, Suzanne Maloney.', url:'brookings.edu' },
-  { title:'Al-Azhar Observatory for Combating Extremism', org:'Al-Azhar (Le Caire)', type:'Autorité islamique', fiabilite:'⭐⭐⭐⭐', desc:'Observatoire officiel de la plus haute autorité sunnite mondiale. Condamne le terrorisme et le takfirisme. Publie des études théologiques de référence sur les courants de l\'Islam contemporain.', url:'azhar.eg' },
-  { title:'RAND Corporation — Islam and Security Studies', org:'RAND (USA)', type:'Think tank défense', fiabilite:'⭐⭐⭐⭐', desc:'Études stratégiques sur l\'islamisme, le terrorisme et la géopolitique. Rapports sur : l\'influence wahhabite mondiale, les milices chiites en Irak, la radicalisation au Pakistan.', url:'rand.org' },
-];
-
-/* ── Rendu du module Savoir ── */
-function renderSavoir() {
-  /* Courants */
-  document.getElementById('courants-grid').innerHTML = COURANTS.map((c, i) =>
-    `<div class="theme-card" onclick="openArticle(${i},'courant')">
-       <div class="theme-card-icon">${c.icon}</div>
-       <div class="theme-card-title" style="color:${c.color}">${c.title}</div>
-       <div class="theme-card-desc">${c.desc}</div>
-     </div>`).join('');
-
-  /* Conflits profonds */
-  document.getElementById('conflicts-deep-content').innerHTML = CONFLICTS_DEEP.map(c => `
-    <div class="conflict-deep">
-      <div class="cd-head">
-        <span class="cd-flag">${c.flag}</span>
-        <span class="cd-title">${c.name}</span>
-        <span class="cd-level ${c.level}">${c.label}</span>
-      </div>
-      <div class="cd-grid">
-        <div class="cd-card"><div class="cd-card-label">Dimension religieuse</div><div class="cd-card-val">${c.cause_reli}</div></div>
-        <div class="cd-card"><div class="cd-card-label">Dimension géopolitique</div><div class="cd-card-val">${c.cause_geo}</div></div>
-        <div class="cd-card"><div class="cd-card-label">Dimension économique</div><div class="cd-card-val">${c.cause_eco}</div></div>
-      </div>
-      <div class="cd-analysis"><strong style="color:var(--text)">Acteurs :</strong> ${c.acteurs}<br><br>
-      <strong style="color:var(--text)">Bilan humain :</strong> ${c.victims}<br><br>
-      <strong style="color:var(--text)">Résolution :</strong> ${c.resolution}<br><br>
-      <em>📚 Sources : ${c.sources}</em></div>
-    </div>`).join('');
-
-  /* Géopolitique */
-  document.getElementById('geopolitique-grid').innerHTML = GEOPOLITIQUE.map((g, i) =>
-    `<div class="theme-card" onclick="openArticle(${i},'geo')">
-       <div class="theme-card-icon">${g.icon}</div>
-       <div class="theme-card-title" style="color:${g.color}">${g.title}</div>
-       <div class="theme-card-desc">${g.desc}</div>
-     </div>`).join('');
-
-  /* Glossaire */
-  document.getElementById('glossaire-content').innerHTML = GLOSSAIRE.map(g =>
-    `<div class="source-item">
-       <div class="source-title">${g.t}</div>
-       <div class="source-meta">${g.d}</div>
-     </div>`).join('');
-
-  /* Sources */
-  document.getElementById('sources-content').innerHTML = SOURCES_OFFICIELLES.map(s =>
-    `<div class="source-item">
-       <div class="source-title">
-         <span class="source-tag">${s.type}</span>${s.title}
-       </div>
-       <div class="source-meta">
-         <strong>${s.org}</strong> &nbsp;|&nbsp; Fiabilité : ${s.fiabilite}<br>
-         ${s.desc}<br>
-         <em>→ ${s.url}</em>
-       </div>
-     </div>`).join('');
-}
-
-let savoirRendered = false;
-function toggleSavoir() {
-  const ov = document.getElementById('savoir-overlay');
-  const btn = document.getElementById('btn-savoir');
-  const isOpen = ov.classList.toggle('open');
-  btn.classList.toggle('active', isOpen);
-  if (isOpen && !savoirRendered) { renderSavoir(); savoirRendered = true; }
-}
-
-function switchSavoirTab(tab, el) {
-  document.querySelectorAll('.stab').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.savoir-section').forEach(s => s.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('ss-' + tab).classList.add('active');
-}
-
-const ARTICLES = {
-  sunni:     { head:'Sunnisme : la majorité silencieuse', src:'Sources : Pew Research 2026 · Encyclopédie de l\'Islam (Brill) · John Esposito "The Oxford Dictionary of Islam" (2003)',
-    body:`<h3>Origines et fondements</h3><p>Le terme "sunnite" vient de <em>Ahl al-Sunna wa-l-Jama'a</em> — "les gens de la Sunna et de la communauté". Ce courant représente <strong>87% des musulmans mondiaux</strong>, soit environ 1,74 milliard de personnes en 2026.</p><p>Les sunnites considèrent les quatre premiers califes (Abu Bakr, Omar, Othman, Ali) comme les "Bien guidés" (Rachidoun). L'autorité religieuse est distribuée parmi les savants (ulémas), sans clergé hiérarchisé.</p><h3>Les quatre écoles juridiques (madhab)</h3><p><strong>Hanafi</strong> (fondée par Abu Hanifa, VIIIe s.) : la plus large, dominant en Turquie, Asie centrale, Asie du Sud. Méthodologie rationnelle, usage du raisonnement par analogie (qiyas).<br><strong>Maliki</strong> (Malik ibn Anas, VIIIe s.) : dominant en Afrique du Nord et de l'Ouest. Accorde une importance particulière à la pratique de Médine.<br><strong>Shafi'i</strong> (Al-Shafi'i, IXe s.) : Égypte, Afrique de l'Est, Asie du Sud-Est. Systématise la méthodologie juridique (usul al-fiqh).<br><strong>Hanbali</strong> (Ahmad ibn Hanbal, IXe s.) : Arabie Saoudite. La plus stricte, base du wahhabisme et du salafisme modernes.</p><h3>Diversité interne</h3><p>Le sunnisme n'est pas monolithique. Il inclut des courants mystiques (soufis), réformistes (Frères Musulmans), quiétistes (salafis jihadophobes), jihadistes (Al-Qaïda, Daech) et modernistes. La grande majorité des sunnites est hostile au terrorisme : selon Pew (2013), 67-78% des musulmans ont une opinion défavorable d'Al-Qaïda.</p>` },
-  shia:      { head:'Chiisme : les partisans d\'Ali', src:'Sources : Vali Nasr "The Shia Revival" (2006) · Heinz Halm "Shi\'a Islam" (2004) · Moojan Momen "An Introduction to Shi\'i Islam" (1985)',
-    body:`<h3>Les trois branches chiites</h3><p><strong>Chiisme duodécimain (Imami)</strong> — 80% des chiites : croit en 12 imams infaillibles, le dernier (Muhammad al-Mahdi) étant "occulté" depuis 874 EC. Dominant en Iran, Irak, Bahreïn, Liban. Base du système politique iranien (<em>Velayet-e faqih</em>).</p><p><strong>Ismaélisme</strong> — 15M de personnes : croit que l'Imamat passa par Ismaïl (7e imam) plutôt que son frère Moussa. Aujourd'hui dirigé par l'Aga Khan IV (Prince Shah Karim al-Husseini). Très éduqués, proactifs dans le développement international.</p><p><strong>Zaïdisme</strong> — 15M au Yémen : croit que le 5e imam est Zaïd ibn Ali. Plus proche théologiquement du sunnisme. Les Houthis sont zaïdis mais s'allient géopolitiquement à l'Iran.</p><h3>La doctrine de l\'Imamat</h3><p>Concept central du chiisme : l'Imam est un guide infaillible, interprète unique du Coran et de la Sunna, descendant direct du Prophète par Ali et Fatima. Son autorité est d'essence divine, non élective. Cette conception s'oppose radicalement au sunnisme où aucun individu n'est infaillible après le Prophète.</p><h3>L\'Achoura : mémoire vivante du martyre</h3><p>Chaque année, des millions de chiites commémorent le martyre de Hussein à Kerbala (680 EC). Processions de deuil, récitation des lamentations (marthiya), représentations théâtrales (ta'ziyeh en Iran). Cette "passion" chiite a été comparée à celle du christianisme — elle forge une identité collective de résistance et de souffrance rédemptrice.</p>` },
-  ibadi:     { head:'Ibadisme : l\'Islam oublié', src:'Sources : Valerie Hoffman "The Essentials of Ibadi Islam" (2012) · Encyclopedia Iranica · Middle East Journal',
-    body:`<h3>Une troisième voie méconnue</h3><p>L'ibadisme est souvent absent des manuels scolaires, présentant l'Islam comme uniquement divisé entre sunnites et chiites. Pourtant, il constitue une troisième tradition théologique complète et cohérente, antérieure aux deux autres dans sa formulation.</p><h3>Origines kharijites transformées</h3><p>Les ibadis descendent des kharijites (657 EC) mais ont rompu avec leur extrémisme violent. Ils rejettent le terrorisme comme moyen politique et prônent une gouvernance fondée sur la consultation (shura) et la justice, indépendamment de l'origine ethnique ou tribale du dirigeant.</p><h3>Oman : un laboratoire de tolérance</h3><p>75% des Omanais sont ibadis. Le sultanat d'Oman est réputé pour sa diplomatie de médiation unique au monde. Il a servi d'intermédiaire entre les USA et l'Iran (canal secret avant le JCPOA 2015), entre Israël et les États arabes, entre les factions yéménites. Cette capacité de médiation reflète directement la doctrine ibadi de non-confrontation.</p>` },
-  petro:     { head:'Pétrodollars wahhabites : l\'Islam reconfiguré', src:'Sources : Madawi Al-Rasheed "A History of Saudi Arabia" (2010) · Guido Steinberg "Saudi Arabia" (CFR, 2017) · Thomas Hegghammer "Jihad in Saudi Arabia" (2010)',
-    body:`<h3>1973 : l\'embargo pétrolier change tout</h3><p>Après la guerre du Kippour (1973) et l'embargo de l'OPEP, le prix du pétrole quadruple. L'Arabie Saoudite dispose soudainement de revenus colossaux. Elle choisit d'en investir une part significative dans l'exportation de l'islam wahhabite, qu'elle présente comme l'"islam authentique".</p><h3>Ampleur du financement</h3><p>Estimations académiques : 75-100 milliards USD investis entre 1975 et 2010 dans des mosquées, madrasas, universités islamiques, centres culturels à travers le monde (Yusuf al-Qaradawi, Georgetown University Press, 2002). La Ligue islamique mondiale (Rabita al-Alam al-Islami, fondée 1962) est le principal vecteur institutionnel.</p><h3>Conséquences sur les islams traditionnels</h3><p>En Afrique de l'Ouest : remplacement progressif de l'islam soufi tolérant (Mouridisme, Tijaniyya) par un islam rigoriste. Au Mali : destruction des manuscrits de Tombouctou et des saints locaux par les groupes wahhabites (2012). En Asie centrale : rupture avec les traditions soviéto-islamiques séculières. En Europe : certaines mosquées financées par l'Arabie Saoudite deviennent des vecteurs de salafisme.</p>` },
-  axe:       { head:'L\'axe de la résistance iranien', src:'Sources : Nasr "The Shia Revival" · Karim Sadjadpour (Carnegie) · Phillip Smyth "The Shiite Jihad in Syria and Its Regional Effects" (2015)',
-    body:`<h3>Architecture de l\'axe</h3><p>L'axe de la résistance (محور المقاومة) est un réseau d'États et de groupes armés alignés sur l'Iran, partageant l'opposition à Israël et aux États-Unis. Composantes en 2026 :</p><p><strong>Hezbollah (Liban)</strong> : créé en 1982 avec l'aide des Gardiens de la Révolution (IRGC). 100,000+ missiles. Budget estimé : 700M-1Mds USD/an. État dans l'État libanais.</p><p><strong>Hamas (Gaza, sunnite)</strong> : paradoxe — groupe sunnite allié de l'Iran chiite contre Israël. Alliance fondée sur l'idéologie anti-israélienne, pas sur la théologie.</p><p><strong>PMF (Irak)</strong> : 200,000 combattants, dont plusieurs brigades directement financées par l'IRGC (Kataib Hezbollah, Asaib Ahl al-Haq).</p><p><strong>Houthis (Yémen)</strong> : Zaïdis alignés sur l'Iran. Attaques sur la mer Rouge depuis 2023 → crise du commerce mondial.</p><h3>Fragilisation post-2024</h3><p>Chute d'Assad (déc. 2024) : perte du corridor terrestre Iran-Liban. Affaiblissement majeur du Hezbollah (décapitation de sa direction en 2024 par Israël). L'axe se reconfigure mais reste actif.</p>` },
-  usa: { head:'USA et Islam : décennies d\'ambiguïtés', src:'Sources : John Mearsheimer & Stephen Walt "The Israel Lobby" (2007) · Daniel Benjamin & Steven Simon "The Age of Sacred Terror" (2002) · Timothy Mitchell "Carbon Democracy" (2011)',
-    body:`<h3>L'alliance paradoxale USA-Arabie Saoudite</h3><p>Depuis le pacte de Quincy (1945, Roosevelt-Ibn Saoud), les USA garantissent la sécurité de la famille royale saoudienne en échange d'un accès privilégié au pétrole. Résultat : les USA soutiennent le principal exportateur d'idéologie islamiste radical (wahhabisme) tout en combattant ses produits (Al-Qaïda, Daech).</p><h3>Afghanistan 1979-1989 : création des moudjahidines</h3><p>La CIA (opération Cyclone) finance, arme et entraîne les moudjahidines afghans contre les Soviétiques avec l'aide de l'ISI pakistanais et des fonds saoudiens. Parmi les bénéficiaires : Oussama ben Laden. L'infrastructure créée sera recyclée par Al-Qaïda.</p><h3>Irak 2003 : le grand bouleversement</h3><p>L'invasion américaine détruit l'État irakien et libère des forces sectaires comprimées depuis des décennies. La politique de "débaasification" (dissoudre le parti de Saddam) jette 400,000 soldats sunnites à la rue, dont beaucoup rejoindront Al-Qaïda en Irak puis Daech.</p>` },
-  russie: { head:'Russie et Islam : coercition et pragmatisme', src:'Sources : Thomas de Waal "The Caucasus" (2010) · Anna Politkovskaya "La Russie selon Poutine" (2005) · Marlène Laruelle (IERES)',
-    body:`<h3>Les guerres de Tchétchénie</h3><p>1994-1996 : Première guerre — catastrophe militaire russe. 30,000-50,000 morts. Grozny rasée. 1999-2009 : Seconde guerre — victoire russe via terreur et reconstruction clientéliste (Kadyrov). Environ 80,000-160,000 morts.</p><p>Ces guerres ont radicalisé une partie de la jeunesse tchétchène, alimentant le terrorisme international (attentats de Moscou, Beslan) et les filières vers la Syrie et l'Irak.</p><h3>Syrie : le retour de la puissance</h3><p>Depuis septembre 2015, la Russie intervient militairement en Syrie. Officiellement contre Daech. En réalité : sauver Assad, maintenir la base navale de Tartous, tester ses armements, démontrer sa fiabilité comme allié face aux hésitations américaines. 9,000+ frappes aériennes documentées dont beaucoup sur des zones civiles.</p>` },
-  chine: { head:'Chine et Islam : entre répression et influence', src:'Sources : Darren Byler "In the Camps" (2022) · Roberts "Fear" (2020) · UHRP (Uyghur Human Rights Project)',
-    body:`<h3>Le Xinjiang : génocide culturel documenté</h3><p>Depuis 2017, le gouvernement chinois a construit un système de surveillance et d'internement de masse ciblant les Ouïghours, Kazakhs et autres minorités turciques musulmanes du Xinjiang. Le Tribunal ouïghour (Londres, 2021) a conclu à l'existence de crimes contre l'humanité et de génocide (stérilisations forcées, séparations familiales, destructions de mosquées, interdiction du jeûne du Ramadan).</p><h3>La Route de la soie et les pays musulmans</h3><p>Paradoxe absolu : la Chine réprime ses musulmans tout en investissant massivement dans les pays à majorité musulmane (Pakistan : CPEC 60Mds USD, Indonésie, Malaisie, pays du Golfe). La solidarité islamique internationale reste muette, achetée par les investissements. L'OCI (Organisation de la Coopération Islamique) n'a émis aucune condamnation formelle.</p>` },
-  abraham:{ head:'Accords Abraham : une nouvelle donne ?', src:'Sources : Dawn Murphy (Naval War College) · Yoel Guzansky (INSS) · Martin Indyk (Brookings)',
-    body:`<h3>Le contenu des accords</h3><p>Signés en septembre-décembre 2020 sous médiation américaine (Trump), les accords Abraham normalisent les relations diplomatiques entre Israël et : EAU, Bahreïn, Soudan, Maroc. Précédents : Égypte (1979, Camp David), Jordanie (1994).</p><h3>Motivations réelles</h3><p>Pour les signataires : obtenir des garanties de sécurité américaines (F-35 pour les EAU), lever des sanctions (Soudan), bénéficier d'une reconnaissance diplomatique (Sahara Occidental pour le Maroc), contenir l'Iran (Bahreïn, EAU). La question palestinienne est explicitement contournée.</p><h3>Le 7 octobre 2023 comme réponse</h3><p>L'attaque du Hamas le 7 octobre 2023 (1,200 morts en Israël) est interprétée par de nombreux analystes comme une tentative délibérée de dynamiter la normalisation saudo-israélienne en cours et de remettre la question palestinienne au centre de l'agenda arabe.</p>` },
-  islamisme:{ head:'Islamisme : politique et religion', src:'Sources : Gilles Kepel "Jihad" (2000) · Olivier Roy "L\'Islam mondialisé" (2002) · François Burgat "L\'Islamisme au Maghreb" (1988)',
-    body:`<h3>Définition et diversité</h3><p>L'islamisme désigne les courants qui font de l'Islam un projet politique total. Il ne constitue pas un bloc monolithique mais un spectre allant de l'islamisme démocratique au jihadisme violent.</p><p><strong>Frères Musulmans</strong> (1928, Hassan al-Banna) : réformisme politique. Branches : Hamas (Palestine), Ennahda (Tunisie), AKP (Turquie, dérivé), PJD (Maroc, dissous 2021). Participent aux élections. Condamnent le terrorisme.</p><p><strong>Salafisme quiétiste</strong> : réformisme religieux, apolitisme. Refuse la démocratie mais aussi la violence. Majoritaire dans le salafisme mondial.</p><p><strong>Jihadisme</strong> : Al-Qaïda (Ben Laden, 1988) puis Daech (Zarqawi, 2004 → Bagdadi, 2013). Théologie du takfir : tout opposant est apostat et peut être tué. Représentent une infime minorité mais dominent les perceptions médiatiques.</p><h3>Le paradoxe de la répression</h3><p>Les régimes autoritaires arabes qui répriment les Frères Musulmans (Égypte de Sissi, EAU) ont souvent alimenté le radicalisme jihadiste en éliminant les acteurs islamistes modérés. Les jihadistes prospèrent là où l'espace politique islamiste est comprimé.</p>` },
-  wahhabi:  { head:'Wahhabisme : naissance d\'un islam rigoriste', src:'Sources : Natana DeLong-Bas "Wahhabi Islam" (2004) · David Commins "The Wahhabi Mission and Saudi Arabia" (2006) · John Calvert "Islamism" (2010)',
-    body:`<h3>Le pacte fondateur de 1744</h3><p>Muhammad ibn Abd al-Wahhab, théologien du Najd (Arabie centrale), rencontre Muhammad ibn Saoud, chef de la tribu d'Al-Dir'iyya. Accord : ibn Saoud prête son épée pour répandre la doctrine d'ibn Abd al-Wahhab ; en échange, ibn Abd al-Wahhab légitime le pouvoir des Saoud. Cette alliance politico-religieuse demeure au cœur de l'État saoudien au XXIe siècle.</p><h3>Doctrine fondamentale</h3><p>Tawhid (monothéisme absolu) : toute vénération autre qu'Allah est du <em>shirk</em> (polythéisme), même si elle s'adresse à des saints musulmans. Bid'a (innovation) : tout ce qui n'existait pas au temps du Prophète est hérétique. Conséquences : destruction des mausolées (Kerbala 1802, Tombouctou 2012), interdiction de la musique, ségrégation des sexes, flagellation pour les "péchés".</p><h3>Diffusion mondiale post-1973</h3><p>L'argent du pétrole finance la conversion d'islams locaux "hétérodoxes" à la norme wahhabite. Les étudiants formés à Médine (Université islamique) et Riyad diffusent ces idées dans 70+ pays. Cette transformation culturelle est l'une des grandes mutations religieuses du XXe siècle — largement invisible dans les médias occidentaux.</p>` },
-  soufi:    { head:'Soufisme : la dimension mystique', src:'Sources : Seyyed Hossein Nasr "The Garden of Truth" (2007) · Alexander Knysh "Sufism" (2010) · Vincent Cornell (Emory University)',
-    body:`<h3>Qu'est-ce que le soufisme ?</h3><p>Le soufisme (tasawwuf) est la dimension ésotérique et mystique de l'Islam, présente dans les deux branches (sunnite et chiite). L'objectif est la proximité directe avec Dieu, au-delà du simple respect des rites externes. Le mot "soufi" vient de <em>suf</em> (laine) — tissu des premiers mystiques ascètes.</p><h3>Les confréries (tariqa)</h3><p>Le soufisme s'organise en confréries transmettant une chaîne initiatique (silsila) remontant au Prophète. Principales :<br><strong>Qadiriyya</strong> : fondée par Abd al-Qadir al-Jilani (Bagdad, XIIe s.). Présente dans 60+ pays.<br><strong>Tijaniyya</strong> : fondée à Fès (1781). Dominante en Afrique de l'Ouest. 100M+ adeptes.<br><strong>Mouridisme</strong> : fondé par Cheikh Ahmadou Bamba (Sénégal, 1883). Modèle africain unique alliant spiritualité et économie.<br><strong>Bektachisme</strong> : Turquie/Albanie. Syncrétisme Islam-christianisme-chamanisme turc. Tolérance remarquable.</p><h3>Soufisme et violence</h3><p>Paradoxe : historiquement, le soufisme a été l'un des principaux vecteurs de pacification des conversions (Asie du Sud-Est, Afrique). Il est aujourd'hui la cible principale des jihadistes wahhabites, qui détruisent les sanctuaires soufis au Mali, en Libye, en Somalie.</p>` },
-};
-
-function openArticle(idx, type) {
-  const data = type === 'courant' ? COURANTS[idx] : GEOPOLITIQUE[idx];
-  const art = ARTICLES[data.art];
-  if (!art) return;
-  document.getElementById('article-head').textContent = art.head;
-  document.getElementById('article-src').innerHTML = art.src;
-  document.getElementById('article-body').innerHTML = art.body;
-  document.getElementById('article-overlay').classList.add('open');
-}
-function closeArticle() { document.getElementById('article-overlay').classList.remove('open'); }
-
-/* ── Enrichissement modal pays avec onglet Histoire ── */
-const COUNTRY_HISTORY = {
-  'Iran':          { islamisation:'637 EC (conquête arabe, bataille de Qadisiyyah)', ecole:'Chiisme duodécimain officiel depuis 1501', evenement:'Révolution de Khomeini 1979 — République Islamique', influence:'Centre mondial de la théologie chiite (Qom et Najaf)' },
-  'Arabie Saoudite':{ islamisation:'622 EC (berceau de l\'Islam)', ecole:'Hanbali / Wahhabite officiel depuis 1744', evenement:'Pacte Wahhab-Saoud 1744 · Prise de La Mecque 1979 (Juhayman)', influence:'Gardien des deux mosquées saintes · Financement wahhabite mondial' },
-  'Irak':          { islamisation:'637 EC (conquête)', ecole:'Sunnite hanafi historique + chiisme majoritaire', evenement:'Bataille de Kerbala 680 EC · Invasion USA 2003 · Daech 2014-2017', influence:'Kerbala et Najaf = villes saintes chiites · Berceau de la division' },
-  'Indonésie':     { islamisation:'XIIIe–XVe siècles (commerçants arabes et indiens)', ecole:'Shafi\'i dominant · Islam syncrétique (Abangan)', evenement:'Independence 1945 · Tentative coup islamiste 1965 · Reformasi 1998', influence:'Plus grande pop. musulmane mondiale · Islam modéré modèle (NU, Muhammadiyah)' },
-  'Pakistan':      { islamisation:'711 EC (conquête de Sindh par Muhammad bin Qasim)', ecole:'Hanafi dominant · Déobandi très présent · Barelvi', evenement:'Partition de l\'Inde 1947 · Islamisation de Zia ul-Haq 1977–1988 · TTP', influence:'Base des Taliban afghans · Financement saoudien des madrasas déobandies' },
-  'Turquie':       { islamisation:'1071 EC (Seldjoukides) · Complet XIVe-XVe s. (Ottomans)', ecole:'Hanafi officiel · 26% Alevi', evenement:'Califat ottoman (1517-1924) · Atatürk laïcisation 1924 · AKP 2002', influence:'Dernier califat de l\'Islam (dissous par Atatürk) · Influence régionale croissante' },
-  'Égypte':        { islamisation:'641 EC (conquête arabe)', ecole:'Maliki + Shafi\'i · Al-Azhar référence mondiale', evenement:'Al-Azhar fondé 970 EC · Nassérisme · Frères Musulmans 1928 · Coup Sissi 2013', influence:'Al-Azhar = plus haute autorité sunnite mondiale · 90M musulmans' },
-  'Syrie':         { islamisation:'636 EC (conquête)', ecole:'Sunnite shafi\'i dominant · Alaouites 12%', evenement:'Arabisme de Baas · Assad père 1970 · Révolution 2011 · Chute Assad 2024', influence:'Corridor Iran–Liban · Damas = capitale du 1er empire islamique (Omeyyades)' },
-  'Yémen':         { islamisation:'628 EC (conversion du roi du Yémen)', ecole:'Shafi\'i (sunnite sud) · Zaïdi (chiite nord)', evenement:'Unification 1990 · Printemps arabe 2011 · Guerre civile 2015–présent', influence:'Stratégique (Bab el-Mandeb) · Proxy war Iran vs Arabie Saoudite' },
-  'Nigeria':       { islamisation:'XIVe siècle (Empire du Mali, commerçants Haoussa)', ecole:'Maliki dominant · Réforme Salafi depuis 1970s', evenement:'Jihad de Ousman dan Fodio 1804 · Biafra 1967 · Boko Haram 2009', influence:'Première économie africaine · 50% musulmans · 12 États à charia' },
-  'France':        { islamisation:'VIIIe siècle (Al-Andalus, repoussé à Poitiers 732)', ecole:'Maliki (Maghrébins) · Hanafi (Turcs) · Shafi\'i (Africains de l\'Est)', evenement:'Immigration postcoloniale 1950s-70s · Loi voile 2004 · Attentats 2015-2016', influence:'5-6M musulmans · Débat laïcité le plus intense d\'Europe' },
-};
-
-function renderModalHistory(name) {
-  const h = COUNTRY_HISTORY[name];
-  const d = DATA[name];
-  const el = document.getElementById('modal-history-content');
-  if (!h) {
-    el.innerHTML = `<div style="font-size:12px;color:var(--muted);padding:12px 0;line-height:1.8">
-      <em>Données historiques détaillées pour ${name} en cours de compilation.<br>
-      Région : ${d ? d.r : 'N/A'} · Population musulmane : ${d ? d.m + '%' : 'N/A'}</em>
-      <br><br>
-      <div class="modal-note" style="margin:0">
-        💡 <strong>Pour approfondir :</strong> consultez l'onglet 📖 Savoir → Origines pour l'histoire générale de la division sunnite-chiite, et ⚔ Conflits pour l'analyse des tensions actuelles.
-      </div></div>`;
-    return;
-  }
-  el.innerHTML = `
-    <div style="display:grid;gap:10px;margin-top:4px">
-      <div class="modal-card"><div class="modal-card-label">Islam arrivé</div><div class="modal-card-value" style="font-size:13px">${h.islamisation}</div></div>
-      <div class="modal-card"><div class="modal-card-label">École / Courant dominant</div><div class="modal-card-value" style="font-size:13px">${h.ecole}</div></div>
-      <div class="modal-card"><div class="modal-card-label">Événements historiques clés</div><div class="modal-card-value" style="font-size:12px">${h.evenement}</div></div>
-      <div class="modal-card" style="border-color:rgba(201,168,76,.3)"><div class="modal-card-label" style="color:var(--gold)">Influence géopolitique</div><div class="modal-card-value" style="font-size:12px">${h.influence}</div></div>
-    </div>`;
-}
-
 /* ═══════════ INIT ═══════════ */
 document.getElementById('loading').style.transition = 'opacity .55s';
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initMap);
-} else {
-  initMap();
-}
+initMap();
 </script>
 </body>
 </html>
