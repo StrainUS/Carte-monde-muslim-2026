@@ -2,7 +2,7 @@
 <html lang="fr" class="map-page">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="description" content="Formation professionnelle 2026 — Terrorisme islamiste et dynamiques des populations musulmanes. Carte interactive, sources Pew/BAMF/UE, module sécurité (SSIAP/CQPM).">
   <meta name="keywords" content="formation sécurité, terrorisme, islam, sunnites, chiites, SSIAP, CQPM, PNAT, 2026">
   <meta name="theme-color" content="#0a0f1a">
@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="assets/css/common.css">
   <link rel="stylesheet" href="assets/css/map.css">
   <link rel="stylesheet" href="assets/css/app-pro.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
 </head>
 <body class="map-page spa-mode">
 
@@ -254,6 +255,7 @@
       <strong>Pourquoi des conflits religio-politiques nourrissent-ils le terrorisme ?</strong> Parce que des acteurs étatiques ou non-étatiques instrumentalisent des récits identitaires, des réseaux financiers et des sanctuaires territoriaux.
       Exemples pédagogiques : proxies chiites (Hezbollah, milices irakiennes), filières sunnites wahhabites/salafistes djihadistes (Al-Qaida, ÉI). Les sorties de détention suivies par la PNAT et les statistiques associées sont des <strong>indicateurs de politique publique</strong>, pas des jugements sur une communauté.
     </p>
+    <div class="table-responsive" role="region" aria-label="Tableau comparatif (défilement horizontal sur petit écran)">
     <table class="compare-table">
       <thead>
         <tr>
@@ -280,6 +282,7 @@
         </tr>
       </tbody>
     </table>
+    </div>
     <p class="pro-lead" style="font-size:13px;margin-top:12px">
       <strong>Repère France 2026 :</strong> les débats sur le fichage (ex. dispositifs type RAMF) illustrent la tension entre prévention et libertés — suivez les textes officiels mis à jour sur <a href="https://www.legifrance.gouv.fr/" rel="noopener noreferrer">Légifrance</a> et les notes du ministère de l’Intérieur.
     </p>
@@ -322,6 +325,8 @@
 
 <footer class="site-footer" role="contentinfo">
   <p><strong>Formation Sécurité Anti-Terrorisme</strong> — Web statique v2.0 (avril 2026). Hébergement possible : GitHub Pages.</p>
+  <p id="parcours-hint" class="footer-meta" hidden>Parcours consulté : <span id="parcours-count">0 / 6</span> sections.</p>
+  <p id="footer-editorial" class="footer-meta" hidden></p>
   <p>Avertissement : outil pédagogique — ne dispense pas du droit positif ni des consignes CNAPS/employeur.</p>
   <div class="footer-actions">
     <a class="btn-ghost" href="mailto:contact@example.org">Contact (à configurer)</a>
@@ -329,7 +334,7 @@
   </div>
 </footer>
 
-<div id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-name">
+<div id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-name" aria-hidden="true">
   <div id="modal-box">
     <button type="button" id="modal-close" aria-label="Fermer">✕</button>
     <h2 id="modal-name"></h2>
@@ -357,6 +362,7 @@
 <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
 <script src="assets/js/data.js"></script>
+<script src="assets/js/pedagogy-bundle.js"></script>
 <script src="assets/js/map-core.js"></script>
 <script src="assets/js/map-ui.js"></script>
 <script src="assets/js/app-pro.js"></script>

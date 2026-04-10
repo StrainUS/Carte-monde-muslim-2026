@@ -34,6 +34,10 @@
 
 html {
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Évite le zoom auto iOS sur les champs ; taille de texte lisible partout */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {

@@ -3,6 +3,16 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Mode SPA : le document doit défiler (sinon html { overflow:hidden } de map.css bloque tout le scroll) */
+html.map-page.spa-mode {
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: auto;
+  min-height: 100%;
+  min-height: 100dvh;
+  -webkit-overflow-scrolling: touch;
+}
+
 body.map-page.spa-mode {
   overflow-x: hidden;
   overflow-y: auto;
@@ -249,8 +259,9 @@ body.map-page.spa-mode {
 }
 
 #section-carte #app {
-  height: min(88vh, 920px);
-  min-height: 480px;
+  /* dvh/svh : hauteur réelle sur mobile (barre d’adresse) ; fallback vh */
+  height: min(88dvh, 88vh, 920px);
+  min-height: min(480px, 55dvh);
 }
 
 /* Onglets Savoir */
@@ -401,6 +412,13 @@ body.map-page.spa-mode {
   flex-wrap: wrap;
   gap: 10px;
   margin: 12px 0;
+}
+
+.site-footer .footer-meta {
+  margin: 8px 0 0;
+  font-size: 11px;
+  line-height: 1.45;
+  max-width: 72ch;
 }
 
 .btn-ghost {

@@ -453,6 +453,70 @@
     io.observe(sec);
   }
 
+  function initEditorial() {
+    const el = $("#footer-editorial");
+    if (!el) return;
+    fetch("assets/data/editorial.json")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((j) => {
+        if (!j) return;
+        el.textContent =
+          j.legal + " — " + j.method + " (v" + j.version + ", " + j.lastUpdated + ").";
+        el.hidden = false;
+      })
+      .catch(() => {});
+  }
+
+  function initSectionProgress() {
+    const KEY = "islammap-sections-v1";
+    const secIds = ["accueil", "section-carte", "savoir", "terrorisme", "quiz-cert", "sources"];
+    const countEl = document.getElementById("parcours-count");
+    const wrap = document.getElementById("parcours-hint");
+    const visited = new Set();
+    try {
+      const raw = localStorage.getItem(KEY);
+      if (raw) JSON.parse(raw).forEach((id) => visited.add(id));
+    } catch (_) {}
+
+    function persist() {
+      try {
+        localStorage.setItem(KEY, JSON.stringify(Array.from(visited)));
+      } catch (_) {}
+      if (countEl) countEl.textContent = visited.size + " / " + secIds.length;
+      if (wrap) wrap.hidden = visited.size === 0;
+    }
+
+    function mark(id) {
+      if (secIds.indexOf(id) < 0) return;
+      if (visited.has(id)) return;
+      visited.add(id);
+      persist();
+    }
+
+    secIds.forEach((id) => {
+      const section = document.getElementById(id);
+      if (!section || !("IntersectionObserver" in window)) return;
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((en) => {
+            if (en.isIntersecting) mark(id);
+          });
+        },
+        { threshold: 0.22 }
+      );
+      io.observe(section);
+    });
+
+    document.querySelectorAll('.site-nav a[href^="#"]').forEach((a) => {
+      a.addEventListener("click", () => {
+        const id = (a.getAttribute("href") || "").replace(/^#/, "");
+        if (id) mark(id);
+      });
+    });
+
+    persist();
+  }
+
   function boot() {
     initNavHighlight();
     initSiteMenu();
@@ -467,6 +531,8 @@
     initArrowNav();
     initLazyTimeline();
     initMapResize();
+    initEditorial();
+    initSectionProgress();
   }
 
   function initMapResize() {

@@ -1,6 +1,6 @@
 /* Cache statique minimal — compatible GitHub Pages (sous-chemin) */
 const BASE = self.location.pathname.replace(/[^/]+$/, "");
-const CACHE = "islammap-pro-v2";
+const CACHE = "islammap-pro-v3";
 const ASSETS = [
   BASE,
   BASE + "index.html",
@@ -8,10 +8,13 @@ const ASSETS = [
   BASE + "assets/css/common.css",
   BASE + "assets/css/map.css",
   BASE + "assets/css/app-pro.css",
+  BASE + "assets/css/responsive.css",
   BASE + "assets/js/data.js",
+  BASE + "assets/js/pedagogy-bundle.js",
   BASE + "assets/js/map-core.js",
   BASE + "assets/js/map-ui.js",
   BASE + "assets/js/app-pro.js",
+  BASE + "assets/data/editorial.json",
 ];
 
 self.addEventListener("install", (e) => {

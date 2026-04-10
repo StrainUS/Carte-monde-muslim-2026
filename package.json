@@ -1,0 +1,7 @@
+{
+  "name": "carte-monde-muslim-2026",
+  "private": true,
+  "scripts": {
+    "test": "node scripts/run-all-tests.mjs"
+  }
+}

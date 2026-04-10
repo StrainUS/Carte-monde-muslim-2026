@@ -12,7 +12,7 @@
     return;
   }
 
-  const { DATA, CENTROIDS, QUIZ_DATA, SECURITY_NOTES, TERROR_HOTSPOTS } = D;
+  const { DATA, CENTROIDS } = D;
   const { MAP, toggleLayer: coreToggleLayer } = Core;
   const escapeHtml =
     typeof Core.escapeHtml === "function"
@@ -41,6 +41,7 @@
   let searchTimer = null;
   let terrorLayerGroup = null;
   let terrorLayerVisible = false;
+  let modalReturnFocus = null;
 
   /* ══════════════════════════════════════
      MODALE PAYS
@@ -160,7 +161,7 @@
     document.getElementById("modal-note").innerHTML =
       "💡 <b>Pour comprendre :</b> " + escapeHtml(d.n).replace(/\n/g, "<br>");
 
-    const sn = SECURITY_NOTES && SECURITY_NOTES[name];
+    const sn = D.SECURITY_NOTES && D.SECURITY_NOTES[name];
     const setBlk = (id, title, text) => {
       const el = document.getElementById(id);
       if (!el) return;
@@ -195,11 +196,27 @@
         "<a href=\"pedagogie.html#sources\">Guide historique</a>.";
     }
 
-    document.getElementById("modal-overlay").classList.add("open");
+    const overlay = document.getElementById("modal-overlay");
+    modalReturnFocus = document.activeElement;
+    overlay.classList.add("open");
+    overlay.setAttribute("aria-hidden", "false");
+    const closeBtn = document.getElementById("modal-close");
+    requestAnimationFrame(() => {
+      if (closeBtn && typeof closeBtn.focus === "function") closeBtn.focus();
+    });
   }
 
   function closeModal() {
-    document.getElementById("modal-overlay").classList.remove("open");
+    const overlay = document.getElementById("modal-overlay");
+    if (!overlay) return;
+    overlay.classList.remove("open");
+    overlay.setAttribute("aria-hidden", "true");
+    if (modalReturnFocus && typeof modalReturnFocus.focus === "function") {
+      try {
+        modalReturnFocus.focus();
+      } catch (_) {}
+    }
+    modalReturnFocus = null;
   }
 
   /* ══════════════════════════════════════
@@ -271,9 +288,10 @@
   }
 
   function renderQuiz() {
+    if (!D.QUIZ_DATA || !D.QUIZ_DATA.length) return;
     quizAnswered = false;
-    const tot = QUIZ_DATA.length;
-    const q = QUIZ_DATA[quizIdx % tot];
+    const tot = D.QUIZ_DATA.length;
+    const q = D.QUIZ_DATA[quizIdx % tot];
     const n = (quizIdx % tot) + 1;
 
     document.getElementById("quiz-question").textContent = `Question ${n} / ${tot} — ${q.q}`;
@@ -328,15 +346,15 @@
   function nextQuiz() {
     quizIdx++;
     /* Fin du cycle — afficher résultat final (Recommencer géré par délégation #quiz-box) */
-    if (quizIdx >= QUIZ_DATA.length) {
+    if (quizIdx >= D.QUIZ_DATA.length) {
       const box = document.getElementById("quiz-box");
-      const pct = Math.round((quizScore / QUIZ_DATA.length) * 100);
+      const pct = Math.round((quizScore / D.QUIZ_DATA.length) * 100);
       box.innerHTML =
         '<div id="quiz-question" style="text-align:center">Quiz terminé ! Score final</div>' +
         '<div style="text-align:center;font-size:24px;font-weight:700;color:var(--gold);padding:12px 0">' +
         quizScore +
         " / " +
-        QUIZ_DATA.length +
+        D.QUIZ_DATA.length +
         "</div>" +
         '<div style="text-align:center;font-size:13px;color:var(--muted);margin-bottom:12px">' +
         pct +
@@ -504,6 +522,30 @@
 
   /* ── Raccourcis globaux ── */
   document.addEventListener("keydown", (e) => {
+    const modalEl = document.getElementById("modal-overlay");
+    if (modalEl && modalEl.classList.contains("open") && e.key === "Tab") {
+      const box = document.getElementById("modal-box");
+      if (box) {
+        const focusable = Array.prototype.filter.call(
+          box.querySelectorAll(
+            'a[href], button:not([disabled]), input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])'
+          ),
+          (el) => el.offsetParent !== null || el === document.activeElement
+        );
+        if (focusable.length) {
+          const first = focusable[0];
+          const last = focusable[focusable.length - 1];
+          if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
+      }
+      return;
+    }
     if (e.key === "Escape") {
       closeModal();
       document.getElementById("search-drop")?.classList.remove("open");
@@ -540,9 +582,9 @@
   /* Carte prête : redimensionner Leaflet + hotspots terrorisme (cercles indicatifs) */
   window.addEventListener("islammap:ready", () => {
     MAP.invalidateSize();
-    if (TERROR_HOTSPOTS && TERROR_HOTSPOTS.length && !terrorLayerGroup) {
+    if (D.TERROR_HOTSPOTS && D.TERROR_HOTSPOTS.length && !terrorLayerGroup) {
       terrorLayerGroup = L.layerGroup();
-      TERROR_HOTSPOTS.forEach((h) => {
+      D.TERROR_HOTSPOTS.forEach((h) => {
         const km = h.km || 200;
         const inten = typeof h.intensity === "number" ? h.intensity : 0.6;
         const circle = L.circle([h.lat, h.lng], {
