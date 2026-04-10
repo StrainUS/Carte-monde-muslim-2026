@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+# Clone (si besoin), met à jour, lance un serveur HTTP local et ouvre le navigateur.
+# Usage : ./scripts/cartemonde   ou   cartemonde (si installé dans le PATH)
+# Variables optionnelles : CARTEMONDE_DIR, CARTEMONDE_PORT, CARTEMONDE_REPO
+
+set -euo pipefail
+
+REPO_URL="${CARTEMONDE_REPO:-https://github.com/StrainUS/Carte-monde-muslim-2026.git}"
+TARGET="${CARTEMONDE_DIR:-$HOME/Carte-monde-muslim-2026}"
+PORT="${CARTEMONDE_PORT:-8080}"
+HOST="127.0.0.1"
+URL="http://${HOST}:${PORT}/"
+
+port_in_use() {
+  if command -v lsof >/dev/null 2>&1; then
+    lsof -nP -iTCP:"$PORT" -sTCP:LISTEN >/dev/null 2>&1
+  elif command -v ss >/dev/null 2>&1; then
+    ss -tln 2>/dev/null | grep -q ":${PORT} "
+  else
+    (echo >/dev/tcp/"$HOST"/"$PORT") >/dev/null 2>&1
+  fi
+}
+
+open_browser() {
+  case "$(uname -s)" in
+    Darwin) open "$URL" ;;
+    Linux)
+      xdg-open "$URL" 2>/dev/null || sensible-browser "$URL" 2>/dev/null || true
+      ;;
+    *) python3 -c "import webbrowser; webbrowser.open('$URL')" 2>/dev/null || true ;;
+  esac
+}
+
+if [[ ! -d "$TARGET/.git" ]]; then
+  echo "→ Clone du dépôt dans $TARGET"
+  git clone "$REPO_URL" "$TARGET"
+fi
+
+cd "$TARGET"
+echo "→ Dossier : $TARGET"
+if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  git pull --ff-only 2>/dev/null || true
+fi
+
+if port_in_use; then
+  echo "→ Le port $PORT est déjà utilisé — ouverture du navigateur sans nouveau serveur."
+else
+  LOG="${TMPDIR:-/tmp}/cartemonde-http-${PORT}.log"
+  echo "→ Démarrage du serveur http://$HOST:$PORT/ (logs : $LOG)"
+  nohup bash -c "cd \"$TARGET\" && exec python3 -m http.server \"$PORT\" --bind \"$HOST\"" >>"$LOG" 2>&1 &
+  sleep 0.6
+  echo "→ Pour arrêter plus tard : kill \$(lsof -t -iTCP:${PORT} -sTCP:LISTEN 2>/dev/null) 2>/dev/null || true"
+fi
+
+echo "→ Navigateur : $URL"
+open_browser

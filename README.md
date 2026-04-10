@@ -14,17 +14,63 @@ Application web **statique** en français : carte Leaflet (répartition sunnite 
 | `assets/js/map-ui.js` | Modale, recherche, quiz (délégation d’événements), raccourcis |
 | `assets/css/*.css` | Styles (tokens communs, carte, pédagogie) |
 | `docs/SOURCES.md` | Méthodologie, liens officiels, limites |
+| `scripts/cartemonde` | **Une commande** : clone si besoin, `git pull`, serveur local, ouverture du navigateur |
+| `scripts/install-cartemonde.sh` | Installe `cartemonde` dans `~/.local/bin` (téléchargement depuis GitHub) |
 
-## Lancer le projet
+## Commande `cartemonde`
+
+**Clone (si besoin), mise à jour, serveur HTTP (port 8080), ouverture du navigateur** — en un mot après installation.
+
+### Installation (sans avoir encore cloné le dépôt)
+
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/StrainUS/Carte-monde-muslim-2026/main/scripts/install-cartemonde.sh)"
+```
+
+Ajoutez dans `~/.zshrc` :
+
+```bash
+export PATH="$HOME/.local/bin:$PATH"
+```
+
+Puis `source ~/.zshrc` et :
+
+```bash
+cartemonde
+```
+
+### Déjà le dépôt en local
+
+À exécuter **à la racine du clone** :
+
+```bash
+mkdir -p ~/.local/bin
+ln -sf "$PWD/scripts/cartemonde" ~/.local/bin/cartemonde
+chmod +x scripts/cartemonde
+export PATH="$HOME/.local/bin:$PATH"
+cartemonde
+```
+
+### Variables d’environnement (optionnel)
+
+| Variable | Défaut | Rôle |
+|----------|--------|------|
+| `CARTEMONDE_DIR` | `$HOME/Carte-monde-muslim-2026` | Dossier du dépôt |
+| `CARTEMONDE_PORT` | `8080` | Port |
+| `CARTEMONDE_REPO` | URL du dépôt GitHub | Cible du `git clone` |
+
+Logs serveur : `${TMPDIR:-/tmp}/cartemonde-http-<port>.log`. Arrêt (macOS) : `kill $(lsof -t -iTCP:8080 -sTCP:LISTEN) 2>/dev/null`.
+
+## Lancer le projet à la main
 
 Le chargement du fichier pays (`fetch` vers jsDelivr) est **fiable** avec un serveur HTTP lancé **dans le dossier du dépôt** :
 
 ```bash
-cd /Users/teo.rible/Carte-monde-muslim-2026
+cd /chemin/vers/Carte-monde-muslim-2026
 python3 -m http.server 8080
 ```
 
-Ouvrir : **http://localhost:8080/** (pas le listing du répertoire home : le `cd` doit pointer vers ce projet).
+Ouvrir : **http://localhost:8080/** (le `cd` doit viser ce dossier, pas seulement votre répertoire personnel).
 
 ## Dépendances externes (CDN)
 
