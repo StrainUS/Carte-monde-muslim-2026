@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 200" role="img" aria-labelledby="t3">
+  <title id="t3">Sunnisme : Sunna et madhahib</title>
+  <rect width="520" height="200" fill="#0d1628" rx="12"/>
+  <text x="260" y="30" fill="#c9a84c" font-family="system-ui,sans-serif" font-size="13" font-weight="600" text-anchor="middle">Sunnisme (rappel sch&#233;matique)</text>
+  <rect x="180" y="48" width="160" height="36" fill="rgba(94,201,114,0.15)" stroke="#5ec972" rx="6"/>
+  <text x="260" y="71" fill="#e4eaf4" font-family="system-ui,sans-serif" font-size="12" text-anchor="middle">Sunna, Coran, hadiths</text>
+  <text x="260" y="100" fill="#6b7a9a" font-family="system-ui,sans-serif" font-size="10" text-anchor="middle">Majorit&#233; d&#233;mographique mondiale (estimations)</text>
+  <rect x="48" y="118" width="98" height="52" fill="rgba(255,255,255,0.04)" stroke="#5ec972" stroke-opacity="0.4" rx="4"/>
+  <text x="97" y="142" fill="#e4eaf4" font-family="system-ui,sans-serif" font-size="10" text-anchor="middle">Hanafi</text>
+  <rect x="158" y="118" width="98" height="52" fill="rgba(255,255,255,0.04)" stroke="#5ec972" stroke-opacity="0.4" rx="4"/>
+  <text x="207" y="142" fill="#e4eaf4" font-family="system-ui,sans-serif" font-size="10" text-anchor="middle">Maliki</text>
+  <rect x="268" y="118" width="98" height="52" fill="rgba(255,255,255,0.04)" stroke="#5ec972" stroke-opacity="0.4" rx="4"/>
+  <text x="317" y="142" fill="#e4eaf4" font-family="system-ui,sans-serif" font-size="10" text-anchor="middle">Shafii</text>
+  <rect x="378" y="118" width="98" height="52" fill="rgba(255,255,255,0.04)" stroke="#5ec972" stroke-opacity="0.4" rx="4"/>
+  <text x="427" y="142" fill="#e4eaf4" font-family="system-ui,sans-serif" font-size="10" text-anchor="middle">Hanbali</text>
+  <text x="260" y="188" fill="#6b7a9a" font-family="system-ui,sans-serif" font-size="9" text-anchor="middle">Voir manuels de sciences des religions et rapports Pew (Religion)</text>
+</svg>

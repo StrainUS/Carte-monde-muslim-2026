@@ -32,6 +32,23 @@ Ce document accompagne le projet **Islam mondial 2026** (`index.html`, `pedagogi
 
 Pour actualiser un pays : éditer l’entrée correspondante dans `assets/js/data.js` (champs `p`, `m`, `s`, `h`, `ib`, `c`, `n`), puis ajuster la note `n` et, si besoin, le centroïde dans `CENTROIDS` pour que l’étiquette reste bien positionnée sur la carte.
 
+## 6. Références « officielles » ou de référence publique
+
+Ces organismes publient des méthodologies et des tableaux utilisés pour **contrôler** les ordres de grandeur (toujours noter l’année de l’édition consultée) :
+
+| Ressource | URL (indicative) | Usage |
+|-----------|------------------|--------|
+| Pew Research Center (religion) | https://www.pewresearch.org/topic/religion/ | Démographie religieuse, rapports méthodologiques |
+| ONU — World Population Prospects | https://population.un.org/wpp/ | Populations nationales |
+| CIA World Factbook — religions | https://www.cia.gov/the-world-factbook/field/religions/ | Fiches pays (à croiser) |
+| UNHCR | https://www.unhcr.org/ | Crises et déplacements (≠ stats religieuses) |
+
+Les définitions des **courants** (sunnisme, chiisme, etc.) dans le support pédagogique du dépôt reprennent des **formulations usuelles** dans ce type de publications et dans les manuels de sciences des religions : elles sont **descriptives** et ne valent pas position théologique.
+
+## 7. Illustrations du diaporama
+
+Les fichiers `assets/img/pedagogie/slide-*.svg` sont des schémas **produit pour ce dépôt** (SVG, texte éditable). Ils servent d’appui visuel à `pedagogie.html` et peuvent être modifiés avec un éditeur de texte ou Inkscape / Figma.
+
 ---
 
 *Document rédigé pour un usage pédagogique et de transparence méthodologique.*

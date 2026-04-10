@@ -323,8 +323,11 @@
     panel.classList.toggle("collapsed", rightCollapsed);
     b.textContent = rightCollapsed ? "▶" : "◀";
     b.classList.toggle("collapsed", rightCollapsed);
-    /* aria-expanded : expanded = panneau visible */
     b.setAttribute("aria-expanded", String(!rightCollapsed));
+    b.setAttribute(
+      "aria-label",
+      rightCollapsed ? "Déplier le panneau latéral droit" : "Replier le panneau latéral droit"
+    );
     requestAnimationFrame(() => MAP.invalidateSize());
   }
 

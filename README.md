@@ -1,52 +1,65 @@
 # Islam mondial 2026 — Carte interactive & support pédagogique
 
-Application web **statique** en français : carte Leaflet des populations musulmanes (répartition sunnite / chiite / ibadi), indicateur de tensions, fiches pays, quiz et **page pédagogique** avec **diaporama** pour la présentation en classe ou devant des collègues.
+Application web **statique** en français : carte Leaflet (répartition sunnite / chiite / ibadi), indicateur de tensions, fiches pays, quiz avec score, et **page pédagogique** avec **diaporama illustré** (schémas SVG) pour la classe ou une présentation professionnelle.
 
-## Aperçu du dépôt
+## Arborescence utile
 
 | Élément | Rôle |
 |---------|------|
-| `index.html` | **Carte principale** — navigation, couches, recherche, modale, quiz |
-| `pedagogie.html` | **Diaporama** (8 écrans) + sections structurées (courants, conflits, sources) |
-| `assets/js/data.js` | Données pays, centroïdes des étiquettes, banque de questions du quiz |
-| `assets/js/map-core.js` | Leaflet, GeoJSON, couleurs, zoom fluide, étiquettes |
-| `assets/js/map-ui.js` | Modale, recherche (debounce), quiz, raccourcis, mode présentation |
-| `assets/css/common.css` | Design tokens partagés |
-| `assets/css/map.css` | Mise en page de la carte |
-| `assets/css/pedagogie.css` | Mise en page pédagogique |
-| `docs/SOURCES.md` | Méthodologie et références détaillées |
+| `index.html` | **Carte** — couches, recherche, modale, quiz, mode présentation |
+| `pedagogie.html` | **Diaporama** (8 écrans + visuels) + sections (courants, conflits, références, sources) |
+| `assets/img/pedagogie/*.svg` | Illustrations du diaporama (vectoriel, sans dépendance externe) |
+| `assets/js/data.js` | Données pays, centroïdes, quiz |
+| `assets/js/map-core.js` | Leaflet, GeoJSON, couleurs, étiquettes (show/hide) |
+| `assets/js/map-ui.js` | Modale, recherche, quiz (délégation d’événements), raccourcis |
+| `assets/css/*.css` | Styles (tokens communs, carte, pédagogie) |
+| `docs/SOURCES.md` | Méthodologie, liens officiels, limites |
 
 ## Lancer le projet
 
-Un simple double-clic sur `index.html` peut suffire, mais le chargement des données (`fetch` vers le CDN) est **plus fiable** avec un petit serveur HTTP :
+Le chargement du fichier pays (`fetch` vers jsDelivr) est **fiable** avec un serveur HTTP lancé **dans le dossier du dépôt** :
 
 ```bash
-cd /chemin/vers/Carte-monde-muslim-2026
+cd /Users/teo.rible/Carte-monde-muslim-2026
 python3 -m http.server 8080
 ```
 
-Ouvrir : `http://localhost:8080`
+Ouvrir : **http://localhost:8080/** (pas le listing du répertoire home : le `cd` doit pointer vers ce projet).
 
 ## Dépendances externes (CDN)
 
 - **Leaflet** — carte interactive  
-- **TopoJSON / world-atlas** — polygones pays  
+- **TopoJSON + world-atlas** — polygones pays  
+- **CARTO** + **OpenStreetMap** — fond de carte  
 - **Google Fonts** — Cinzel + Inter  
 
 ## Fonctionnalités principales
 
 - Couches sunnite / chiite / tensions / noms des pays  
-- Recherche de pays (sécurisée contre les apostrophes dans les noms)  
-- Fiche pays avec graphiques et note pédagogique  
-- Quiz à choix multiples  
-- Mode **présentation** (masque panneaux et barre d’indicateurs)  
-- Impression / PDF via la fonction d’impression du navigateur  
-- Raccourcis : **Échap** ferme la modale, **F** plein écran (hors champs de saisie), **+/−** zoom  
+- **Bouton de repli du panneau droit** calé sur le bord carte / panneau (`right: 0` dans `#map-wrap`)  
+- Recherche sécurisée (`data-country` + `encodeURIComponent`)  
+- Fiche pays (graphiques, note, lien vers la page Sources)  
+- Quiz avec **score** et écran final « Recommencer » (délégation sur `#quiz-box`)  
+- **Interface active dès le chargement du DOM** : si le GeoJSON échoue, boutons et recherche restent utilisables ; la carte affiche alors un message d’erreur  
+- Mode présentation, impression, raccourcis **Échap**, **F**, **+** / **−**, **P** (hors champs de saisie)  
+
+## Documentation pédagogique
+
+- **`pedagogie.html`** : diapositives avec schémas, références vers Pew, ONU (WPP), CIA Factbook, UNHCR.  
+- **`docs/SOURCES.md`** : nature des agrégats, bonnes pratiques de citation, mise à jour de `data.js`.  
 
 ## Avertissement méthodologique
 
-Les chiffres sont des **synthèses indicatives** pour l’enseignement. Ils doivent être croisés avec les sources listées dans `docs/SOURCES.md` et dans la section **Sources** de `pedagogie.html`.
+Les chiffres sont des **synthèses indicatives** pour l’enseignement. Pour un exposé noté ou un article, citez les **sources primaires** et leur **millésime**. La carte ne remplace pas une enquête d’origine.
+
+## Tests rapides (développement)
+
+```bash
+node --check assets/js/data.js assets/js/map-core.js assets/js/map-ui.js assets/js/pedagogie.js
+```
+
+Avec le serveur local : vérifier les codes HTTP 200 pour `/`, `/pedagogie.html`, `/assets/js/map-core.js`, `/assets/img/pedagogie/slide-01-diversite.svg`.
 
 ## Licence du contenu
 
-Les textes pédagogiques et les données agrégées sont fournis pour un usage **éducatif**. Réutilisation publique : vérifier les sources primaires et créditer le projet si pertinent.
+Textes et données agrégées : usage **éducatif**. Réutilisation publique : créditer les sources primaires et, si pertinent, ce dépôt. Les SVG du dossier `assets/img/pedagogie/` sont fournis pour ce projet (usage pédagogique).
