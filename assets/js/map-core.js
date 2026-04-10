@@ -60,6 +60,8 @@
     el.addEventListener(
       "wheel",
       function (e) {
+        /* Sans Ctrl/⌘ : laisser la page défiler (trackpad / molette). Zoom : Ctrl+molette, boutons +/−, ou pincer (trackpad). */
+        if (!e.ctrlKey && !e.metaKey) return;
         e.preventDefault();
         acc += normDelta(e);
         lastPt = MAP.mouseEventToContainerPoint(e);

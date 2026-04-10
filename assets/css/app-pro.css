@@ -3,8 +3,19 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Mode SPA : le document doit défiler (sinon html { overflow:hidden } de map.css bloque tout le scroll) */
+/* Mode SPA : document = seul conteneur scrollable (html + body synchronisés) */
 html.map-page.spa-mode {
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: auto;
+  min-height: 100%;
+  min-height: 100dvh;
+  -webkit-overflow-scrolling: touch;
+  /* Évite que le titre de section passe sous le header sticky au clic ancre */
+  scroll-padding-top: max(88px, env(safe-area-inset-top, 0px));
+}
+
+body.map-page.spa-mode {
   overflow-x: hidden;
   overflow-y: auto;
   height: auto;
@@ -13,11 +24,9 @@ html.map-page.spa-mode {
   -webkit-overflow-scrolling: touch;
 }
 
-body.map-page.spa-mode {
-  overflow-x: hidden;
-  overflow-y: auto;
-  height: auto;
-  min-height: 100%;
+/* Sections ancrées : même marge pour scrollIntoView / focus */
+#main-content > section[id] {
+  scroll-margin-top: max(88px, calc(env(safe-area-inset-top, 0px) + 72px));
 }
 
 .skip-link {

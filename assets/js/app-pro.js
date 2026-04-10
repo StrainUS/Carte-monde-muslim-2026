@@ -517,6 +517,16 @@
     persist();
   }
 
+  function initHashScroll() {
+    const id = (location.hash || "").replace(/^#/, "");
+    if (!id) return;
+    const el = document.getElementById(id);
+    if (!el) return;
+    requestAnimationFrame(() => {
+      el.scrollIntoView({ behavior: "auto", block: "start" });
+    });
+  }
+
   function boot() {
     initNavHighlight();
     initSiteMenu();
@@ -533,6 +543,7 @@
     initMapResize();
     initEditorial();
     initSectionProgress();
+    initHashScroll();
   }
 
   function initMapResize() {
