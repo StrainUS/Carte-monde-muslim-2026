@@ -6,6 +6,8 @@
     "test:e2e": "playwright test",
     "test:e2e:install": "playwright install",
     "test:all": "npm run test && npm run test:e2e",
+    "build:html": "node scripts/build-html-deploy.mjs",
+    "verify": "node scripts/verify.mjs",
     "start": "node scripts/serve-open.js",
     "startmap": "node scripts/serve-open.js",
     "serve": "node scripts/serve-open.js",

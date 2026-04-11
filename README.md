@@ -159,8 +159,14 @@ git push
 
 ## Déploiement GitHub Pages
 
-1. **Settings → Pages** : branche `main`, dossier `/ (root)`.
+**Option A — dépôt tel quel (sans Actions)**  
+1. **Settings → Pages** : source **Deploy from a branch**, branche `main`, dossier `/ (root)`.  
 2. URL : `https://<user>.github.io/<repo>/`
+
+**Option B — build `dist/` puis Pages via Actions (recommandé si vous voulez un artefact minimal)**  
+1. **Settings → Pages** : source **GitHub Actions** (pas « branch »).  
+2. Poussez sur `main` : le workflow [.github/workflows/deploy-pages.yml](.github/workflows/deploy-pages.yml) exécute `npm run build:html` et publie le contenu de `dist/`.  
+3. En local, même build : `npm run build:html` (vérifie le projet puis copie HTML, `sw.js`, `assets/`, `docs/` dans `dist/` — dossier prêt à zipper pour tout hébergeur statique).
 
 ### Vérification JS
 
