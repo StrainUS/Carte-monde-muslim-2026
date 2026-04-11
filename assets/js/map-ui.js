@@ -1,5 +1,5 @@
 /**
- * Modale pays, recherche, quiz avec score, raccourcis clavier, mode présentation.
+ * Modale pays, recherche, raccourcis clavier, mode présentation.
  * Dépend de IslamMapData (data.js) et IslamMapCore (map-core.js).
  */
 (function () {
@@ -25,19 +25,9 @@
             .replace(/"/g, "&quot;");
         };
 
-  /** HTML interne du quiz (réutilisé après « Recommencer » ou réouverture) */
-  const QUIZ_BOX_INNER_HTML =
-    '<div id="quiz-score" class="quiz-score"></div>' +
-    '<div id="quiz-question"></div>' +
-    '<div class="quiz-options" id="quiz-options"></div>' +
-    '<button type="button" id="quiz-next">Question suivante</button>';
-
-  /* ── État application ── */
-  let quizIdx = 0;
-  let quizScore = 0;
-  let quizAnswered = false;
-  let rightCollapsed = false;
-  let presentMode = false;
+  /* ── État application : panneaux latéraux repliés par défaut (grand écran) ── */
+  let rightCollapsed = true;
+  let leftCollapsed = true;
   let searchTimer = null;
   let terrorLayerGroup = null;
   let terrorLayerVisible = false;
@@ -160,7 +150,7 @@
       "🔴 Conflit actif ou crise aiguë (niveau 3)",
     ][d.c];
     document.getElementById("modal-conflict").innerHTML =
-      `<div class="modal-sep">Indicateur pédagogique 2026</div><span class="conflict-badge ${cClass}">${cText}</span>`;
+      `<div class="modal-sep">Indicateur de veille 2026</div><span class="conflict-badge ${cClass}">${cText}</span>`;
 
     document.getElementById("modal-note").innerHTML =
       "💡 <b>Pour comprendre :</b> " + escapeHtml(d.n).replace(/\n/g, "<br>");
@@ -179,7 +169,7 @@
       }
     };
     setBlk("modal-terror-block", "Terrorisme & groupes (synthèse)", sn && sn.terrorisme);
-    setBlk("modal-france-block", "Risques & formation France", sn && sn.france);
+    setBlk("modal-france-block", "Risques & prévention — France", sn && sn.france);
     setBlk("modal-ue-block", "Cadre européen", sn && sn.ue);
     const snConflit = document.getElementById("modal-sn-conflit");
     if (snConflit) {
@@ -196,7 +186,7 @@
     const src = document.getElementById("modal-source");
     if (src) {
       src.innerHTML =
-        "📚 Synthèse pédagogique — <a href=\"#sources\">Références &amp; sources 2026</a> · " +
+        "📚 Synthèse de veille — <a href=\"#sources\">Références &amp; sources 2026</a> · " +
         "<a href=\"pedagogie.html#sources\">Guide historique</a>.";
     }
 
@@ -261,6 +251,15 @@
   /* ══════════════════════════════════════
      RECHERCHE
   ══════════════════════════════════════ */
+  function searchFold(s) {
+    const t = String(s).normalize("NFD");
+    try {
+      return t.replace(/\p{M}/gu, "").toLowerCase();
+    } catch (_) {
+      return t.replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    }
+  }
+
   function selectCountry(name) {
     const input = document.getElementById("search-input");
     const drop = document.getElementById("search-drop");
@@ -275,16 +274,33 @@
 
   function runSearch(val) {
     const drop = document.getElementById("search-drop");
-    const q = val.trim().toLowerCase();
+    const q = val.trim();
     if (q.length < 2) {
       drop.innerHTML = "";
       drop.classList.remove("open");
       drop.setAttribute("aria-expanded", "false");
       return;
     }
-    const hits = Object.keys(DATA)
-      .filter((n) => n.toLowerCase().includes(q))
+    const fq = searchFold(q);
+    const keys = Object.keys(DATA);
+    const hits = keys
+      .filter((n) => searchFold(n).includes(fq))
+      .sort((a, b) => {
+        const fa = searchFold(a);
+        const fb = searchFold(b);
+        const pa = fa.startsWith(fq) ? 0 : 1;
+        const pb = fb.startsWith(fq) ? 0 : 1;
+        if (pa !== pb) return pa - pb;
+        return fa.length - fb.length || a.localeCompare(b, "fr");
+      })
       .slice(0, 12);
+    if (!hits.length) {
+      drop.innerHTML =
+        '<div class="drop-empty" role="status">Aucun pays correspondant. Essayez une autre orthographe.</div>';
+      drop.classList.add("open");
+      drop.setAttribute("aria-expanded", "true");
+      return;
+    }
     drop.innerHTML = hits.map((name) => {
       const d = DATA[name];
       const dotCol = d.ib > 50 ? "#6a1b9a" : d.h > 60 ? "#0b3d8a" : d.h > 30 ? "#1456c8" : "#1e8a30";
@@ -295,9 +311,8 @@
         <span class="drop-meta">${d.m} % · ${escapeHtml(d.r)}</span>
       </button>`;
     }).join("");
-    const hasHits = hits.length > 0;
-    drop.classList.toggle("open", hasHits);
-    drop.setAttribute("aria-expanded", String(hasHits));
+    drop.classList.add("open");
+    drop.setAttribute("aria-expanded", "true");
   }
 
   function onSearchInput(val) {
@@ -306,151 +321,77 @@
   }
 
   /* ══════════════════════════════════════
-     QUIZ avec score
-  ══════════════════════════════════════ */
-  function toggleQuiz() {
-    const box = document.getElementById("quiz-box");
-    const btn = document.getElementById("btn-quiz");
-    const open = !box.classList.contains("open");
-    box.classList.toggle("open", open);
-    btn.classList.toggle("active", open);
-    if (open) {
-      /* Après l’écran final, le DOM ne contient plus #quiz-options */
-      if (!document.getElementById("quiz-options")) {
-        box.innerHTML = QUIZ_BOX_INNER_HTML;
-      }
-      quizIdx = 0;
-      quizScore = 0;
-      quizAnswered = false;
-      renderQuiz();
-    }
-  }
-
-  function renderQuiz() {
-    if (!D.QUIZ_DATA || !D.QUIZ_DATA.length) return;
-    quizAnswered = false;
-    const tot = D.QUIZ_DATA.length;
-    const q = D.QUIZ_DATA[quizIdx % tot];
-    const n = (quizIdx % tot) + 1;
-
-    document.getElementById("quiz-question").textContent = `Question ${n} / ${tot} — ${q.q}`;
-
-    const scoreEl = document.getElementById("quiz-score");
-    if (scoreEl) scoreEl.textContent = `Score : ${quizScore} / ${quizIdx}`;
-
-    const opts = document.getElementById("quiz-options");
-    opts.innerHTML = "";
-    q.opts.forEach((text, i) => {
-      const b = document.createElement("button");
-      b.type = "button";
-      b.className = "quiz-opt";
-      b.textContent = text;
-      b.dataset.quizIndex = String(i);
-      b.dataset.quizCorrect = String(q.ans);
-      opts.appendChild(b);
-    });
-    const nextBtn = document.getElementById("quiz-next");
-    if (nextBtn) nextBtn.style.display = "none";
-  }
-
-  function answerQuiz(btn) {
-    if (quizAnswered) return;
-    const i = parseInt(btn.dataset.quizIndex, 10);
-    const correct = parseInt(btn.dataset.quizCorrect, 10);
-    quizAnswered = true;
-    const isCorrect = i === correct;
-    if (isCorrect) quizScore++;
-    const opts = document.querySelectorAll("#quiz-options .quiz-opt");
-    opts.forEach((el) => {
-      const idx = parseInt(el.dataset.quizIndex, 10);
-      el.disabled = true;
-      if (idx === correct) el.classList.add("correct");
-      else if (idx === i && !isCorrect) el.classList.add("wrong");
-    });
-    const scoreEl = document.getElementById("quiz-score");
-    if (scoreEl) scoreEl.textContent = `Score : ${quizScore} / ${quizIdx + 1}`;
-    const nextBtn = document.getElementById("quiz-next");
-    if (nextBtn) nextBtn.style.display = "block";
-  }
-
-  function restartQuizFromEnd() {
-    const box = document.getElementById("quiz-box");
-    box.innerHTML = QUIZ_BOX_INNER_HTML;
-    quizIdx = 0;
-    quizScore = 0;
-    quizAnswered = false;
-    renderQuiz();
-  }
-
-  function nextQuiz() {
-    quizIdx++;
-    /* Fin du cycle — afficher résultat final (Recommencer géré par délégation #quiz-box) */
-    if (quizIdx >= D.QUIZ_DATA.length) {
-      const box = document.getElementById("quiz-box");
-      const pct = Math.round((quizScore / D.QUIZ_DATA.length) * 100);
-      box.innerHTML =
-        '<div id="quiz-question" style="text-align:center">Quiz terminé ! Score final</div>' +
-        '<div style="text-align:center;font-size:24px;font-weight:700;color:var(--gold);padding:12px 0">' +
-        quizScore +
-        " / " +
-        D.QUIZ_DATA.length +
-        "</div>" +
-        '<div style="text-align:center;font-size:13px;color:var(--muted);margin-bottom:12px">' +
-        pct +
-        " % de bonnes réponses</div>" +
-        '<button type="button" id="quiz-restart" class="quiz-opt" style="width:100%;justify-content:center;margin-top:4px">Recommencer</button>';
-      return;
-    }
-    renderQuiz();
-  }
-
-  /* ══════════════════════════════════════
      PANNEAUX
   ══════════════════════════════════════ */
+  /** Applique leftCollapsed / rightCollapsed au DOM (vue mobile : panneau gauche type tiroir, sans .collapsed). */
+  function syncSidePanelDom() {
+    const narrow = window.matchMedia("(max-width: 900px)").matches;
+    const pl = document.getElementById("panel-left");
+    const pr = document.getElementById("panel-right");
+    const bl = document.getElementById("left-toggle");
+    const br = document.getElementById("right-toggle");
+
+    if (narrow) {
+      leftCollapsed = false;
+      if (pl) pl.classList.remove("collapsed");
+      if (bl) {
+        bl.textContent = "▶";
+        bl.classList.remove("collapsed");
+        bl.setAttribute("aria-expanded", "true");
+        bl.setAttribute("aria-label", "Replier le panneau couches et légende");
+      }
+    } else {
+      if (pl) pl.classList.toggle("collapsed", leftCollapsed);
+      if (bl) {
+        bl.textContent = leftCollapsed ? "◀" : "▶";
+        bl.classList.toggle("collapsed", leftCollapsed);
+        bl.setAttribute("aria-expanded", String(!leftCollapsed));
+        bl.setAttribute(
+          "aria-label",
+          leftCollapsed ? "Déplier le panneau couches et légende" : "Replier le panneau couches et légende"
+        );
+      }
+    }
+
+    if (pr) pr.classList.toggle("collapsed", rightCollapsed);
+    if (br) {
+      br.textContent = rightCollapsed ? "▶" : "◀";
+      br.classList.toggle("collapsed", rightCollapsed);
+      br.setAttribute("aria-expanded", String(!rightCollapsed));
+      br.setAttribute(
+        "aria-label",
+        rightCollapsed ? "Déplier le panneau latéral droit" : "Replier le panneau latéral droit"
+      );
+    }
+    requestAnimationFrame(() => {
+      try {
+        if (MAP) MAP.invalidateSize();
+      } catch (_) {}
+    });
+  }
+
   function toggleRight() {
     rightCollapsed = !rightCollapsed;
-    const panel = document.getElementById("panel-right");
-    const b = document.getElementById("right-toggle");
-    panel.classList.toggle("collapsed", rightCollapsed);
-    b.textContent = rightCollapsed ? "▶" : "◀";
-    b.classList.toggle("collapsed", rightCollapsed);
-    b.setAttribute("aria-expanded", String(!rightCollapsed));
-    b.setAttribute(
-      "aria-label",
-      rightCollapsed ? "Déplier le panneau latéral droit" : "Replier le panneau latéral droit"
-    );
-    requestAnimationFrame(() => MAP.invalidateSize());
+    syncSidePanelDom();
   }
 
-  function togglePresent() {
-    presentMode = !presentMode;
-    document.getElementById("btn-present").classList.toggle("active", presentMode);
-
-    const statsBar = document.getElementById("stats-bar");
-    const panelL = document.getElementById("panel-left");
-    const rt = document.getElementById("right-toggle");
-
-    if (presentMode) {
-      panelL.style.display = "none";
-      if (statsBar) statsBar.style.display = "none";
-      if (rt) rt.style.display = "none";
-      /* Panneau droit toujours masqué en présentation */
-      document.getElementById("panel-right").style.display = "none";
-    } else {
-      panelL.style.display = "";
-      if (statsBar) statsBar.style.display = "";
-      if (rt) rt.style.display = "";
-      /* Restaurer l'état réel du panneau droit */
-      const panelR = document.getElementById("panel-right");
-      panelR.style.display = "";
-      panelR.classList.toggle("collapsed", rightCollapsed);
-    }
-    requestAnimationFrame(() => MAP.invalidateSize());
+  /** Replier le panneau gauche (couches / légende) : grand écran et plein écran ; masqué en vue étroite (menu ☰). */
+  function toggleLeft() {
+    if (window.matchMedia("(max-width: 900px)").matches) return;
+    leftCollapsed = !leftCollapsed;
+    syncSidePanelDom();
   }
 
-  function toggleFullscreen() {
-    if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(() => {});
-    else document.exitFullscreen();
+  function resetLeftCollapseIfNarrow() {
+    if (!window.matchMedia("(max-width: 900px)").matches) return;
+    syncSidePanelDom();
+  }
+
+  /** À chaque affichage de l’onglet Carte (hub) : repartir avec les deux panneaux repliés sur grand écran. */
+  function collapseSidePanelsForCarteSection() {
+    leftCollapsed = true;
+    rightCollapsed = true;
+    syncSidePanelDom();
   }
 
   function fullscreenElement() {
@@ -480,33 +421,32 @@
     }
   }
 
+  /** Plein écran sur #main (carte + panneaux), pas sur #map-wrap seul — sinon le bouton ◀ ne peut pas montrer #panel-right. */
   function isMapFullscreen() {
     const fs = fullscreenElement();
-    const wrap = document.getElementById("map-wrap");
-    return !!(fs && wrap && fs === wrap);
+    const main = document.getElementById("main");
+    return !!(fs && main && fs === main);
   }
 
   function updateMapExpandButton() {
-    const btn = document.getElementById("nav-expand");
+    const btn = document.getElementById("btn-fullscreen");
     if (!btn) return;
     const active = isMapFullscreen();
-    btn.textContent = active ? "🗗" : "⛶";
-    btn.title = active ? "Quitter le mode agrandi" : "Agrandir la carte";
+    btn.textContent = active ? "Quitter" : "Plein écran";
+    btn.title = active ? "Quitter le plein écran (F)" : "Plein écran carte et panneaux latéraux (F)";
     btn.setAttribute("aria-label", btn.title);
-    btn.classList.toggle("is-active", active);
+    btn.classList.toggle("active", active);
   }
 
   function toggleMapFullscreen() {
-    const wrap = document.getElementById("map-wrap");
-    if (!wrap) return;
+    const main = document.getElementById("main");
+    if (!main) return;
     if (isMapFullscreen()) {
       exitFullscreenSafe();
       return;
     }
-    requestFullscreenSafe(wrap).then((ok) => {
+    requestFullscreenSafe(main).then((ok) => {
       if (!ok) {
-        /* Fallback si le navigateur bloque le fullscreen de l'élément. */
-        if (!presentMode) togglePresent();
         window.scrollTo({ top: 0, behavior: "auto" });
       }
       setTimeout(() => MAP.invalidateSize(), 120);
@@ -520,11 +460,9 @@
   function bindNavButtons() {
     document.getElementById("nav-zoom-in")?.addEventListener("click", () => MAP.zoomIn());
     document.getElementById("nav-zoom-out")?.addEventListener("click", () => MAP.zoomOut());
-    document.getElementById("nav-expand")?.addEventListener("click", toggleMapFullscreen);
-    document.getElementById("nav-world")?.addEventListener("click", () => MAP.setView([20, 15], 2));
+    document.getElementById("nav-world")?.addEventListener("click", () => MAP.setView([20, 15], 2.75));
     document.getElementById("nav-me")?.addEventListener("click", () => MAP.setView([27, 42], 4));
     document.getElementById("nav-af")?.addEventListener("click", () => MAP.setView([8, 20], 3));
-    document.getElementById("nav-as")?.addEventListener("click", () => MAP.setView([25, 82], 3));
   }
 
   function bindFullscreenPopup() {
@@ -554,14 +492,12 @@
 
   function bindTopbar() {
     document.getElementById("btn-conflicts")?.addEventListener("click", () => coreToggleLayer("conflict"));
-    document.getElementById("btn-quiz")?.addEventListener("click", toggleQuiz);
-    document.getElementById("btn-present")?.addEventListener("click", togglePresent);
-    document.getElementById("btn-print")?.addEventListener("click", () => window.print());
-    document.getElementById("btn-fullscreen")?.addEventListener("click", toggleFullscreen);
+    document.getElementById("btn-fullscreen")?.addEventListener("click", toggleMapFullscreen);
     document.getElementById("btn-mobile-menu")?.addEventListener("click", () => {
       document.getElementById("panel-left").classList.toggle("open");
     });
     document.getElementById("right-toggle")?.addEventListener("click", toggleRight);
+    document.getElementById("left-toggle")?.addEventListener("click", toggleLeft);
   }
 
   function bindToggles() {
@@ -600,6 +536,14 @@
       if (e.key === "Escape") {
         drop.classList.remove("open");
         drop.setAttribute("aria-expanded", "false");
+        return;
+      }
+      if (e.key === "Enter" && drop.classList.contains("open")) {
+        const first = drop.querySelector(".drop-item[data-country]");
+        if (first) {
+          e.preventDefault();
+          selectCountry(decodeURIComponent(first.getAttribute("data-country")));
+        }
       }
     });
     drop.addEventListener("mousedown", (e) => e.preventDefault());
@@ -612,31 +556,7 @@
       setTimeout(() => {
         drop.classList.remove("open");
         drop.setAttribute("aria-expanded", "false");
-      }, 180);
-    });
-  }
-
-  /**
-   * Un seul parent #quiz-box : « Question suivante », « Recommencer » et options
-   * survivent aux remplacements innerHTML (plus de boutons morts).
-   */
-  function bindQuizBoxDelegation() {
-    const box = document.getElementById("quiz-box");
-    if (!box || box.dataset.quizDelegated === "1") return;
-    box.dataset.quizDelegated = "1";
-    box.addEventListener("click", (e) => {
-      if (e.target.closest("#quiz-next")) {
-        e.preventDefault();
-        nextQuiz();
-        return;
-      }
-      if (e.target.closest("#quiz-restart")) {
-        e.preventDefault();
-        restartQuizFromEnd();
-        return;
-      }
-      const opt = e.target.closest("#quiz-options .quiz-opt");
-      if (opt && !quizAnswered) answerQuiz(opt);
+      }, 260);
     });
   }
 
@@ -679,13 +599,15 @@
       return;
     }
     if (e.target.closest("input, textarea, [contenteditable]")) return;
-    if (e.key === "f" || e.key === "F") toggleFullscreen();
+    if (e.key === "f" || e.key === "F") toggleMapFullscreen();
     if (e.key === "+" || e.key === "=") MAP.zoomIn();
     if (e.key === "-") MAP.zoomOut();
-    if (e.key === "p" || e.key === "P") togglePresent();
   });
 
-  window.addEventListener("resize", () => MAP.invalidateSize());
+  window.addEventListener("resize", () => {
+    resetLeftCollapseIfNarrow();
+    MAP.invalidateSize();
+  });
 
   document.addEventListener("fullscreenchange", () => {
     if (!isMapFullscreen()) closeFullscreenPopup();
@@ -708,7 +630,6 @@
     bindTopbar();
     bindToggles();
     bindSearch();
-    bindQuizBoxDelegation();
     bindModal();
     bindFullscreenPopup();
     updateMapExpandButton();
@@ -738,6 +659,7 @@
   function startApp() {
     initUI();
     Core.initMap();
+    syncSidePanelDom();
   }
 
   const loadingEl = document.getElementById("loading");
@@ -749,5 +671,10 @@
     startApp();
   }
 
-  window.IslamMapUI = { openModal, closeModal, selectCountry, toggleQuiz, togglePresent };
+  window.IslamMapUI = {
+    openModal,
+    closeModal,
+    selectCountry,
+    collapseSidePanelsForCarteSection,
+  };
 })();

@@ -2,29 +2,13 @@
 'use strict';
 var P = window.IslamMapData;
 if (!P) { console.error('[pedagogy-bundle] Charger data.js avant pedagogy-bundle.js'); return; }
-/** Quiz carte & certification — 20 Q (formation sécurité / géo-religieux) */
-const QUIZ_DATA = [
-  { q: "Quelle est la plus grande population sunnite mondiale ?", opts: ["Pakistan", "Arabie Saoudite", "Indonésie", "Bangladesh"], ans: 2 },
-  { q: "Quel pays est le centre mondial du chiisme duodécimain ?", opts: ["Irak", "Arabie Saoudite", "Iran", "Azerbaïdjan"], ans: 2 },
-  { q: "Kerbala et Najaf (villes saintes chiites) se trouvent dans quel pays ?", opts: ["Iran", "Syrie", "Pakistan", "Irak"], ans: 3 },
-  { q: "L'islam ibadi est majoritaire dans quel pays ?", opts: ["Bahreïn", "Oman", "Koweït", "Qatar"], ans: 1 },
-  { q: "L'épisode de Kerbala (680) est surtout associé à :", opts: ["la bataille qui fonde une mémoire chiite du martyre", "la fondation de l'école hanafite", "la conquête omeyyade de l'Inde", "le traité de Taïf"], ans: 0 },
-  { q: "La dynastie safavide (1501, Iran) a surtout contribué à :", opts: ["imposer le sunnisme hanafite", "ancrer le chiisme duodécimain comme religion d'État", "introduire l'ibadisme en Perse", "abolir les confréries"], ans: 1 },
-  { q: "Le pacte wahhabite-saoudien (1744) est lié à :", opts: ["l'Empire ottoman", "l'alliance Émir du Nedjd / cheikh Mohammed ibn Abd al-Wahhab", "la révolution iranienne de 1979", "la décolonisation du Yémen"], ans: 1 },
-  { q: "Bahreïn : quelle particularité confessionnelle (synthèse pédagogique) ?", opts: ["100 % sunnite", "majorité chiite dans un État à direction sunnite", "50/50 équilibré", "majorité ibadi"], ans: 1 },
-  { q: "En formation sécurité (France), le suivi PNAT concerne notamment :", opts: ["uniquement les infractions routières", "les personnes signalées pour radicalisation / terrorisme", "les seules entreprises du CAC40", "les sportifs de haut niveau"], ans: 1 },
-  { q: "Ordre de grandeur documenté côté libérations de détention liées au terrorisme (France, cumul 2021→) :", opts: ["~50", "~150", "~340", "~900"], ans: 2 },
-  { q: "Les Houthis (Yémen) relèvent principalement du courant :", opts: ["hanafi", "zaïdi (chii)", "ibadi", "malékite"], ans: 1 },
-  { q: "Quel groupe est classiquement qualifié de chiite « pro-Iran » au Liban (enseignement général) ?", opts: ["Daech", "Hezbollah", "Al-Qaida", "Ansar al-Sunna"], ans: 1 },
-  { q: "En Irak post-2003, les PMF (Hashd al-Shaabi) sont surtout décrits comme :", opts: ["une coalition de milices paramilitaires majoritairement chiites", "une armée sunnite unifiée", "une force de l'OTAN", "une garde royale wahhabite"], ans: 0 },
-  { q: "En Syrie (après 2011, synthèse), la transition politique 2024–2026 s'inscrit surtout dans :", opts: ["un retour du parti Baas inchangé", "un effondrement du clan alaouite et une phase d'incertitude sécuritaire", "l'annexion par l'Iran", "l'adhésion à l'UE"], ans: 1 },
-  { q: "Les Frères musulmans : dans les débats UE / listes terrorisme, le point pédagogique est :", opts: ["qu'il n'y a jamais eu de controverse juridique", "qu'un même mouvement peut être analysé comme parti / réseau / signal d'extrémisme selon contexte et listes", "qu'ils sont toujours classés comme organisation humanitaire en Europe", "qu'ils sont ibadites"], ans: 1 },
-  { q: "Terrorisme de type « wahhabite/salafiste djihadiste » (synthèse) : quel couple pays / groupe est souvent cité en formation ?", opts: ["Iran / Hezbollah", "Arabie historique / Al-Qaida ou filiales type Daech", "Oman / Ibadi", "Koweït / Houthis"], ans: 1 },
-  { q: "Projection démographique de référence (Pew, religions) vers 2060 :", opts: ["l'islam disparaît en Asie", "le nombre de musulmans pourrait égaler puis dépasser les chrétiens à l'échelle mondiale", "les chiites dépassent 90 % de l'humanité", "l'ibadisme domine l'Europe"], ans: 1 },
-  { q: "En Allemagne, l'enquête BAMF sur les musulmans cite souvent l'ordre de grandeur :", opts: ["50 000 personnes", "550 000", "5,5 millions", "55 millions"], ans: 2 },
-  { q: "Risque professionnel (France/EU) : la radicalisation djihadiste se distingue par :", opts: ["une adhésion exclusivement génétique", "un processus idéologique, social, parfois carcéral — jamais une « essence » communautaire", "un critère linguistique obligatoire", "une affiliation sportive"], ans: 1 },
-  { q: "Bon réflexe « CNAPS / SSIAP » : face à un discours politico-religieux agressif, on :", opts: ["humilie la personne en public", "signale, documente, respecte le cadre légal et la neutralité du service", "diffuse sur les réseaux sans cadre", "ignore systématiquement"], ans: 1 },
-];
+/** Banque de questions : `assets/js/quiz-bank.js` (avant ce fichier) remplit `window.IslamMapQuizBank`. */
+const QUIZ_DATA = Array.isArray(window.IslamMapQuizBank) && window.IslamMapQuizBank.length
+  ? window.IslamMapQuizBank.map(function (x) { return Object.assign({}, x); })
+  : [];
+if (!QUIZ_DATA.length) {
+  console.error("[pedagogy-bundle] Charger assets/js/quiz-bank.js avant pedagogy-bundle.js (banque quiz vide).");
+}
 
 /** Sources officielles / instituts — à citer (millésimes variables ; vérifier les pages primaires). */
 const SOURCES_2026 = [
@@ -34,6 +18,21 @@ const SOURCES_2026 = [
   { id: "eu-tesat", label: "UE — TE-SAT / rapports sur la menace terroriste", url: "https://www.europol.europa.eu/", note: "Menace terroriste en Europe (Europol)." },
   { id: "bamf", label: "Allemagne — BAMF (enquêtes sur les musulmans en Allemagne)", url: "https://www.bamf.de/", note: "Ordre de grandeur population musulmane allemande (enquêtes publiées)." },
   { id: "unhcr", label: "UNHCR — situations de réfugiés / conflits", url: "https://www.unhcr.org/", note: "Contextes humanitaires liés aux crises au Moyen-Orient et au Sahel." },
+  { id: "cia", label: "CIA — The World Factbook", url: "https://www.cia.gov/the-world-factbook/", note: "Fiches pays (religions, etc.) : ordres de grandeur indicatifs à croiser." },
+  { id: "un-wpp", label: "ONU — World Population Prospects (WPP)", url: "https://population.un.org/wpp/", note: "Projections démographiques par pays." },
+  { id: "legi-cp-terror", label: "France — Code pénal (terrorisme, texte consolidé)", url: "https://www.legifrance.gouv.fr/codes/texte_lc/LEGITEXT000006070719/", note: "Livre IV, titre II — infractions en matière de terrorisme ; intitulés et articles à jour sur Légifrance uniquement." },
+  { id: "eu-dir-2017-541", label: "UE — Directive (UE) 2017/541 (lutte contre le terrorisme)", url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32017L0541", note: "Harmonisation pénale et coopération ; croiser avec transpositions nationales." },
+  { id: "un-sc-terror", label: "ONU — Conseil de sécurité (terrorisme, résolutions)", url: "https://www.un.org/securitycouncil/content/threats-international-peace-and-security-terrorism", note: "Sanctions, obligations des États ; pas de définition unique substituable aux droits internes." },
+  { id: "unodc-terror", label: "ONUDC — Programme contre le terrorisme", url: "https://www.unodc.org/unodc/en/terrorism/index.html", note: "Conventions sectorielles, assistance aux États." },
+  { id: "fatf-tf", label: "GAFI / FATF — Financement du terrorisme", url: "https://www.fatf-gafi.org/en/topics/terrorist-financing.html", note: "Normes internationales AML/CFT complémentaires au droit pénal." },
+  { id: "europol-tesat", label: "Europol — TE-SAT (rapport UE)", url: "https://www.europol.europa.eu/publications-events/main-reports/european-union-terrorism-situation-and-trend-report-te-sat", note: "Situation et tendances ; millésime annuel à citer." },
+  { id: "eurojust", label: "Eurojust — coopération judiciaire", url: "https://www.eurojust.europa.eu/", note: "Coordination enquêtes et poursuites transfrontalières." },
+  { id: "sgdsn", label: "France — SGDSN (menace terroriste, rapports)", url: "https://www.sgdsn.gouv.fr/", note: "Synthèses officielles sur la menace ; croiser avec parquets et jugements." },
+  { id: "justice-fr", label: "France — Ministère de la Justice", url: "https://www.justice.gouv.fr/", note: "Politique pénale, assises spéciales, communiqués." },
+  { id: "insee", label: "France — INSEE", url: "https://www.insee.fr/", note: "Statistiques publiques nationales officielles." },
+  { id: "wb-data", label: "Banque mondiale — Données ouvertes", url: "https://data.worldbank.org/", note: "Indicateurs par pays (contexte socio-économique)." },
+  { id: "oecd", label: "OCDE", url: "https://www.oecd.org/", note: "Indicateurs comparés et rapports thématiques." },
+  { id: "stop-djihadisme", label: "France — stop-djihadisme.gouv.fr", url: "https://www.stop-djihadisme.gouv.fr/", note: "Prévention de la radicalisation (grand public)." },
 ];
 
 /**
@@ -133,7 +132,7 @@ const SECURITY_NOTES = {
   },
 };
 
-/** Cercles indicatifs « chaleur » terrorisme / conflit armé (rayon km — pédagogique, non exhaustif). */
+/** Cercles indicatifs « chaleur » terrorisme / conflit armé (rayon km — indicatif, non exhaustif). */
 const TERROR_HOTSPOTS = [
   { lat: 33.4, lng: 43.7, km: 280, intensity: 0.85, label: "Irak — PMF / résidus Daech", zone: "Irak" },
   { lat: 35.0, lng: 38.0, km: 220, intensity: 0.9, label: "Syrie — zones de non-droit / camps", zone: "Syrie" },
@@ -143,8 +142,13 @@ const TERROR_HOTSPOTS = [
   { lat: 31.8, lng: 35.2, km: 120, intensity: 0.55, label: "Proche-Orient — filières historiques", zone: "Israël" },
 ];
 
-/** Glossaire pédagogique (mots-clés cliquables). */
+/** Glossaire (mots-clés cliquables). */
 const GLOSSARY = {
+  "Acte de terrorisme (France)": "Qualification du Code pénal (art. 421-1 et s.) : se référer exclusivement au texte consolidé Légifrance pour l'énoncé légal et les conditions d'application.",
+  "Terrorisme (usage international)": "Coopération encadrée par le Conseil de sécurité de l'ONU, conventions sectorielles (ex. financement) et droits internes ; pas une étiquette unique remplaçant le juge national.",
+  "Directive (UE) 2017/541": "Acte d'harmonisation pénale et de coopération policière dans l'UE contre le terrorisme — à lire sur EUR-Lex avec les transpositions françaises.",
+  "Liste des personnes / entités (UE)": "Actes de gel et sanctions adoptés par l'UE sur fondement résolutions ONU et autonomes — consulter les règlements consolidés au JOUE.",
+  "AML / CFT": "Anti-blanchiment et lutte contre le financement du terrorisme : cadre GAFI et directives européennes (ex. 2015/849) — distinct de la seule démographie religieuse.",
   Djihadisme: "Terme politique et médiatique : instrumentalisation du djihad (effort) en violence insurrectionnelle transnationale — à distinguer des usages juridiques classiques.",
   Wahhabisme: "Courant hanbalite strict lié à la réforme d'Ibn Abd al-Wahhab (XVIIIe s.), légitimé historiquement par le pacte avec la dynastie saoudienne.",
   "Chiisme duodécimain": "Branche majoritaire du chiisme : succession de 12 imams, juridiction marja' en Irak/Iran.",
@@ -164,11 +168,11 @@ const TIMELINE_EVENTS = [
   { year: 1501, t: "Safavides", d: "Chiisme duodécimain religion d’État en Perse." },
   { year: 1744, t: "Pacte wahhabite-saoudien", d: "Alliance Émir du Nedjd / réforme doctrinale." },
   { year: 1979, t: "Révolution iranienne", d: "République islamique ; export de modèle et soutiens régionaux." },
-  { year: 2001, t: "11 septembre", d: "Globalisation du terrorisme djihadiste de type Al-Qaida." },
+  { year: 2001, t: "11 septembre & résolution 1373", d: "Attentats aux États-Unis ; le Conseil de sécurité impose aux États des obligations renforcées de lutte contre le terrorisme et le financement." },
   { year: 2014, t: "État islamique", d: "Califat territorial Irak-Syrie ; génocide yazidis." },
   { year: 2021, t: "Talibans au pouvoir", d: "Retrait international ; crise droits humains et terrorisme résiduel." },
   { year: 2024, t: "Chute du régime Assad", d: "Transition chaotique ; HTS à Damas — scénarios ouverts." },
-  { year: 2026, t: "Formation & veille", d: "Menace plurielle UE ; outils PNAT, RAD, coopération Europol." },
+  { year: 2026, t: "Prévention & veille", d: "Menace plurielle UE ; prévention, PNAT, RAD, coopération Europol." },
 ];
 Object.assign(P, {
   QUIZ_DATA,

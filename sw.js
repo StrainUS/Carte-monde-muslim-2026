@@ -1,6 +1,6 @@
 /* Cache statique minimal — compatible GitHub Pages (sous-chemin) */
 const BASE = self.location.pathname.replace(/[^/]+$/, "");
-const CACHE = "islammap-pro-v5";
+const CACHE = "islammap-pro-v8";
 const ASSETS = [
   BASE,
   BASE + "index.html",
@@ -11,12 +11,14 @@ const ASSETS = [
   BASE + "assets/css/pedagogie.css",
   BASE + "assets/css/responsive.css",
   BASE + "assets/js/data.js",
+  BASE + "assets/js/quiz-bank.js",
   BASE + "assets/js/pedagogy-bundle.js",
   BASE + "assets/js/map-core.js",
   BASE + "assets/js/map-ui.js",
   BASE + "assets/js/slideshow.js",
   BASE + "assets/js/app-pro.js",
   BASE + "assets/data/editorial.json",
+  BASE + "assets/data/france-terror-chronology.json",
   BASE + "assets/img/pedagogie/slide-01-diversite.svg",
   BASE + "assets/img/pedagogie/slide-02-legende.svg",
   BASE + "assets/img/pedagogie/slide-03-sunnisme.svg",

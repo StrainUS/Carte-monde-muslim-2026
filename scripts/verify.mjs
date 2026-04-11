@@ -24,6 +24,7 @@ function ok(msg) {
 const jsFiles = [
   "sw.js",
   "assets/js/data.js",
+  "assets/js/quiz-bank.js",
   "assets/js/pedagogy-bundle.js",
   "assets/js/map-core.js",
   "assets/js/map-ui.js",
@@ -56,10 +57,25 @@ try {
   fail(`editorial.json : ${e.message}`);
 }
 
+/* ── 2b. Chronologie terrorisme France (JSON) ── */
+try {
+  const ft = JSON.parse(readFileSync(join(ROOT, "assets/data/france-terror-chronology.json"), "utf8"));
+  if (!Array.isArray(ft.events) || ft.events.length < 8) throw new Error("events[] attendu (≥ 8 entrées)");
+  for (let i = 0; i < ft.events.length; i++) {
+    const ev = ft.events[i];
+    if (!ev || typeof ev.date !== "string" || !ev.place || !ev.actors_official)
+      throw new Error("événement incomplet à l’index " + i);
+  }
+  ok("assets/data/france-terror-chronology.json : schéma minimal");
+} catch (e) {
+  fail(`france-terror-chronology.json : ${e.message}`);
+}
+
 /* ── 3. Chaîne data.js → pedagogy-bundle → IslamMapData (vm) ── */
 try {
   const ctx = vm.createContext({ window: {}, console });
   vm.runInContext(readFileSync(join(ROOT, "assets/js/data.js"), "utf8"), ctx);
+  vm.runInContext(readFileSync(join(ROOT, "assets/js/quiz-bank.js"), "utf8"), ctx);
   vm.runInContext(readFileSync(join(ROOT, "assets/js/pedagogy-bundle.js"), "utf8"), ctx);
   const D = ctx.window.IslamMapData;
   if (!D) throw new Error("IslamMapData absent");
@@ -79,9 +95,23 @@ try {
   }
   if (typeof D.DATA !== "object") throw new Error("DATA doit être un objet");
   if (Object.keys(D.DATA).length < 50) throw new Error("DATA semble trop petit");
-  if (!Array.isArray(D.QUIZ_DATA) || D.QUIZ_DATA.length !== 20)
-    throw new Error("QUIZ_DATA doit contenir 20 entrées, obtenu : " + (D.QUIZ_DATA && D.QUIZ_DATA.length));
-  ok("vm : data.js + pedagogy-bundle → IslamMapData complet (20 questions quiz)");
+  if (!Array.isArray(D.QUIZ_DATA) || D.QUIZ_DATA.length < 50)
+    throw new Error("QUIZ_DATA doit contenir au moins 50 entrées, obtenu : " + (D.QUIZ_DATA && D.QUIZ_DATA.length));
+  for (let i = 0; i < D.QUIZ_DATA.length; i++) {
+    const q = D.QUIZ_DATA[i];
+    if (!q || !Array.isArray(q.opts) || !q.opts.length) throw new Error("QUIZ_DATA[" + i + "] : opts invalide");
+    if (q.type === "qcm") {
+      if (!Array.isArray(q.ans) || !q.ans.length) throw new Error("QUIZ_DATA[" + i + "] : QCM sans tableau ans");
+      for (const x of q.ans) {
+        if (!Number.isInteger(x) || x < 0 || x >= q.opts.length)
+          throw new Error("QUIZ_DATA[" + i + "] : indice QCM hors bornes");
+      }
+    } else {
+      if (!Number.isInteger(q.ans) || q.ans < 0 || q.ans >= q.opts.length)
+        throw new Error("QUIZ_DATA[" + i + "] : réponse QCU invalide");
+    }
+  }
+  ok("vm : data → quiz-bank → pedagogy-bundle → IslamMapData (quiz ≥ 50, schéma QCU/QCM)");
 } catch (e) {
   fail("vm IslamMapData : " + e.message);
 }
@@ -109,24 +139,24 @@ while ((m = reScript.exec(indexHtml)) !== null) {
 }
 const expected = [
   "assets/js/data.js",
+  "assets/js/quiz-bank.js",
   "assets/js/pedagogy-bundle.js",
   "assets/js/map-core.js",
   "assets/js/map-ui.js",
-  "assets/js/slideshow.js",
   "assets/js/app-pro.js",
 ];
 if (JSON.stringify(scriptOrder) !== JSON.stringify(expected)) {
   fail(`ordre des scripts : attendu ${JSON.stringify(expected)}, obtenu ${JSON.stringify(scriptOrder)}`);
 } else {
-  ok("index.html : ordre des scripts data → pedagogy → core → ui → slideshow → app-pro");
+  ok("index.html : ordre des scripts data → quiz-bank → pedagogy → core → ui → app-pro");
 }
 
 /* ── 6. Sections SPA vs app-pro.js ── */
-const secIds = ["accueil", "section-carte", "savoir", "terrorisme", "quiz-cert", "sources"];
+const secIds = ["section-carte", "savoir", "terrorisme", "quiz-cert", "sources"];
 for (const id of secIds) {
   if (!indexHtml.includes(`id="${id}"`)) fail(`section #${id} absente du HTML`);
 }
-if (!process.exitCode) ok("sections SPA : 6 id présents (alignés parcours)");
+if (!process.exitCode) ok("sections SPA : 5 panneaux hub présents (navigation)");
 
 /* ── 7. Service worker : fichiers listés ── */
 const sw = readFileSync(join(ROOT, "sw.js"), "utf8");
@@ -149,6 +179,7 @@ if (!process.exitCode && imgs.length) ok(`pedagogie.html : ${imgs.length} images
 try {
   const ctx = vm.createContext({ window: {}, console });
   vm.runInContext(readFileSync(join(ROOT, "assets/js/data.js"), "utf8"), ctx);
+  vm.runInContext(readFileSync(join(ROOT, "assets/js/quiz-bank.js"), "utf8"), ctx);
   vm.runInContext(readFileSync(join(ROOT, "assets/js/pedagogy-bundle.js"), "utf8"), ctx);
   const D = ctx.window.IslamMapData;
   const fr = D.BY_ISO["250"];
@@ -162,6 +193,7 @@ try {
 try {
   const ctx = vm.createContext({ window: {}, console });
   vm.runInContext(readFileSync(join(ROOT, "assets/js/data.js"), "utf8"), ctx);
+  vm.runInContext(readFileSync(join(ROOT, "assets/js/quiz-bank.js"), "utf8"), ctx);
   vm.runInContext(readFileSync(join(ROOT, "assets/js/pedagogy-bundle.js"), "utf8"), ctx);
   const D = ctx.window.IslamMapData;
   const snKeys = Object.keys(D.SECURITY_NOTES || {});

@@ -1,27 +1,18 @@
 // @ts-check
 const { test, expect } = require("@playwright/test");
 
-const SECTIONS = [
-  "accueil",
-  "section-carte",
-  "savoir",
-  "terrorisme",
-  "quiz-cert",
-  "sources",
-];
+const SECTIONS = ["section-carte", "savoir", "terrorisme", "quiz-cert", "sources"];
 
 test.describe("Page principale (SPA)", () => {
-  test("charge index : hub à onglets et panneau Accueil actif", async ({ page }) => {
+  test("charge index : hub à onglets et panneau Carte actif", async ({ page }) => {
     await page.goto("/index.html", { waitUntil: "networkidle" });
     await expect(page.locator("#main-content.hub-main")).toBeVisible();
-    await expect(page.locator("#accueil.hub-panel.is-active")).toBeVisible();
+    await expect(page.locator("#section-carte.hub-panel.is-active")).toBeVisible();
   });
 
-  test("footer visible dans la mise en page", async ({ page }) => {
+  test("modale pays présente dans le DOM", async ({ page }) => {
     await page.goto("/index.html", { waitUntil: "domcontentloaded" });
-    const siteFooter = page.locator("footer.site-footer");
-    await expect(siteFooter).toBeInViewport();
-    await expect(siteFooter).toBeVisible();
+    await expect(page.locator("#modal-overlay")).toBeAttached();
   });
 
   test("onglets du menu : hash et panneau actif", async ({ page }) => {
@@ -42,7 +33,7 @@ test.describe("Page principale (SPA)", () => {
     await expect(page.locator("#map")).toBeVisible();
     await expect(page.locator(".leaflet-container")).toBeVisible({ timeout: 20_000 });
     await expect(page.locator("#nav-zoom-in")).toBeVisible();
-    await expect(page.locator("#btn-quiz")).toBeVisible();
+    await expect(page.locator("#btn-fullscreen")).toBeVisible();
   });
 
   test("zoom carte : Leaflet répond (pas au zoom max)", async ({ page }) => {
@@ -64,14 +55,9 @@ test.describe("Page principale (SPA)", () => {
     expect(z1).toBeGreaterThan(z0);
   });
 
-  test("basculer thème", async ({ page }) => {
+  test("thème : data-theme aligné sur le système", async ({ page }) => {
     await page.goto("/index.html", { waitUntil: "domcontentloaded" });
-    const html = page.locator("html");
-    await expect(html).toHaveAttribute("data-theme", /^(light|dark)$/);
-    const before = await html.getAttribute("data-theme");
-    await page.locator("#btn-theme-toggle").click();
-    const after = await html.getAttribute("data-theme");
-    expect(after).not.toBe(before);
+    await expect(page.locator("html")).toHaveAttribute("data-theme", /^(light|dark)$/);
   });
 
   test("pédagogie : scroll jusqu’aux sources", async ({ page }) => {

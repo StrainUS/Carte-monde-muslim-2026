@@ -48,7 +48,28 @@ Ces organismes publient des méthodologies et des tableaux utilisés pour **cont
 
 Les définitions des **courants** (sunnisme, chiisme, etc.) dans le support pédagogique du dépôt reprennent des **formulations usuelles** dans ce type de publications et dans les manuels de sciences des religions : elles sont **descriptives** et ne valent pas position théologique.
 
-## 7. Illustrations du diaporama
+## 7. Terrorisme — cadres « officiels » et terminologie (veille)
+
+L’onglet **Terrorisme** de `index.html` et les entrées associées dans `pedagogy-bundle.js` (`SOURCES_2026`, glossaire) visent la **transparence juridique** : citer les textes primaires, pas seulement des synthèses médiatiques.
+
+| Ressource | URL indicative | Usage |
+|-----------|----------------|--------|
+| France — Code pénal (consolidé) | https://www.legifrance.gouv.fr/codes/texte_lc/LEGITEXT000006070719/ | Intitulés d’infractions, articles 421-1 et suivants, procédures |
+| France — section terrorisme | https://www.legifrance.gouv.fr/codes/section_LEGIARTI000006077839/LEGISCTA000006149768/ | Accès direct à la section « Infractions en matière de terrorisme » |
+| UE — directive 2017/541 | https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32017L0541 | Harmonisation et coopération ; croiser avec la transposition française |
+| UE — Commission (justice / terrorisme) | https://commission.europa.eu/strategy-and-policy/policies/justice-and-fundamental-rights/criminal-justice/terrorism_fr | Politiques et publications institutionnelles |
+| ONU — Conseil de sécurité (thème terrorisme) | https://www.un.org/securitycouncil/content/threats-international-peace-and-security-terrorism | Résolutions, comités de sanctions (dont filière 1267) |
+| ONU — Counter-Terrorism | https://www.un.org/counterterrorism/ | Stratégie globale, CTED, coordination inter-agences |
+| ONUDC — Terrorisme | https://www.unodc.org/unodc/en/terrorism/index.html | Conventions sectorielles, assistance aux États |
+| GAFI / FATF — financement du terrorisme | https://www.fatf-gafi.org/en/topics/terrorist-financing.html | Normes AML/CFT complémentaires au droit pénal |
+| Europol — TE-SAT | https://www.europol.europa.eu/publications-events/main-reports/european-union-terrorism-situation-and-trend-report-te-sat | Rapport annuel UE (millésime à citer) |
+| Eurojust | https://www.eurojust.europa.eu/ | Coopération judiciaire |
+
+**Repère historique et méthode :** en français, la **Terreur** (1793–1794) désigne une politique d’État de la Révolution ; le sens **moderne** de « terrorisme » en droit pénal national et en coopération internationale repose sur des **textes et résolutions** successifs, sans une définition unique mondiale substituable à chaque ordre juridique interne.
+
+Un fichier **`assets/data/france-terror-chronology.json`** alimente le tableau chronologique de l’onglet Terrorisme : il est **indicatif** (dates, lieux, auteurs tels que les parquets et jugements publics les ont établis) et doit être **complété** par les rapports du **SGDSN**, du **ministère de l’Intérieur** et les **décisions de justice** à jour pour toute utilisation probante.
+
+## 8. Illustrations du diaporama
 
 Les fichiers `assets/img/pedagogie/slide-*.svg` sont des schémas **produit pour ce dépôt** (SVG, texte éditable). Ils servent d’appui visuel à `pedagogie.html` et peuvent être modifiés avec un éditeur de texte ou Inkscape / Figma.
 

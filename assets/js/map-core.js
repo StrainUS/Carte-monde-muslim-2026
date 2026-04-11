@@ -11,7 +11,8 @@
     return;
   }
 
-  const { DATA, CENTROIDS, BY_ISO } = D;
+  const { DATA, CENTROIDS, BY_ISO, OVERSEAS_BY_ISO } = D;
+  const overseasBoxes = OVERSEAS_BY_ISO && typeof OVERSEAS_BY_ISO === "object" ? OVERSEAS_BY_ISO : {};
 
   const LAYERS = { sunni: true, shia: true, conflict: false, labels: true };
 
@@ -20,13 +21,15 @@
   /* Label group : toujours conservé, show/hide plutôt que rebuild */
   let labelGroup = null;
   let labelGroupAdded = false;
+  /** Marqueurs d’étiquettes + population (M) pour filtrer selon le zoom */
+  let labelEntries = [];
   let bboxByIsoCache = null;
   let nameByIdGlobal = null;
 
   /* ── Carte ── */
   const MAP = L.map("map", {
     center: [20, 15],
-    zoom: 2,
+    zoom: 2.75,
     minZoom: 1.5,
     maxZoom: 10,
     zoomControl: false,
@@ -44,6 +47,90 @@
     maxZoom: 20,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; CARTO',
   }).addTo(MAP);
+
+  /**
+   * Étiquettes : tous les pays du jeu DATA (~100) sont classés par « importance » pour la veille
+   * (pop. musulmane, pop. totale, tension). Au zoom faible on n’affiche qu’une fraction du classement ;
+   * la fraction augmente de façon continue jusqu’à 100 % au zoom max — pas de pays « oublié » par un seuil absolu mal calé.
+   */
+  const LABEL_VISIBLE_FRACTION = [
+    [1.5, 0.085],
+    [2, 0.12],
+    [2.5, 0.19],
+    [3, 0.28],
+    [3.5, 0.36],
+    [4.25, 0.48],
+    [5.25, 0.6],
+    [6.25, 0.72],
+    [7.5, 0.84],
+    [8.75, 0.94],
+    [10, 1],
+  ];
+
+  function interpolateThreshold(z, anchors) {
+    if (!anchors.length) return 0;
+    if (z <= anchors[0][0]) return anchors[0][1];
+    const last = anchors[anchors.length - 1];
+    if (z >= last[0]) return last[1];
+    for (let i = 0; i < anchors.length - 1; i++) {
+      const z0 = anchors[i][0];
+      const v0 = anchors[i][1];
+      const z1 = anchors[i + 1][0];
+      const v1 = anchors[i + 1][1];
+      if (z >= z0 && z <= z1) {
+        const u = (z - z0) / (z1 - z0);
+        return v0 + (v1 - v0) * u;
+      }
+    }
+    return last[1];
+  }
+
+  /** Score comparable sur tout le périmètre DATA (même échelle pour chaque pays du projet). */
+  function labelImportanceScore(pM, mMusM, mPct, tension) {
+    const p = typeof pM === "number" ? pM : 0;
+    const mm = typeof mMusM === "number" ? mMusM : 0;
+    const m = typeof mPct === "number" ? mPct : 0;
+    const c = typeof tension === "number" ? tension : 0;
+    return mm * 1.38 + p * 0.4 + m * 0.22 + c * 9.2;
+  }
+
+  function finalizeLabelRanks() {
+    labelEntries.sort(function (a, b) {
+      const ds = b.score - a.score;
+      if (ds !== 0) return ds;
+      return String(a.name).localeCompare(String(b.name), "fr");
+    });
+    for (let i = 0; i < labelEntries.length; i++) {
+      labelEntries[i].rank = i;
+    }
+  }
+
+  function refreshLabelZoomVisibility() {
+    if (!labelEntries.length) return;
+    const z = MAP.getZoom();
+    const n = labelEntries.length;
+    const frac = interpolateThreshold(z, LABEL_VISIBLE_FRACTION);
+    const cap = Math.max(1, Math.ceil(frac * n));
+    for (let i = 0; i < n; i++) {
+      const row = labelEntries[i];
+      const el = row.mk.getElement ? row.mk.getElement() : null;
+      if (!el) continue;
+      el.style.display = row.rank < cap ? "" : "none";
+    }
+  }
+
+  let labelZoomRaf = null;
+  function scheduleLabelZoomRefresh() {
+    if (!LAYERS.labels || !labelGroupAdded) return;
+    if (labelZoomRaf) return;
+    labelZoomRaf = requestAnimationFrame(function () {
+      labelZoomRaf = null;
+      refreshLabelZoomVisibility();
+    });
+  }
+
+  MAP.on("zoom", scheduleLabelZoomRefresh);
+  MAP.on("zoomend", scheduleLabelZoomRefresh);
 
   /* ── Zoom molette fluide (Mac trackpad + souris) ── */
   (function () {
@@ -104,6 +191,45 @@
     else if (g.type === "MultiPolygon") g.coordinates = g.coordinates.map((p) => p.map(fixRing));
   }
 
+  /** Aire signée approx. (lng, lat) — suffisant pour trier l’empilement SVG. */
+  function planarRingArea(ring) {
+    if (!ring || ring.length < 3) return 0;
+    let a = 0;
+    const n = ring.length;
+    const lim = ring[n - 1][0] === ring[0][0] && ring[n - 1][1] === ring[0][1] ? n - 1 : n;
+    for (let i = 0; i < lim; i++) {
+      const j = (i + 1) % lim;
+      a += ring[i][0] * ring[j][1] - ring[j][0] * ring[i][1];
+    }
+    return Math.abs(a * 0.5);
+  }
+
+  /** Aire totale des anneaux extérieurs (sans trous) — pour l’ordre d’insertion Leaflet. */
+  function featureHitArea(f) {
+    const g = f && f.geometry;
+    if (!g) return 0;
+    if (g.type === "Polygon") return planarRingArea(g.coordinates[0]);
+    if (g.type === "MultiPolygon") {
+      return g.coordinates.reduce((s, poly) => s + (poly[0] ? planarRingArea(poly[0]) : 0), 0);
+    }
+    return 0;
+  }
+
+  /**
+   * Frontières 110m simplifiées : polygones voisins se chevauchent souvent en SVG.
+   * Leaflet teste le dernier path du DOM en premier → placer les plus petits pays
+   * en dernier pour que le bon pays capte le survol (ex. Suriname vs Guyane française).
+   */
+  function sortFeaturesForHitOrder(fc) {
+    if (!fc || !fc.features) return;
+    fc.features.sort((a, b) => {
+      const da = featureHitArea(a);
+      const db = featureHitArea(b);
+      if (db !== da) return db - da;
+      return String(a.id).localeCompare(String(b.id));
+    });
+  }
+
   /* ── Couleurs pays — opacité clampée à [0,1] ── */
   function countryColor(name) {
     const d = DATA[name];
@@ -148,6 +274,24 @@
       .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
   }
 
+  /**
+   * world-atlas 110m regroupe parfois métropole + outre-mer sous un même code ISO (ex. 250 = France + DOM).
+   * Retourne la clé DATA affichée (tooltip, clic) selon la position du pointeur.
+   */
+  function resolveDisplayName(iso, latlng) {
+    const canon = BY_ISO[iso];
+    if (!latlng || typeof latlng.lat !== "number" || typeof latlng.lng !== "number") return canon;
+    const boxes = overseasBoxes[iso];
+    if (!boxes || !boxes.length) return canon;
+    const lat = latlng.lat;
+    const lng = latlng.lng;
+    for (let i = 0; i < boxes.length; i++) {
+      const b = boxes[i];
+      if (lat >= b.lat0 && lat <= b.lat1 && lng >= b.lng0 && lng <= b.lng1) return b.name;
+    }
+    return canon;
+  }
+
   /* ── Étiquettes : construction unique, show/hide ── */
   function buildLabelsOnce() {
     if (labelGroup) return; /* déjà construit */
@@ -161,6 +305,7 @@
     }
 
     labelGroup = L.layerGroup();
+    labelEntries = [];
     const seen = new Set();
 
     for (const name of Object.keys(DATA)) {
@@ -190,7 +335,14 @@
         zIndexOffset: -100,
       });
       labelGroup.addLayer(mk);
+      const pNum = typeof d.p === "number" ? d.p : 0;
+      const mPct = typeof d.m === "number" ? d.m : 0;
+      const mMus = (pNum * mPct) / 100;
+      const cVal = typeof d.c === "number" ? d.c : 0;
+      const score = labelImportanceScore(pNum, mMus, mPct, cVal);
+      labelEntries.push({ mk, name, p: pNum, mMus, score });
     }
+    finalizeLabelRanks();
   }
 
   function showLabels() {
@@ -199,6 +351,7 @@
       labelGroup.addTo(MAP);
       labelGroupAdded = true;
     }
+    refreshLabelZoomVisibility();
   }
 
   function hideLabels() {
@@ -253,6 +406,7 @@
       const world = await resp.json();
       const geo = topojson.feature(world, world.objects.countries);
       geo.features.forEach((f) => fixGeom(f.geometry));
+      sortFeaturesForHitOrder(geo);
 
       const nameById = {};
       geo.features.forEach((f) => {
@@ -277,8 +431,10 @@
 
           layer.bindTooltip("", { className: "map-tooltip", sticky: true, direction: "auto" });
 
-          layer.on("mouseover", function () {
-            this.setTooltipContent(tooltipContent(name, d));
+          layer.on("mouseover", function (ev) {
+            const disp = resolveDisplayName(iso, ev.latlng);
+            const dd = DATA[disp] || d;
+            this.setTooltipContent(tooltipContent(disp, dd));
             this.openTooltip();
             this.setStyle({ color: "rgba(201,168,76,.9)", weight: 1.8 });
           });
@@ -286,8 +442,16 @@
             this.closeTooltip();
             this.setStyle({ color: "rgba(255,255,255,.09)", weight: 0.45 });
           });
-          layer.on("click", () => {
-            window.dispatchEvent(new CustomEvent("islammap:countryclick", { detail: { name } }));
+          layer.on("click", (ev) => {
+            /* Éviter l’anneau de focus navigateur sur le tracé SVG au clic */
+            const t = ev.originalEvent && ev.originalEvent.target;
+            if (t && typeof t.blur === "function") t.blur();
+            requestAnimationFrame(function () {
+              const ae = document.activeElement;
+              if (ae && ae.closest && ae.closest(".leaflet-overlay-pane") && typeof ae.blur === "function") ae.blur();
+            });
+            const disp = resolveDisplayName(iso, ev.latlng);
+            window.dispatchEvent(new CustomEvent("islammap:countryclick", { detail: { name: disp } }));
           });
         },
       }).addTo(MAP);

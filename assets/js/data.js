@@ -1,6 +1,6 @@
 /**
  * Données pays (ISO 3166-1 num.), centroïdes, index ISO.
- * Contenu pédagogique (quiz, sources, glossaire…) : pedagogy-bundle.js après ce fichier.
+ * Quiz, glossaire, hotspots, notes sécurité : pedagogy-bundle.js après ce fichier.
  * Méthodologie : ../docs/SOURCES.md
  */
 (function () {
@@ -101,7 +101,13 @@ const DATA = {
 "Zimbabwe":       {iso:"716",p:16,   m:1,  s:99,h:1,  ib:0,c:0,r:"Afrique Australe", n:"Majorité chrétienne. Islam mineur (commerçants asiatiques)."},
 "Zambie":         {iso:"894",p:20,   m:1,  s:99,h:1,  ib:0,c:0,r:"Afrique Australe", n:"Nation chrétienne (constitution). Très petite minorité musulmane."},
 /* ── EUROPE ── */
-"France":         {iso:"250",p:68,   m:8,  s:90,h:10, ib:0,c:0,r:"Europe Ouest",     n:"5–6 M de musulmans (8–9 %) : 2e religion de France. Maghrébins, Africains subsahariens, Turcs. Débat laïcité intense. Attentats 2015 (Paris) et 2016 (Nice). Loi contre le séparatisme 2021."},
+"France":         {iso:"250",p:68,   m:8,  s:90,h:10, ib:0,c:0,r:"Europe Ouest",     n:"5–6 M de musulmans (8–9 %) : 2e religion de France. Maghrébins, Africains subsahariens, Turcs. Débat laïcité intense. Attentats 2015 (Paris) et 2016 (Nice). Loi contre le séparatisme 2021. Carte 110m : métropole et DOM partagent le même code ISO — la Guyane et les autres DOM ont une fiche au survol local."},
+"Guyane française":{iso:"250",skipIsoMap:true,p:0.29,m:6,  s:99,h:1,  ib:0,c:0,r:"France (outre-mer)", n:"Département d'outre-mer en Amazonie (~300 k hab.). Islam minoritaire ; croissance liée à l'immigration régionale et aux recompositions démographiques. Données carte : ordre de grandeur local (croiser INSEE, Pew, enquêtes)."},
+"Martinique":     {iso:"250",skipIsoMap:true,p:0.37,m:0.5,s:99,h:1,  ib:0,c:0,r:"France (outre-mer)", n:"DOM antillais. Très faible part musulmane (communautés réduites)."},
+"Guadeloupe":     {iso:"250",skipIsoMap:true,p:0.40,m:0.5,s:99,h:1,  ib:0,c:0,r:"France (outre-mer)", n:"Archipel DOM. Islam minoritaire (histoire des migrations)."},
+"La Réunion":     {iso:"250",skipIsoMap:true,p:0.87,m:5,  s:99,h:1,  ib:0,c:0,r:"France (outre-mer)", n:"Département océan Indien. Minorité musulmane (origines comoriennes, indo-pakistanaises, etc.) ; coexistence religieuse large."},
+"Mayotte":        {iso:"250",skipIsoMap:true,p:0.32,m:97, s:99,h:1,  ib:0,c:0,r:"France (outre-mer)", n:"Département à très large majorité musulmane (école chaféite, influence comorienne). Ne pas amalgamer avec la métropole sur les seuls agrégats nationaux."},
+"Saint-Pierre-et-Miquelon":{iso:"250",skipIsoMap:true,p:0.006,m:0.1,s:99,h:1,ib:0,c:0,r:"France (outre-mer)", n:"Collectivité archipel au large de Terre-Neuve. Population très réduite ; islam quasi absent."},
 "Allemagne":      {iso:"276",p:84,   m:5,  s:80,h:20, ib:0,c:0,r:"Europe Ouest",     n:"4,5–5 M de musulmans : Turcs (Gastarbeiter), Arabes, Afghans. Hanafi dominant. DITIB = bras de la Diyanet turque en Allemagne."},
 "Royaume-Uni":    {iso:"826",p:67.5, m:5,  s:80,h:20, ib:0,c:0,r:"Europe Ouest",     n:"3,9 M de musulmans : Pakistanais, Bangladais, Indiens. Birmingham, East London, Bradford. Attentat Manchester Arena 2017 (22 morts)."},
 "Russie":         {iso:"643",p:146,  m:10, s:99,h:1,  ib:0,c:1,r:"Europe/Asie",      n:"15–20 M de musulmans : Tatars (Kazan), Tchétchènes, Daghestanais, Bachkirs. 2e religion de Russie. Guerres de Tchétchénie 1994–2009. Grande Mosquée de Moscou (2015)."},
@@ -183,7 +189,10 @@ const CENTROIDS = {
   "Érythrée":[   15.5,  39.0],"Comores":[    -12.0,  44.3],"Rwanda":[    -2.0,  29.9],
   "Malawi":[    -13.5,  34.3],"Île Maurice":[-20.2,  57.5],"Madagascar":[-20.0,  47.0],
   "Afrique du Sud":[-29.0,  25.0],"Zimbabwe":[-20.0,  30.0],"Zambie":[-14.0,  28.0],
-  "France":[     46.5,   2.5],"Allemagne":[   51.5,  10.5],"Royaume-Uni":[ 54.0,  -2.5],
+  "France":[     46.5,   2.5],
+  "Guyane française":[4.0,-53.2],"Martinique":[14.67,-61.0],"Guadeloupe":[16.18,-61.7],
+  "La Réunion":[-21.12,55.53],"Mayotte":[-12.85,45.17],"Saint-Pierre-et-Miquelon":[46.94,-56.32],
+  "Allemagne":[   51.5,  10.5],"Royaume-Uni":[ 54.0,  -2.5],
   "Russie":[     61.0,  65.0],"Albanie":[     41.1,  20.1],"Bosnie":[     44.0,  17.5],
   "Kosovo":[     42.6,  21.0],"Macédoine du N.":[ 41.6,  21.7],"Bulgarie":[ 42.7,  25.5],
   "Serbie":[     44.0,  21.0],"Monténégro":[  42.7,  19.4],"Grèce":[     39.5,  22.5],
@@ -200,9 +209,21 @@ const CENTROIDS = {
   "Australie":[ -25.5, 134.0],"Nouvelle-Zélande":[-42.0, 172.0],"Fidji":[-17.7, 178.0],
 };
 
+/** Boîtes lat/lng pour distinguer métropole et DOM lorsque world-atlas fusionne tout sous l’ISO 250. */
+const OVERSEAS_BY_ISO = {
+  "250": [
+    { lat0: 2.05, lat1: 5.95, lng0: -54.65, lng1: -51.55, name: "Guyane française" },
+    { lat0: 14.37, lat1: 15.05, lng0: -61.42, lng1: -60.72, name: "Martinique" },
+    { lat0: 15.85, lat1: 16.55, lng0: -61.88, lng1: -60.92, name: "Guadeloupe" },
+    { lat0: -21.42, lat1: -20.82, lng0: 55.12, lng1: 55.92, name: "La Réunion" },
+    { lat0: -13.08, lat1: -12.58, lng0: 44.95, lng1: 45.34, name: "Mayotte" },
+    { lat0: 46.74, lat1: 47.22, lng0: -56.48, lng1: -55.96, name: "Saint-Pierre-et-Miquelon" },
+  ],
+};
+
 const BY_ISO = {};
 Object.entries(DATA).forEach(([name, d]) => {
-  if (d && d.iso) BY_ISO[d.iso] = name;
+  if (d && d.iso && !d.skipIsoMap) BY_ISO[d.iso] = name;
 });
 
 
@@ -210,5 +231,6 @@ window.IslamMapData = {
   DATA,
   CENTROIDS,
   BY_ISO,
+  OVERSEAS_BY_ISO,
 };
 })();

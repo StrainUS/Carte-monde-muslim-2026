@@ -1,7 +1,4 @@
-/* Page pédagogie — présentation formation (cohérente avec common.css) */
-html {
-  scroll-behavior: auto;
-}
+/* Page guide & diaporama (pedagogie.html) — cohérente avec common.css */
 
 body.pedagogie-page {
   min-height: 100vh;
@@ -10,9 +7,7 @@ body.pedagogie-page {
   padding-left: env(safe-area-inset-left, 0);
   padding-right: env(safe-area-inset-right, 0);
   padding-bottom: env(safe-area-inset-bottom, 0);
-  background:
-    radial-gradient(ellipse 120% 80% at 50% -20%, rgba(201, 168, 76, 0.12), transparent 50%),
-    var(--bg);
+  background: var(--bg);
 }
 
 .ped-wrap {
@@ -29,11 +24,11 @@ body.pedagogie-page {
   align-items: center;
   gap: 14px;
   flex-wrap: wrap;
-  padding: max(14px, env(safe-area-inset-top, 0)) 22px 14px;
+  padding: 0 22px;
   margin: 0 -22px 24px;
-  background: linear-gradient(180deg, rgba(10, 15, 26, 0.97), rgba(10, 15, 26, 0.88));
+  height: 60px;
+  background: var(--surface);
   border-bottom: 1px solid var(--border);
-  backdrop-filter: blur(12px);
 }
 
 .ped-topbar .logo {
@@ -67,17 +62,17 @@ body.pedagogie-page {
 }
 
 .ped-nav a.is-active {
-  background: rgba(201, 168, 76, 0.12);
-  border-color: rgba(201, 168, 76, 0.35);
-  color: var(--gold-hi);
+  background: var(--primary-dim);
+  border-color: var(--primary-border);
+  color: var(--primary-hi);
 }
 
-/* ─── Accroche formation ─── */
+/* ─── Accroche hero ─── */
 .ped-hero {
   text-align: center;
   padding: 28px 24px 36px;
   margin-bottom: 32px;
-  background: var(--surface-elevated);
+  background: var(--surface-hi);
   border: 1px solid var(--border);
   border-radius: 16px;
   box-shadow: var(--shadow-lg);
@@ -169,159 +164,116 @@ body.pedagogie-page {
   margin-bottom: 6px;
 }
 
-/* ─── Diaporama : une seule diapo visible (anti-conflit avec d’autres feuilles) ─── */
-#slideshow .slide-viewport > article.slide:not(.is-active),
-#savoir-slideshow .slide-viewport > article.slide:not(.is-active) {
-  display: none !important;
-}
+/* ─── Diaporama : une seule diapo visible ─── */
+.slide { display: none; }
+.slide.is-active { display: block; }
 
-#slideshow .slide-viewport > article.slide.is-active,
-#savoir-slideshow .slide-viewport > article.slide.is-active {
-  display: block !important;
-}
+/* ══════════════════════════════════════
+   DIAPORAMA : nouveau chrome stable
+══════════════════════════════════════ */
 
-/* ─── Diaporama : changement d’écran instantané (aucune animation slide) ─── */
 .slideshow {
   background: var(--surface);
-  border: 1px solid rgba(201, 168, 76, 0.15);
-  border-radius: 18px;
-  padding: 26px 22px 22px;
+  border: 1px solid var(--primary-border);
+  border-radius: var(--radius-lg);
+  padding: 20px 20px 16px;
   margin-bottom: 48px;
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
 }
 
-.slideshow-header {
+/* Chips numérotées */
+.slide-chips {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 16px;
-  margin-bottom: 20px;
   flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
 }
 
-.slideshow-header .slideshow-titles h2 {
-  font-family: var(--font-head);
-  font-size: 1.15rem;
-  color: var(--text);
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-
-.slideshow-header .slideshow-titles p {
-  font-size: 13px;
+.slide-chips button,
+.slide-chips button.slide-dot-num {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface-hi);
   color: var(--muted);
-  line-height: 1.5;
-  max-width: 42ch;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-variant-numeric: tabular-nums;
+  font-family: var(--font-body);
+  transition: background 0.18s, border-color 0.18s, color 0.18s;
+  padding: 0;
+  transform: none;
+  box-shadow: none;
 }
 
-.slideshow-controls {
+.slide-chips button:hover {
+  border-color: var(--primary-border);
+  color: var(--primary-hi);
+}
+
+.slide-chips button[aria-current="true"],
+.slide-chips button.slide-dot-num[aria-current="true"] {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #0e1117;
+  transform: none;
+  box-shadow: 0 4px 12px rgba(212, 155, 47, 0.35);
+}
+
+/* Zone slide : flèches + contenu */
+.slide-stage {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.slide-arrow {
+  flex-shrink: 0;
+  width: 44px;
+  align-self: center;
+  height: 56px;
   display: flex;
   align-items: center;
-  gap: 12px;
-  flex-shrink: 0;
-}
-
-.slide-nav-btn {
-  display: inline-flex;
-  align-items: center;
   justify-content: center;
-  gap: 8px;
-  min-height: 42px;
-  padding: 0 14px;
-  background: rgba(255, 255, 255, 0.07);
+  font-size: 28px;
+  font-weight: 300;
+  background: var(--surface-hi);
   border: 1px solid var(--border);
-  color: var(--text);
-  border-radius: 12px;
+  border-radius: var(--radius);
+  color: var(--muted);
   cursor: pointer;
-  font-size: 13px;
-  font-weight: 600;
-  transition: border-color 0.2s, color 0.2s, background 0.2s;
-}
-
-.slide-nav-btn:hover {
-  border-color: rgba(201, 168, 76, 0.45);
-  color: var(--gold);
-  background: rgba(201, 168, 76, 0.08);
-}
-
-.slide-nav-ico {
-  font-size: 20px;
+  transition: background 0.18s, border-color 0.18s, color 0.18s;
   line-height: 1;
-  font-weight: 400;
-  opacity: 0.95;
 }
 
-.slide-counter-pill {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 72px;
-  padding: 8px 12px;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--gold-hi);
-  font-variant-numeric: tabular-nums;
-  background: rgba(0, 0, 0, 0.35);
-  border: 1px solid rgba(201, 168, 76, 0.2);
-  border-radius: 999px;
+.slide-arrow:hover {
+  background: var(--primary-dim);
+  border-color: var(--primary-border);
+  color: var(--primary-hi);
 }
 
-.slide-progress-row {
-  margin: 4px 0 18px;
-}
-
-.slide-progress-track {
-  height: 4px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
-  overflow: hidden;
-}
-
-.slide-progress-fill {
-  height: 100%;
-  width: 12.5%;
-  border-radius: inherit;
-  background: linear-gradient(90deg, var(--gold), var(--gold-hi));
-  transition: width 0.2s ease-out;
-}
-
-.slide-live-sr {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
+/* Viewport slide */
 .slide-viewport {
-  position: relative;
-  min-height: 340px;
-  border-radius: 14px;
-  background: linear-gradient(165deg, rgba(18, 26, 48, 0.95) 0%, rgba(8, 11, 22, 0.98) 100%);
-  border: 1px solid rgba(201, 168, 76, 0.14);
-  padding: 26px 22px 28px;
-  overflow: hidden;
-}
-
-.slide {
-  display: none;
-}
-
-.slide.is-active {
-  display: block;
+  flex: 1;
+  min-width: 0;
+  border-radius: var(--radius);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 24px 22px 20px;
+  overflow-y: auto;
+  max-height: 520px;
+  min-height: 280px;
 }
 
 .slide h3 {
   font-family: var(--font-head);
-  color: var(--gold-hi);
-  font-size: 1.2rem;
-  margin-bottom: 16px;
+  color: var(--primary-hi);
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 14px;
   padding-bottom: 10px;
-  border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+  border-bottom: 1px solid var(--primary-border);
 }
 
 .slide p,
@@ -329,20 +281,17 @@ body.pedagogie-page {
   color: var(--text);
   font-size: 14px;
   line-height: 1.75;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
-.slide ul {
-  margin: 12px 0 12px 1.25em;
-}
+.slide ul { margin: 10px 0 10px 1.25em; }
 
 .slide-figure {
-  margin: 0 0 18px;
-  border-radius: 12px;
+  margin: 0 0 16px;
+  border-radius: var(--radius);
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(0, 0, 0, 0.35);
-  min-height: 140px;
+  border: 1px solid var(--border);
+  background: var(--surface);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -351,90 +300,120 @@ body.pedagogie-page {
 .slide-figure img {
   display: block;
   width: 100%;
-  max-width: 560px;
+  max-width: 540px;
   height: auto;
-  vertical-align: middle;
   object-fit: contain;
 }
 
 .slide-ref {
-  margin-top: 16px;
-  padding: 12px 14px;
+  margin-top: 14px;
+  padding: 10px 12px;
   font-size: 12px;
   line-height: 1.65;
   color: var(--muted);
-  background: rgba(255, 255, 255, 0.04);
-  border-radius: 10px;
-  border-left: 3px solid rgba(201, 168, 76, 0.5);
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--primary-border);
 }
 
-.slide-ref a {
-  word-break: break-word;
-}
+.slide-ref a { word-break: break-word; }
 
-.slide-dots {
+/* Pied : compteur + barre + raccourci */
+.slide-foot {
   display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 20px;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
 }
 
-.slide-dots button {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  border: none;
-  background: rgba(255, 255, 255, 0.18);
-  cursor: pointer;
-  padding: 0;
-  transition: background 0.2s, transform 0.15s;
-}
-
-.slide-dots button.slide-dot-num {
-  width: auto;
-  min-width: 32px;
-  height: 32px;
-  padding: 0 8px;
-  border-radius: 10px;
-  font-size: 12px;
-  font-weight: 700;
+.slide-foot-counter {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary-hi);
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.slide-progress-track {
+  flex: 1;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--surface-hi);
+  overflow: hidden;
+}
+
+.slide-progress-fill {
+  height: 100%;
+  width: 12.5%;
+  border-radius: inherit;
+  background: var(--primary);
+  transition: width 0.2s ease-out;
+}
+
+.slide-foot-hint {
+  font-size: 11px;
   color: var(--muted);
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transform: none;
+  white-space: nowrap;
 }
 
-.slide-dots button.slide-dot-num:hover {
-  color: var(--text);
-  border-color: rgba(201, 168, 76, 0.35);
-}
-
-.slide-dots button[aria-current="true"] {
-  background: var(--gold);
-  transform: scale(1.2);
-}
-
-.slide-dots button.slide-dot-num[aria-current="true"] {
-  color: var(--bg);
-  border-color: transparent;
-  background: linear-gradient(145deg, var(--gold), var(--gold-hi));
-  transform: none;
-  box-shadow: 0 4px 16px rgba(201, 168, 76, 0.25);
+.slide-live-sr {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .ped-hint {
-  margin-top: 18px;
-  font-size: 13px;
+  margin-top: 14px;
+  font-size: 12px;
   color: var(--muted);
   text-align: center;
-  line-height: 1.55;
 }
 
-.ped-hint kbd {
-  margin: 0 2px;
+.ped-hint kbd { margin: 0 2px; }
+
+/* Guide complet — sommaire */
+.ped-guide-complet {
+  scroll-margin-top: 88px;
 }
+
+.ped-toc {
+  margin: 0 0 22px;
+  padding: 16px 18px 18px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.ped-toc-title {
+  margin: 0 0 10px;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.ped-toc-list {
+  margin: 0;
+  padding-left: 1.25em;
+  font-size: 14px;
+  line-height: 1.85;
+  color: var(--muted);
+}
+
+.ped-toc-list a {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.ped-toc-list a:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 
 /* ─── Sections pédagogiques (cartes) ─── */
 .ped-section {
@@ -585,23 +564,6 @@ kbd {
 @media (max-width: 640px) {
   .ped-grid-sections {
     grid-template-columns: 1fr;
-  }
-
-  .slide-nav-label {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-  }
-
-  .slide-nav-btn {
-    min-width: 44px;
-    padding: 0 10px;
   }
 
   .slide-viewport {

@@ -1,12 +1,14 @@
-# ☪ Islam 2026 — Carte mondiale interactive & formation sécurité
+# ☪ Islam 2026 — Carte mondiale interactive, terrorisme & prévention
 
-**FR —** Application web **statique** : carte **Leaflet** (sunnites / chiites / tensions), **hotspots terrorisme**, fiches pays (**conflit / terrorisme / France / UE**), module **Savoir** (timeline Plotly, glossaire, mini-quiz), **quiz 20 Q**, sources Pew / BAMF / Europol / Intérieur, **PWA** (`sw.js`). Repères formation **SSIAP / CQPM**, lecture **CNAPS**.
+**FR —** Site web **statique** pour la **veille** et la **prévention** du risque terrorisme à l’usage des **agents de sécurité** et de toute équipe en **accueil du public** : carte **Leaflet** (sunnites / chiites / tensions), **hotspots terrorisme**, fiches pays (conflit, terrorisme, France, UE), onglet **Savoir** (timeline, courants, glossaire, portails), **quiz** (banque QCU/QCM) (auto-évaluation, **sans valeur certifiante**), sources Pew / BAMF / Europol / Intérieur, **PWA** (`sw.js`). **Ce dépôt ne propose pas une formation diplômante** ; il complète les **consignes employeur** et les **référentiels officiels**.
 
-**EN —** Static site: **Leaflet** map, terrorism hotspot circles, security notes in modals, tabbed Savoir module, 20-question quiz, optional **service worker**.
+**Repères prévention (France) :** [interieur.gouv.fr](https://www.interieur.gouv.fr/) · [stop-djihadisme.gouv.fr](https://www.stop-djihadisme.gouv.fr/)
+
+**EN —** Static site: Leaflet map, terrorism context, security-oriented notes in modals, tabbed Savoir section, 20-question self-check quiz (not a certificate), optional service worker.
 
 ---
 
-## Lancer en local (urgence / démo demain)
+## Lancer en local (urgence / démo)
 
 1. Ouvrez le **Terminal**.
 2. Allez dans le dossier du projet (celui qui contient `package.json`), par exemple :  
@@ -20,7 +22,7 @@ npm start
 
 4. Regardez le message dans le terminal : il affiche **une URL** du type `http://127.0.0.1:8080/` ou `http://127.0.0.1:8081/` si le port 8080 est déjà pris. **Copiez-collez cette URL** dans Safari ou Chrome.  
    - Carte : la page d’accueil s’ouvre.  
-   - Pédagogie : ajoutez `pedagogie.html` (l’URL complète est aussi indiquée dans le terminal).
+   - Guide & diaporama : ajoutez `pedagogie.html` (l’URL complète est aussi indiquée dans le terminal).
 
 **Si le navigateur ne s’ouvre pas tout seul**, ce n’est pas grave : l’URL affichée suffit.
 
@@ -28,7 +30,7 @@ npm start
 
 ---
 
-## Démarrage rapide (à présenter en formation)
+## Démarrage rapide
 
 **1. Aller dans le dossier du projet** (celui qui contient `package.json`).
 
@@ -95,12 +97,12 @@ Puis ouvrez manuellement : **`http://127.0.0.1:8080/`**
 
 ### Important : ne pas ouvrir `index.html` en double-clic (fichier `file://`)
 
-En ouverture directe du fichier, certaines fonctions (vidéo, chargements réseau, parfois affichage d’images du module **Pédagogie**) sont **dégradées ou bloquées**. Pour une démo ou une formation, **utilisez toujours un serveur HTTP** comme ci-dessus.
+En ouverture directe du fichier, certaines fonctions (vidéo, chargements réseau, parfois affichage d’images du **guide & diaporama**) sont **dégradées ou bloquées**. Pour une démo fiable, **utilisez toujours un serveur HTTP** comme ci-dessus.
 
 **Pages utiles :**
 
-- Carte & modules : `http://127.0.0.1:<PORT>/index.html`
-- Pédagogie & diaporama : `http://127.0.0.1:<PORT>/pedagogie.html`
+- Carte & onglets : `http://127.0.0.1:<PORT>/index.html`
+- Guide & diaporama : `http://127.0.0.1:<PORT>/pedagogie.html`
 
 (`npm start` affiche la valeur réelle de `<PORT>` : 8080, 8081, etc.)
 
@@ -121,7 +123,7 @@ npm run test:e2e
 **Prérequis :** Python 3
 
 ```bash
-cd ~/Downloads/Carte-monde-muslim-2026
+cd ~/Downloads/Carte-monde-muslim
 python3 bundle_offline.py
 open index_offline.html
 ```
@@ -132,16 +134,17 @@ open index_offline.html
 
 | Élément | Rôle |
 |--------|------|
-| `index.html` | Page principale — onglets Accueil, Carte, Savoir, Terrorisme, Quiz, Sources |
-| `pedagogie.html` | Diaporama SVG et approfondissements |
+| `index.html` | Page principale — Accueil, Carte, Savoir, Terrorisme, Quiz, Sources |
+| `pedagogie.html` | Diaporama SVG et approfondissements (guide) |
 | `assets/img/pedagogie/*.svg` | Illustrations du diaporama |
-| `assets/js/data.js` | Données pays, `SECURITY_NOTES`, `TERROR_HOTSPOTS`, quiz 20 Q |
+| `assets/js/data.js` | Données pays (chargement) |
+| `assets/js/pedagogy-bundle.js` | Quiz 20 Q, hotspots, glossaire, notes sécurité |
 | `assets/js/map-core.js` | Leaflet, GeoJSON |
 | `assets/js/map-ui.js` | Modale, recherche, hotspots |
-| `assets/js/slideshow.js` | Diaporama (Savoir + page Pédagogie) |
+| `assets/js/slideshow.js` | Diaporama (Savoir + page guide) |
 | `assets/js/app-pro.js` | Hub à onglets, Plotly, thème |
-| `assets/css/app-pro.css` | Styles formation |
-| `assets/css/pedagogie.css` | Styles diaporama (aussi chargés sur l’index pour l’onglet Savoir) |
+| `assets/css/app-pro.css` | Styles coque SPA |
+| `assets/css/pedagogie.css` | Styles diaporama |
 | `sw.js` | Service Worker (GitHub Pages) |
 | `docs/SOURCES.md` | Méthodologie |
 
@@ -167,19 +170,19 @@ node --check assets/js/data.js assets/js/map-core.js assets/js/map-ui.js assets/
 
 ## Fonctionnalités (synthèse)
 
-- Carte : couches sunnite/chiite/tensions, **hotspots** conflit/terrorisme, recherche pays  
+- Carte : couches sunnite/chiite/tensions, hotspots conflit/terrorisme, recherche pays  
 - Clic pays → données + camembert + blocs sécurité (si fiche disponible)  
-- Savoir : timeline, fiches écoles, glossaire, mini-quiz, quiz certif **20 Q**  
+- Savoir : timeline, fiches courants, glossaire, portails ; quiz dédié (auto-évaluation)  
 - Mode présentation sur la carte · raccourcis **F**, **Échap**, **+** / **−**
 
 ## Sources
 
-Pew Research · CIA World Factbook · BAMF · Europol · Ministère de l’Intérieur (FR) · UNHCR · ICG / ACLED / HRW (selon sujets) — croiser les **sources primaires** pour tout travail noté.
+Pew Research · CIA World Factbook · BAMF · Europol · Ministère de l’Intérieur (FR) · UNHCR · ICG / ACLED / HRW (selon sujets) — croiser les **sources primaires** pour tout compte rendu sérieux.
 
 ## Avertissement
 
-Synthèses pédagogiques : ne remplacent pas le droit positif ni les consignes employeur/CNAPS.
+Synthèses indicatives dans l’application : ne remplacent pas le droit positif, les consignes de votre employeur ni les publications officielles à jour.
 
 ---
 
-*Projet pédagogique open source — StrainUS*
+*Projet open source — StrainUS*

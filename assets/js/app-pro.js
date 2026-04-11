@@ -1,5 +1,5 @@
 /**
- * Coque SPA : navigation, onglets Savoir, timeline Plotly, glossaire, quiz certif, thème, SW.
+ * SPA — navigation hub (Carte, Savoir, Terrorisme, Quiz, Références), frise chronologique, glossaire, quiz, thème, SW.
  */
 (function () {
   "use strict";
@@ -14,21 +14,30 @@
     return Array.prototype.slice.call((root || document).querySelectorAll(sel));
   }
 
-  const HUB_ORDER = [
-    "accueil",
-    "section-carte",
-    "savoir",
-    "terrorisme",
-    "quiz-cert",
-    "sources",
-  ];
+  function escHtml(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
 
-  let breadcrumbRender = function () {};
-  let notifyHubVisited = function () {};
+  const DEFAULT_HUB = "section-carte";
+  const HUB_ORDER = ["section-carte", "savoir", "terrorisme", "quiz-cert", "sources"];
 
+  /** Anciens favoris #accueil / #veille → hub actuel. */
+  function resolveHubFromHash(raw) {
+    if (!raw) return DEFAULT_HUB;
+    if (raw === "accueil") return DEFAULT_HUB;
+    if (raw === "veille") return "savoir";
+    if (HUB_ORDER.indexOf(raw) >= 0) return raw;
+    return DEFAULT_HUB;
+  }
+
+  /* ── Navigation hub ── */
   function showHub(id, opts) {
     opts = opts || {};
-    const safe = HUB_ORDER.indexOf(id) >= 0 ? id : "accueil";
+    const safe = HUB_ORDER.indexOf(id) >= 0 ? id : DEFAULT_HUB;
     HUB_ORDER.forEach((hid) => {
       const sec = document.getElementById(hid);
       const tab = document.querySelector('#site-nav [data-hub="' + hid + '"]');
@@ -42,36 +51,36 @@
         tab.tabIndex = on ? 0 : -1;
       }
     });
-    if (!opts.skipHash) {
-      history.replaceState(null, "", "#" + safe);
-    }
+    if (!opts.skipHash) history.replaceState(null, "", "#" + safe);
     requestAnimationFrame(() => {
       try {
         window.scrollTo(0, 0);
-        const activePanel = document.getElementById(safe);
-        if (activePanel) activePanel.scrollTop = 0;
+        const panel = document.getElementById(safe);
+        if (panel) panel.scrollTop = 0;
       } catch (_) {}
     });
-    breadcrumbRender();
     const nav = $("#site-nav");
-    const btn = $("#site-menu-btn");
+    const menuBtn = $("#site-menu-btn");
     if (nav && nav.classList.contains("is-open")) {
       nav.classList.remove("is-open");
-      if (btn) btn.setAttribute("aria-expanded", "false");
+      if (menuBtn) menuBtn.setAttribute("aria-expanded", "false");
     }
-    notifyHubVisited(safe);
     if (safe === "section-carte") {
       const core = window.IslamMapCore;
-      const refresh = () => {
+      const refresh = () => { try { if (core && core.MAP) core.MAP.invalidateSize(); } catch (_) {} };
+      requestAnimationFrame(() => {
         try {
-          if (core && core.MAP) core.MAP.invalidateSize();
+          if (window.IslamMapUI && typeof window.IslamMapUI.collapseSidePanelsForCarteSection === "function") {
+            window.IslamMapUI.collapseSidePanelsForCarteSection();
+          }
         } catch (_) {}
-      };
+      });
       requestAnimationFrame(refresh);
       setTimeout(refresh, 120);
       setTimeout(refresh, 400);
     }
-    if (safe === "savoir") loadPlotlyTimeline();
+    if (safe === "savoir") renderTimelineFrise();
+    if (safe === "terrorisme") loadFranceTerrorChronologyOnce();
   }
 
   function initHubTabs() {
@@ -88,32 +97,47 @@
     document.addEventListener("click", (e) => {
       const a = e.target.closest("a[href^='#']");
       if (!a || a.closest("#site-nav")) return;
-      const href = a.getAttribute("href") || "";
-      const raw = href.replace(/^#/, "");
-      if (HUB_ORDER.indexOf(raw) < 0) return;
-      e.preventDefault();
-      showHub(raw);
+      const raw = (a.getAttribute("href") || "").replace(/^#/, "");
+      if (!raw) return;
+      const hub = resolveHubFromHash(raw);
+      if (hub !== raw && HUB_ORDER.indexOf(raw) < 0) {
+        e.preventDefault();
+        showHub(hub);
+        return;
+      }
+      if (HUB_ORDER.indexOf(raw) >= 0) {
+        e.preventDefault();
+        showHub(raw);
+      }
     });
   }
 
   function initHubHistory() {
     window.addEventListener("hashchange", () => {
-      const raw = (location.hash || "").replace(/^#/, "") || "accueil";
-      if (HUB_ORDER.indexOf(raw) < 0) return;
-      showHub(raw, { skipHash: true });
+      const raw = (location.hash || "").replace(/^#/, "") || DEFAULT_HUB;
+      const hub = resolveHubFromHash(raw);
+      showHub(hub, { skipHash: true });
     });
   }
 
   function initHubFromUrl() {
-    const raw = (location.hash || "").replace(/^#/, "") || "accueil";
-    const id = HUB_ORDER.indexOf(raw) >= 0 ? raw : "accueil";
-    if (id !== raw && raw) {
-      history.replaceState(null, "", "#" + id);
-    }
-    showHub(id, { skipHash: true });
+    const raw = (location.hash || "").replace(/^#/, "") || DEFAULT_HUB;
+    const hub = resolveHubFromHash(raw);
+    if (hub !== raw && raw) history.replaceState(null, "", "#" + hub);
+    showHub(hub, { skipHash: true });
   }
 
-  /* ── Menu mobile site ── */
+  /* ── Boutons hub (data-goto-hub) ── */
+  function initHubButtons() {
+    $all("[data-goto-hub]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const hid = btn.getAttribute("data-goto-hub");
+        if (hid) showHub(hid);
+      });
+    });
+  }
+
+  /* ── Menu mobile ── */
   function initSiteMenu() {
     const btn = $("#site-menu-btn");
     const nav = $("#site-nav");
@@ -125,130 +149,179 @@
     });
   }
 
-  /* ── Thème ── */
+  /* ── Thème : préférence système uniquement (pas de bouton manuel) ── */
   function initTheme() {
-    const key = "islammap-theme";
     const mq = window.matchMedia("(prefers-color-scheme: light)");
-    function apply(pref) {
-      const html = document.documentElement;
-      if (pref === "light" || pref === "dark") {
-        html.setAttribute("data-theme", pref);
-        try {
-          localStorage.setItem(key, pref);
-        } catch (_) {}
-        return;
-      }
-      const stored = (function () {
-        try {
-          return localStorage.getItem(key);
-        } catch (_) {
-          return null;
-        }
-      })();
-      if (stored === "light" || stored === "dark") html.setAttribute("data-theme", stored);
-      else html.setAttribute("data-theme", mq.matches ? "light" : "dark");
+    function apply() {
+      document.documentElement.setAttribute("data-theme", mq.matches ? "light" : "dark");
     }
     apply();
-    mq.addEventListener("change", () => {
-      try {
-        if (!localStorage.getItem(key)) apply();
-      } catch (_) {
-        apply();
-      }
-    });
-    $("#btn-theme-toggle")?.addEventListener("click", () => {
-      const cur = document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark";
-      apply(cur === "light" ? "dark" : "light");
-    });
+    mq.addEventListener("change", apply);
   }
 
-  /* ── Breadcrumb ── */
-  function initBreadcrumb() {
-    const el = $("#breadcrumb-here");
-    if (!el) return;
-    const names = {
-      accueil: "Accueil",
-      "section-carte": "Carte interactive",
-      savoir: "Savoir pédagogique",
-      terrorisme: "Focus terrorisme",
-      "quiz-cert": "Quiz & certification",
-      sources: "Sources",
-    };
-    function render() {
-      const hash = (location.hash || "#accueil").replace("#", "") || "accueil";
-      const label = names[hash] || "Page";
-      el.innerHTML =
-        "<ol><li><a href='#accueil'>Accueil</a></li><li aria-current='page'>" +
-        label.replace(/</g, "&lt;") +
-        "</li></ol>";
+  /* ── Frise chronologique (HTML — évite chevauchements Plotly sur une seule ligne) ── */
+  let timelineFriseBuilt = false;
+  function renderTimelineFrise() {
+    if (timelineFriseBuilt || !D || !D.TIMELINE_EVENTS) return;
+    const mount = document.getElementById("timeline-plot");
+    if (!mount) return;
+    timelineFriseBuilt = true;
+    const ev = D.TIMELINE_EVENTS;
+    const rows = ev.map((e) => {
+      const y = escHtml(String(e.year));
+      const t = escHtml(e.t);
+      const d = escHtml(e.d);
+      return (
+        "<li class='timeline-frise-item'>" +
+        "<span class='timeline-frise-year'>" + y + "</span>" +
+        "<div class='timeline-frise-card'>" +
+        "<strong class='timeline-frise-title'>" + t + "</strong>" +
+        "<p class='timeline-frise-desc'>" + d + "</p>" +
+        "</div></li>"
+      );
+    });
+    mount.innerHTML =
+      "<ol class='timeline-frise' aria-label='Jalons chronologiques 610 à 2026'>" + rows.join("") + "</ol>";
+  }
+
+  /* ── Chronologie attentats France (JSON — sources judiciaires / parquet) ── */
+  let frTerrorChronoState = 0;
+
+  function fmtFrShortDate(iso) {
+    if (!iso || typeof iso !== "string") return "";
+    const p = iso.split("-");
+    if (p.length !== 3) return iso;
+    const y = Number(p[0]);
+    const m = Number(p[1]);
+    const d = Number(p[2]);
+    if (!y || !m || !d) return iso;
+    try {
+      return new Date(y, m - 1, d).toLocaleDateString("fr-FR", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      });
+    } catch (_) {
+      return iso;
     }
-    breadcrumbRender = render;
-    window.addEventListener("hashchange", render);
-    render();
   }
 
-  /* ── Diaporama Savoir (même logique que pedagogie.html + slideshow.js) ── */
-  function initSavoirSlideshow() {
-    if (!window.IslamMapSlideshow || !document.getElementById("savoir-slideshow")) return;
-    window.IslamMapSlideshow.init({
-      rootId: "savoir-slideshow",
-      prevId: "savoir-slide-prev",
-      nextId: "savoir-slide-next",
-      counterId: "savoir-slide-counter",
-      dotsId: "savoir-slide-dots",
-      onChange: function (idx) {
-        if (idx !== 0) return;
-        var sec = document.getElementById("savoir");
-        if (!sec || !sec.classList.contains("is-active")) return;
-        loadPlotlyTimeline();
-        setTimeout(function () {
-          try {
-            if (window.Plotly) window.Plotly.Plots.resize("timeline-plot");
-          } catch (_) {}
-        }, 150);
-      },
+  function buildFranceTerrorChronoHtml(data) {
+    const disc =
+      data && data.disclaimer
+        ? '<p class="terror-chrono-disclaimer">' + escHtml(data.disclaimer) + "</p>"
+        : "";
+    const note =
+      data && data.official_catalog_note
+        ? '<p class="terror-p">' + escHtml(data.official_catalog_note) + "</p>"
+        : "";
+    const evs = (data && Array.isArray(data.events) ? data.events.slice() : []).sort(function (a, b) {
+      return String(a.date || "").localeCompare(String(b.date || ""));
     });
+    const rows = evs.map(function (e) {
+      const dt = escHtml(e.date || "");
+      const lab = fmtFrShortDate(e.date);
+      return (
+        "<tr>" +
+        '<td><time datetime="' +
+        dt +
+        '">' +
+        escHtml(lab) +
+        "</time></td>" +
+        "<td>" +
+        escHtml(e.place || "") +
+        "</td>" +
+        "<td>" +
+        escHtml(e.summary || "") +
+        "</td>" +
+        "<td>" +
+        escHtml(e.actors_official || "") +
+        "</td>" +
+        '<td class="terror-chrono-jnote">' +
+        escHtml(e.judicial_note || "") +
+        "</td>" +
+        "</tr>"
+      );
+    });
+    return (
+      disc +
+      note +
+      '<div class="table-responsive terror-chrono-table-wrap" role="region" aria-label="Chronologie indicative des attentats et actes qualifiés de terrorisme en France">' +
+      '<table class="compare-table terror-chrono-table">' +
+      "<thead><tr>" +
+      '<th scope="col">Date</th>' +
+      '<th scope="col">Lieu</th>' +
+      '<th scope="col">Fait</th>' +
+      '<th scope="col">Acteurs et qualification (parquet / jugements publics)</th>' +
+      '<th scope="col">Note judiciaire</th>' +
+      "</tr></thead><tbody>" +
+      rows.join("") +
+      "</tbody></table></div>"
+    );
   }
 
-  let plotlyLoaded = false;
-  function loadPlotlyTimeline() {
-    if (plotlyLoaded || !D || !D.TIMELINE_EVENTS) return;
-    plotlyLoaded = true;
-    const s = document.createElement("script");
-    s.src = "https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js";
-    s.async = true;
-    s.onload = () => {
-      const ev = D.TIMELINE_EVENTS;
-      const years = ev.map((e) => e.year);
-      const data = [
-        {
-          x: years,
-          y: years.map(() => 1),
-          mode: "markers+text",
-          text: ev.map((e) => String(e.year)),
-          textposition: "top center",
-          hoverinfo: "text",
-          hovertext: ev.map((e) => e.t + "\n" + e.d),
-          marker: { size: 14, color: "#c9a84c" },
-        },
-      ];
-      const light = document.documentElement.getAttribute("data-theme") === "light";
-      const fg = light ? "#1a2233" : "#e4eaf4";
-      const grid = light ? "rgba(0,0,0,.12)" : "rgba(255,255,255,.08)";
-      const layout = {
-        paper_bgcolor: light ? "#f0f3f8" : "rgba(0,0,0,0)",
-        plot_bgcolor: "rgba(0,0,0,0)",
-        margin: { l: 48, r: 24, t: 24, b: 48 },
-        xaxis: { title: "Année", gridcolor: grid, zeroline: false, color: fg },
-        yaxis: { visible: false, range: [0.5, 1.5] },
-        font: { family: "Inter, system-ui, sans-serif", color: fg },
-        showlegend: false,
-        hovermode: "closest",
-      };
-      const config = { responsive: true, displayModeBar: false };
-      window.Plotly.newPlot("timeline-plot", data, layout, config);
-    };
-    document.head.appendChild(s);
+  function loadFranceTerrorChronologyOnce() {
+    const mount = document.getElementById("terror-fr-chrono-mount");
+    if (!mount || frTerrorChronoState >= 2) return;
+    if (frTerrorChronoState === 1) return;
+    frTerrorChronoState = 1;
+    fetch("assets/data/france-terror-chronology.json")
+      .then(function (r) {
+        if (!r.ok) throw new Error(String(r.status));
+        return r.json();
+      })
+      .then(function (data) {
+        frTerrorChronoState = 2;
+        mount.innerHTML = buildFranceTerrorChronoHtml(data);
+      })
+      .catch(function () {
+        frTerrorChronoState = 2;
+        mount.innerHTML =
+          '<p class="terror-chrono-err">Impossible de charger la chronologie (serveur HTTP requis, ou réseau). Pour des bilans exhaustifs et à jour : <a href="https://www.sgdsn.gouv.fr/" rel="noopener noreferrer">SGDSN</a>, <a href="https://www.interieur.gouv.fr/" rel="noopener noreferrer">ministère de l’Intérieur</a>, rapports du Parlement.</p>';
+      });
+  }
+
+  /* ── Onglets internes section Savoir ── */
+  function initSavoirTabs() {
+    const stabs = document.getElementById("savoir-stabs");
+    if (!stabs) return;
+    const btns = Array.from(stabs.querySelectorAll(".stab-btn[role='tab']"));
+    const panels = Array.from(stabs.querySelectorAll(".stab-panel[role='tabpanel']"));
+
+    function activateTab(btn) {
+      const panelId = btn.getAttribute("aria-controls");
+      btns.forEach((b) => {
+        b.classList.remove("is-active");
+        b.setAttribute("aria-selected", "false");
+        b.tabIndex = -1;
+      });
+      panels.forEach((p) => p.classList.remove("is-active"));
+      btn.classList.add("is-active");
+      btn.setAttribute("aria-selected", "true");
+      btn.tabIndex = 0;
+      const panel = document.getElementById(panelId);
+      if (panel) panel.classList.add("is-active");
+      if (panelId === "stab-timeline") renderTimelineFrise();
+    }
+
+    btns.forEach((btn) => {
+      btn.addEventListener("click", () => activateTab(btn));
+      btn.addEventListener("keydown", (e) => {
+        const i = btns.indexOf(btn);
+        if (e.key === "ArrowRight") {
+          e.preventDefault();
+          const n = (i + 1) % btns.length;
+          activateTab(btns[n]);
+          btns[n].focus();
+        }
+        if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          const n = (i - 1 + btns.length) % btns.length;
+          activateTab(btns[n]);
+          btns[n].focus();
+        }
+      });
+    });
   }
 
   /* ── Glossaire ── */
@@ -257,7 +330,6 @@
     if (!wrap || !D || !D.GLOSSARY) return;
     wrap.innerHTML = "";
     Object.keys(D.GLOSSARY).forEach((term) => {
-      const def = D.GLOSSARY[term];
       const div = document.createElement("div");
       div.className = "glossary-item";
       const btn = document.createElement("button");
@@ -266,13 +338,11 @@
       btn.setAttribute("aria-expanded", "false");
       const p = document.createElement("p");
       p.hidden = true;
-      p.textContent = def;
+      p.textContent = D.GLOSSARY[term];
       div.appendChild(btn);
       div.appendChild(p);
       wrap.appendChild(div);
     });
-    const dup = document.getElementById("glossary-mount-duplicate");
-    if (dup) dup.innerHTML = wrap.innerHTML;
     const sav = document.getElementById("savoir");
     if (sav && !sav.dataset.glossDelegated) {
       sav.dataset.glossDelegated = "1";
@@ -287,162 +357,246 @@
     }
   }
 
-  /* ── Mini-quiz Savoir (10 premières questions) ── */
-  function initSavoirMiniQuiz() {
-    const box = $("#mini-quiz-mount");
-    if (!box || !D || !D.QUIZ_DATA) return;
-    const qs = D.QUIZ_DATA.slice(0, 10);
-    let idx = 0;
-    let score = 0;
-    let answered = false;
-
-    function esc(s) {
-      return String(s)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;");
+  function shuffleCopy(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const t = a[i];
+      a[i] = a[j];
+      a[j] = t;
     }
-
-    function render() {
-      if (idx >= qs.length) {
-        box.innerHTML =
-          "<p><strong>Mini-quiz :</strong> " +
-          score +
-          " / " +
-          qs.length +
-          " — <a href='#quiz-cert'>Quiz complet (20 Q)</a></p>";
-        return;
-      }
-      const q = qs[idx];
-      let html =
-        "<p class='pro-kicker'>Mini-quiz " +
-        (idx + 1) +
-        "/10</p><p class='pro-lead' style='font-size:14px'>" +
-        esc(q.q) +
-        "</p><div>";
-      q.opts.forEach((opt, i) => {
-        html +=
-          "<button type='button' class='btn-ghost mini-q' data-i='" +
-          i +
-          "' style='display:block;width:100%;margin-bottom:6px'>" +
-          esc(opt) +
-          "</button>";
-      });
-      html += "</div>";
-      box.innerHTML = html;
-      box.querySelectorAll(".mini-q").forEach((b) => {
-        b.addEventListener("click", () => {
-          if (answered) return;
-          answered = true;
-          const i = parseInt(b.getAttribute("data-i"), 10);
-          if (i === q.ans) score++;
-          setTimeout(() => {
-            idx++;
-            answered = false;
-            render();
-          }, 400);
-        });
-      });
-    }
-    render();
+    return a;
   }
 
-  /* ── Quiz certification (20 Q) ── */
+  /** `**gras**` → HTML échappé par morceaux */
+  function formatBold(raw) {
+    const parts = String(raw).split("**");
+    let html = "";
+    for (let i = 0; i < parts.length; i++) {
+      const bit = escHtml(parts[i]);
+      html += i % 2 === 1 ? "<strong>" + bit + "</strong>" : bit;
+    }
+    return html;
+  }
+
+  function isQcm(q) {
+    return q && q.type === "qcm";
+  }
+
+  function normQcmAns(ans) {
+    if (!Array.isArray(ans)) return [Number(ans)].filter((x) => !Number.isNaN(x)).sort((a, b) => a - b);
+    return ans.slice().sort((a, b) => a - b);
+  }
+
+  function arraysEqual(a, b) {
+    if (a.length !== b.length) return false;
+    for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return false;
+    return true;
+  }
+
+  function sourceBlock(srcId) {
+    if (!srcId || !Array.isArray(D.SOURCES_2026)) return "";
+    const s = D.SOURCES_2026.find(function (x) { return x.id === srcId; });
+    if (!s) return "";
+    return (
+      "<p class='quiz-src'><a href='" +
+      escHtml(s.url) +
+      "' target='_blank' rel='noopener noreferrer'>" +
+      escHtml(s.label) +
+      "</a><span class='quiz-src-note'> — " +
+      escHtml(s.note) +
+      "</span></p>"
+    );
+  }
+
+  function correctLabelsHtml(q) {
+    if (isQcm(q)) {
+      return normQcmAns(q.ans)
+        .map(function (i) {
+          return escHtml(q.opts[i] != null ? q.opts[i] : "");
+        })
+        .join(" · ");
+    }
+    const i = Number(q.ans);
+    return escHtml(q.opts[i] != null ? q.opts[i] : "");
+  }
+
+  /* ── Quiz hub : banque mélangée, QCU + QCM, correction après chaque question ── */
   function initQuizCert() {
     const box = $("#quiz-cert-box");
-    if (!box || !D || !D.QUIZ_DATA) return;
-    const qs = D.QUIZ_DATA;
+    if (!box || !D) return;
+    if (!Array.isArray(D.QUIZ_DATA) || !D.QUIZ_DATA.length) {
+      box.innerHTML =
+        "<p class='pro-lead'>Banque de questions indisponible. Vérifiez que <code>quiz-bank.js</code> est chargé avant <code>pedagogy-bundle.js</code>.</p>";
+      return;
+    }
+
+    let series = [];
     let idx = 0;
     let score = 0;
     let answered = false;
 
-    function render() {
-      if (idx >= qs.length) {
-        const pct = Math.round((score / qs.length) * 100);
-        box.innerHTML =
-          "<p class='pro-lead'><strong>Terminé.</strong> Score : " +
-          score +
-          " / " +
-          qs.length +
-          " (" +
-          pct +
-          "%)</p>" +
-          "<button type='button' class='btn-ghost' id='quiz-cert-restart'>Recommencer</button>";
-        $("#quiz-cert-restart")?.addEventListener("click", () => {
-          idx = 0;
-          score = 0;
-          answered = false;
-          render();
+    function renderEnd() {
+      const tot = series.length;
+      const pct = tot ? Math.round((score / tot) * 100) : 0;
+      box.innerHTML =
+        "<div class='quiz-end'>" +
+        "<p class='pro-lead'><strong>Série terminée.</strong> Score : " +
+        score +
+        " / " +
+        tot +
+        " (" +
+        pct +
+        "%)</p>" +
+        "<button type='button' class='btn-ghost quiz-cert-primary' id='quiz-cert-new-series'>Nouvelle série aléatoire</button>" +
+        "</div>";
+      $("#quiz-cert-new-series")?.addEventListener("click", startSeries);
+    }
+
+    function feedbackHtml(ok, q) {
+      const title = ok ? "Bonne réponse" : "Réponse incorrecte";
+      const expl = q.explain
+        ? "<p class='quiz-feedback-explain'>" + escHtml(q.explain) + "</p>"
+        : "";
+      const src = sourceBlock(q.srcId);
+      const corr =
+        "<p class='quiz-feedback-correct'><strong>Réponse attendue :</strong> " + correctLabelsHtml(q) + "</p>";
+      return (
+        "<div class='quiz-feedback " +
+        (ok ? "quiz-feedback--ok" : "quiz-feedback--no") +
+        "' role='status'><p class='quiz-feedback-title'>" +
+        escHtml(title) +
+        "</p>" +
+        expl +
+        src +
+        corr +
+        "<button type='button' class='btn-ghost quiz-cert-primary quiz-next-btn' id='quiz-cert-next'>Question suivante</button></div>"
+      );
+    }
+
+    function attachNext() {
+      $("#quiz-cert-next")?.addEventListener("click", function () {
+        idx++;
+        answered = false;
+        renderQuestion();
+      });
+    }
+
+    function renderQuestion() {
+      if (idx >= series.length) {
+        renderEnd();
+        return;
+      }
+      const q = series[idx];
+      const n = idx + 1;
+      const tot = series.length;
+      const badge = isQcm(q) ? "QCM" : "QCU";
+      let html =
+        "<div class='quiz-cert-head'><span class='quiz-badge'>" +
+        escHtml(badge) +
+        "</span><span class='quiz-progress'>" +
+        n +
+        " / " +
+        tot +
+        "</span></div>";
+      html += "<p class='quiz-q'>" + formatBold(q.q) + "</p>";
+
+      if (isQcm(q)) {
+        html += "<div class='quiz-qcm-grid' id='quiz-qcm-opts'>";
+        q.opts.forEach(function (opt, i) {
+          html +=
+            "<label class='quiz-qcm-label'><input type='checkbox' class='quiz-qcm-cb' name='qcm' value='" +
+            i +
+            "'> <span>" +
+            escHtml(opt) +
+            "</span></label>";
+        });
+        html +=
+          "</div><div class='quiz-actions'><button type='button' class='btn-ghost quiz-cert-primary' id='quiz-cert-validate'>Valider</button></div><div id='quiz-feedback-slot'></div>";
+        box.innerHTML = html;
+        $("#quiz-cert-validate")?.addEventListener("click", function () {
+          if (answered) return;
+          const picked = Array.prototype.map
+            .call(box.querySelectorAll(".quiz-qcm-cb:checked"), function (el) {
+              return parseInt(el.value, 10);
+            })
+            .sort(function (a, b) {
+              return a - b;
+            });
+          const ok = arraysEqual(picked, normQcmAns(q.ans));
+          if (ok) score++;
+          answered = true;
+          const want = normQcmAns(q.ans);
+          box.querySelectorAll(".quiz-qcm-cb").forEach(function (el) {
+            el.disabled = true;
+            const vi = parseInt(el.value, 10);
+            const lab = el.closest(".quiz-qcm-label");
+            if (!lab) return;
+            if (want.indexOf(vi) >= 0) lab.classList.add("quiz-hit");
+            else if (el.checked) lab.classList.add("quiz-miss");
+          });
+          const slot = $("#quiz-feedback-slot");
+          const act = box.querySelector(".quiz-actions");
+          if (act) act.remove();
+          if (slot) slot.innerHTML = feedbackHtml(ok, q);
+          attachNext();
         });
         return;
       }
-      const q = qs[idx];
-      const n = idx + 1;
-      let html =
-        "<p class='pro-kicker'>Question " +
-        n +
-        " / " +
-        qs.length +
-        "</p>" +
-        "<p class='pro-lead' style='margin-bottom:12px'>" +
-        escapeHtml(q.q) +
-        "</p><div>";
-      q.opts.forEach((opt, i) => {
+
+      html += "<div class='quiz-opts-qcu'>";
+      q.opts.forEach(function (opt, i) {
         html +=
           "<button type='button' class='quiz-opt btn-ghost' data-i='" +
           i +
           "'>" +
-          escapeHtml(opt) +
+          escHtml(opt) +
           "</button>";
       });
-      html += "</div>";
+      html += "</div><div id='quiz-feedback-slot'></div>";
       box.innerHTML = html;
-      box.querySelectorAll(".quiz-opt").forEach((b) => {
-        b.addEventListener("click", () => {
+      box.querySelectorAll(".quiz-opt").forEach(function (b) {
+        b.addEventListener("click", function () {
           if (answered) return;
           answered = true;
           const i = parseInt(b.getAttribute("data-i"), 10);
-          if (i === q.ans) score++;
-          box.querySelectorAll(".quiz-opt").forEach((btn) => {
+          const ok = i === Number(q.ans);
+          if (ok) score++;
+          box.querySelectorAll(".quiz-opt").forEach(function (btn) {
             btn.disabled = true;
             const bi = parseInt(btn.getAttribute("data-i"), 10);
-            if (bi === q.ans) btn.style.borderColor = "rgba(30,138,48,.8)";
-            else if (bi === i) btn.style.borderColor = "rgba(198,40,40,.6)";
+            if (bi === Number(q.ans)) btn.classList.add("quiz-hit");
+            else if (bi === i) btn.classList.add("quiz-miss");
           });
-          setTimeout(() => {
-            idx++;
-            answered = false;
-            render();
-          }, 520);
+          const slot = $("#quiz-feedback-slot");
+          if (slot) slot.innerHTML = feedbackHtml(ok, q);
+          attachNext();
         });
       });
     }
 
-    function escapeHtml(s) {
-      return String(s)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;");
+    function startSeries() {
+      series = shuffleCopy(D.QUIZ_DATA);
+      idx = 0;
+      score = 0;
+      answered = false;
+      renderQuestion();
     }
 
-    render();
+    startSeries();
   }
 
-  /* ── Bouton citer ── */
+  /* ── Copier citations ── */
   function initCiteButtons() {
     $all("[data-cite]").forEach((btn) => {
       btn.addEventListener("click", () => {
-        const id = btn.getAttribute("data-cite");
-        const block = id ? document.getElementById(id) : null;
+        const block = document.getElementById(btn.getAttribute("data-cite") || "");
         if (!block) return;
         const t = block.innerText || block.textContent || "";
         if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(t).then(
-            () => alert("Références copiées dans le presse-papiers."),
-            () => alert(t)
-          );
+          navigator.clipboard.writeText(t)
+            .then(() => alert("Références copiées."))
+            .catch(() => alert(t));
         } else {
           alert(t);
         }
@@ -453,12 +607,10 @@
   /* ── Service Worker ── */
   function initSw() {
     if (!("serviceWorker" in navigator)) return;
-    const isLocal =
-      location.hostname === "localhost" || location.hostname === "127.0.0.1";
+    const isLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1";
     if (isLocal) {
       window.addEventListener("load", () => {
-        navigator.serviceWorker
-          .getRegistrations()
+        navigator.serviceWorker.getRegistrations()
           .then((regs) => regs.forEach((r) => r.unregister()))
           .catch(() => {});
       });
@@ -470,118 +622,61 @@
     });
   }
 
-  /* ── Raccourcis ── */
+  /* ── Navigation clavier (Alt+flèches) ── */
   function initArrowNav() {
     document.addEventListener("keydown", (e) => {
       if (e.target.closest("input, textarea, select, [contenteditable]")) return;
       if (!e.altKey) return;
-      const cur = (location.hash || "#accueil").replace("#", "") || "accueil";
+      const curRaw = (location.hash || "#" + DEFAULT_HUB).replace("#", "") || DEFAULT_HUB;
+      const cur = resolveHubFromHash(curRaw);
       let i = HUB_ORDER.indexOf(cur);
       if (i < 0) i = 0;
-      if (e.key === "ArrowDown" || e.key === "ArrowRight") {
-        e.preventDefault();
-        i = Math.min(HUB_ORDER.length - 1, i + 1);
-      } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
-        e.preventDefault();
-        i = Math.max(0, i - 1);
-      } else return;
+      if (e.key === "ArrowDown" || e.key === "ArrowRight") { e.preventDefault(); i = Math.min(HUB_ORDER.length - 1, i + 1); }
+      else if (e.key === "ArrowUp" || e.key === "ArrowLeft") { e.preventDefault(); i = Math.max(0, i - 1); }
+      else return;
       showHub(HUB_ORDER[i]);
     });
   }
 
-  /* ── Plotly : chargé à l’ouverture de l’onglet Savoir (showHub) ── */
-  function initLazyTimeline() {}
-
-  function initEditorial() {
-    const el = $("#footer-editorial");
-    if (!el) return;
-    fetch("assets/data/editorial.json")
-      .then((r) => (r.ok ? r.json() : null))
-      .then((j) => {
-        if (!j) return;
-        el.textContent =
-          j.legal + " — " + j.method + " (v" + j.version + ", " + j.lastUpdated + ").";
-        el.hidden = false;
-      })
-      .catch(() => {});
-  }
-
-  function initSectionProgress() {
-    const KEY = "islammap-sections-v1";
-    const secIds = ["accueil", "section-carte", "savoir", "terrorisme", "quiz-cert", "sources"];
-    const countEl = document.getElementById("parcours-count");
-    const wrap = document.getElementById("parcours-hint");
-    const visited = new Set();
-    try {
-      const raw = localStorage.getItem(KEY);
-      if (raw) JSON.parse(raw).forEach((id) => visited.add(id));
-    } catch (_) {}
-
-    function persist() {
-      try {
-        localStorage.setItem(KEY, JSON.stringify(Array.from(visited)));
-      } catch (_) {}
-      if (countEl) countEl.textContent = visited.size + " / " + secIds.length;
-      if (wrap) wrap.hidden = visited.size === 0;
-    }
-
-    function mark(id) {
-      if (secIds.indexOf(id) < 0) return;
-      if (visited.has(id)) return;
-      visited.add(id);
-      persist();
-    }
-
-    notifyHubVisited = function (id) {
-      mark(id);
-    };
-
-    persist();
-  }
-
-  function initFileProtocolBanner() {
-    const el = document.getElementById("file-protocol-banner");
-    if (el && location.protocol === "file:") el.hidden = false;
-  }
-
-  function boot() {
-    initFileProtocolBanner();
-    initBreadcrumb();
-    initHubTabs();
-    initHubHashLinks();
-    initHubHistory();
-    initSiteMenu();
-    initTheme();
-    initSavoirSlideshow();
-    initGlossary();
-    initQuizCert();
-    initSavoirMiniQuiz();
-    initCiteButtons();
-    initSw();
-    initArrowNav();
-    initLazyTimeline();
-    initMapResize();
-    initEditorial();
-    initSectionProgress();
-    initHubFromUrl();
-  }
-
+  /* ── Resize carte au passage de l'onglet ── */
   function initMapResize() {
     const sec = document.getElementById("section-carte");
     const core = window.IslamMapCore;
     if (!sec || !core || !core.MAP) return;
     const map = core.MAP;
-    const refresh = () => {
-      requestAnimationFrame(() => map.invalidateSize());
-    };
+    const refresh = () => requestAnimationFrame(() => map.invalidateSize());
     if ("IntersectionObserver" in window) {
-      new IntersectionObserver((entries) => {
-        entries.forEach((en) => {
-          if (en.isIntersecting) setTimeout(refresh, 250);
-        });
-      }, { threshold: 0.15 }).observe(sec);
+      new IntersectionObserver(
+        (entries) => entries.forEach((en) => { if (en.isIntersecting) setTimeout(refresh, 250); }),
+        { threshold: 0.15 }
+      ).observe(sec);
     }
     window.addEventListener("load", () => setTimeout(refresh, 400));
+  }
+
+  /* ── Bannière protocole file:// ── */
+  function initFileProtocolBanner() {
+    const el = document.getElementById("file-protocol-banner");
+    if (el && location.protocol === "file:") el.hidden = false;
+  }
+
+  /* ── Boot ── */
+  function boot() {
+    initFileProtocolBanner();
+    initHubTabs();
+    initHubHashLinks();
+    initHubHistory();
+    initHubButtons();
+    initSiteMenu();
+    initTheme();
+    initSavoirTabs();
+    initGlossary();
+    initQuizCert();
+    initCiteButtons();
+    initSw();
+    initArrowNav();
+    initMapResize();
+    initHubFromUrl();
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);

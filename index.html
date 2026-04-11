@@ -3,21 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="description" content="Formation professionnelle 2026 — Terrorisme islamiste et dynamiques des populations musulmanes. Carte interactive, sources Pew/BAMF/UE, module sécurité (SSIAP/CQPM).">
-  <meta name="keywords" content="formation sécurité, terrorisme, islam, sunnites, chiites, SSIAP, CQPM, PNAT, 2026">
-  <meta name="theme-color" content="#0a0f1a">
-  <meta property="og:title" content="Formation Sécurité Anti-Terrorisme 2026 — Carte & Savoir">
-  <meta property="og:description" content="Module pédagogique : géo-religieux, risques, sources officielles, quiz certification.">
+  <meta name="description" content="Carte interactive 2026 — géo-religieux, menace terrorisme et prévention pour agents de sécurité. Sources officielles (Pew, ONU, Intérieur, Europol). Quiz d'auto-évaluation, sans valeur certifiante.">
+  <meta name="keywords" content="prévention terrorisme, carte interactive, agents de sécurité, sunnites, chiites, veille, PNAT, Europol, 2026">
+  <meta name="theme-color" content="#0e1117">
+  <meta property="og:title" content="Islam mondial 2026 — Carte, terrorisme &amp; prévention">
+  <meta property="og:description" content="Outil de veille : carte, contexte géo-religieux, focus terrorisme, sources officielles et auto-évaluation — pour la prévention, pas un cursus de formation.">
   <meta property="og:type" content="website">
-  <title>Formation Sécurité Anti-Terrorisme 2026 — Carte interactive &amp; savoir</title>
+  <title>Islam mondial 2026 — Carte interactive, terrorisme &amp; prévention</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.css">
   <link rel="stylesheet" href="assets/css/common.css">
   <link rel="stylesheet" href="assets/css/map.css">
   <link rel="stylesheet" href="assets/css/app-pro.css">
-  <link rel="stylesheet" href="assets/css/pedagogie.css">
   <link rel="stylesheet" href="assets/css/responsive.css">
 </head>
 <body class="map-page spa-mode">
@@ -27,67 +26,38 @@
   Dans ce dossier, lancez <code>npm start</code> ou <code>python3 -m http.server 8080</code> puis ouvrez <code>http://127.0.0.1:8080</code>.
 </p>
 
-<a class="skip-link" href="#accueil">Aller au contenu principal</a>
+<a class="skip-link" href="#section-carte">Aller au contenu principal</a>
 
 <header class="site-header" id="site-header">
   <div class="site-brand">
-    <strong>Formation Sécurité Anti-Terrorisme 2026</strong>
-    <span>Module « Terrorisme islamiste &amp; dynamiques musulmanes » — repères géopolitiques et risques</span>
+    <span class="site-mark" aria-hidden="true">🗺</span>
+    <div class="site-brand-text">
+      <strong>Islam mondial · veille &amp; prévention</strong>
+      <span>2026 · carte, terrorisme, sources officielles</span>
+    </div>
   </div>
-  <button type="button" id="site-menu-btn" aria-expanded="false" aria-controls="site-nav" class="no-print">☰</button>
-  <nav id="site-nav" class="site-nav hub-site-nav" role="tablist" aria-label="Modules du parcours">
-    <button type="button" class="hub-tab" role="tab" id="tab-hub-accueil" aria-selected="true" aria-controls="accueil" data-hub="accueil">Accueil</button>
-    <button type="button" class="hub-tab" role="tab" id="tab-hub-carte" aria-selected="false" aria-controls="section-carte" tabindex="-1" data-hub="section-carte">Carte</button>
+  <button type="button" id="site-menu-btn" aria-expanded="false" aria-controls="site-nav" class="no-print site-menu-toggle" aria-label="Ouvrir le menu">☰</button>
+  <nav id="site-nav" class="site-nav hub-site-nav hub-site-nav--separated" role="tablist" aria-label="Navigation principale">
+    <button type="button" class="hub-tab" role="tab" id="tab-hub-carte" aria-selected="true" aria-controls="section-carte" data-hub="section-carte">Carte</button>
     <button type="button" class="hub-tab" role="tab" id="tab-hub-savoir" aria-selected="false" aria-controls="savoir" tabindex="-1" data-hub="savoir">Savoir</button>
     <button type="button" class="hub-tab" role="tab" id="tab-hub-terrorisme" aria-selected="false" aria-controls="terrorisme" tabindex="-1" data-hub="terrorisme">Terrorisme</button>
     <button type="button" class="hub-tab" role="tab" id="tab-hub-quiz" aria-selected="false" aria-controls="quiz-cert" tabindex="-1" data-hub="quiz-cert">Quiz</button>
-    <button type="button" class="hub-tab" role="tab" id="tab-hub-sources" aria-selected="false" aria-controls="sources" tabindex="-1" data-hub="sources">Sources</button>
-    <a class="hub-tab hub-tab--link" href="pedagogie.html">Diaporama</a>
+    <button type="button" class="hub-tab" role="tab" id="tab-hub-sources" aria-selected="false" aria-controls="sources" tabindex="-1" data-hub="sources">Références</button>
+    <a class="hub-tab hub-tab--link hub-tab--external" href="pedagogie.html">Guide ↗</a>
   </nav>
-  <button type="button" class="btn-ghost no-print" id="btn-theme-toggle" title="Basculer clair/sombre">Clair / Sombre</button>
 </header>
-
-<div class="breadcrumbs no-print" id="breadcrumb-top" aria-label="Fil d'Ariane">
-  <div id="breadcrumb-here"></div>
-</div>
 
 <main id="main-content" class="hub-main">
 <div class="hub-panels">
-  <!-- ── Section 1 Accueil ── -->
-  <section id="accueil" class="pro-hero hub-panel is-active" role="tabpanel" aria-labelledby="tab-hub-accueil" aria-hidden="false" tabindex="0">
-    <p class="pro-kicker">Lecture 1 minute — objectifs opérationnels</p>
-    <h1 class="pro-title">Cartographier les dynamiques religieuses pour mieux analyser les risques</h1>
-    <p class="pro-lead">
-      Ce module s’adresse aux agents et formés <strong>SSIAP / CQPM APS</strong> : il croise <strong>démographie religieuse</strong> (ordres de grandeur Pew : ~2 milliards de musulmans dans le monde ; projections long terme vers 2060 souvent citées dans les synthèses Pew),
-      <strong>géopolitique chiite/sunnite</strong> et <strong>menace terroriste</strong> (dont suivis PNAT, rapports européens). Aucun trait ne relie une confession à un comportement : l’outil sert à la <strong>veille factuelle</strong> et à la <strong>neutralité de service</strong> (repères CNAPS).
-    </p>
-    <div class="stat-row">
-      <div class="stat-pill"><b>~25–30 %</b> de l’humanité musulmane (synthèses démographiques)</div>
-      <div class="stat-pill"><b>~85–90 %</b> sunnites / <b>~10–15 %</b> chiites (ordres de grandeur pédagogiques)</div>
-      <div class="stat-pill"><b>Objectif</b> : relier carte, histoire et signaux de risque sans stigmatisation</div>
-    </div>
-    <div class="source-cards" role="region" aria-label="Portails officiels recommandés">
-      <a class="source-card" href="https://population.un.org/wpp/" target="_blank" rel="noopener noreferrer">
-        <strong>ONU — World Population Prospects</strong>
-        <span>Séries officielles de population par pays (base de comparaison démographique).</span>
-      </a>
-      <a class="source-card" href="https://www.cia.gov/the-world-factbook/field/religions/" target="_blank" rel="noopener noreferrer">
-        <strong>CIA World Factbook — Religions</strong>
-        <span>Fiches pays indicatives, à croiser avec les rapports de méthode.</span>
-      </a>
-      <a class="source-card" href="https://www.pewresearch.org/topic/religion/" target="_blank" rel="noopener noreferrer">
-        <strong>Pew Research Center — Religion</strong>
-        <span>Rapports et méthodologie de démographie religieuse.</span>
-      </a>
-    </div>
-  </section>
 
-  <!-- ── Section 2 Carte ── -->
-  <section id="section-carte" class="pro-section pro-section--alt hub-panel hub-panel--carte" role="tabpanel" aria-labelledby="tab-hub-carte" aria-hidden="true" tabindex="0">
-    <h2 id="carte-title" class="pro-title" style="font-size:22px">Carte interactive — sunnites / chiites / tensions / hotspots</h2>
-    <p class="pro-lead">
-      Zoomez, recherchez un pays, activez <strong>Indicateur tensions</strong> et <strong>Hotspots terrorisme</strong> (cercles indicatifs Irak, Syrie, Yémen, Sahel…). Clic pays → fiche enrichie : conflit, terrorisme, angles France/UE.
-    </p>
+  <!-- ── 1. Carte ── -->
+  <section id="section-carte" class="hub-panel hub-panel--carte is-active" role="tabpanel" aria-labelledby="tab-hub-carte" aria-hidden="false" tabindex="0">
+    <div class="carte-bar">
+      <div class="carte-bar-info">
+        <h2 id="carte-title" class="carte-bar-title">Carte interactive</h2>
+        <p class="carte-bar-lead">Sunnites · chiites · tensions · hotspots terrorisme — clic pays → fiche enrichie</p>
+      </div>
+    </div>
 
     <div id="app">
       <div id="loading" aria-live="polite">
@@ -98,13 +68,7 @@
       </div>
       <header id="topbar" role="banner">
         <span class="logo">☪ ISLAM 2026</span>
-        <span class="tag" title="Estimation pédagogique">~2 Md</span>
-        <div class="divider" aria-hidden="true"></div>
-        <nav class="nav-site" aria-label="Navigation carte">
-          <a href="index.html#section-carte" class="is-active" aria-current="page">Carte</a>
-          <a href="pedagogie.html">Pédagogie</a>
-          <a href="#sources">Sources</a>
-        </nav>
+        <span class="tag" title="Ordre de grandeur indicatif">~2 Md</span>
         <div class="divider" aria-hidden="true"></div>
         <div id="search-wrap">
           <label for="search-input" class="visually-hidden">Rechercher un pays</label>
@@ -113,15 +77,12 @@
         </div>
         <div class="spacer"></div>
         <button type="button" class="tb-btn" id="btn-conflicts" title="Afficher les zones de tension">Tensions</button>
-        <button type="button" class="tb-btn" id="btn-quiz">Quiz</button>
-        <button type="button" class="tb-btn" id="btn-present" title="Masquer panneaux pour projeter">Présentation</button>
-        <button type="button" class="tb-btn" id="btn-print">Imprimer</button>
-        <button type="button" class="tb-btn" id="btn-fullscreen" title="F11 ou touche F">Plein écran</button>
+        <button type="button" class="tb-btn" id="btn-fullscreen" title="Plein écran : carte, légende à gauche et classements à droite (touche F)">Plein écran</button>
         <button type="button" class="tb-btn" id="btn-mobile-menu" aria-label="Ouvrir le menu cartes et légende">☰</button>
       </header>
 
       <div id="main">
-        <aside id="panel-left" aria-label="Couches et légende">
+        <aside id="panel-left" class="collapsed" aria-label="Couches et légende">
           <section class="section">
             <h2 class="section-title">Couches</h2>
             <div class="toggle on" id="tog-sunni" role="button" tabindex="0" aria-pressed="true"><div class="toggle-sq" style="background:#1e8a30"></div><span class="toggle-label">Sunnites (teinte)</span><div class="toggle-sw" aria-hidden="true"></div></div>
@@ -145,37 +106,30 @@
           </section>
           <section class="section">
             <h2 class="section-title">Utilisation</h2>
-            <p class="section-hint">Cliquez sur un pays pour la fiche détaillée. <strong>Défilement de la page</strong> : molette ou trackpad normalement sur la carte. <strong>Zoom carte</strong> : <kbd>Ctrl</kbd> + molette (Windows/Linux) ou <kbd>⌘</kbd> + molette (Mac), ou boutons + / − à droite. Les chiffres sont des <strong>ordres de grandeur pédagogiques</strong> à croiser avec les sources.</p>
-            <a class="link-quiet" href="pedagogie.html">→ Guide pédagogique &amp; diaporama</a>
+            <p class="section-hint">Cliquez sur un pays pour la fiche détaillée. <strong>Zoom carte</strong> : <kbd>Ctrl</kbd> + molette ou boutons + / −. Les chiffres sont des <strong>ordres de grandeur indicatifs</strong>.</p>
+            <a class="link-quiet" href="pedagogie.html">→ Guide &amp; diaporama illustré</a>
           </section>
         </aside>
 
         <div id="map-wrap">
+          <button type="button" id="left-toggle" aria-expanded="false" aria-controls="panel-left" aria-label="Déplier le panneau couches et légende">◀</button>
           <div id="map" role="application" aria-label="Carte du monde interactive"></div>
-          <div id="map-nav" aria-label="Zoom et vues régionales">
-            <button type="button" class="nav-btn" id="nav-zoom-in" title="Zoom avant">+</button>
-            <button type="button" class="nav-btn" id="nav-zoom-out" title="Zoom arrière">−</button>
-            <button type="button" class="nav-btn" id="nav-expand" title="Agrandir la carte" aria-label="Agrandir la carte">⛶</button>
-            <button type="button" class="nav-btn" id="nav-world" title="Vue mondiale">⊙</button>
-            <button type="button" class="nav-btn" id="nav-me" title="Moyen-Orient">MO</button>
-            <button type="button" class="nav-btn" id="nav-af" title="Afrique">AF</button>
-            <button type="button" class="nav-btn" id="nav-as" title="Asie du Sud">AS</button>
+          <div id="map-nav" class="map-nav" role="toolbar" aria-label="Cinq raccourcis carte : zoom, vue monde, régions">
+            <button type="button" class="nav-btn" id="nav-zoom-in" title="Zoom avant" aria-label="Zoom avant">+</button>
+            <button type="button" class="nav-btn" id="nav-zoom-out" title="Zoom arrière" aria-label="Zoom arrière">−</button>
+            <button type="button" class="nav-btn" id="nav-world" title="Vue mondiale" aria-label="Vue mondiale">⊙</button>
+            <button type="button" class="nav-btn nav-btn--abbr" id="nav-me" title="Moyen-Orient" aria-label="Centrer sur le Moyen-Orient">MO</button>
+            <button type="button" class="nav-btn nav-btn--abbr" id="nav-af" title="Afrique" aria-label="Centrer sur l'Afrique">AF</button>
           </div>
           <section id="map-fs-popup" aria-hidden="true" aria-label="Détails du pays en mode agrandi">
             <div class="map-fs-popup-handle" id="map-fs-popup-handle" aria-hidden="true"></div>
             <button type="button" class="map-fs-popup-close" id="map-fs-popup-close" aria-label="Fermer les détails">✕</button>
             <div id="map-fs-popup-content"></div>
           </section>
-          <button type="button" id="right-toggle" aria-expanded="true" aria-controls="panel-right" aria-label="Replier le panneau latéral droit">◀</button>
-          <div id="quiz-box" aria-live="polite">
-            <div id="quiz-score" class="quiz-score"></div>
-            <div id="quiz-question"></div>
-            <div class="quiz-options" id="quiz-options"></div>
-            <button type="button" id="quiz-next">Question suivante</button>
-          </div>
+          <button type="button" id="right-toggle" aria-expanded="false" aria-controls="panel-right" aria-label="Déplier le panneau latéral droit">▶</button>
         </div>
 
-        <aside id="panel-right" aria-label="Classements et rappels">
+        <aside id="panel-right" class="collapsed" aria-label="Classements et rappels">
           <section class="section">
             <h2 class="section-title" style="color:var(--sunni-hi)">Top 10 — populations sunnites</h2>
             <div id="rank-sunni"></div>
@@ -186,7 +140,7 @@
           </section>
           <section class="section">
             <h2 class="section-title" style="color:var(--danger)">Tensions (rappel)</h2>
-            <p class="section-hint">Liste commentée : <a href="pedagogie.html#conflits">Pédagogie — conflits</a>.</p>
+            <p class="section-hint">Liste commentée : <a href="pedagogie.html#conflits">Guide — conflits</a>.</p>
           </section>
           <section class="section">
             <h2 class="section-title">Sources</h2>
@@ -199,7 +153,7 @@
         <div class="stat-block"><div class="stat-value">~2 Mds</div><div class="stat-label">Musulmans (estim.)</div></div>
         <div class="stat-block"><div class="stat-value" style="color:var(--sunni-hi)">~87 %</div><div class="stat-label">Sunnites</div></div>
         <div class="stat-block"><div class="stat-value" style="color:var(--shia-hi)">~12 %</div><div class="stat-label">Chiites</div></div>
-        <div class="stat-block"><div class="stat-value">~25 %</div><div class="stat-label">De l’humanité</div></div>
+        <div class="stat-block"><div class="stat-value">~25 %</div><div class="stat-label">De l'humanité</div></div>
         <div class="stat-block"><div class="stat-value">7:1</div><div class="stat-label">Ratio estimé</div></div>
         <div class="stat-block"><div class="stat-value">Indonésie</div><div class="stat-label">1<sup>re</sup> pop. sunnite</div></div>
         <div class="stat-block"><div class="stat-value">Iran</div><div class="stat-label">1<sup>re</sup> pop. chiite</div></div>
@@ -208,64 +162,56 @@
     </div>
   </section>
 
-  <!-- ── Section 3 Savoir — même diaporama que la page pédagogie ── -->
+  <!-- ── 2. Savoir ── -->
   <section id="savoir" class="pro-section hub-panel savoir-hub" role="tabpanel" aria-labelledby="tab-hub-savoir" aria-hidden="true" tabindex="0">
-    <h2 class="pro-title" style="font-size:22px">Savoir pédagogique</h2>
-    <p class="pro-lead">Six écrans en diaporama : frise interactive, fiches courants, mots-clés, glossaire, capsule vidéo, mini-quiz — même présentation que le module <a href="pedagogie.html">Pédagogie</a> (flèches, points, clavier).</p>
+    <h2 class="pro-title">Savoir — contexte &amp; repères</h2>
+    <p class="pro-lead">Frise chronologique (610–2026), fiches courants, glossaire interactif et portails institutionnels. Pour un parcours guidé (sommaire, prévention, méthode de citation), ouvrez le <a href="pedagogie.html#guide-complet">Guide complet</a> (<code>pedagogie.html</code>).</p>
 
-    <div class="slideshow savoir-slideshow" id="savoir-slideshow" aria-roledescription="carousel" aria-label="Diaporama savoir pédagogique">
-      <div class="slideshow-header">
-        <div class="slideshow-titles">
-          <h2 class="savoir-slideshow-heading">Parcours — 6 écrans</h2>
-          <p>Timeline · fiches · glossaire · vidéo · quiz</p>
-        </div>
-        <div class="slideshow-controls">
-          <button type="button" id="savoir-slide-prev" aria-label="Écran précédent">‹</button>
-          <span id="savoir-slide-counter">1 / 6</span>
-          <button type="button" id="savoir-slide-next" aria-label="Écran suivant">›</button>
-        </div>
+    <div class="stabs" id="savoir-stabs">
+      <div class="stabs-bar" role="tablist" aria-label="Rubriques Savoir">
+        <button type="button" class="stab-btn is-active" role="tab" aria-selected="true" aria-controls="stab-timeline" id="stab-btn-timeline" tabindex="0">📅 Timeline</button>
+        <button type="button" class="stab-btn" role="tab" aria-selected="false" aria-controls="stab-courants" id="stab-btn-courants" tabindex="-1">📖 Courants</button>
+        <button type="button" class="stab-btn" role="tab" aria-selected="false" aria-controls="stab-glossaire" id="stab-btn-glossaire" tabindex="-1">💬 Glossaire</button>
+        <button type="button" class="stab-btn" role="tab" aria-selected="false" aria-controls="stab-sources" id="stab-btn-sources2" tabindex="-1">🔗 Portails</button>
       </div>
-      <div class="slide-viewport">
-        <article class="slide is-active" aria-hidden="false">
-          <h3>1. Timeline 610–2026</h3>
-          <p class="pro-lead" style="font-size:14px;margin-bottom:12px">Points d’ancrage : succession du Prophète, Kerbala (680), Safavides (1501), pacte wahhabite (1744), révolution iranienne (1979), Daech (2014), transitions récentes.</p>
-          <div id="timeline-plot" role="img" aria-label="Frise chronologique interactive"></div>
-        </article>
-        <article class="slide" aria-hidden="true">
-          <h3>2. Fiches écoles &amp; courants</h3>
-          <p class="pro-lead" style="font-size:14px;margin-bottom:14px">Repères factuels pour la formation — à croiser avec les fiches pays sur la carte.</p>
-          <div class="pro-grid-2">
-            <div class="glossary-item">
-              <strong style="color:var(--sunni-hi)">Sunnisme</strong>
-              <p style="margin-top:8px;font-size:13px;color:var(--muted)">Écoles juridiques (hanafite, malékite, chaféite, hanbalite) ; diversité du salafisme ; wahhabisme lié à l’Arabie historique.</p>
+
+      <div class="stabs-panels">
+
+        <div class="stab-panel is-active" id="stab-timeline" role="tabpanel" aria-labelledby="stab-btn-timeline">
+          <p class="stab-panel-lead">Jalons de 610 à 2026 : succession du Prophète, Kerbala, Safavides, pacte wahhabite-saoudien, révolution iranienne, 11 septembre, État islamique, transitions récentes.</p>
+          <div id="timeline-plot" class="timeline-plot-root"></div>
+          <p class="stab-hint">Chaque carte repère une année et un tournant — lecture du haut vers le bas.</p>
+        </div>
+
+        <div class="stab-panel" id="stab-courants" role="tabpanel" aria-labelledby="stab-btn-courants">
+          <p class="stab-panel-lead">Repères factuels à croiser avec les fiches pays sur la carte.</p>
+          <div class="stab-grid-2">
+            <div class="stab-card stab-card--sunni">
+              <strong>Sunnisme</strong>
+              <p>Écoles juridiques (hanafite, malékite, chaféite, hanbalite). Diversité du salafisme ; wahhabisme lié à l'Arabie historique. Représente ~87 % des musulmans (modèle Pew).</p>
             </div>
-            <div class="glossary-item">
-              <strong style="color:var(--shia-hi)">Chiisme duodécimain</strong>
-              <p style="margin-top:8px;font-size:13px;color:var(--muted)">Imamat duodécimal ; marja’iyyat (Najaf, Qom) ; proximité État iranien ≠ l’ensemble des chiites mondiaux.</p>
+            <div class="stab-card stab-card--shia">
+              <strong>Chiisme duodécimain</strong>
+              <p>Imamat duodécimal ; marja'iyyat (Najaf, Qom). Majorité en Iran, Irak. Proximité État iranien ≠ ensemble des chiites mondiaux (~12 %).</p>
             </div>
-            <div class="glossary-item">
+            <div class="stab-card">
               <strong>Salafisme / wahhabisme</strong>
-              <p style="margin-top:8px;font-size:13px;color:var(--muted)">Spectre : pratique rigoriste non violente → instrumentalisation djihadiste (Al-Qaida, ÉI). Termes à manier avec précision en formation.</p>
+              <p>Spectre : pratique rigoriste non violente → instrumentalisation djihadiste (Al-Qaida, ÉI). Termes à manier avec précision en situation professionnelle.</p>
             </div>
-            <div class="glossary-item">
+            <div class="stab-card">
               <strong>Ibadisme</strong>
-              <p style="margin-top:8px;font-size:13px;color:var(--muted)">Troisième voie (Oman) : ni sunnite ni chiite duodécimain ; utile pour éviter les amalgames géographiques.</p>
+              <p>Troisième voie (Oman) : ni sunnite ni chiite duodécimain. Utile pour éviter les amalgames géographiques.</p>
             </div>
           </div>
-        </article>
-        <article class="slide" aria-hidden="true">
-          <h3>3. Mots-clés</h3>
-          <p class="pro-lead" style="font-size:14px">Cliquez sur un terme pour afficher une définition courte.</p>
-          <div id="glossary-mount"></div>
-        </article>
-        <article class="slide" aria-hidden="true">
-          <h3>4. Glossaire complet</h3>
-          <p class="pro-lead">Les entrées proviennent du même référentiel que l’écran Mots-clés.</p>
-          <div id="glossary-mount-duplicate" class="glossary-list"></div>
-        </article>
-        <article class="slide" aria-hidden="true">
-          <h3>5. Ressources officielles — avril 2026</h3>
-          <p class="pro-lead" style="font-size:14px">Bloc de consultation stable sans dépendance vidéo externe : ouvrez directement les portails de référence pour vérifier définitions, séries et millésimes.</p>
+        </div>
+
+        <div class="stab-panel" id="stab-glossaire" role="tabpanel" aria-labelledby="stab-btn-glossaire">
+          <p class="stab-panel-lead">Cliquez sur un terme pour afficher ou masquer sa définition.</p>
+          <div id="glossary-mount" class="glossary-list"></div>
+        </div>
+
+        <div class="stab-panel" id="stab-sources" role="tabpanel" aria-labelledby="stab-btn-sources2">
+          <p class="stab-panel-lead">Portails de consultation stables. Ouvrez directement les pages primaires pour vérifier définitions, séries et millésimes. Liste détaillée : onglet <a href="#sources">Références</a> · méthode : <a href="pedagogie.html#sources">Guide — Sources</a> · chronologie France : <a href="assets/data/france-terror-chronology.json" download>JSON</a>.</p>
           <div class="source-cards">
             <a class="source-card" href="https://population.un.org/wpp/" target="_blank" rel="noopener noreferrer">
               <strong>ONU — World Population Prospects</strong>
@@ -277,99 +223,264 @@
             </a>
             <a class="source-card" href="https://www.pewresearch.org/topic/religion/" target="_blank" rel="noopener noreferrer">
               <strong>Pew Research Center — Religion</strong>
-              <span>Rapports et méthodes de démographie religieuse (usage académique).</span>
+              <span>Rapports et méthodes de démographie religieuse.</span>
+            </a>
+            <a class="source-card" href="https://www.interieur.gouv.fr/" target="_blank" rel="noopener noreferrer">
+              <strong>Ministère de l'Intérieur (FR)</strong>
+              <span>Politiques de prévention, PNAT, signalements officiels.</span>
+            </a>
+            <a class="source-card" href="https://www.europol.europa.eu/" target="_blank" rel="noopener noreferrer">
+              <strong>Europol — TE-SAT</strong>
+              <span>Menace terroriste UE, rapports annuels en accès libre.</span>
+            </a>
+            <a class="source-card" href="https://www.sgdsn.gouv.fr/" target="_blank" rel="noopener noreferrer">
+              <strong>SGDSN</strong>
+              <span>Menace terroriste et radicalisation — rapports de synthèse.</span>
+            </a>
+            <a class="source-card" href="https://www.justice.gouv.fr/" target="_blank" rel="noopener noreferrer">
+              <strong>Justice.gouv.fr</strong>
+              <span>Politique pénale, assises, communiqués sur le terrorisme.</span>
+            </a>
+            <a class="source-card" href="https://www.eurojust.europa.eu/" target="_blank" rel="noopener noreferrer">
+              <strong>Eurojust</strong>
+              <span>Coopération judiciaire entre États membres.</span>
+            </a>
+            <a class="source-card" href="https://data.worldbank.org/" target="_blank" rel="noopener noreferrer">
+              <strong>Banque mondiale — Données</strong>
+              <span>Indicateurs par pays (contexte socio-économique).</span>
             </a>
           </div>
-          <p class="embed-fallback">Si un lien est bloqué sur votre réseau, utilisez la page <a href="pedagogie.html#references">Pédagogie → Références</a> qui garde les URL de secours.</p>
-        </article>
-        <article class="slide" aria-hidden="true">
-          <h3>6. Mini-quiz — 10 questions</h3>
-          <p class="pro-lead" style="font-size:14px">Entraînement rapide avant le <a href="#quiz-cert">quiz certification (20 Q)</a>.</p>
-          <div id="mini-quiz-mount"></div>
-        </article>
-      </div>
-      <div class="slide-dots" id="savoir-slide-dots" role="tablist" aria-label="Accès direct aux écrans savoir"></div>
-      <p class="ped-hint savoir-slideshow-hint">Cliquez dans le cadre du diaporama puis utilisez <kbd>←</kbd> <kbd>→</kbd> — ou le <a href="pedagogie.html">guide Pédagogie</a> pour un diaporama illustré à part.</p>
-    </div>
+          <p class="stab-hint">Lien bloqué sur votre réseau ? <a href="pedagogie.html#references">Guide → Références</a>.</p>
+          <p class="stab-hint">Auto-évaluation (QCU / QCM, sans valeur certifiante) : <button type="button" class="link-btn" data-goto-hub="quiz-cert">→ onglet Quiz</button> dans le menu principal.</p>
+        </div>
+
+      </div><!-- /stabs-panels -->
+    </div><!-- /stabs -->
   </section>
 
-  <!-- ── Section 4 Terrorisme ── -->
+  <!-- ── 3. Terrorisme ── -->
   <section id="terrorisme" class="pro-section pro-section--alt hub-panel" role="tabpanel" aria-labelledby="tab-hub-terrorisme" aria-hidden="true" tabindex="0">
-    <h2 class="pro-title" style="font-size:22px">Focus terrorisme &amp; comparatif</h2>
+    <h2 class="pro-title">Focus terrorisme &amp; comparatif</h2>
     <p class="pro-lead">
       <strong>Pourquoi des conflits religio-politiques nourrissent-ils le terrorisme ?</strong> Parce que des acteurs étatiques ou non-étatiques instrumentalisent des récits identitaires, des réseaux financiers et des sanctuaires territoriaux.
-      Exemples pédagogiques : proxies chiites (Hezbollah, milices irakiennes), filières sunnites wahhabites/salafistes djihadistes (Al-Qaida, ÉI). Les sorties de détention suivies par la PNAT et les statistiques associées sont des <strong>indicateurs de politique publique</strong>, pas des jugements sur une communauté.
+      Exemples d'analyse : proxies chiites (Hezbollah, milices irakiennes), filières sunnites wahhabites/salafistes djihadistes (Al-Qaida, ÉI). Les sorties de détention suivies par la PNAT et les statistiques associées sont des <strong>indicateurs de politique publique</strong>, pas des jugements sur une communauté.
     </p>
-    <div class="table-responsive" role="region" aria-label="Tableau comparatif (défilement horizontal sur petit écran)">
-    <table class="compare-table">
-      <thead>
-        <tr>
-          <th>Pôle / famille</th>
-          <th>Traits souvent cités en analyse</th>
-          <th>Exemples de groupes (listes officielles variables)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Sunnisme politique radical</td>
-          <td>Vision transnationale « umma » militante ; références salafistes sélectives</td>
-          <td>Al-Qaida, ÉI, filiales Sahel (JNIM, Boko Haram / ISWAP selon zones)</td>
-        </tr>
-        <tr>
-          <td>Chiisme « axe de la résistance »</td>
-          <td>Proximité avec l’Iran ; structures paramilitaires, influence régionale</td>
-          <td>Hezbollah (Liban), PMF (Irak), Houthis / Ansar Allah (Yémen) — désignations juridiques selon pays</td>
-        </tr>
-        <tr>
-          <td>France / UE</td>
-          <td>Menace multiterroriste ; suivi des sortants ; radicalisation en ligne et en milieu carcéral</td>
-          <td>Rapports Europol TE-SAT ; PNAT ; lois anti-terrorisme ; fichiers et OQTF encadrés</td>
-        </tr>
-      </tbody>
-    </table>
+
+    <div class="terror-block">
+      <h3 class="terror-h3">Cadre légal français (termes exacts du Code pénal)</h3>
+      <p class="terror-p">En droit interne, les infractions « en matière de terrorisme » sont codifiées dans le <strong>Code pénal</strong> (livre IV, titre II), notamment les <strong>actes de terrorisme</strong> (art. 421-1 et suivants), l'<strong>association de malfaiteurs en vue de la préparation d'actes de terrorisme</strong>, le <strong>financement</strong>, l'<strong>provocation</strong> ou l'<strong>apologie</strong> du terrorisme, etc. Seule la version consolidée sur <a href="https://www.legifrance.gouv.fr/codes/texte_lc/LEGITEXT000006070719/" target="_blank" rel="noopener noreferrer">Légifrance</a> fait foi pour les intitulés et seuils.</p>
+      <p class="terror-p">Entrée directe vers la section « Infractions en matière de terrorisme » : <a href="https://www.legifrance.gouv.fr/codes/section_LEGIARTI000006077839/LEGISCTA000006149768/" target="_blank" rel="noopener noreferrer">codes — section terrorisme</a>. Pour la prévention et le suivi des personnes signalées : politiques publiques du <a href="https://www.interieur.gouv.fr/prevention-de-la-radicalisation" target="_blank" rel="noopener noreferrer">ministère de l'Intérieur</a> (radicalisation, PNAT, dispositifs encadrés par la loi).</p>
     </div>
-    <p class="pro-lead" style="font-size:13px;margin-top:12px">
-      <strong>Repère France 2026 :</strong> les débats sur le fichage (ex. dispositifs type RAMF) illustrent la tension entre prévention et libertés — suivez les textes officiels mis à jour sur <a href="https://www.legifrance.gouv.fr/" rel="noopener noreferrer">Légifrance</a> et les notes du ministère de l’Intérieur.
+
+    <div class="terror-block">
+      <h3 class="terror-h3">Union européenne (harmonisation et listes)</h3>
+      <p class="terror-p">La <strong>directive (UE) 2017/541</strong> du Parlement européen et du Conseil encadre la lutte contre le terrorisme (infractions, enquêtes, échanges d'informations). Texte sur <a href="https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32017L0541" target="_blank" rel="noopener noreferrer">EUR-Lex (CELEX 32017L0541)</a>. Les <strong>listes d'entités et de personnes</strong> soumises à des mesures de gel (sanctions antiterrorisme) font l'objet de règlements publiés au Journal officiel de l'UE — consulter les actes consolidés sur EUR-Lex et le portail <a href="https://commission.europa.eu/strategy-and-policy/policies/justice-and-fundamental-rights/criminal-justice/terrorism_fr" target="_blank" rel="noopener noreferrer">Commission européenne — Justice / terrorisme</a>.</p>
+      <p class="terror-p">Coopération opérationnelle et judiciaire : <a href="https://www.europol.europa.eu/" target="_blank" rel="noopener noreferrer">Europol</a> (dont TE-SAT), <a href="https://www.eurojust.europa.eu/" target="_blank" rel="noopener noreferrer">Eurojust</a>.</p>
+    </div>
+
+    <div class="terror-block">
+      <h3 class="terror-h3">Cadre international (ONU et instruments spécialisés)</h3>
+      <p class="terror-p">Le <strong>Conseil de sécurité</strong> adopte depuis les années 2000 des résolutions imposant aux États des obligations de coopération (gel des avoirs, criminalisation du financement du terrorisme, lutte contre les « combattants terroristes étrangers », etc.). Le comité <strong>1267/1989/2253</strong> tient à jour la liste ONU liée à Al-Qaida et entités associées : <a href="https://www.un.org/securitycouncil/sanctions/1267" target="_blank" rel="noopener noreferrer">un.org — sanctions 1267</a>. Le <strong>CTED</strong> (Executive Directorate) appuie le Comité contre le terrorisme : <a href="https://www.un.org/counterterrorism/" target="_blank" rel="noopener noreferrer">ONU — Counter-Terrorism</a>.</p>
+      <p class="terror-p">L'<strong>ONUDC</strong> publie des guides et conventions (ex. financement) : <a href="https://www.unodc.org/unodc/en/terrorism/index.html" target="_blank" rel="noopener noreferrer">UNODC — Terrorism</a>. Le <strong>Groupe d'action financière (GAFI / FATF)</strong> traite des normes contre le financement du terrorisme : <a href="https://www.fatf-gafi.org/en/topics/terrorist-financing.html" target="_blank" rel="noopener noreferrer">fatf-gafi.org — Terrorist financing</a>.</p>
+      <p class="terror-p"><strong>Précision méthodologique :</strong> il n'existe pas à l'échelle mondiale une <em>seule</em> définition juridique du « terrorisme » substituable aux codes pénaux nationaux ; les instruments internationaux ciblent des <strong>comportements</strong> (attentats, financement, recrutement, voyage terroriste, etc.) et la coopération entre États.</p>
+    </div>
+
+    <div class="terror-block">
+      <h3 class="terror-h3">Histoire du mot et sens modernes (repère)</h3>
+      <p class="terror-p">En français, l'usage historique de la <strong>« Terreur »</strong> (1793–1794) désigne une <strong>politique révolutionnaire d'État</strong> ; ce n'est pas équivalent, en droit pénal contemporain, à la qualification d'<strong>actes de terrorisme</strong> telle qu'elle figure aujourd'hui au Code pénal. À l'international, des tentatives de définition globale (ex. projet de convention de la <span lang="en">League of Nations</span>, 1937) n'ont pas produit un régime universel unique ; le cadre actuel repose surtout sur des <strong>traités sectoriels</strong> et des <strong>résolutions du Conseil de sécurité</strong>.</p>
+    </div>
+
+    <div class="terror-block">
+      <h3 class="terror-h3">Terminologie utile en veille (France / UE)</h3>
+      <dl class="terror-dl">
+        <dt>Acte de terrorisme</dt>
+        <dd>Infractions énumérées à l'article 421-1 du Code pénal lorsqu'elles sont intentionnellement liées à une entreprise individuelle ou collective visant à troubler gravement l'ordre public par l'intimidation ou la terreur (voir formulation législative à jour sur Légifrance).</dd>
+        <dt>Financement du terrorisme</dt>
+        <dd>Infractions distinctes mais liées ; cadre européen et international (directive 2015/849 « AML », règlements de gel, recommandations GAFI).</dd>
+        <dt>Radicalisation et PNAT</dt>
+        <dd>La <strong>politique nationale d'anticipation de la radicalisation</strong> relève de dispositifs administratifs et pénaux encadrés par la loi ; elle ne confond pas une origine, une religion ou une communauté avec un risque terroriste.</dd>
+        <dt>Listes « terroristes » (UE / ONU)</dt>
+        <dd>Désignations <strong>juridiques et procédurales</strong> (sanctions, gel) ; les noms cités dans ce tableau pédagogique renvoient à des <strong>acteurs souvent désignés</strong> dans les rapports publics — la qualification définitive relève des juridictions et des actes publiés au JOUE / ONU.</dd>
+      </dl>
+    </div>
+
+    <div class="table-responsive" role="region" aria-label="Tableau comparatif">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Pôle / famille</th>
+            <th>Traits souvent cités en analyse</th>
+            <th>Exemples de groupes (listes officielles variables)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Sunnisme politique radical</td>
+            <td>Vision transnationale « umma » militante ; références salafistes sélectives</td>
+            <td>Al-Qaida, ÉI, filiales Sahel (JNIM, Boko Haram / ISWAP selon zones)</td>
+          </tr>
+          <tr>
+            <td>Chiisme « axe de la résistance »</td>
+            <td>Proximité avec l'Iran ; structures paramilitaires, influence régionale</td>
+            <td>Hezbollah (Liban), PMF (Irak), Houthis / Ansar Allah (Yémen)</td>
+          </tr>
+          <tr>
+            <td>France / UE</td>
+            <td>Menace multiterroriste ; suivi des sortants ; radicalisation en ligne et en milieu carcéral</td>
+            <td>Rapports Europol TE-SAT ; PNAT ; lois anti-terrorisme ; fichiers et OQTF encadrés</td>
+          </tr>
+          <tr>
+            <td>Financement et économie criminelle</td>
+            <td>Blanchiment, collectes occultes, crypto-actifs ; alignement sur normes GAFI et droit de l'UE</td>
+            <td>GAFI / FATF ; directive AML ; parquets nationaux spécialisés</td>
+          </tr>
+          <tr>
+            <td>Cadre multilatéral</td>
+            <td>Résolutions du Conseil de sécurité, sanctions ciblées, coopération policière et judiciaire</td>
+            <td>ONU (1267, CTED) ; coopération Schengen / mandat d'arrêt européen</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="terror-block terror-chrono-block">
+      <h3 class="terror-h3">Chronologie nationale — attentats et actes qualifiés de terrorisme</h3>
+      <p class="terror-p">Tableau <strong>indicatif</strong> (non exhaustif) : dates, lieux, résumé des faits, <strong>auteurs ou filières tels qu’établis par les parquets et jugements publics</strong>, et rappels procéduraux. Les affaires récentes peuvent évoluer : se référer aux jugements et aux rapports officiels pour toute citation en compte rendu.</p>
+      <div id="terror-fr-chrono-mount" class="terror-chrono-mount" aria-live="polite">
+        <p class="terror-chrono-loading">Chargement de la chronologie…</p>
+      </div>
+    </div>
+
+    <h3 class="terror-h3" style="margin-top:22px">Sources officielles à conserver en favoris</h3>
+    <div class="source-cards source-cards--official">
+      <a class="source-card source-card--linkout" href="https://www.legifrance.gouv.fr/codes/texte_lc/LEGITEXT000006070719/" target="_blank" rel="noopener noreferrer">
+        <strong>Légifrance — Code pénal</strong>
+        <span>Texte consolidé : infractions en matière de terrorisme (livre IV, titre II).</span>
+      </a>
+      <a class="source-card source-card--linkout" href="https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32017L0541" target="_blank" rel="noopener noreferrer">
+        <strong>EUR-Lex — Directive (UE) 2017/541</strong>
+        <span>Harmonisation pénale et coopération dans la lutte contre le terrorisme.</span>
+      </a>
+      <a class="source-card source-card--linkout" href="https://www.un.org/securitycouncil/content/threats-international-peace-and-security-terrorism" target="_blank" rel="noopener noreferrer">
+        <strong>ONU — Conseil de sécurité</strong>
+        <span>Menace pour la paix et le terrorisme : résolutions et comités de sanctions.</span>
+      </a>
+      <a class="source-card source-card--linkout" href="https://www.unodc.org/unodc/en/terrorism/index.html" target="_blank" rel="noopener noreferrer">
+        <strong>ONUDC — Terrorisme</strong>
+        <span>Conventions, assistance technique aux États, publications.</span>
+      </a>
+      <a class="source-card source-card--linkout" href="https://www.fatf-gafi.org/en/topics/terrorist-financing.html" target="_blank" rel="noopener noreferrer">
+        <strong>GAFI / FATF</strong>
+        <span>Recommandations sur le financement du terrorisme et du blanchiment.</span>
+      </a>
+      <a class="source-card source-card--linkout" href="https://www.europol.europa.eu/publications-events/main-reports/european-union-terrorism-situation-and-trend-report-te-sat" target="_blank" rel="noopener noreferrer">
+        <strong>Europol — TE-SAT</strong>
+        <span>Rapport européen sur la situation et les tendances en matière de terrorisme.</span>
+      </a>
+      <a class="source-card source-card--linkout" href="https://www.sgdsn.gouv.fr/" target="_blank" rel="noopener noreferrer">
+        <strong>SGDSN</strong>
+        <span>Menace terroriste, radicalisation et rapports de synthèse (France).</span>
+      </a>
+      <a class="source-card source-card--linkout" href="https://www.justice.gouv.fr/" target="_blank" rel="noopener noreferrer">
+        <strong>Ministère de la Justice</strong>
+        <span>Politique pénale, terrorisme, application des lois et communiqués sur les procès d’assises spéciales.</span>
+      </a>
+    </div>
+
+    <p class="pro-lead terror-foot">
+      <strong>Repère France 2026 :</strong> les débats sur le fichage (ex. dispositifs type RAMF) illustrent la tension entre prévention et libertés — suivez les textes officiels mis à jour sur <a href="https://www.legifrance.gouv.fr/" rel="noopener noreferrer">Légifrance</a> et les notes du ministère de l'Intérieur.
     </p>
     <button type="button" class="btn-ghost" data-cite="cite-terror">Copier ce bloc (citation)</button>
-    <pre id="cite-terror" style="display:none;white-space:pre-wrap">Focus terrorisme — comparatif pédagogique (module interne). Croiser avec Europol TE-SAT, rapports PNAT français, et sources primaires Pew/BAMF pour les chiffres démographiques.</pre>
+    <pre id="cite-terror" style="display:none;white-space:pre-wrap">Veille terrorisme — cadres : (1) France — Code pénal livre IV titre II, Légifrance LEGITEXT000006070719 ; (2) UE — directive 2017/541 CELEX 32017L0541, listes JOUE, Europol TE-SAT, Eurojust ; (3) ONU — résolutions Conseil de sécurité, comité 1267, CTED, UNODC ; (4) GAFI — financement du terrorisme. Chronologie indicative France : assets/data/france-terror-chronology.json (parquet / jugements publics). Repère sémantique : « Terreur » 1793-1794 (politique d'État) ≠ qualification pénale actuelle. Démographie : Pew, BAMF — ne pas confondre avec qualifications juridiques.</pre>
   </section>
 
-  <!-- ── Section 5 Quiz certif ── -->
+  <!-- ── 4. Quiz ── -->
   <section id="quiz-cert" class="pro-section hub-panel" role="tabpanel" aria-labelledby="tab-hub-quiz" aria-hidden="true" tabindex="0">
-    <h2 class="pro-title" style="font-size:22px">Quiz certification — 20 questions</h2>
-    <p class="pro-lead">Score automatique. Pour une attestation imprimable, utilisez le modèle ci-dessous puis <strong>Imprimer</strong> (ou Ctrl+P) — zone d’impression réservée au certificat.</p>
-    <div id="quiz-cert-box"></div>
-    <div class="cert-print" id="cert-print-zone">
-      <h3>Attestation de suivi (modèle interne)</h3>
-      <p>Je soussigné(e) _____________________________, atteste avoir suivi le module « Terrorisme islamiste &amp; dynamiques musulmanes » (version web avril 2026).</p>
-      <p>Score obtenu : ______ / 20 — Lieu : ______ — Date : __ / __ / 2026</p>
-      <p style="font-size:12px;color:var(--muted);margin-top:12px">Document non officiel sauf visa du centre de formation. Signature du stagiaire : ____________________</p>
-    </div>
-    <button type="button" class="btn-ghost no-print" onclick="window.print()">Imprimer le certificat</button>
+    <h2 class="pro-title">Quiz — auto-évaluation (QCU &amp; QCM)</h2>
+    <p class="pro-lead">Série aléatoire sur une <strong>banque élargie</strong> (géographie religieuse, institutions UE/ONU, cadre légal français, prévention). Après chaque question : correction courte et, si la question le prévoit, lien vers une entrée de <code>SOURCES_2026</code> (onglet <a href="#sources">Références</a>). Ce parcours <strong>ne certifie aucune compétence</strong> et ne remplace ni vos consignes employeur ni les textes officiels à jour. Pour réviser dans l’ordre : <a href="pedagogie.html#guide-complet">Guide complet</a>.</p>
+    <div id="quiz-cert-box" class="quiz-cert-shell" aria-live="polite"></div>
   </section>
 
-  <!-- ── Section 6 Sources ── -->
+  <!-- ── 5. Références ── -->
   <section id="sources" class="pro-section pro-section--alt hub-panel" role="tabpanel" aria-labelledby="tab-hub-sources" aria-hidden="true" tabindex="0">
-    <h2 class="pro-title" style="font-size:22px">Sources &amp; transparence méthodologique</h2>
-    <p class="pro-lead">Liens officiels à citer en formation (vérifier les millésimes sur les pages primaires).</p>
-    <ul style="line-height:1.7;font-size:14px;max-width:80ch">
-      <li><a href="https://www.pewresearch.org/topic/religion/" rel="noopener noreferrer">Pew Research Center — Religion</a> (démographie mondiale, projections long terme)</li>
-      <li><a href="https://www.bamf.de/EN/Themen/MigrationIntegration/Datenauswertungen/MuslimeDeutschland/muslime-deutschland.html" rel="noopener noreferrer">BAMF — Muslime in Deutschland</a> (ordre de grandeur ~5,5 M selon enquêtes publiées)</li>
-      <li><a href="https://www.interieur.gouv.fr/" rel="noopener noreferrer">Ministère de l’Intérieur — France</a> (PNAT, politiques de prévention, rapports)</li>
-      <li><a href="https://www.europol.europa.eu/" rel="noopener noreferrer">Europol</a> (TE-SAT, menace terroriste UE)</li>
-      <li><a href="https://www.legifrance.gouv.fr/" rel="noopener noreferrer">Légifrance</a> (textes encadrant fichage, OQTF, lois anti-terrorisme)</li>
-    </ul>
-    <p class="pro-lead" style="font-size:13px;margin-top:12px">
-      <strong>Note :</strong> les effectifs de libérations de détention liées au terrorisme (ex. cumuls 2021→) relèvent de statistiques publiques à consulter sur les rapports officiels — les chiffres exacts varient selon les millésimes : mettez à jour votre citation lors des sessions 2026.
-    </p>
-    <button type="button" class="btn-ghost" data-cite="cite-src">Copier la liste des sources</button>
-    <pre id="cite-src" style="display:none;white-space:pre-wrap">Pew Research — Religion. BAMF — Muslime in Deutschland. Ministère de l’Intérieur (FR) — PNAT. Europol — TE-SAT. Légifrance.</pre>
+    <h2 class="pro-title">Références &amp; transparence méthodologique</h2>
+    <p class="pro-lead">Liens officiels à citer en veille ou en compte rendu. Vérifiez les millésimes sur les pages primaires. <strong>Prévention (France) :</strong> <a href="https://www.interieur.gouv.fr/" target="_blank" rel="noopener noreferrer">interieur.gouv.fr</a> · <a href="https://www.stop-djihadisme.gouv.fr/" target="_blank" rel="noopener noreferrer">stop-djihadisme.gouv.fr</a>.</p>
+    <div class="source-cards source-cards--official">
+      <a class="source-card" href="https://www.pewresearch.org/topic/religion/" rel="noopener noreferrer" target="_blank">
+        <strong>Pew Research Center</strong>
+        <span>Démographie religieuse mondiale, méthodologie et notes de cadrage.</span>
+      </a>
+      <a class="source-card" href="https://population.un.org/wpp/" rel="noopener noreferrer" target="_blank">
+        <strong>ONU — WPP</strong>
+        <span>Référentiel population par pays pour vérifier les ordres de grandeur.</span>
+      </a>
+      <a class="source-card" href="https://www.europol.europa.eu/" rel="noopener noreferrer" target="_blank">
+        <strong>Europol</strong>
+        <span>TE-SAT et publications de menace à l'échelle européenne.</span>
+      </a>
+      <a class="source-card" href="https://www.legifrance.gouv.fr/" rel="noopener noreferrer" target="_blank">
+        <strong>Légifrance</strong>
+        <span>Textes normatifs et mises à jour réglementaires officielles.</span>
+      </a>
+      <a class="source-card" href="https://www.legifrance.gouv.fr/codes/section_LEGIARTI000006077839/LEGISCTA000006149768/" rel="noopener noreferrer" target="_blank">
+        <strong>Code pénal — Terrorisme</strong>
+        <span>Section « Infractions en matière de terrorisme » (texte consolidé).</span>
+      </a>
+      <a class="source-card" href="https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32017L0541" rel="noopener noreferrer" target="_blank">
+        <strong>EUR-Lex — Directive 2017/541</strong>
+        <span>Lutte contre le terrorisme au sein de l'Union européenne.</span>
+      </a>
+      <a class="source-card" href="https://www.un.org/counterterrorism/" rel="noopener noreferrer" target="_blank">
+        <strong>ONU — Counter-Terrorism</strong>
+        <span>Stratégie globale, résolutions et organes d'appui (CTED, etc.).</span>
+      </a>
+      <a class="source-card" href="https://www.bamf.de/EN/Themen/MigrationIntegration/Datenauswertungen/MuslimeDeutschland/muslime-deutschland.html" rel="noopener noreferrer" target="_blank">
+        <strong>BAMF — Muslime in Deutschland</strong>
+        <span>Ordre de grandeur ~5,5 M selon enquêtes publiées.</span>
+      </a>
+      <a class="source-card" href="https://www.interieur.gouv.fr/" rel="noopener noreferrer" target="_blank">
+        <strong>Ministère de l'Intérieur (FR)</strong>
+        <span>PNAT, politiques de prévention, rapports officiels.</span>
+      </a>
+      <a class="source-card" href="https://www.sgdsn.gouv.fr/" rel="noopener noreferrer" target="_blank">
+        <strong>SGDSN</strong>
+        <span>Rapports sur la menace terroriste et la radicalisation (France).</span>
+      </a>
+      <a class="source-card" href="https://www.justice.gouv.fr/" rel="noopener noreferrer" target="_blank">
+        <strong>Ministère de la Justice</strong>
+        <span>Politique pénale, assises spéciales, application des lois.</span>
+      </a>
+      <a class="source-card" href="https://www.eurojust.europa.eu/" rel="noopener noreferrer" target="_blank">
+        <strong>Eurojust</strong>
+        <span>Coordination des enquêtes et poursuites judiciaires transfrontières.</span>
+      </a>
+      <a class="source-card" href="https://www.unodc.org/unodc/en/terrorism/index.html" rel="noopener noreferrer" target="_blank">
+        <strong>ONUDC — Terrorisme</strong>
+        <span>Conventions internationales et assistance technique aux États.</span>
+      </a>
+      <a class="source-card" href="https://www.fatf-gafi.org/en/topics/terrorist-financing.html" rel="noopener noreferrer" target="_blank">
+        <strong>GAFI / FATF</strong>
+        <span>Normes internationales sur le financement du terrorisme (AML/CFT).</span>
+      </a>
+      <a class="source-card" href="https://data.worldbank.org/" rel="noopener noreferrer" target="_blank">
+        <strong>Banque mondiale — Open Data</strong>
+        <span>Indicateurs par pays (PIB, démographie, pauvreté, etc.).</span>
+      </a>
+      <a class="source-card" href="https://www.insee.fr/" rel="noopener noreferrer" target="_blank">
+        <strong>INSEE</strong>
+        <span>Statistiques publiques officielles sur la France.</span>
+      </a>
+      <a class="source-card" href="https://www.stop-djihadisme.gouv.fr/" rel="noopener noreferrer" target="_blank">
+        <strong>stop-djihadisme.gouv.fr</strong>
+        <span>Prévention de la radicalisation et repères pour le grand public.</span>
+      </a>
+    </div>
+    <button type="button" class="btn-ghost" style="margin-top:20px" data-cite="cite-src">Copier la liste des sources</button>
+    <pre id="cite-src" style="display:none;white-space:pre-wrap">Pew Research — Religion. BAMF — Muslime in Deutschland. Ministère de l'Intérieur — PNAT, stop-djihadisme. Ministère de la Justice. SGDSN. Europol — TE-SAT. Eurojust. Légifrance — Code pénal (terrorisme). EUR-Lex — directive (UE) 2017/541. ONU — Counter-Terrorism. UNODC — terrorisme. GAFI / FATF. ONU — WPP. Banque mondiale — données. INSEE.</pre>
   </section>
+
 </div>
 </main>
-
-<footer class="site-footer" role="contentinfo" aria-label="Pied de page"></footer>
 
 <div id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-name" aria-hidden="true">
   <div id="modal-box">
@@ -392,17 +503,13 @@
   </div>
 </div>
 
-<style>
-.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-.country-label-marker{background:none!important;border:none!important}
-</style>
 <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
 <script src="assets/js/data.js"></script>
+<script src="assets/js/quiz-bank.js"></script>
 <script src="assets/js/pedagogy-bundle.js"></script>
 <script src="assets/js/map-core.js"></script>
 <script src="assets/js/map-ui.js"></script>
-<script src="assets/js/slideshow.js"></script>
 <script src="assets/js/app-pro.js"></script>
 </body>
 </html>

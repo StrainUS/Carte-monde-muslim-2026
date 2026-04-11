@@ -14,11 +14,11 @@
     })();
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="description" content="Guide pédagogique : sunnisme, chiisme, ibadisme, lecture de la carte, sources officielles (Pew, ONU, CIA Factbook) et diaporama illustré.">
-  <title>Pédagogie &amp; diaporama — Islam mondial 2026</title>
+  <meta name="description" content="Guide complet &amp; diaporama : sunnisme, chiisme, ibadisme, lecture de la carte, prévention, terrorisme (cadre légal), sources officielles (Pew, ONU, Légifrance, SGDSN, Europol). Complément à la carte interactive et au quiz.">
+  <title>Guide &amp; diaporama — Islam mondial 2026</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/common.css">
   <link rel="stylesheet" href="assets/css/pedagogie.css">
 </head>
@@ -28,7 +28,8 @@
       <span class="logo">☪ ISLAM 2026</span>
       <nav class="ped-nav" aria-label="Navigation">
         <a href="index.html">Carte interactive</a>
-        <a href="pedagogie.html" class="is-active" aria-current="page">Pédagogie</a>
+        <a href="pedagogie.html" class="is-active" aria-current="page">Guide</a>
+        <a href="#guide-complet">Guide complet</a>
         <a href="#references">Références</a>
         <a href="#sources">Sources</a>
       </nav>
@@ -36,51 +37,66 @@
 
     <main>
     <section class="ped-hero">
-      <p class="ped-kicker">Module formation · version avril 2026</p>
-      <h1>Dossier pédagogique structuré — diversité musulmane</h1>
-      <p>Interface réorganisée pour un usage classe / présentation : <strong>lecture guidée</strong>, <strong>diaporama fiable</strong>, et <strong>sources officielles consultables</strong>. Ce support complète la <a href="index.html">carte interactive</a> sans remplacer les publications primaires.</p>
+      <p class="ped-kicker">Guide &amp; diaporama · avril 2026</p>
+      <h1>Lecture structurée — diversité musulmane &amp; carte</h1>
+      <p>Ce support complète la <a href="index.html">carte interactive</a> (veille, terrorisme, prévention) : <strong>diaporama local</strong>, <strong>repères factuels</strong> et <strong>sources officielles</strong>. Il ne constitue ni une formation certifiante ni un substitut aux consignes employeur ou aux autorités.</p>
       <div class="ped-hero-grid">
         <div class="ped-pill"><strong>8 écrans</strong><span>diaporama local SVG</span></div>
-        <div class="ped-pill"><strong>4 blocs</strong><span>lecture, courants, conflits, références</span></div>
+        <div class="ped-pill"><strong>Guide + 6 rubriques</strong><span>carte, conflits, prévention, références</span></div>
+        <div class="ped-pill"><strong>Quiz sur l’app</strong><span>banque QCU / QCM + sources</span></div>
         <div class="ped-pill"><strong>100% local</strong><span>fonctionne sans embed vidéo</span></div>
       </div>
     </section>
 
     <section class="ped-plan">
-      <h2>Plan de séance (45 à 60 min)</h2>
+      <h2>Parcours de lecture suggéré (45 à 60 min)</h2>
       <ol>
-        <li><strong>Introduction (5 min)</strong> : objectif, limites de la carte, vocabulaire.</li>
-        <li><strong>Diaporama (15 min)</strong> : passer les 8 écrans avec questions guidées.</li>
-        <li><strong>Étude critique (15 min)</strong> : croiser un pays avec 2 sources publiques.</li>
-        <li><strong>Restitution (10 min)</strong> : mini-quiz + citation rigoureuse des sources.</li>
+        <li><strong>Cadrage (5 min)</strong> : objectif, limites de la carte, vocabulaire.</li>
+        <li><strong>Diaporama (15 min)</strong> : 8 écrans, questions ouvertes.</li>
+        <li><strong>Croisement (15 min)</strong> : un pays sur la carte + 2 sources publiques.</li>
+        <li><strong>Cadre terrorisme (10 min)</strong> : onglet <a href="index.html#terrorisme">Terrorisme</a> sur l’app — définitions légales (France, UE), résolutions ONU, GAFI ; distinguer analyse géopolitique et qualification pénale.</li>
+        <li><strong>Auto-évaluation (10 min)</strong> : onglet <a href="index.html#quiz-cert">Quiz</a> sur l’app (QCU / QCM, correction + sources) + citation des références primaires.</li>
+        <li><strong>Synthèse (5 min)</strong> : section <a href="#guide-complet">Guide complet</a> ci-dessous — sommaire, fichiers du dépôt, prévention.</li>
       </ol>
     </section>
 
-    <section class="slideshow" id="slideshow" aria-roledescription="carousel" aria-label="Diaporama d’introduction">
-      <div class="slideshow-header">
-        <div class="slideshow-titles">
-          <h2>Diaporama — 8 écrans</h2>
-          <p>Schémas vectoriels · une diapositive à la fois · flèches ou touches <kbd>←</kbd> <kbd>→</kbd></p>
-        </div>
-        <div class="slideshow-controls">
-          <button type="button" id="slide-prev" class="slide-nav-btn" aria-label="Diapositive précédente">
-            <span class="slide-nav-ico" aria-hidden="true">‹</span>
-            <span class="slide-nav-label">Précédent</span>
-          </button>
-          <span id="slide-counter" class="slide-counter-pill" aria-live="polite">1 / 8</span>
-          <button type="button" id="slide-next" class="slide-nav-btn" aria-label="Diapositive suivante">
-            <span class="slide-nav-label">Suivant</span>
-            <span class="slide-nav-ico" aria-hidden="true">›</span>
-          </button>
-        </div>
-      </div>
-      <div class="slide-progress-row" aria-hidden="true">
-        <div class="slide-progress-track">
-          <div class="slide-progress-fill" id="slide-progress-fill"></div>
-        </div>
-      </div>
-      <p id="slide-live-title" class="slide-live-sr" aria-live="polite" aria-atomic="true"></p>
-      <div class="slide-viewport">
+    <section class="ped-section ped-guide-complet" id="guide-complet">
+      <h2>Guide complet — sommaire &amp; méthode</h2>
+      <nav class="ped-toc" aria-label="Sommaire du guide">
+        <p class="ped-toc-title"><strong>Aller à</strong></p>
+        <ol class="ped-toc-list">
+          <li><a href="#slideshow">Diaporama (8 écrans)</a></li>
+          <li><a href="#lire">Lire la carte</a></li>
+          <li><a href="#courants">Courants (sunni / chii / ibadi)</a></li>
+          <li><a href="#conflits">Conflits &amp; grille d’analyse</a></li>
+          <li><a href="#prevention">Prévention &amp; cadre pro</a></li>
+          <li><a href="#references">Références hypertextes</a></li>
+          <li><a href="#sources">Sources &amp; méthode (dépôt)</a></li>
+          <li><a href="index.html#sources">App — onglet Références</a> et <a href="index.html#quiz-cert">Quiz</a></li>
+        </ol>
+      </nav>
+      <h3>Fichiers et données utiles</h3>
+      <ul>
+        <li><code>assets/js/data.js</code> — fiches pays (population, parts religieuses indicatives, notes) ; <code>assets/js/pedagogy-bundle.js</code> — glossaire, timeline, sources <code>SOURCES_2026</code>, hotspots.</li>
+        <li><code>assets/data/france-terror-chronology.json</code> — chronologie indicative des attentats en France (parquet / jugements publics), affichée dans l’onglet <a href="index.html#terrorisme">Terrorisme</a> de l’application.</li>
+        <li><code>docs/SOURCES.md</code> — méthodologie, limites des agrégats, tableaux d’URL institutionnelles.</li>
+      </ul>
+      <h3>Citer correctement (exposé, rapport, fiche de veille)</h3>
+      <p>Hiérarchisez : <strong>1)</strong> publication ou base primaire (Pew, ONU WPP, Légifrance, TE-SAT millésimé, jugement) ; <strong>2)</strong> synthèse intermédiaire (cette carte, <code>data.js</code>) en indiquant qu’il s’agit d’un agrégat pédagogique ; <strong>3)</strong> jamais une capture d’écran comme seule preuve sans lien vers la source.</p>
+      <p>Pour la France : distinguer <strong>faits</strong>, <strong>qualifications pénales</strong> et <strong>débats publics</strong> (ex. PNAT, fichage) — renvoi systématique aux textes sur Légifrance et aux rapports du ministère de l’Intérieur ou de la Justice.</p>
+      <div class="callout"><strong>Rappel éthique :</strong> la carte sert à la <strong>compréhension géographique et juridique</strong>, pas à profiler des personnes. Toute mesure professionnelle doit suivre le droit du travail, le secret professionnel et les consignes de votre structure.</div>
+    </section>
+
+    <section class="slideshow" id="slideshow" aria-roledescription="carousel" aria-label="Diaporama — 8 écrans">
+
+      <!-- Chips numérotées : accès direct à chaque slide -->
+      <div class="slide-chips" id="slide-dots" role="tablist" aria-label="Accès direct aux diapositives"></div>
+
+      <!-- Zone : flèches latérales + contenu -->
+      <div class="slide-stage">
+        <button type="button" id="slide-prev" class="slide-arrow slide-arrow--prev" aria-label="Diapositive précédente">&#8249;</button>
+
+        <div class="slide-viewport">
         <article class="slide is-active">
           <h3>1. Objectif</h3>
           <figure class="slide-figure">
@@ -95,7 +111,7 @@
             <img src="assets/img/pedagogie/slide-02-legende.svg" width="520" height="220" loading="eager" decoding="async" alt="Légende schématique : bandes vertes bleues violettes et échelle de tensions 1 à 3.">
           </figure>
           <ul>
-            <li>Les teintes traduisent la <strong>part musulmane</strong> et, parmi les musulmans, le <strong>poids relatif sunnite/chiite</strong> selon <code>data.js</code> (agrégat pédagogique).</li>
+            <li>Les teintes traduisent la <strong>part musulmane</strong> et, parmi les musulmans, le <strong>poids relatif sunnite/chiite</strong> selon <code>data.js</code> (agrégat indicatif).</li>
             <li>Le calque « tensions » est un <strong>indicateur didactique</strong> (0 à 3) : il ne correspond pas à une liste onusienne ni à un jugement juridique.</li>
           </ul>
         </article>
@@ -132,34 +148,48 @@
           <p class="slide-ref">Pour les contextes humanitaires : documentation <abbr title="Organisation des Nations unies">ONU</abbr> / <abbr title="Haut Commissariat aux réfugiés">UNHCR</abbr> — à distinguer des statistiques religieuses.</p>
         </article>
         <article class="slide">
-          <h3>7. En classe</h3>
+          <h3>7. Avec la carte interactive</h3>
           <figure class="slide-figure">
-            <img src="assets/img/pedagogie/slide-07-classe.svg" width="520" height="200" loading="eager" decoding="async" alt="Quatre étapes : carte, fiches, quiz, impression.">
+            <img src="assets/img/pedagogie/slide-07-classe.svg" width="520" height="200" loading="eager" decoding="async" alt="Quatre étapes : carte, fiches, quiz, plein écran.">
           </figure>
           <ul>
             <li>Ouvrir la carte : cliquer sur <strong>deux pays contrastés</strong>, comparer population, parts et notes.</li>
-            <li>Activer le <strong>quiz</strong> (score affiché) en fin de séance ou en binômes.</li>
-            <li><strong>Imprimer</strong> en paysage depuis le navigateur ; mode présentation (<kbd>P</kbd> hors champ de saisie) pour projeter.</li>
+            <li>Utiliser l’onglet <strong><a href="index.html#quiz-cert">Quiz</a></strong> sur l’app (banque élargie QCU / QCM, correction après chaque question, lien vers une entrée <code>SOURCES_2026</code> quand un <code>srcId</code> est défini) — auto-évaluation <strong>sans valeur certifiante</strong>.</li>
+            <li>Consulter l’onglet <strong><a href="index.html#terrorisme">Terrorisme</a></strong> pour le cadre légal (France, UE, ONU) et la chronologie nationale (fichier JSON).</li>
+            <li><strong>Plein écran</strong> sur la carte (<kbd>F</kbd> hors champ de saisie) pour projeter ; impression éventuelle via le menu du navigateur (paysage recommandé).</li>
           </ul>
         </article>
         <article class="slide">
           <h3>8. Sources et citation</h3>
           <figure class="slide-figure">
-            <img src="assets/img/pedagogie/slide-08-sources.svg" width="520" height="200" loading="eager" decoding="async" alt="Pyramide : sources primaires en haut, synthèse pédagogique en bas.">
+            <img src="assets/img/pedagogie/slide-08-sources.svg" width="520" height="200" loading="eager" decoding="async" alt="Pyramide : sources primaires en haut, synthèse intermédiaire en bas.">
           </figure>
           <p>Pour tout exposé, article ou rapport : citer l’<strong>enquête ou la publication primaire</strong> (titre, auteur, année, URL ou référence bibliographique). La carte et <code>data.js</code> sont une <strong>synthèse intermédiaire</strong> — transparente mais non substitut aux sources.</p>
           <p class="slide-ref">Détail méthodologique : <a href="docs/SOURCES.md">docs/SOURCES.md</a> dans le dépôt.</p>
         </article>
       </div>
-      <div class="slide-dots" id="slide-dots" role="tablist" aria-label="Accès direct aux diapositives"></div>
-      <p class="ped-hint">Astuce : cliquez dans le cadre du diaporama puis utilisez les flèches <kbd>←</kbd> <kbd>→</kbd> du clavier.</p>
-    </section>
 
+        <button type="button" id="slide-next" class="slide-arrow slide-arrow--next" aria-label="Diapositive suivante">&#8250;</button>
+      </div><!-- /slide-stage -->
+
+      <!-- Barre de progression + compteur -->
+      <div class="slide-foot">
+        <span id="slide-counter" class="slide-foot-counter" aria-live="polite">1 / 8</span>
+        <div class="slide-progress-track" aria-hidden="true">
+          <div class="slide-progress-fill" id="slide-progress-fill"></div>
+        </div>
+        <span class="slide-foot-hint">Touches <kbd>←</kbd> <kbd>→</kbd></span>
+      </div>
+
+      <p id="slide-live-title" class="slide-live-sr" aria-live="polite" aria-atomic="true"></p>
+
+    </section>
     <section class="ped-grid-sections">
       <article class="ped-section" id="lire">
         <h2>Lire la carte sans surinterpréter</h2>
         <p>Les frontières et les pourcentages <strong>masquent</strong> des minorités, des migrations et des identités multiples. Un État « majoritairement sunnite » peut compter des millions de chiites (et inversement).</p>
-        <p>Les chiffres proviennent d’<strong>estimations et d’agrégats</strong> : ils servent à une <strong>vision d’ensemble pédagogique</strong>. Ils ne tranchent pas des débats théologiques ni ne remplacent une enquête de terrain ou un recensement officiel lorsqu’il existe.</p>
+        <p>Les chiffres proviennent d’<strong>estimations et d’agrégats</strong> : ils servent à une <strong>vision d’ensemble indicative</strong>. Ils ne tranchent pas des débats théologiques ni ne remplacent une enquête de terrain ou un recensement officiel lorsqu’il existe.</p>
+        <p>Le fond cartographique (<strong>world-atlas</strong> 110 m) regroupe parfois plusieurs territoires sous un même code ISO (ex. France métropolitaine et DOM) : l’application peut désambiguïser certains survols (Guyane, etc.) — voir <code>data.js</code> et <code>map-core.js</code> dans le dépôt.</p>
       </article>
 
       <article class="ped-section" id="courants">
@@ -170,8 +200,21 @@
         <p>Les chiites sont habituellement décrits comme une <strong>minorité globale</strong> mais <strong>majoritaires dans certains pays</strong>. L’analyse doit être faite à l’échelle pays/région.</p>
         <h3>Ibadisme</h3>
         <p>L’ibadisme est traité à part (ex. Oman) pour éviter l’approximation d’un schéma binaire sunnite/chiite.</p>
-        <div class="callout"><strong>Neutralité pédagogique :</strong> démarche descriptive, non confessionnelle, fondée sur les sciences des religions et les sources publiques.</div>
+        <h3>Alévisme, zaïdisme (rappel)</h3>
+        <p>Les <strong>alévis</strong> (Turquie, diaspora) relèvent d’ensembles syncrétiques souvent distingués du « sunnisme hanéfi dominant » dans les statistiques. Les <strong>zaïdis</strong> (Yémen) sont une branche chiite : les analyses géopolitiques sur les Houthis / Ansar Allah mobilisent souvent ce cadre.</p>
+        <div class="callout"><strong>Neutralité descriptive :</strong> démarche non confessionnelle, fondée sur les sciences des religions et les sources publiques.</div>
       </article>
+    </section>
+
+    <section class="ped-section" id="prevention">
+      <h2>Prévention, accueil du public et radicalisation</h2>
+      <p>Ce bloc résume des <strong>repères de bon sens professionnel</strong> ; il ne remplace ni protocole interne ni formation habilitante.</p>
+      <ul>
+        <li><strong>Neutralité et laïcité (France)</strong> : pas de stigmatisation d’une religion ou d’une origine ; signaler des <strong>comportements</strong> ou des <strong>risques</strong> selon les procédures (référent radicalisation, RH, direction).</li>
+        <li><strong>Signalement</strong> : canaux officiels (<a href="https://www.stop-djihadisme.gouv.fr/">stop-djihadisme.gouv.fr</a>, <a href="https://www.interieur.gouv.fr/">interieur.gouv.fr</a>) — ne pas diffuser de rumeurs sur les réseaux sociaux.</li>
+        <li><strong>Documentation</strong> : en cas d’incident, consigner faits observables, heure, lieu, sans interprétation non professionnelle ; croiser ensuite avec les autorités compétentes.</li>
+        <li><strong>Quiz</strong> : l’auto-évaluation sur l’app teste des notions de géographie religieuse et de cadre institutionnel ; une bonne note n’équivaut pas à une habilitation sécuritaire.</li>
+      </ul>
     </section>
 
     <section class="ped-section" id="conflits">
@@ -184,6 +227,10 @@
         <dd>Fragilité institutionnelle, circulation d’armes, logiques territoriales et crises humanitaires.</dd>
         <dt>Pakistan / Nigeria / Mozambique</dt>
         <dd>Insécurité multicausale où l’identité religieuse s’articule à d’autres clivages.</dd>
+        <dt>Afghanistan / Asie centrale</dt>
+        <dd>État de droit fragile, narcotrafic, réseaux transfrontaliers ; après 2021, contexte taliban et droits des femmes suivis par l’ONU.</dd>
+        <dt>Golfe persique</dt>
+        <dd>Rivalités régionales (Iran / monarchies), hydrocarbures, alliances externes (OTAN, États-Unis, Chine selon dossiers).</dd>
       </dl>
     </section>
 
@@ -195,22 +242,36 @@
         <li><a href="https://www.cia.gov/the-world-factbook/field/religions/"><span lang="en">CIA World Factbook</span> — champ Religions</a> — fiche pays indicative (à croiser systématiquement).</li>
         <li><a href="https://www.unhcr.org/">UNHCR</a> — contexte des déplacements forcés et situations humanitaires.</li>
         <li><a href="https://www.pewresearch.org/topic/religion/">Pew Research Center — Religion</a> — rapports méthodologiques de démographie religieuse.</li>
+        <li><a href="https://www.legifrance.gouv.fr/codes/texte_lc/LEGITEXT000006070719/">Légifrance — Code pénal</a> — infractions en matière de terrorisme (livre IV, titre II).</li>
+        <li><a href="https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32017L0541">EUR-Lex — directive (UE) 2017/541</a> — cadre pénal et de coopération antiterroriste dans l’UE.</li>
+        <li><a href="https://www.un.org/counterterrorism/">ONU — Counter-Terrorism</a> — résolutions du Conseil de sécurité, stratégie globale, UNODC.</li>
+        <li><a href="https://www.fatf-gafi.org/en/topics/terrorist-financing.html">GAFI / FATF</a> — normes sur le financement du terrorisme.</li>
+        <li><a href="https://www.sgdsn.gouv.fr/">SGDSN</a> — synthèses sur la menace terroriste et la radicalisation (France).</li>
+        <li><a href="https://www.justice.gouv.fr/">Ministère de la Justice</a> — politique pénale, assises spéciales, communiqués.</li>
+        <li><a href="https://www.eurojust.europa.eu/">Eurojust</a> — coopération judiciaire européenne.</li>
+        <li><a href="https://www.unodc.org/unodc/en/terrorism/index.html">ONUDC — Terrorisme</a> — conventions et assistance aux États.</li>
+        <li><a href="https://data.worldbank.org/">Banque mondiale — Données ouvertes</a> — indicateurs socio-économiques par pays.</li>
+        <li><a href="https://www.oecd.org/">OCDE</a> — indicateurs comparés et rapports thématiques.</li>
+        <li><a href="https://www.insee.fr/">INSEE</a> — statistiques publiques nationales (France).</li>
+        <li><a href="https://www.data.gouv.fr/">data.gouv.fr</a> — jeux de données ouverts de l’État et des collectivités.</li>
       </ul>
       <p class="slide-ref">Vérification éditoriale des URL : avril 2026. Pour une remise notée, citez date d’accès + année de publication.</p>
     </section>
 
     <section class="ped-section" id="sources">
       <h2>Sources &amp; méthode (dépôt)</h2>
-      <p>Les chiffres dans l’application sont des <strong>synthèses pédagogiques</strong>. Pour un usage académique ou journalistique, vérifiez toujours les publications sources et leur date.</p>
+      <p>Les chiffres dans l’application sont des <strong>synthèses indicatives</strong>. Pour un usage académique ou journalistique, vérifiez toujours les publications sources et leur date.</p>
       <ul class="source-list">
         <li><strong>Pew Research Center</strong> — rapports religion / populations, tableaux et notes de méthode.</li>
         <li><strong><span lang="en">CIA World Factbook</span></strong> — rubrique religions et démographie par pays.</li>
         <li><strong>Nations unies (WPP)</strong> — totaux de population.</li>
-        <li><strong>Banque mondiale, OCDE, revues démographiques</strong> — contexte économique et migrations.</li>
+        <li><strong>Europol / Eurojust</strong> — menace terroriste et coopération judiciaire (TE-SAT, etc.).</li>
+        <li><strong>Légifrance, SGDSN, Intérieur, Justice</strong> — droit pénal, rapports de menace, prévention, procédures.</li>
+        <li><strong>Banque mondiale, OCDE, INSEE, data.gouv.fr</strong> — contexte économique, migrations, séries ouvertes.</li>
         <li><strong>Recherche universitaire</strong> (études islamiques, science politique, anthropologie) — nuances locales.</li>
       </ul>
-      <p>Fichier détaillé : <a href="docs/SOURCES.md">docs/SOURCES.md</a> (markdown, téléchargeable depuis le dépôt).</p>
-      <p><strong>Illustrations du diaporama :</strong> fichiers SVG vectoriels dans <code>assets/img/pedagogie/</code> (créés pour ce projet, domaine public pédagogique).</p>
+      <p>Fichier détaillé : <a href="docs/SOURCES.md">docs/SOURCES.md</a> (markdown, téléchargeable depuis le dépôt). Chronologie France (JSON) : <a href="assets/data/france-terror-chronology.json" download>france-terror-chronology.json</a> (indicatif ; croiser avec jugements).</p>
+      <p><strong>Illustrations du diaporama :</strong> fichiers SVG vectoriels dans <code>assets/img/pedagogie/</code> (créés pour ce projet, réutilisables librement pour la sensibilisation).</p>
       <div class="callout">La mention « avril 2026 » indique la date de contrôle du présent support. Les datasets externes peuvent rester à un millésime antérieur : citez toujours l’année source.</div>
     </section>
 
