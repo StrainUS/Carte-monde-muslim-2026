@@ -102,6 +102,7 @@ En ouverture directe du fichier, certaines fonctions (vidéo, chargements résea
 **Pages utiles :**
 
 - Application complète : `http://127.0.0.1:<PORT>/index.html` (carte par défaut ; onglet **Guide** pour le diaporama)
+- **Manuel HTML** (sommaire, carte, build) : `http://127.0.0.1:<PORT>/docs/manuel.html`
 - Redirection historique : `http://127.0.0.1:<PORT>/pedagogie.html` → `index.html#…`
 
 (`npm start` affiche la valeur réelle de `<PORT>` : 8080, 8081, etc.)
@@ -147,6 +148,7 @@ open index_offline.html
 | `assets/css/pedagogie.css` | Styles diaporama |
 | `sw.js` | Service Worker (GitHub Pages) |
 | `docs/SOURCES.md` | Méthodologie |
+| `docs/manuel.html` | Manuel d’utilisation (HTML, sommaire, liens vers l’app) |
 
 ## Workflow Git
 

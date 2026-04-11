@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Manuel d’utilisation et de déploiement — Islam mondial 2026 (carte, veille, prévention).">
+  <title>Manuel — Islam mondial 2026</title>
+  <style>
+    :root {
+      --bg: #0e1117;
+      --surface: #161d2b;
+      --text: #dde3ef;
+      --muted: #7d8fa8;
+      --gold: #f0b940;
+      --gold-dim: rgba(240, 185, 64, 0.15);
+      --border: rgba(255, 255, 255, 0.1);
+      --radius: 10px;
+      --font: system-ui, "Segoe UI", Roboto, Ubuntu, sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--font);
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--text);
+      background: var(--bg);
+    }
+    a { color: var(--gold); text-underline-offset: 3px; }
+    a:hover { color: #ffd060; }
+    code, kbd {
+      font-family: var(--mono);
+      font-size: 0.88em;
+      padding: 0.12em 0.45em;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border);
+    }
+    kbd { font-size: 0.82em; }
+    .wrap {
+      max-width: 52rem;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 3rem;
+    }
+    header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1.25rem;
+      margin-bottom: 1.75rem;
+    }
+    header p {
+      margin: 0.35rem 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    h1 {
+      margin: 0;
+      font-size: 1.65rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: var(--gold);
+    }
+    h2 {
+      margin: 2rem 0 0.65rem;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+      scroll-margin-top: 1rem;
+    }
+    h2:first-of-type { margin-top: 0; }
+    h3 {
+      margin: 1.25rem 0 0.4rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+    nav.toc {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.15rem;
+      margin-bottom: 2rem;
+    }
+    nav.toc strong {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    nav.toc ul {
+      margin: 0;
+      padding-left: 1.1rem;
+    }
+    nav.toc li { margin: 0.25rem 0; }
+    .note {
+      border-left: 3px solid var(--gold);
+      padding: 0.65rem 0 0.65rem 1rem;
+      margin: 1rem 0;
+      background: var(--gold-dim);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      font-size: 0.92rem;
+    }
+    .note strong { color: var(--gold); }
+    ul.body-list { margin: 0.4rem 0; padding-left: 1.25rem; }
+    ul.body-list li { margin: 0.35rem 0; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      margin: 0.75rem 0;
+    }
+    th, td {
+      text-align: left;
+      padding: 0.5rem 0.65rem;
+      border: 1px solid var(--border);
+    }
+    th { background: var(--surface); color: var(--gold); font-weight: 600; }
+    footer {
+      margin-top: 2.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+    .app-link {
+      display: inline-block;
+      margin-top: 0.75rem;
+      padding: 0.55rem 1rem;
+      background: var(--gold-dim);
+      border: 1px solid rgba(240, 185, 64, 0.35);
+      border-radius: var(--radius);
+      font-weight: 600;
+      text-decoration: none;
+      color: var(--gold);
+    }
+    .app-link:hover { background: rgba(240, 185, 64, 0.22); color: #ffd060; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Manuel — Islam mondial 2026</h1>
+      <p>Carte interactive, veille géo-religieuse, terrorisme &amp; prévention — utilisation locale, navigation et déploiement.</p>
+      <a class="app-link" href="../index.html">Ouvrir l’application</a>
+    </header>
+
+    <nav class="toc" aria-label="Sommaire">
+      <strong>Sommaire</strong>
+      <ul>
+        <li><a href="#objet">Objet du site</a></li>
+        <li><a href="#demarrage">Démarrage (serveur HTTP)</a></li>
+        <li><a href="#navigation">Navigation par onglets</a></li>
+        <li><a href="#carte">Carte</a></li>
+        <li><a href="#savoir-terror">Savoir &amp; Terrorisme</a></li>
+        <li><a href="#quiz-refs">Quiz, références &amp; guide</a></li>
+        <li><a href="#build">Build <code>dist/</code> &amp; vérification</a></li>
+        <li><a href="#sources">Sources &amp; avertissement</a></li>
+      </ul>
+    </nav>
+
+    <section id="objet">
+      <h2>Objet du site</h2>
+      <p>
+        Application web <strong>statique</strong> (HTML, CSS, JavaScript) pour la <strong>veille</strong> et la <strong>prévention</strong> du risque terrorisme,
+        à l’usage des équipes en accueil du public et des agents de sécurité. Elle complète les consignes employeur et les référentiels officiels ;
+        <strong>elle ne remplace pas</strong> une formation diplômante ni les textes de loi à jour.
+      </p>
+      <p class="note"><strong>Important :</strong> n’ouvrez pas <code>index.html</code> en double-clic (<code>file://</code>) pour une démo complète — utilisez un petit serveur HTTP (voir ci-dessous).</p>
+    </section>
+
+    <section id="demarrage">
+      <h2>Démarrage (serveur HTTP)</h2>
+      <h3>Avec Node.js (recommandé)</h3>
+      <p>Dans le dossier du projet (celui qui contient <code>package.json</code>) :</p>
+      <pre style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;overflow:auto;font-size:0.85rem;"><code>npm install
+npm start</code></pre>
+      <p>Le terminal affiche une URL du type <code>http://127.0.0.1:8080/</code> (ou un port suivant si 8080 est pris). Ouvrez-la dans le navigateur.</p>
+      <h3>Sans Node.js</h3>
+      <pre style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;overflow:auto;font-size:0.85rem;"><code>python3 -m http.server 8080 --bind 127.0.0.1</code></pre>
+      <p>Puis ouvrez <code>http://127.0.0.1:8080/</code> manuellement.</p>
+    </section>
+
+    <section id="navigation">
+      <h2>Navigation par onglets</h2>
+      <p>Le menu principal (en-tête du site) bascule entre des <strong>panneaux</strong> sans recharger la page :</p>
+      <table>
+        <thead>
+          <tr><th>Onglet</th><th>Rôle</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><a href="../index.html#section-carte">Carte</a></td><td>Leaflet, fiches pays, couches sunnites/chiites, indicateurs, hotspots.</td></tr>
+          <tr><td><a href="../index.html#savoir">Savoir</a></td><td>Frise, courants, glossaire, France/terrorisme (sous-onglets), portails.</td></tr>
+          <tr><td><a href="../index.html#terrorisme">Terrorisme</a></td><td>Cadres juridiques, ressources, chronologie France (JSON partagé).</td></tr>
+          <tr><td><a href="../index.html#quiz-cert">Quiz</a></td><td>Auto-évaluation QCU/QCM — sans valeur certifiante.</td></tr>
+          <tr><td><a href="../index.html#sources">Références</a></td><td>Grille de sources et liens institutionnels.</td></tr>
+          <tr><td><a href="../index.html#guide-hub">Guide</a></td><td>Diaporama, méthode, parcours intégré.</td></tr>
+        </tbody>
+      </table>
+      <p>L’ancienne page <code>pedagogie.html</code> redirige vers le guide dans l’application pour conserver les favoris.</p>
+    </section>
+
+    <section id="carte">
+      <h2>Carte</h2>
+      <ul class="body-list">
+        <li><strong>Recherche</strong> : champ en barre au-dessus de la carte.</li>
+        <li><strong>Couches</strong> : panneau gauche (bouton ◀ sur grands écrans ; menu ☰ sur mobile).</li>
+        <li><strong>Calque tensions</strong> : activable depuis le panneau « Couches », pas depuis la barre supérieure.</li>
+        <li><strong>Plein écran</strong> : bouton sur la pile d’outils à droite de la carte (icône <strong>⛶</strong> ; <strong>×</strong> pour quitter), ou touche <kbd>F</kbd> hors champ de saisie.</li>
+        <li><strong>Zoom</strong> : boutons <kbd>+</kbd> / <kbd>−</kbd> sur la carte, ou raccourcis clavier + / − quand le focus n’est pas dans un champ.</li>
+        <li><strong>Clic pays</strong> : fiche (modale) avec blocs contexte / sécurité selon les données disponibles.</li>
+      </ul>
+    </section>
+
+    <section id="savoir-terror">
+      <h2>Savoir &amp; Terrorisme</h2>
+      <p><strong>Savoir</strong> regroupe plusieurs rubriques en sous-onglets. La zone <strong>France · terrorisme</strong> propose notamment une chronologie compacte (fichier JSON partagé avec l’onglet Terrorisme).</p>
+      <p><strong>Terrorisme</strong> détaille le cadre (France, UE, ONU), les liens utiles et le <strong>tableau chronologique</strong> France sur cinq colonnes.</p>
+    </section>
+
+    <section id="quiz-refs">
+      <h2>Quiz, références &amp; guide</h2>
+      <ul class="body-list">
+        <li><strong>Quiz</strong> : banque de questions indicatives ; croiser avec les sources officielles.</li>
+        <li><strong>Références</strong> : liens vers sites primaires (Pew, ONU, Intérieur, etc.).</li>
+        <li><strong>Guide</strong> : diaporama et textes pédagogiques intégrés à la même application.</li>
+      </ul>
+    </section>
+
+    <section id="build">
+      <h2>Build <code>dist/</code> &amp; vérification</h2>
+      <p>Pour produire un dossier minimal prêt à héberger (Pages, S3, clé USB avec serveur local) :</p>
+      <pre style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;overflow:auto;font-size:0.85rem;"><code>npm run build:html</code></pre>
+      <p>Cette commande exécute d’abord <code>node scripts/verify.mjs</code>, puis copie <code>index.html</code>, <code>pedagogie.html</code>, <code>sw.js</code>, <code>assets/</code> et <code>docs/</code> (dont ce manuel) dans <code>dist/</code>.</p>
+      <p>Contrôle rapide des scripts JS : <code>npm run verify</code> ou <code>node scripts/verify.mjs</code>.</p>
+    </section>
+
+    <section id="sources">
+      <h2>Sources &amp; avertissement</h2>
+      <p>La méthodologie et la liste des sources sont détaillées dans <a href="SOURCES.md">SOURCES.md</a> (Markdown).</p>
+      <p class="note"><strong>Rappel :</strong> les synthèses et chiffres dans l’outil sont indicatifs ; pour tout compte rendu probant, utilisez les publications et décisions de justice à jour.</p>
+    </section>
+
+    <footer>
+      <p>Document généré pour le dépôt <strong>Carte-monde-muslim-2026</strong>. Liens relatifs : ce fichier est conçu pour être servi depuis la racine du site (<code>/docs/manuel.html</code>) ; le lien « Ouvrir l’application » pointe vers <code>../index.html</code>.</p>
+    </footer>
+  </div>
+</body>
+</html>
