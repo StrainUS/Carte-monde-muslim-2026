@@ -187,7 +187,7 @@
     if (src) {
       src.innerHTML =
         "📚 Synthèse de veille — <a href=\"#sources\">Références &amp; sources 2026</a> · " +
-        "<a href=\"pedagogie.html#sources\">Guide historique</a>.";
+        "<a href=\"#guide-ped-sources\">Guide — sources (dépôt)</a>.";
     }
 
     const overlay = document.getElementById("modal-overlay");
@@ -432,10 +432,10 @@
     const btn = document.getElementById("btn-fullscreen");
     if (!btn) return;
     const active = isMapFullscreen();
-    btn.textContent = active ? "Quitter" : "Plein écran";
-    btn.title = active ? "Quitter le plein écran (F)" : "Plein écran carte et panneaux latéraux (F)";
+    btn.textContent = active ? "×" : "⛶";
+    btn.title = active ? "Quitter le plein écran (F)" : "Plein écran : carte, légende et classements (F)";
     btn.setAttribute("aria-label", btn.title);
-    btn.classList.toggle("active", active);
+    btn.classList.toggle("is-active", active);
   }
 
   function toggleMapFullscreen() {
@@ -491,7 +491,6 @@
   }
 
   function bindTopbar() {
-    document.getElementById("btn-conflicts")?.addEventListener("click", () => coreToggleLayer("conflict"));
     document.getElementById("btn-fullscreen")?.addEventListener("click", toggleMapFullscreen);
     document.getElementById("btn-mobile-menu")?.addEventListener("click", () => {
       document.getElementById("panel-left").classList.toggle("open");

@@ -107,7 +107,7 @@ function listenFrom(port) {
       console.log("");
       console.log("   ", URL);
       console.log("");
-      console.log("   Guide & diaporama :", URL + "pedagogie.html");
+      console.log("   Guide intégré :", URL + "index.html#guide-hub  ·  redirect :", URL + "pedagogie.html");
       console.log("  ═══════════════════════════════════════════════════");
       console.log("");
       if (!USE_FIXED_PORT && actual !== 8080) {

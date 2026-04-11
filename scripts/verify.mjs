@@ -143,20 +143,22 @@ const expected = [
   "assets/js/pedagogy-bundle.js",
   "assets/js/map-core.js",
   "assets/js/map-ui.js",
+  "assets/js/slideshow.js",
+  "assets/js/pedagogie.js",
   "assets/js/app-pro.js",
 ];
 if (JSON.stringify(scriptOrder) !== JSON.stringify(expected)) {
   fail(`ordre des scripts : attendu ${JSON.stringify(expected)}, obtenu ${JSON.stringify(scriptOrder)}`);
 } else {
-  ok("index.html : ordre des scripts data → quiz-bank → pedagogy → core → ui → app-pro");
+  ok("index.html : ordre des scripts … → slideshow → pedagogie → app-pro");
 }
 
 /* ── 6. Sections SPA vs app-pro.js ── */
-const secIds = ["section-carte", "savoir", "terrorisme", "quiz-cert", "sources"];
+const secIds = ["section-carte", "savoir", "terrorisme", "quiz-cert", "sources", "guide-hub"];
 for (const id of secIds) {
   if (!indexHtml.includes(`id="${id}"`)) fail(`section #${id} absente du HTML`);
 }
-if (!process.exitCode) ok("sections SPA : 5 panneaux hub présents (navigation)");
+if (!process.exitCode) ok("sections SPA : 6 panneaux hub (carte + 4 + guide intégré)");
 
 /* ── 7. Service worker : fichiers listés ── */
 const sw = readFileSync(join(ROOT, "sw.js"), "utf8");
@@ -167,13 +169,17 @@ for (const sub of assetMatches) {
 }
 if (!process.exitCode) ok(`sw.js : ${assetMatches.length} entrées BASE+fichier présentes sur disque`);
 
-/* ── 8. Pédagogie : images diaporama ── */
+/* ── 8. Diaporama : images (index + redirect pedagogie) ── */
 const pedHtml = readFileSync(join(ROOT, "pedagogie.html"), "utf8");
-const imgs = [...pedHtml.matchAll(/src="(assets\/img\/[^"]+)"/g)].map((x) => x[1]);
+const rePedImg = /src="(assets\/img\/pedagogie\/[^"]+)"/g;
+const imgs = new Set([
+  ...[...pedHtml.matchAll(rePedImg)].map((x) => x[1]),
+  ...[...indexHtml.matchAll(rePedImg)].map((x) => x[1]),
+]);
 for (const img of imgs) {
-  if (!existsSync(join(ROOT, img))) fail(`pedagogie.html image manquante : ${img}`);
+  if (!existsSync(join(ROOT, img))) fail(`image diaporama manquante : ${img}`);
 }
-if (!process.exitCode && imgs.length) ok(`pedagogie.html : ${imgs.length} images locales OK`);
+if (!process.exitCode && imgs.size) ok(`diaporama : ${imgs.size} images locales OK`);
 
 /* ── 9. Cohérence BY_ISO (échantillon) ── */
 try {

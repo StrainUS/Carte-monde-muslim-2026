@@ -164,6 +164,170 @@ body.pedagogie-page {
   margin-bottom: 6px;
 }
 
+.ped-plan h3 {
+  margin: 18px 0 8px;
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--gold);
+}
+
+.ped-flash {
+  margin-top: 16px;
+  padding: 14px 16px 16px;
+  border-radius: 12px;
+  border: 1px dashed rgba(201, 168, 76, 0.35);
+  background: rgba(201, 168, 76, 0.05);
+}
+
+.ped-flash-ol {
+  margin: 0;
+  padding-left: 1.2em;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+.ped-flash-ol li {
+  margin-bottom: 6px;
+}
+
+/* ─── Carte des modules (app) ─── */
+.ped-parcours-app {
+  scroll-margin-top: 88px;
+  margin: 0 0 28px;
+  padding: 22px 20px 24px;
+  background: rgba(15, 22, 40, 0.5);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.ped-parcours-app > h2 {
+  margin: 0 0 8px;
+  font-family: var(--font-head);
+  font-size: 1.18rem;
+  color: var(--gold);
+}
+
+.ped-lead {
+  margin: 0 0 16px;
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--muted);
+}
+
+.ped-app-map {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.ped-app-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.18);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.18s, background 0.18s, box-shadow 0.18s;
+}
+
+.ped-app-card:hover {
+  border-color: rgba(201, 168, 76, 0.4);
+  background: rgba(201, 168, 76, 0.06);
+  box-shadow: 0 0 0 1px rgba(201, 168, 76, 0.12);
+}
+
+.ped-app-card__label {
+  font-family: var(--font-head);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gold-hi);
+}
+
+.ped-app-card__txt {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+.ped-app-foot {
+  margin: 16px 0 0;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+.ped-files-wrap {
+  overflow-x: auto;
+  margin: 0 0 8px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+.ped-files-table {
+  width: 100%;
+  min-width: 520px;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.ped-files-table th,
+.ped-files-table td {
+  padding: 10px 12px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+}
+
+.ped-files-table th {
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--text);
+  font-weight: 600;
+}
+
+.ped-files-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.ped-files-table code {
+  font-size: 12px;
+  color: var(--gold-hi);
+}
+
+.ped-quick-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.ped-quick-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--primary-hi);
+  border: 1px solid rgba(201, 168, 76, 0.35);
+  background: rgba(201, 168, 76, 0.08);
+  transition: background 0.18s, border-color 0.18s;
+}
+
+.ped-quick-chip:hover {
+  background: rgba(201, 168, 76, 0.14);
+  border-color: rgba(201, 168, 76, 0.5);
+}
+
+#parcours-temps {
+  scroll-margin-top: 88px;
+}
+
 /* ─── Diaporama : une seule diapo visible ─── */
 .slide { display: none; }
 .slide.is-active { display: block; }
@@ -584,4 +748,15 @@ kbd {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* ─── Guide intégré (index.html — #guide-hub) ─── */
+#guide-hub.hub-panel--guide {
+  padding: 0 0 32px;
+}
+
+#guide-hub .ped-wrap--in-hub {
+  max-width: min(960px, 100%);
+  margin: 0 auto;
+  padding: 0 22px 48px;
 }

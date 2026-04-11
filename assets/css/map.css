@@ -285,7 +285,7 @@ body.map-page:not(.spa-mode) {
 }
 
 .section {
-  padding: 14px 14px;
+  padding: 11px 12px;
   border-bottom: 1px solid var(--border);
 }
 
@@ -508,7 +508,7 @@ body.map-page:not(.spa-mode) {
   display: none !important;
 }
 
-/* Raccourcis carte : 5 boutons max, bordés, colonne en bord droit — haut de la zone carte (compact) */
+/* Raccourcis carte : plein écran + zoom + vues, colonne en bord droit — haut de la zone carte (compact) */
 #map-nav.map-nav {
   position: absolute;
   top: 10px;
@@ -519,6 +519,25 @@ body.map-page:not(.spa-mode) {
   align-items: stretch;
   gap: 4px;
   z-index: 950;
+}
+
+/* Plein écran : au-dessus du duo zoom + / − */
+#map-nav .nav-btn--fs {
+  position: relative;
+  margin-bottom: 8px;
+  font-size: 15px;
+  line-height: 1;
+}
+
+#map-nav .nav-btn--fs::after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  right: 3px;
+  bottom: -5px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.14);
+  pointer-events: none;
 }
 
 #map-fs-popup {
@@ -758,7 +777,7 @@ body.map-page:not(.spa-mode) {
 
 /* ─── Barre statistiques ─── */
 #stats-bar {
-  height: 50px;
+  height: 46px;
   flex-shrink: 0;
   background: var(--surface);
   border-top: 1px solid var(--border);
@@ -776,7 +795,7 @@ body.map-page:not(.spa-mode) {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 18px;
+  padding: 0 12px;
   border-right: 1px solid var(--border);
   white-space: nowrap;
   flex-shrink: 0;
@@ -788,7 +807,7 @@ body.map-page:not(.spa-mode) {
 
 .stat-value {
   font-family: var(--font-head);
-  font-size: 13px;
+  font-size: 12px;
   color: var(--gold);
 }
 

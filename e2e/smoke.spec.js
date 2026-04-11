@@ -1,7 +1,7 @@
 // @ts-check
 const { test, expect } = require("@playwright/test");
 
-const SECTIONS = ["section-carte", "savoir", "terrorisme", "quiz-cert", "sources"];
+const SECTIONS = ["section-carte", "savoir", "terrorisme", "quiz-cert", "sources", "guide-hub"];
 
 test.describe("Page principale (SPA)", () => {
   test("charge index : hub à onglets et panneau Carte actif", async ({ page }) => {
@@ -13,6 +13,13 @@ test.describe("Page principale (SPA)", () => {
   test("modale pays présente dans le DOM", async ({ page }) => {
     await page.goto("/index.html", { waitUntil: "domcontentloaded" });
     await expect(page.locator("#modal-overlay")).toBeAttached();
+  });
+
+  test("hash sous-section Terrorisme ouvre l’onglet Terrorisme", async ({ page }) => {
+    await page.goto("/index.html#terror-prevention", { waitUntil: "domcontentloaded" });
+    await expect(page.locator("#terrorisme.hub-panel.is-active")).toBeVisible();
+    await expect(page.locator("#terror-prevention")).toBeVisible();
+    await expect(page.locator("#terror-h-prev")).toBeVisible();
   });
 
   test("onglets du menu : hash et panneau actif", async ({ page }) => {
@@ -60,10 +67,9 @@ test.describe("Page principale (SPA)", () => {
     await expect(page.locator("html")).toHaveAttribute("data-theme", /^(light|dark)$/);
   });
 
-  test("pédagogie : scroll jusqu’aux sources", async ({ page }) => {
-    await page.goto("/pedagogie.html", { waitUntil: "domcontentloaded" });
-    await expect(page.locator(".ped-wrap")).toBeVisible();
-    await page.locator("#sources").scrollIntoViewIfNeeded();
-    await expect(page.locator("#sources")).toBeInViewport();
+  test("guide intégré : ancre méthode ouvre l’onglet Guide", async ({ page }) => {
+    await page.goto("/index.html#guide-complet", { waitUntil: "domcontentloaded" });
+    await expect(page.locator("#guide-hub.hub-panel.is-active")).toBeVisible();
+    await expect(page.locator("#guide-complet")).toBeVisible();
   });
 });

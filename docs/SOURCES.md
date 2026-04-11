@@ -1,6 +1,6 @@
 # Sources, méthode et limites
 
-Ce document accompagne le projet **Islam mondial 2026** (`index.html`, `pedagogie.html`). Il précise comment interpréter les chiffres et où trouver les données primaires.
+Ce document accompagne le projet **Islam mondial 2026** (`index.html` — interface unique ; `pedagogie.html` redirige vers l’app). Il précise comment interpréter les chiffres et où trouver les données primaires.
 
 > Vérification éditoriale des liens : **avril 2026**.
 
@@ -71,7 +71,7 @@ Un fichier **`assets/data/france-terror-chronology.json`** alimente le tableau c
 
 ## 8. Illustrations du diaporama
 
-Les fichiers `assets/img/pedagogie/slide-*.svg` sont des schémas **produit pour ce dépôt** (SVG, texte éditable). Ils servent d’appui visuel à `pedagogie.html` et peuvent être modifiés avec un éditeur de texte ou Inkscape / Figma.
+Les fichiers `assets/img/pedagogie/slide-*.svg` sont des schémas **produit pour ce dépôt** (SVG, texte éditable). Ils servent d’appui visuel au diaporama (onglet **Guide** dans `index.html`) et peuvent être modifiés avec un éditeur de texte ou Inkscape / Figma.
 
 ---
 

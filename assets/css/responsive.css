@@ -83,14 +83,14 @@ body.map-page.spa-mode {
 
 /* Carte : zone utilisable sur petits écrans */
 #section-carte #app {
-  height: min(85dvh, 85vh, 900px);
-  min-height: min(280px, 42dvh);
+  height: min(88dvh, 88vh, 940px);
+  min-height: min(300px, 45dvh);
 }
 
 @media (max-width: 480px) {
   #section-carte #app {
-    min-height: 260px;
-    height: min(78dvh, 82vh, 880px);
+    min-height: 280px;
+    height: min(82dvh, 86vh, 920px);
   }
 
   .site-brand strong {

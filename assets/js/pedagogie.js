@@ -6,7 +6,7 @@
 
   function resolveSlideImageUrls() {
     var base = document.baseURI || location.href;
-    document.querySelectorAll("#slideshow .slide-figure img[src]").forEach(function (img) {
+    document.querySelectorAll("#guide-hub #slideshow .slide-figure img[src], .pedagogie-page #slideshow .slide-figure img[src]").forEach(function (img) {
       var raw = img.getAttribute("src");
       if (!raw || /^[a-z][a-z0-9+.-]*:/i.test(raw)) return;
       try {
@@ -39,14 +39,26 @@
   }
 
   function initInstantAnchors() {
-    document.querySelectorAll('a[href^="#"]').forEach((a) => {
+    var root = document.querySelector(".pedagogie-page") || document.getElementById("guide-hub");
+    if (!root) return;
+    var hubIds = ["section-carte", "savoir", "terrorisme", "quiz-cert", "sources", "guide-hub"];
+    root.querySelectorAll('a[href^="#"]').forEach((a) => {
       const href = a.getAttribute("href") || "";
       if (href.length < 2) return;
       const id = href.slice(1);
+      if (hubIds.indexOf(id) >= 0) return;
       a.addEventListener("click", (e) => {
         const el = document.getElementById(id);
         if (!el) return;
         e.preventDefault();
+        if (window.IslamMapPro && typeof window.IslamMapPro.activateInnerStabsForAnchor === "function") {
+          window.IslamMapPro.activateInnerStabsForAnchor("savoir-stabs", el);
+          window.IslamMapPro.activateInnerStabsForAnchor("savoir-fr-stabs", el);
+          window.IslamMapPro.activateInnerStabsForAnchor("guide-stabs", el);
+          window.IslamMapPro.activateInnerStabsForAnchor("sources-stabs", el);
+          window.IslamMapPro.activateInnerStabsForAnchor("quiz-stabs", el);
+          window.IslamMapPro.activateInnerStabsForAnchor("terror-stabs", el);
+        }
         el.scrollIntoView({ behavior: "auto", block: "start" });
         try {
           history.replaceState(null, "", href);

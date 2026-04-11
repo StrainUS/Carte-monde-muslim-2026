@@ -21,8 +21,8 @@ npm start
 ```
 
 4. Regardez le message dans le terminal : il affiche **une URL** du type `http://127.0.0.1:8080/` ou `http://127.0.0.1:8081/` si le port 8080 est déjà pris. **Copiez-collez cette URL** dans Safari ou Chrome.  
-   - Carte : la page d’accueil s’ouvre.  
-   - Guide & diaporama : ajoutez `pedagogie.html` (l’URL complète est aussi indiquée dans le terminal).
+   - **Tout est dans `index.html`** : la carte s’ouvre par défaut ; l’onglet **Guide** contient le diaporama et les approfondissements.  
+   - L’URL `pedagogie.html` **redirige** vers l’app (`index.html#guide-hub`) pour les anciens favoris.
 
 **Si le navigateur ne s’ouvre pas tout seul**, ce n’est pas grave : l’URL affichée suffit.
 
@@ -101,8 +101,8 @@ En ouverture directe du fichier, certaines fonctions (vidéo, chargements résea
 
 **Pages utiles :**
 
-- Carte & onglets : `http://127.0.0.1:<PORT>/index.html`
-- Guide & diaporama : `http://127.0.0.1:<PORT>/pedagogie.html`
+- Application complète : `http://127.0.0.1:<PORT>/index.html` (carte par défaut ; onglet **Guide** pour le diaporama)
+- Redirection historique : `http://127.0.0.1:<PORT>/pedagogie.html` → `index.html#…`
 
 (`npm start` affiche la valeur réelle de `<PORT>` : 8080, 8081, etc.)
 
@@ -134,14 +134,14 @@ open index_offline.html
 
 | Élément | Rôle |
 |--------|------|
-| `index.html` | Page principale — Accueil, Carte, Savoir, Terrorisme, Quiz, Sources |
-| `pedagogie.html` | Diaporama SVG et approfondissements (guide) |
+| `index.html` | Application unique — Carte (défaut), Savoir, Terrorisme, Quiz, Références, **Guide intégré** (diaporama + textes) |
+| `pedagogie.html` | Redirection légère vers `index.html` (ancre conservée si présente) |
 | `assets/img/pedagogie/*.svg` | Illustrations du diaporama |
 | `assets/js/data.js` | Données pays (chargement) |
 | `assets/js/pedagogy-bundle.js` | Quiz 20 Q, hotspots, glossaire, notes sécurité |
 | `assets/js/map-core.js` | Leaflet, GeoJSON |
 | `assets/js/map-ui.js` | Modale, recherche, hotspots |
-| `assets/js/slideshow.js` | Diaporama (Savoir + page guide) |
+| `assets/js/slideshow.js` | Diaporama (onglet Guide dans `index.html`) |
 | `assets/js/app-pro.js` | Hub à onglets, Plotly, thème |
 | `assets/css/app-pro.css` | Styles coque SPA |
 | `assets/css/pedagogie.css` | Styles diaporama |

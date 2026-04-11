@@ -87,6 +87,7 @@ try {
     "/assets/js/map-core.js",
     "/assets/js/map-ui.js",
     "/assets/js/slideshow.js",
+    "/assets/js/pedagogie.js",
     "/assets/js/app-pro.js",
     "/sw.js",
     "/assets/css/common.css",
@@ -101,8 +102,9 @@ try {
 
   const ped = await fetch(base + "/pedagogie.html");
   const pedHtml = await ped.text();
-  if (!pedHtml.includes("assets/js/pedagogie.js")) throw new Error("pedagogie.html sans script");
-  ok("GET /pedagogie.html : présence script pédagogie");
+  if (!pedHtml.includes("index.html#guide-hub") || !pedHtml.includes("location.replace"))
+    throw new Error("pedagogie.html : redirection vers app unifiée attendue");
+  ok("GET /pedagogie.html : redirection interface unique");
 
   const slide = await fetch(base + "/assets/img/pedagogie/slide-01-diversite.svg");
   if (!slide.ok) throw new Error("slide SVG " + slide.status);

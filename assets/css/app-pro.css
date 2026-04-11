@@ -699,6 +699,86 @@ body.map-page.spa-mode {
 
 .pro-lead strong { color: var(--text); font-weight: 600; }
 
+/* ── En-têtes « carte » des hubs (présentation) ── */
+.hub-section-present {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  margin: 0 0 28px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: linear-gradient(
+    135deg,
+    rgba(212, 168, 75, 0.12) 0%,
+    var(--surface) 42%,
+    var(--surface) 100%
+  );
+  box-shadow: 0 14px 44px rgba(0, 0, 0, 0.22);
+}
+
+.hub-section-present__accent {
+  width: 5px;
+  flex-shrink: 0;
+  background: linear-gradient(180deg, var(--primary-hi), var(--primary));
+}
+
+.hub-section-present--terror .hub-section-present__accent {
+  background: linear-gradient(180deg, #ff8a65, #e65100);
+}
+
+.hub-section-present--quiz .hub-section-present__accent {
+  background: linear-gradient(180deg, #9fa8da, #5c6bc0);
+}
+
+.hub-section-present--sources .hub-section-present__accent {
+  background: linear-gradient(180deg, #4db6ac, #00897b);
+}
+
+.hub-section-present--guide .hub-section-present__accent {
+  background: linear-gradient(180deg, #e8c066, #a67c2a);
+}
+
+.hub-section-present--guide .hub-section-present__kicker {
+  color: var(--gold-hi);
+}
+
+.hub-section-present__body {
+  flex: 1;
+  min-width: 0;
+  padding: 22px 26px 24px 22px;
+}
+
+.hub-section-present__kicker {
+  margin: 0 0 8px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--primary-hi);
+}
+
+.hub-section-present--quiz .hub-section-present__kicker {
+  color: #9fa8da;
+}
+
+.hub-section-present--sources .hub-section-present__kicker {
+  color: #4db6ac;
+}
+
+.hub-section-present .hub-section-present__title,
+.hub-section-present .pro-title {
+  border-left: none;
+  padding-left: 0;
+  margin-bottom: 10px;
+}
+
+.hub-section-present .hub-section-present__lead,
+.hub-section-present .pro-lead {
+  margin-bottom: 0;
+  max-width: none;
+}
+
 .pro-grid-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -736,6 +816,10 @@ body.map-page.spa-mode {
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 10px;
   margin-top: 16px;
+}
+
+.source-cards--present {
+  margin-top: 4px;
 }
 
 .source-card {
@@ -834,7 +918,70 @@ body.map-page.spa-mode {
 
 .table-responsive { overflow-x: auto; }
 
-/* Onglet Terrorisme — blocs juridiques / ONU */
+/* Onglet Terrorisme — sous-sections, blocs juridiques */
+.terror-sub {
+  margin-top: 24px;
+  padding: 22px 22px 26px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  scroll-margin-top: 1rem;
+  background: linear-gradient(
+    168deg,
+    rgba(255, 255, 255, 0.04) 0%,
+    var(--surface) 32%,
+    var(--surface) 100%
+  );
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.14);
+}
+
+.terror-sub:first-of-type {
+  margin-top: 18px;
+}
+
+.terror-sub-h {
+  font-family: var(--font-head);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 10px;
+  letter-spacing: 0.02em;
+}
+
+.terror-sub-lead {
+  font-size: 13px;
+  line-height: 1.62;
+  color: var(--muted);
+  margin: 0 0 16px;
+  max-width: 78ch;
+}
+
+.terror-bucket-title {
+  font-family: var(--font-head);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 22px 0 10px;
+}
+
+.terror-bucket-title:first-child {
+  margin-top: 0;
+}
+
+.terror-h4 {
+  font-family: var(--font-head);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--primary-hi);
+  margin: 20px 0 8px;
+  letter-spacing: 0.02em;
+}
+
+.terror-h4:first-child {
+  margin-top: 0;
+}
+
 .terror-block {
   margin-top: 22px;
   padding-top: 18px;
@@ -842,8 +989,13 @@ body.map-page.spa-mode {
   max-width: 76ch;
 }
 
-.terror-block:first-of-type {
-  margin-top: 8px;
+.terror-sub .terror-block {
+  margin-top: 16px;
+  padding-top: 14px;
+}
+
+.terror-sub .terror-block:first-of-type {
+  margin-top: 0;
   padding-top: 0;
   border-top: none;
 }
@@ -960,6 +1112,19 @@ body.map-page.spa-mode {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--surface);
+}
+
+.quiz-cert-shell--present {
+  margin-top: 0;
+  max-width: none;
+  box-shadow: 0 14px 44px rgba(0, 0, 0, 0.18);
+  border-color: rgba(129, 140, 200, 0.45);
+  background: linear-gradient(
+    175deg,
+    rgba(159, 168, 218, 0.12) 0%,
+    var(--surface) 30%,
+    var(--surface) 100%
+  );
 }
 
 .quiz-cert-head {
@@ -1138,6 +1303,10 @@ html[data-theme="light"] .quiz-cert-shell {
   background: var(--surface);
 }
 
+html[data-theme="light"] .timeline-frise {
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.06);
+}
+
 /* Modale extra */
 .modal-extra { margin-top: 10px; }
 .modal-extra-text { font-size: 13px; color: var(--muted); line-height: 1.6; }
@@ -1155,7 +1324,7 @@ html[data-theme="light"] .quiz-cert-shell {
 .link-btn:hover { color: var(--text); text-decoration-color: currentColor; }
 
 /* ══════════════════════════════════════════
-   7. SECTION CARTE — barre + taille
+   7. SECTION CARTE — taille #app (barre titre retirée : plus d’espace carte)
 ══════════════════════════════════════════ */
 
 /* Uniquement quand l’onglet Carte est actif : sans .is-active, #id bat .hub-panel{display:none} et la carte restait visible sous Savoir etc. */
@@ -1166,42 +1335,12 @@ html[data-theme="light"] .quiz-cert-shell {
   overflow-y: visible;
 }
 
-/* Barre titre carte */
-.carte-bar {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 16px;
-  padding: 12px 20px;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-}
-
-.carte-bar-info { flex: 1; min-width: 0; }
-
-.carte-bar-title {
-  font-family: var(--font-head);
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--text);
-  margin: 0;
-  padding: 0;
-  border: none; /* override pro-title */
-}
-
-.carte-bar-lead {
-  font-size: 12px;
-  color: var(--muted);
-  margin-top: 2px;
-}
-
 #section-carte.hub-panel #app {
   position: relative;
   flex: 1;
-  min-height: min(360px, 50dvh);
-  height: min(calc(100dvh - 240px), 78dvh, 880px);
-  max-height: 920px;
+  min-height: min(380px, 52dvh);
+  height: min(calc(100dvh - 145px), 84dvh, 940px);
+  max-height: 960px;
 }
 
 /* ══════════════════════════════════════════
@@ -1223,6 +1362,7 @@ html[data-theme="light"] .quiz-cert-shell {
   border-radius: var(--radius-lg);
   background: var(--surface);
   overflow: hidden;
+  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.14);
 }
 
 .timeline-frise-item {
@@ -1424,6 +1564,11 @@ html[data-theme="light"] .veille-block--alt {
   overflow: hidden;
 }
 
+.stabs--framed {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+  border-color: var(--border-hi);
+}
+
 .stabs-bar {
   display: flex;
   overflow-x: auto;
@@ -1490,6 +1635,368 @@ html[data-theme="light"] .veille-block--alt {
 }
 
 .stab-hint a { color: var(--primary-hi); font-weight: 500; }
+
+/* Savoir — sous-onglet France / terrorisme */
+.savoir-fr-mini-toc {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  margin: 0 0 22px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.1);
+}
+
+.savoir-fr-mini-toc a {
+  color: var(--primary-hi);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.savoir-fr-mini-sep { color: var(--muted); font-weight: 400; }
+
+.savoir-fr-block {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+  scroll-margin-top: 0.75rem;
+}
+
+.savoir-fr-block:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.savoir-fr-h3 {
+  font-family: var(--font-head);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--primary-hi);
+  margin: 0 0 10px;
+  letter-spacing: 0.02em;
+}
+
+.savoir-fr-p {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--muted);
+  margin: 0 0 12px;
+  max-width: 78ch;
+}
+
+.savoir-fr-era-list {
+  margin: 0;
+  padding-left: 1.35rem;
+  max-width: 78ch;
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.62;
+}
+
+.savoir-fr-era-list li { margin-bottom: 12px; }
+
+.savoir-fr-era-list li:last-child { margin-bottom: 0; }
+
+.savoir-fr-src-list {
+  margin: 0;
+  padding-left: 1.25rem;
+  max-width: 78ch;
+  font-size: 13px;
+  line-height: 1.62;
+  color: var(--muted);
+}
+
+.savoir-fr-src-list a {
+  color: var(--primary-hi);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.savoir-fr-src-list li { margin-bottom: 10px; }
+
+.savoir-fr-chrono-mount {
+  margin-top: 12px;
+  min-height: 2.5rem;
+}
+
+.savoir-fr-chrono-loading {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0;
+}
+
+.savoir-fr-ch-disclaimer,
+.savoir-fr-ch-note {
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--muted);
+  margin: 0 0 12px;
+  max-width: 78ch;
+}
+
+/* Frise chronologique France (Savoir → Chrono JSON) */
+.savoir-fr-tl-empty {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0;
+}
+
+.savoir-fr-timeline {
+  margin-top: 4px;
+}
+
+.savoir-fr-tl-era {
+  margin: 0 0 28px;
+}
+
+.savoir-fr-tl-era:last-child {
+  margin-bottom: 0;
+}
+
+.savoir-fr-tl-era-title {
+  font-family: var(--font-head);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--primary-hi);
+  margin: 0 0 14px;
+  padding: 8px 0 8px 14px;
+  border-left: 3px solid var(--primary);
+  background: linear-gradient(90deg, var(--primary-dim) 0%, transparent 72%);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.savoir-fr-tl-cards {
+  position: relative;
+  margin: 0;
+  padding: 4px 0 0;
+  list-style: none;
+}
+
+/* Ligne verticale continue (entre les points) */
+.savoir-fr-tl-cards::before {
+  content: "";
+  position: absolute;
+  left: calc(7rem - 1px);
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  border-radius: 2px;
+  background: linear-gradient(
+    180deg,
+    rgba(240, 185, 64, 0.45) 0%,
+    rgba(240, 185, 64, 0.12) 45%,
+    rgba(240, 185, 64, 0.22) 100%
+  );
+  pointer-events: none;
+}
+
+.savoir-fr-tl-item {
+  display: grid;
+  grid-template-columns: minmax(5.75rem, 7rem) minmax(0, 1fr);
+  gap: 0 18px;
+  align-items: start;
+  margin: 0 0 18px;
+}
+
+.savoir-fr-tl-item:last-child {
+  margin-bottom: 0;
+}
+
+.savoir-fr-tl-rail {
+  position: relative;
+  text-align: right;
+  padding: 4px 14px 0 0;
+  min-height: 3rem;
+}
+
+.savoir-fr-tl-dot {
+  position: absolute;
+  right: -5px;
+  top: 10px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--surface-hi);
+  border: 2px solid var(--primary-hi);
+  box-shadow: 0 0 0 3px rgba(240, 185, 64, 0.14);
+  z-index: 1;
+}
+
+.savoir-fr-tl-date {
+  font-size: 12px;
+  line-height: 1.35;
+  color: var(--muted);
+}
+
+.savoir-fr-tl-date time {
+  display: block;
+}
+
+.savoir-fr-tl-date-y {
+  display: block;
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 15px;
+  color: var(--primary-hi);
+  letter-spacing: 0.02em;
+  line-height: 1.15;
+}
+
+.savoir-fr-tl-date-dm {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.savoir-fr-tl-card {
+  padding: 14px 16px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(165deg, rgba(30, 40, 64, 0.55) 0%, var(--surface) 38%, var(--surface) 100%);
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.22);
+  transition: border-color 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
+}
+
+.savoir-fr-tl-item:focus-within .savoir-fr-tl-card,
+.savoir-fr-tl-card:hover {
+  border-color: var(--primary-border);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(240, 185, 64, 0.08);
+}
+
+.savoir-fr-tl-place {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+}
+
+.savoir-fr-tl-sum {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.58;
+  color: var(--muted);
+}
+
+.savoir-fr-tl-details {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.savoir-fr-tl-details summary {
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary-hi);
+  list-style: none;
+}
+
+.savoir-fr-tl-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.savoir-fr-tl-details summary::before {
+  content: "+ ";
+  font-weight: 800;
+  opacity: 0.85;
+}
+
+.savoir-fr-tl-details[open] summary::before {
+  content: "– ";
+}
+
+.savoir-fr-tl-details-inner {
+  margin-top: 10px;
+  font-size: 12px;
+  line-height: 1.58;
+  color: var(--muted);
+}
+
+.savoir-fr-tl-details-inner p {
+  margin: 0 0 10px;
+}
+
+.savoir-fr-tl-details-inner p:last-child {
+  margin-bottom: 0;
+}
+
+.savoir-fr-tl-jnote {
+  padding-left: 10px;
+  border-left: 2px solid rgba(240, 185, 64, 0.25);
+}
+
+@media (max-width: 520px) {
+  .savoir-fr-tl-cards::before {
+    display: none;
+  }
+
+  .savoir-fr-tl-item {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .savoir-fr-tl-rail {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    min-height: 0;
+    padding: 0 0 10px;
+    margin-bottom: 2px;
+    border-bottom: 1px solid var(--border);
+    text-align: right;
+  }
+
+  .savoir-fr-tl-dot {
+    position: static;
+    flex-shrink: 0;
+  }
+
+  .savoir-fr-tl-date {
+    flex: 1;
+  }
+
+  .savoir-fr-tl-date time {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: flex-end;
+    gap: 6px 10px;
+  }
+
+  .savoir-fr-tl-date-y {
+    display: inline;
+    font-size: 14px;
+  }
+
+  .savoir-fr-tl-date-dm {
+    display: inline;
+    margin-top: 0;
+  }
+}
+
+.savoir-fr-chrono-err {
+  font-size: 13px;
+  line-height: 1.55;
+  color: #ef9a9a;
+  margin: 0;
+  max-width: 72ch;
+}
+
+.savoir-fr-chrono-err a { color: var(--primary-hi); }
 
 /* Grid courants */
 .stab-grid-2 {
@@ -1597,9 +2104,296 @@ html[data-theme="light"] .feature-icon {
   background: var(--surface-hi);
 }
 
-html[data-theme="light"] .carte-bar {
-  background: var(--surface);
-  border-bottom-color: var(--border);
+html[data-theme="light"] .hub-section-present {
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+  border-color: var(--border);
+  background: linear-gradient(
+    135deg,
+    rgba(212, 168, 75, 0.1) 0%,
+    var(--surface) 48%,
+    var(--surface) 100%
+  );
+}
+
+html[data-theme="light"] .terror-sub {
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.06);
+}
+
+html[data-theme="light"] .quiz-cert-shell--present {
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.07);
+  border-color: var(--border);
+}
+
+html[data-theme="light"] .stabs--framed {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+html[data-theme="light"] .savoir-fr-mini-toc--chips a {
+  background: var(--surface-hi);
+}
+
+html[data-theme="light"] .savoir-fr-tl-card {
+  background: linear-gradient(165deg, rgba(255, 248, 235, 0.55) 0%, var(--surface) 42%, var(--surface) 100%);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.06);
+}
+
+html[data-theme="light"] .savoir-fr-tl-item:focus-within .savoir-fr-tl-card,
+html[data-theme="light"] .savoir-fr-tl-card:hover {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* ══════════════════════════════════════════
+   9b. Hubs — présentation compacte & structurée
+══════════════════════════════════════════ */
+
+.hub-panel.pro-section:not(#section-carte) {
+  padding-top: 20px;
+  padding-bottom: 36px;
+}
+
+.hub-panel.pro-section--alt:not(#section-carte) {
+  padding-top: 20px;
+  padding-bottom: 40px;
+}
+
+.hub-section-present {
+  margin-bottom: 16px;
+}
+
+.hub-section-present__body {
+  padding: 14px 18px 16px 16px;
+}
+
+.hub-section-present__kicker {
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  margin-bottom: 6px;
+}
+
+.terror-sub {
+  margin-top: 16px;
+  padding: 16px 18px 18px;
+  scroll-margin-top: 76px;
+}
+
+.terror-sub:first-of-type {
+  margin-top: 12px;
+}
+
+.terror-sub-lead {
+  margin-bottom: 12px;
+  font-size: 12.5px;
+}
+
+.terror-block {
+  margin-top: 14px;
+  padding-top: 12px;
+}
+
+.terror-sub .terror-block {
+  margin-top: 12px;
+  padding-top: 10px;
+}
+
+/* Savoir — barre d’onglets compacte type « pro » */
+.stabs--hub {
+  border-radius: var(--radius);
+}
+
+.stabs--hub .stabs-bar {
+  padding: 4px 6px;
+  gap: 4px;
+  border-bottom: none;
+}
+
+.stabs--hub .stab-btn {
+  padding: 7px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: var(--radius-sm);
+  border-bottom: none;
+  color: var(--muted);
+}
+
+.stabs--hub .stab-btn:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.stabs--hub .stab-btn.is-active,
+.stabs--hub .stab-btn[aria-selected="true"] {
+  background: var(--primary-dim);
+  border: 1px solid var(--primary-border);
+  color: var(--primary-hi);
+}
+
+.stabs--hub .stabs-panels {
+  padding: 14px 14px 16px;
+}
+
+.stabs--hub .stab-panel-lead {
+  font-size: 13px;
+  line-height: 1.55;
+  margin-bottom: 14px;
+}
+
+/* Terrorisme : sous-onglets — pas de double carte autour du contenu */
+.terror-stabs {
+  margin-top: 6px;
+}
+
+.terror-stabs .terror-sub {
+  margin-top: 0;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+}
+
+.terror-stabs .stab-panel.is-active {
+  max-height: min(78vh, 880px);
+  overflow-y: auto;
+}
+
+/* Références, Quiz, Guide, Savoir FR — même logique de panneau scrollable */
+.sources-stabs,
+.quiz-stabs,
+.guide-stabs,
+.savoir-fr-stabs {
+  margin-top: 6px;
+}
+
+.sources-stabs .stab-panel.is-active,
+.quiz-stabs .stab-panel.is-active,
+.guide-stabs .stab-panel.is-active,
+.savoir-fr-stabs .stab-panel.is-active {
+  max-height: min(78vh, 880px);
+  overflow-y: auto;
+}
+
+.guide-stabs .stabs-bar {
+  flex-wrap: wrap;
+}
+
+.guide-stabs .stab-btn {
+  flex: 1 1 auto;
+  min-width: fit-content;
+}
+
+.stab-grid-2 {
+  gap: 10px;
+}
+
+.stab-card {
+  padding: 13px 14px;
+  border-radius: var(--radius-sm);
+}
+
+.stab-card strong {
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.stab-card p {
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
+/* Savoir — mini-sommaire France (puces alignées) */
+.savoir-fr-mini-toc--chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 10px;
+  margin-bottom: 16px;
+}
+
+.savoir-fr-mini-toc--chips .savoir-fr-mini-sep {
+  display: none;
+}
+
+.savoir-fr-mini-toc--chips a {
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 5px 11px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.18);
+  color: var(--text);
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.savoir-fr-mini-toc--chips a:hover {
+  border-color: var(--primary-border);
+  background: var(--primary-dim);
+  color: var(--primary-hi);
+}
+
+/* Navigation principale — onglets un peu plus denses */
+.site-nav .hub-tab,
+.site-nav a {
+  font-size: 12px;
+  padding: 0 11px;
+}
+
+.source-cards {
+  gap: 8px;
+  grid-template-columns: repeat(auto-fit, minmax(188px, 1fr));
+}
+
+.source-card {
+  padding: 12px 14px;
+}
+
+.source-card strong {
+  font-size: 12.5px;
+}
+
+.source-card span {
+  font-size: 11.5px;
+}
+
+#quiz-cert .quiz-cert-shell {
+  padding: 16px 18px;
+}
+
+.quiz-help-doc {
+  max-width: 72ch;
+}
+
+.quiz-help-h {
+  font-family: var(--font-head);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--primary-hi);
+  margin: 18px 0 8px;
+}
+
+.quiz-help-h:first-of-type {
+  margin-top: 0;
+}
+
+.quiz-help-ol,
+.quiz-help-ul {
+  margin: 0 0 12px 1.1rem;
+  padding: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.quiz-help-ol li,
+.quiz-help-ul li {
+  margin-bottom: 6px;
+}
+
+.savoir-portails-mount {
+  min-height: 48px;
 }
 
 /* ══════════════════════════════════════════
@@ -1619,7 +2413,9 @@ html[data-theme="light"] .carte-bar {
 
   .features-grid { grid-template-columns: 1fr; }
 
-  .carte-bar { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .hub-section-present__body {
+    padding: 18px 18px 20px 16px;
+  }
 }
 
 @media (max-width: 820px) {

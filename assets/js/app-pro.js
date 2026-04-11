@@ -1,5 +1,5 @@
 /**
- * SPA — navigation hub (Carte, Savoir, Terrorisme, Quiz, Références), frise chronologique, glossaire, quiz, thème, SW.
+ * SPA — navigation hub (Carte, Savoir, Terrorisme, Quiz, Références, Guide intégré), frise, glossaire, quiz, thème, SW.
  */
 (function () {
   "use strict";
@@ -23,7 +23,63 @@
   }
 
   const DEFAULT_HUB = "section-carte";
-  const HUB_ORDER = ["section-carte", "savoir", "terrorisme", "quiz-cert", "sources"];
+  const HUB_ORDER = ["section-carte", "savoir", "terrorisme", "quiz-cert", "sources", "guide-hub"];
+
+  /** Ancres #… dont l’élément est dans l’onglet Terrorisme → hub terrorisme. */
+  function terrorAnchorScrollId(raw) {
+    if (!raw || raw === "terrorisme") return "";
+    try {
+      const el = document.getElementById(raw);
+      const panel = document.getElementById("terrorisme");
+      if (el && panel && panel.contains(el)) return raw;
+    } catch (_) {}
+    return "";
+  }
+
+  /** Ancres #… dans la section Savoir (y compris sous-onglet France / terrorisme). */
+  function savoirAnchorScrollId(raw) {
+    if (!raw || raw === "savoir") return "";
+    try {
+      const el = document.getElementById(raw);
+      const panel = document.getElementById("savoir");
+      if (el && panel && panel.contains(el)) return raw;
+    } catch (_) {}
+    return "";
+  }
+
+  /** Ancres #… dans l’onglet Références (sous-onglets). */
+  function sourcesAnchorScrollId(raw) {
+    if (!raw || raw === "sources") return "";
+    try {
+      const el = document.getElementById(raw);
+      const panel = document.getElementById("sources");
+      if (el && panel && panel.contains(el)) return raw;
+    } catch (_) {}
+    return "";
+  }
+
+  /** Ancres #… dans l’onglet Quiz (ex. mode d’emploi). */
+  function quizAnchorScrollId(raw) {
+    if (!raw || raw === "quiz-cert") return "";
+    try {
+      const el = document.getElementById(raw);
+      const panel = document.getElementById("quiz-cert");
+      if (el && panel && panel.contains(el)) return raw;
+    } catch (_) {}
+    return "";
+  }
+
+  /** Ancres #… dans l’onglet Guide intégré (diaporama, méthode, etc.). */
+  function guideAnchorScrollId(raw) {
+    if (!raw || raw === "guide-hub") return "";
+    if (HUB_ORDER.indexOf(raw) >= 0) return "";
+    try {
+      const el = document.getElementById(raw);
+      const panel = document.getElementById("guide-hub");
+      if (el && panel && panel.contains(el)) return raw;
+    } catch (_) {}
+    return "";
+  }
 
   /** Anciens favoris #accueil / #veille → hub actuel. */
   function resolveHubFromHash(raw) {
@@ -31,7 +87,46 @@
     if (raw === "accueil") return DEFAULT_HUB;
     if (raw === "veille") return "savoir";
     if (HUB_ORDER.indexOf(raw) >= 0) return raw;
+    if (terrorAnchorScrollId(raw)) return "terrorisme";
+    if (savoirAnchorScrollId(raw)) return "savoir";
+    if (sourcesAnchorScrollId(raw)) return "sources";
+    if (quizAnchorScrollId(raw)) return "quiz-cert";
+    if (guideAnchorScrollId(raw)) return "guide-hub";
     return DEFAULT_HUB;
+  }
+
+  /** Boutons et panneaux du premier niveau seulement (évite d’écraser les stabs imbriqués, ex. Savoir → France). */
+  function getDirectStabControls(root) {
+    if (!root) return { btns: [], panels: [] };
+    const bar = root.querySelector(":scope > .stabs-bar");
+    const panWrap = root.querySelector(":scope > .stabs-panels");
+    const btns = bar
+      ? Array.prototype.filter.call(bar.children, function (n) {
+          return n.matches && n.matches(".stab-btn[role='tab']");
+        })
+      : [];
+    const panels = panWrap
+      ? Array.prototype.filter.call(panWrap.children, function (n) {
+          return n.matches && n.matches('.stab-panel[role="tabpanel"]');
+        })
+      : [];
+    return { btns, panels };
+  }
+
+  /** Active le sous-onglet (stabs) qui contient `anchorEl`, si applicable. */
+  function activateInnerStabsForAnchor(stabsRootId, anchorEl) {
+    if (!stabsRootId || !anchorEl) return;
+    let root;
+    try {
+      root = document.getElementById(stabsRootId);
+    } catch (_) {
+      return;
+    }
+    if (!root || !root.contains(anchorEl)) return;
+    const tp = anchorEl.closest(".stab-panel");
+    if (!tp || !tp.id) return;
+    const tb = root.querySelector('.stab-btn[aria-controls="' + tp.id + '"]');
+    if (tb && tb.getAttribute("aria-selected") !== "true") tb.click();
   }
 
   /* ── Navigation hub ── */
@@ -54,6 +149,27 @@
     if (!opts.skipHash) history.replaceState(null, "", "#" + safe);
     requestAnimationFrame(() => {
       try {
+        const scrollId = opts.scrollId ? String(opts.scrollId) : "";
+        const anchor = scrollId ? document.getElementById(scrollId) : null;
+        if (anchor) {
+          const hubPanel = document.getElementById(safe);
+          if (hubPanel && hubPanel.contains(anchor)) {
+            if (safe === "savoir") {
+              activateInnerStabsForAnchor("savoir-stabs", anchor);
+              activateInnerStabsForAnchor("savoir-fr-stabs", anchor);
+            }
+            if (safe === "terrorisme") activateInnerStabsForAnchor("terror-stabs", anchor);
+            if (safe === "guide-hub") activateInnerStabsForAnchor("guide-stabs", anchor);
+            if (safe === "sources") activateInnerStabsForAnchor("sources-stabs", anchor);
+            if (safe === "quiz-cert") activateInnerStabsForAnchor("quiz-stabs", anchor);
+            requestAnimationFrame(() => {
+              try {
+                anchor.scrollIntoView({ block: "start", behavior: "instant" });
+              } catch (_) {}
+            });
+            return;
+          }
+        }
         window.scrollTo(0, 0);
         const panel = document.getElementById(safe);
         if (panel) panel.scrollTop = 0;
@@ -79,8 +195,11 @@
       setTimeout(refresh, 120);
       setTimeout(refresh, 400);
     }
-    if (safe === "savoir") renderTimelineFrise();
-    if (safe === "terrorisme") loadFranceTerrorChronologyOnce();
+    if (safe === "savoir") {
+      renderTimelineFrise();
+      fillSavoirPortailsFromData();
+      ensureFranceTerrorChronoData().catch(function () {});
+    }
   }
 
   function initHubTabs() {
@@ -102,7 +221,14 @@
       const hub = resolveHubFromHash(raw);
       if (hub !== raw && HUB_ORDER.indexOf(raw) < 0) {
         e.preventDefault();
-        showHub(hub);
+        const tid = terrorAnchorScrollId(raw);
+        const sid = savoirAnchorScrollId(raw);
+        const srcd = sourcesAnchorScrollId(raw);
+        const qid = quizAnchorScrollId(raw);
+        const gid = guideAnchorScrollId(raw);
+        const deep = tid || sid || srcd || qid || gid;
+        showHub(hub, { skipHash: true, scrollId: deep || undefined });
+        history.replaceState(null, "", "#" + (deep ? raw : hub));
         return;
       }
       if (HUB_ORDER.indexOf(raw) >= 0) {
@@ -116,15 +242,27 @@
     window.addEventListener("hashchange", () => {
       const raw = (location.hash || "").replace(/^#/, "") || DEFAULT_HUB;
       const hub = resolveHubFromHash(raw);
-      showHub(hub, { skipHash: true });
+      const tid = terrorAnchorScrollId(raw);
+      const sid = savoirAnchorScrollId(raw);
+      const srcd = sourcesAnchorScrollId(raw);
+      const qid = quizAnchorScrollId(raw);
+      const gid = guideAnchorScrollId(raw);
+      const deep = tid || sid || srcd || qid || gid;
+      showHub(hub, { skipHash: true, scrollId: deep || undefined });
     });
   }
 
   function initHubFromUrl() {
     const raw = (location.hash || "").replace(/^#/, "") || DEFAULT_HUB;
     const hub = resolveHubFromHash(raw);
-    if (hub !== raw && raw) history.replaceState(null, "", "#" + hub);
-    showHub(hub, { skipHash: true });
+    const tid = terrorAnchorScrollId(raw);
+    const sid = savoirAnchorScrollId(raw);
+    const srcd = sourcesAnchorScrollId(raw);
+    const qid = quizAnchorScrollId(raw);
+    const gid = guideAnchorScrollId(raw);
+    const deep = tid || sid || srcd || qid || gid;
+    if (hub !== raw && raw && !deep) history.replaceState(null, "", "#" + hub);
+    showHub(hub, { skipHash: true, scrollId: deep || undefined });
   }
 
   /* ── Boutons hub (data-goto-hub) ── */
@@ -184,8 +322,59 @@
       "<ol class='timeline-frise' aria-label='Jalons chronologiques 610 à 2026'>" + rows.join("") + "</ol>";
   }
 
-  /* ── Chronologie attentats France (JSON — sources judiciaires / parquet) ── */
-  let frTerrorChronoState = 0;
+  /** Portails Savoir : grille complète depuis SOURCES_2026 (évite trous dans les catégories). */
+  function fillSavoirPortailsFromData() {
+    const mount = document.getElementById("savoir-portails-mount");
+    if (!mount || mount.dataset.filled === "1") return;
+    if (!D || !Array.isArray(D.SOURCES_2026) || !D.SOURCES_2026.length) {
+      mount.innerHTML =
+        "<p class=\"stab-panel-lead\">Sources indisponibles : vérifiez que <code>pedagogy-bundle.js</code> est chargé après <code>data.js</code>.</p>";
+      mount.dataset.filled = "1";
+      return;
+    }
+    const rows = D.SOURCES_2026.map(function (s) {
+      const u = escHtml(s.url || "");
+      const lab = escHtml(s.label || "");
+      const note = escHtml(s.note || "");
+      return (
+        '<a class="source-card" href="' +
+        u +
+        '" target="_blank" rel="noopener noreferrer">' +
+        "<strong>" +
+        lab +
+        "</strong>" +
+        "<span>" +
+        note +
+        "</span></a>"
+      );
+    });
+    mount.innerHTML = rows.join("");
+    mount.dataset.filled = "1";
+  }
+
+  /* ── Chronologie attentats France (JSON — partagé Terrorisme + Savoir) ── */
+  let frTerrorChronoCache = null;
+  let frTerrorChronoFetch = null;
+
+  function ensureFranceTerrorChronoData() {
+    if (frTerrorChronoCache) return Promise.resolve(frTerrorChronoCache);
+    if (frTerrorChronoFetch) return frTerrorChronoFetch;
+    frTerrorChronoFetch = fetch("assets/data/france-terror-chronology.json")
+      .then(function (r) {
+        if (!r.ok) throw new Error(String(r.status));
+        return r.json();
+      })
+      .then(function (data) {
+        frTerrorChronoCache = data;
+        frTerrorChronoFetch = null;
+        return data;
+      })
+      .catch(function (e) {
+        frTerrorChronoFetch = null;
+        throw e;
+      });
+    return frTerrorChronoFetch;
+  }
 
   function fmtFrShortDate(iso) {
     if (!iso || typeof iso !== "string") return "";
@@ -203,6 +392,24 @@
       });
     } catch (_) {
       return iso;
+    }
+  }
+
+  /** { y, dm } pour affichage en deux lignes (frise Savoir France). */
+  function fmtFrDateParts(iso) {
+    if (!iso || typeof iso !== "string") return { y: "", dm: iso || "" };
+    const p = iso.split("-");
+    if (p.length !== 3) return { y: "", dm: iso };
+    const yNum = Number(p[0]);
+    const m = Number(p[1]);
+    const d = Number(p[2]);
+    if (!yNum || !m || !d) return { y: String(p[0] || ""), dm: iso };
+    try {
+      const t = new Date(yNum, m - 1, d);
+      const dm = t.toLocaleDateString("fr-FR", { day: "numeric", month: "long" });
+      return { y: String(yNum), dm };
+    } catch (_) {
+      return { y: String(yNum), dm: iso };
     }
   }
 
@@ -260,33 +467,134 @@
     );
   }
 
+  function frChronoErrHtml() {
+    return (
+      '<p class="terror-chrono-err">Impossible de charger la chronologie (serveur HTTP requis, ou réseau). Pour des bilans exhaustifs et à jour : <a href="https://www.sgdsn.gouv.fr/" rel="noopener noreferrer">SGDSN</a>, <a href="https://www.interieur.gouv.fr/" rel="noopener noreferrer">ministère de l’Intérieur</a>, rapports du Parlement.</p>'
+    );
+  }
+
+  function buildFranceSavoirCompactHtml(data) {
+    const disc =
+      data && data.disclaimer
+        ? '<p class="savoir-fr-ch-disclaimer">' + escHtml(data.disclaimer) + "</p>"
+        : "";
+    const note =
+      data && data.official_catalog_note
+        ? '<p class="savoir-fr-ch-note">' + escHtml(data.official_catalog_note) + "</p>"
+        : "";
+    const evs = (data && Array.isArray(data.events) ? data.events.slice() : []).sort(function (a, b) {
+      return String(a.date || "").localeCompare(String(b.date || ""));
+    });
+    if (evs.length === 0) {
+      return disc + note + '<p class="savoir-fr-tl-empty">Aucun événement dans le fichier.</p>';
+    }
+    const chunks = [];
+    let lastDecadeKey = null;
+    evs.forEach(function (e) {
+      const iso = String(e.date || "");
+      const y = parseInt(iso.slice(0, 4), 10);
+      const decBase = Number.isFinite(y) ? Math.floor(y / 10) * 10 : -1;
+      const decKey = decBase < 0 ? "misc" : String(decBase);
+      if (decKey !== lastDecadeKey) {
+        if (lastDecadeKey !== null) chunks.push("</ol></section>");
+        lastDecadeKey = decKey;
+        const title = decBase < 0 ? "Autres entrées" : decBase + " – " + (decBase + 9);
+        const eid = "savoir-fr-tl-era-" + decKey.replace(/[^a-z0-9-]/gi, "x");
+        chunks.push(
+          '<section class="savoir-fr-tl-era" aria-labelledby="' +
+            eid +
+            '">' +
+            '<h4 class="savoir-fr-tl-era-title" id="' +
+            eid +
+            '">' +
+            escHtml(title) +
+            '</h4><ol class="savoir-fr-tl-cards">'
+        );
+      }
+      const parts = fmtFrDateParts(e.date);
+      const actors = String(e.actors_official || "").trim();
+      const jnote = String(e.judicial_note || "").trim();
+      const hasDetails = actors.length > 0 || jnote.length > 0;
+      let detailsHtml = "";
+      if (hasDetails) {
+        detailsHtml =
+          '<details class="savoir-fr-tl-details">' +
+          "<summary>Acteurs, qualification et note judiciaire</summary>" +
+          '<div class="savoir-fr-tl-details-inner">' +
+          (actors ? "<p>" + escHtml(actors) + "</p>" : "") +
+          (jnote ? '<p class="savoir-fr-tl-jnote">' + escHtml(jnote) + "</p>" : "") +
+          "</div></details>";
+      }
+      chunks.push(
+        '<li class="savoir-fr-tl-item">' +
+          '<div class="savoir-fr-tl-rail">' +
+          '<span class="savoir-fr-tl-dot" aria-hidden="true"></span>' +
+          '<div class="savoir-fr-tl-date">' +
+          '<time datetime="' +
+          escHtml(iso) +
+          '">' +
+          '<span class="savoir-fr-tl-date-y">' +
+          escHtml(parts.y) +
+          '</span><span class="savoir-fr-tl-date-dm">' +
+          escHtml(parts.dm) +
+          "</span></time></div></div>" +
+          '<div class="savoir-fr-tl-card">' +
+          '<p class="savoir-fr-tl-place">' +
+          escHtml(e.place || "") +
+          "</p>" +
+          '<p class="savoir-fr-tl-sum">' +
+          escHtml(e.summary || "") +
+          "</p>" +
+          detailsHtml +
+          "</div></li>"
+      );
+    });
+    if (lastDecadeKey !== null) chunks.push("</ol></section>");
+    return (
+      disc +
+      note +
+      '<div class="savoir-fr-timeline" role="region" aria-label="Chronologie compacte France (données JSON, par décennie)">' +
+      chunks.join("") +
+      "</div>"
+    );
+  }
+
   function loadFranceTerrorChronologyOnce() {
     const mount = document.getElementById("terror-fr-chrono-mount");
-    if (!mount || frTerrorChronoState >= 2) return;
-    if (frTerrorChronoState === 1) return;
-    frTerrorChronoState = 1;
-    fetch("assets/data/france-terror-chronology.json")
-      .then(function (r) {
-        if (!r.ok) throw new Error(String(r.status));
-        return r.json();
-      })
+    if (!mount || mount.dataset.filled === "1") return;
+    ensureFranceTerrorChronoData()
       .then(function (data) {
-        frTerrorChronoState = 2;
         mount.innerHTML = buildFranceTerrorChronoHtml(data);
+        mount.dataset.filled = "1";
       })
       .catch(function () {
-        frTerrorChronoState = 2;
-        mount.innerHTML =
-          '<p class="terror-chrono-err">Impossible de charger la chronologie (serveur HTTP requis, ou réseau). Pour des bilans exhaustifs et à jour : <a href="https://www.sgdsn.gouv.fr/" rel="noopener noreferrer">SGDSN</a>, <a href="https://www.interieur.gouv.fr/" rel="noopener noreferrer">ministère de l’Intérieur</a>, rapports du Parlement.</p>';
+        mount.innerHTML = frChronoErrHtml();
+        mount.dataset.filled = "1";
       });
   }
 
-  /* ── Onglets internes section Savoir ── */
-  function initSavoirTabs() {
-    const stabs = document.getElementById("savoir-stabs");
+  function loadSavoirFranceTerrorCompactOnce() {
+    const mount = document.getElementById("savoir-fr-chrono-compact");
+    if (!mount || mount.dataset.filled === "1") return;
+    ensureFranceTerrorChronoData()
+      .then(function (data) {
+        mount.innerHTML = buildFranceSavoirCompactHtml(data);
+        mount.dataset.filled = "1";
+      })
+      .catch(function () {
+        mount.innerHTML =
+          '<p class="savoir-fr-chrono-err">Impossible de charger le fichier. Tableau détaillé et cadre juridique : <a href="#terror-fr-chronologie">onglet Terrorisme → chronologie France</a>. Sources : <a href="https://www.sgdsn.gouv.fr/" rel="noopener noreferrer">SGDSN</a>, <a href="https://www.justice.gouv.fr/" rel="noopener noreferrer">Justice</a>.</p>';
+        mount.dataset.filled = "1";
+      });
+  }
+
+  /* ── Onglets internes section Terrorisme ── */
+  function initTerrorTabs() {
+    const stabs = document.getElementById("terror-stabs");
     if (!stabs) return;
-    const btns = Array.from(stabs.querySelectorAll(".stab-btn[role='tab']"));
-    const panels = Array.from(stabs.querySelectorAll(".stab-panel[role='tabpanel']"));
+    const sc = getDirectStabControls(stabs);
+    const btns = sc.btns;
+    const panels = sc.panels;
 
     function activateTab(btn) {
       const panelId = btn.getAttribute("aria-controls");
@@ -295,13 +603,19 @@
         b.setAttribute("aria-selected", "false");
         b.tabIndex = -1;
       });
-      panels.forEach((p) => p.classList.remove("is-active"));
+      panels.forEach((p) => {
+        p.classList.remove("is-active");
+        p.setAttribute("aria-hidden", "true");
+      });
       btn.classList.add("is-active");
       btn.setAttribute("aria-selected", "true");
       btn.tabIndex = 0;
       const panel = document.getElementById(panelId);
-      if (panel) panel.classList.add("is-active");
-      if (panelId === "stab-timeline") renderTimelineFrise();
+      if (panel) {
+        panel.classList.add("is-active");
+        panel.setAttribute("aria-hidden", "false");
+      }
+      if (panelId === "terror-panel-chrono") loadFranceTerrorChronologyOnce();
     }
 
     btns.forEach((btn) => {
@@ -324,12 +638,179 @@
     });
   }
 
+  /* ── Onglets internes section Savoir ── */
+  function initSavoirTabs() {
+    const stabs = document.getElementById("savoir-stabs");
+    if (!stabs) return;
+    const sc = getDirectStabControls(stabs);
+    const btns = sc.btns;
+    const panels = sc.panels;
+
+    function activateTab(btn) {
+      const panelId = btn.getAttribute("aria-controls");
+      btns.forEach((b) => {
+        b.classList.remove("is-active");
+        b.setAttribute("aria-selected", "false");
+        b.tabIndex = -1;
+      });
+      panels.forEach((p) => {
+        p.classList.remove("is-active");
+        p.setAttribute("aria-hidden", "true");
+      });
+      btn.classList.add("is-active");
+      btn.setAttribute("aria-selected", "true");
+      btn.tabIndex = 0;
+      const panel = document.getElementById(panelId);
+      if (panel) {
+        panel.classList.add("is-active");
+        panel.setAttribute("aria-hidden", "false");
+      }
+      if (panelId === "stab-timeline") renderTimelineFrise();
+      if (panelId === "stab-sources") fillSavoirPortailsFromData();
+    }
+
+    btns.forEach((btn) => {
+      btn.addEventListener("click", () => activateTab(btn));
+      btn.addEventListener("keydown", (e) => {
+        const i = btns.indexOf(btn);
+        if (e.key === "ArrowRight") {
+          e.preventDefault();
+          const n = (i + 1) % btns.length;
+          activateTab(btns[n]);
+          btns[n].focus();
+        }
+        if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          const n = (i - 1 + btns.length) % btns.length;
+          activateTab(btns[n]);
+          btns[n].focus();
+        }
+      });
+    });
+    fillSavoirPortailsFromData();
+  }
+
+  /* ── Sous-onglets Savoir → France / terrorisme ── */
+  function initSavoirFranceTabs() {
+    const stabs = document.getElementById("savoir-fr-stabs");
+    if (!stabs) return;
+    const sc = getDirectStabControls(stabs);
+    const btns = sc.btns;
+    const panels = sc.panels;
+
+    function activateTab(btn) {
+      const panelId = btn.getAttribute("aria-controls");
+      btns.forEach((b) => {
+        b.classList.remove("is-active");
+        b.setAttribute("aria-selected", "false");
+        b.tabIndex = -1;
+      });
+      panels.forEach((p) => {
+        p.classList.remove("is-active");
+        p.setAttribute("aria-hidden", "true");
+      });
+      btn.classList.add("is-active");
+      btn.setAttribute("aria-selected", "true");
+      btn.tabIndex = 0;
+      const panel = document.getElementById(panelId);
+      if (panel) {
+        panel.classList.add("is-active");
+        panel.setAttribute("aria-hidden", "false");
+      }
+      if (panelId === "savoir-fr-panel-chrono") loadSavoirFranceTerrorCompactOnce();
+    }
+
+    btns.forEach((btn) => {
+      btn.addEventListener("click", () => activateTab(btn));
+      btn.addEventListener("keydown", (e) => {
+        const i = btns.indexOf(btn);
+        if (e.key === "ArrowRight") {
+          e.preventDefault();
+          const n = (i + 1) % btns.length;
+          activateTab(btns[n]);
+          btns[n].focus();
+        }
+        if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          const n = (i - 1 + btns.length) % btns.length;
+          activateTab(btns[n]);
+          btns[n].focus();
+        }
+      });
+    });
+  }
+
+  function bindStabsRoot(stabs, onActivate) {
+    if (!stabs) return;
+    const sc = getDirectStabControls(stabs);
+    const btns = sc.btns;
+    const panels = sc.panels;
+
+    function activateTab(btn) {
+      const panelId = btn.getAttribute("aria-controls");
+      btns.forEach((b) => {
+        b.classList.remove("is-active");
+        b.setAttribute("aria-selected", "false");
+        b.tabIndex = -1;
+      });
+      panels.forEach((p) => {
+        p.classList.remove("is-active");
+        p.setAttribute("aria-hidden", "true");
+      });
+      btn.classList.add("is-active");
+      btn.setAttribute("aria-selected", "true");
+      btn.tabIndex = 0;
+      const panel = document.getElementById(panelId);
+      if (panel) {
+        panel.classList.add("is-active");
+        panel.setAttribute("aria-hidden", "false");
+      }
+      if (typeof onActivate === "function") onActivate(panelId);
+    }
+
+    btns.forEach((btn) => {
+      btn.addEventListener("click", () => activateTab(btn));
+      btn.addEventListener("keydown", (e) => {
+        const i = btns.indexOf(btn);
+        if (e.key === "ArrowRight") {
+          e.preventDefault();
+          const n = (i + 1) % btns.length;
+          activateTab(btns[n]);
+          btns[n].focus();
+        }
+        if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          const n = (i - 1 + btns.length) % btns.length;
+          activateTab(btns[n]);
+          btns[n].focus();
+        }
+      });
+    });
+  }
+
+  function initSourcesTabs() {
+    bindStabsRoot(document.getElementById("sources-stabs"), null);
+  }
+
+  function initQuizTabs() {
+    bindStabsRoot(document.getElementById("quiz-stabs"), null);
+  }
+
+  function initGuideTabs() {
+    bindStabsRoot(document.getElementById("guide-stabs"), null);
+  }
+
   /* ── Glossaire ── */
   function initGlossary() {
     const wrap = $("#glossary-mount");
     if (!wrap || !D || !D.GLOSSARY) return;
+    const keys = Object.keys(D.GLOSSARY);
+    if (!keys.length) {
+      wrap.innerHTML = "<p class=\"stab-panel-lead\">Glossaire indisponible (données non chargées).</p>";
+      return;
+    }
     wrap.innerHTML = "";
-    Object.keys(D.GLOSSARY).forEach((term) => {
+    keys.forEach((term) => {
       const div = document.createElement("div");
       div.className = "glossary-item";
       const btn = document.createElement("button");
@@ -670,6 +1151,11 @@
     initSiteMenu();
     initTheme();
     initSavoirTabs();
+    initSavoirFranceTabs();
+    initTerrorTabs();
+    initSourcesTabs();
+    initQuizTabs();
+    initGuideTabs();
     initGlossary();
     initQuizCert();
     initCiteButtons();
@@ -678,6 +1164,9 @@
     initMapResize();
     initHubFromUrl();
   }
+
+  window.IslamMapPro = window.IslamMapPro || {};
+  window.IslamMapPro.activateInnerStabsForAnchor = activateInnerStabsForAnchor;
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
   else boot();
