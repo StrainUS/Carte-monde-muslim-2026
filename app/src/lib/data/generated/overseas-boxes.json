@@ -1,0 +1,46 @@
+{
+  "250": [
+    {
+      "lat0": 2.05,
+      "lat1": 5.95,
+      "lng0": -54.65,
+      "lng1": -51.55,
+      "name": "Guyane française"
+    },
+    {
+      "lat0": 14.37,
+      "lat1": 15.05,
+      "lng0": -61.42,
+      "lng1": -60.72,
+      "name": "Martinique"
+    },
+    {
+      "lat0": 15.85,
+      "lat1": 16.55,
+      "lng0": -61.88,
+      "lng1": -60.92,
+      "name": "Guadeloupe"
+    },
+    {
+      "lat0": -21.42,
+      "lat1": -20.82,
+      "lng0": 55.12,
+      "lng1": 55.92,
+      "name": "La Réunion"
+    },
+    {
+      "lat0": -13.08,
+      "lat1": -12.58,
+      "lng0": 44.95,
+      "lng1": 45.34,
+      "name": "Mayotte"
+    },
+    {
+      "lat0": 46.74,
+      "lat1": 47.22,
+      "lng0": -56.48,
+      "lng1": -55.96,
+      "name": "Saint-Pierre-et-Miquelon"
+    }
+  ]
+}

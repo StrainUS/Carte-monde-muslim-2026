@@ -1,5 +1,16 @@
 # ☪ Islam 2026 — Carte mondiale interactive, terrorisme & prévention
 
+> **⚠ Refonte v2 en cours** — l'application est désormais dans [`app/`](app/)
+> (SvelteKit + TypeScript + tests + PWA offline-first). Voir [`app/README.md`](app/README.md).
+> La v1 décrite ci-dessous reste disponible pour référence et sera figée
+> dans la branche `v1-legacy-freeze` avant retrait.
+>
+> ```bash
+> cd app && npm ci && npm run import:legacy && node tools/build-geojson.mjs && npm run dev
+> ```
+
+---
+
 **FR —** Site web **statique** pour la **veille** et la **prévention** du risque terrorisme à l’usage des **agents de sécurité** et de toute équipe en **accueil du public** : carte **Leaflet** (sunnites / chiites / tensions), **hotspots terrorisme**, fiches pays (conflit, terrorisme, France, UE), onglet **Savoir** (timeline, courants, glossaire, portails), **quiz** (banque QCU/QCM) (auto-évaluation, **sans valeur certifiante**), sources Pew / BAMF / Europol / Intérieur, **PWA** (`sw.js`). **Ce dépôt ne propose pas une formation diplômante** ; il complète les **consignes employeur** et les **référentiels officiels**.
 
 **Repères prévention (France) :** [interieur.gouv.fr](https://www.interieur.gouv.fr/) · [stop-djihadisme.gouv.fr](https://www.stop-djihadisme.gouv.fr/)

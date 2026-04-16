@@ -1,0 +1,50 @@
+[
+  {
+    "lat": 33.4,
+    "lng": 43.7,
+    "radiusKm": 280,
+    "intensity": 0.85,
+    "label": "Irak — PMF / résidus Daech",
+    "zone": "Irak"
+  },
+  {
+    "lat": 35,
+    "lng": 38,
+    "radiusKm": 220,
+    "intensity": 0.9,
+    "label": "Syrie — zones de non-droit / camps",
+    "zone": "Syrie"
+  },
+  {
+    "lat": 15.5,
+    "lng": 48,
+    "radiusKm": 350,
+    "intensity": 0.75,
+    "label": "Yémen — conflit & Houthis",
+    "zone": "Yémen"
+  },
+  {
+    "lat": 10.5,
+    "lng": 13,
+    "radiusKm": 400,
+    "intensity": 0.7,
+    "label": "Nigeria nord-est — ISWAP/Boko Haram",
+    "zone": "Nigeria"
+  },
+  {
+    "lat": 34.4,
+    "lng": 69.2,
+    "radiusKm": 200,
+    "intensity": 0.65,
+    "label": "Afghanistan — ÉI-K / résidus",
+    "zone": "Afghanistan"
+  },
+  {
+    "lat": 31.8,
+    "lng": 35.2,
+    "radiusKm": 120,
+    "intensity": 0.55,
+    "label": "Proche-Orient — filières historiques",
+    "zone": "Israël"
+  }
+]

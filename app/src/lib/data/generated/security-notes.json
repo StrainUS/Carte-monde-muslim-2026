@@ -1,0 +1,107 @@
+[
+  {
+    "country": "Iran",
+    "conflit": "État-major régional chiite : soutiens à des proxies (Hezbollah, milices irakiennes, Houthis selon périodes). Sanctions et géopolitique du Golfe.",
+    "terrorisme": "Groupes désignés par l'UE/ONU comme terroristes (ex. Hezbollah selon listes UE) — distinguer État, société civile et idéologie d'État.",
+    "france": "Veille radicale : réseaux, financements, ingérences ; pas de confusion avec les communautés chiites en France.",
+    "ue": "Liste UE des organisations terroristes et sanctions ciblées (vérifier textes actualisés)."
+  },
+  {
+    "country": "Irak",
+    "conflit": "Post-2003 : fragmentation, présence Daech (historique), PMF chiites pro-Iran, Kurdistan.",
+    "terrorisme": "Daech (résiduel), milices, attentats sectaires. Risque persistant pour les forces locales.",
+    "france": "Anciens combattants, diaspora, filière djihadiste Syrie-Irak (historique 2014–2019).",
+    "ue": "Traitement des combattants étrangers, justice internationale (crimes Daech)."
+  },
+  {
+    "country": "Syrie",
+    "conflit": "Post-Assad 2024–2026 : gouvernement de transition, HTS au centre du pouvoir à Damas, chaos régional, réconciliation incertaine.",
+    "terrorisme": "Résidus djihadistes, prisons et camps du nord-est. Routes de combattants.",
+    "france": "Filière djihadiste historique ; retours, RAD, S-files.",
+    "ue": "Sanctions, justice universelle, GDI."
+  },
+  {
+    "country": "Yémen",
+    "conflit": "Houthis (zaïdi) vs coalition ; guerre par procuration Iran / monarchies du Golfe.",
+    "terrorisme": "Ansar Allah désigné comme groupe terroriste par certains États (positions divergentes). Piraterie et drones.",
+    "france": "Moins de proximité directe qu'Irak/Syrie ; vigilance maritime.",
+    "ue": "Aide humanitaire, embargo armes."
+  },
+  {
+    "country": "Liban",
+    "conflit": "Hezbollah armé, équilibre confessionnel fragile, effondrement économique.",
+    "terrorisme": "Hezbollah sur listes UE/US ; attentats historiques.",
+    "france": "Liens historiques Liban-France ; communautés libanaises.",
+    "ue": "Politique commune, aide."
+  },
+  {
+    "country": "Arabie Saoudite",
+    "conflit": "Leadership sunnite, rivalité avec l'Iran, guerre Yémen.",
+    "terrorisme": "Al-Qaida historique sur sol saoudien ; répression interne post-2017.",
+    "france": "Export doctrinal salafiste (lieux de culte, ONG) — sujets de Renseignement territorial.",
+    "ue": "Partenaire économique ; droits humains critiqués."
+  },
+  {
+    "country": "France",
+    "conflit": "Terrorisme djihadiste, ultra-droite, extrême gauche radicale — menaces plurielles.",
+    "terrorisme": "PNAT, S-file, sorties de détention suivies ; vigilance écoles, lieux de culte, réseaux en ligne.",
+    "france": "Lois anti-terrorisme, interdiction RAMF 2026 (signalétique fichage) : distinguer risques idéologiques et populations.",
+    "ue": "Coordination Europol, mandats d'arrêt."
+  },
+  {
+    "country": "Égypte",
+    "conflit": "Sinaï, Frères musulmans écrasés depuis 2013, autoritarisme.",
+    "terrorisme": "Wilayat Sinaï (affiliation ÉI), répression.",
+    "france": "Tourisme, diaspora, Al-Azhar comme instance religieuse médiatisée.",
+    "ue": "Aide bilatérale limitée."
+  },
+  {
+    "country": "Turquie",
+    "conflit": "Kurdes, Syrie nord, méditerranée orientale.",
+    "terrorisme": "PKK désigné terroriste par l'UE et les États-Unis ; opérations transfrontalières.",
+    "france": "Diaspora kurde et turque ; discours politiques importés.",
+    "ue": "Candidature suspendue, OTAN."
+  },
+  {
+    "country": "Nigeria",
+    "conflit": "ISWAP, Boko Haram, fracture Nord/Sud.",
+    "terrorisme": "Groupes affiliés ÉI / Al-Qaida selon zones.",
+    "france": "Présence militaire régionale (G5 Sahel historique) ; pas de front intérieur direct majeur.",
+    "ue": "Aide au développement, sécurité."
+  },
+  {
+    "country": "Mali",
+    "conflit": "Insurrection djihadiste, putschs, présence Wagner/Russie.",
+    "terrorisme": "JNIM, GSIM — contrôle rural.",
+    "france": "Opération Barkhane terminée ; vigilance diaspora et propagande.",
+    "ue": "EUTM, sanctions."
+  },
+  {
+    "country": "Afghanistan",
+    "conflit": "Talibans au pouvoir ; minorités hazaras persécutées.",
+    "terrorisme": "ÉI-K, Al-Qaida résiduels.",
+    "france": "Évacuations 2021 ; filières historiques.",
+    "ue": "Aide humanitaire conditionnelle."
+  },
+  {
+    "country": "Pakistan",
+    "conflit": "TTP, Baloutchistan, tensions avec l'Inde.",
+    "terrorisme": "Attentats fréquents ; armée et renseignement.",
+    "france": "Peu d'impact direct ; diaspora.",
+    "ue": "GSP+, droits humains."
+  },
+  {
+    "country": "Royaume-Uni",
+    "conflit": "Attentats historiques ; prévention Prevent.",
+    "terrorisme": "Menace islamiste et extrémiste plurielle.",
+    "france": "Coopération renseignement, AUKUS hors sujet.",
+    "ue": "Brexit — pas dans l'UE."
+  },
+  {
+    "country": "Allemagne",
+    "conflit": "Montée de l'AfD, débats migration.",
+    "terrorisme": "Attentats 2016 Berlin, filières ; enquêtes BAMF et Verfassungsschutz.",
+    "france": "Coopération Schengen, arrestations transfrontalières.",
+    "ue": "Moteur institutionnel."
+  }
+]

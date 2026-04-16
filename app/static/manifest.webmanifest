@@ -1,0 +1,15 @@
+{
+  "name": "Islam mondial 2026 — Veille & prévention",
+  "short_name": "Islam 2026",
+  "description": "Carte interactive, contexte géopolitique, chronologie terrorisme France, guide de veille pour agents de sécurité.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0e1117",
+  "theme_color": "#0e1117",
+  "lang": "fr-FR",
+  "dir": "ltr",
+  "categories": ["education", "reference", "utilities"],
+  "icons": [
+    { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

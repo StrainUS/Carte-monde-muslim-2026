@@ -1,0 +1,196 @@
+{
+  "version": "2026-04",
+  "disclaimer": "Chronologie indicative et non exhaustive : faits ayant fait l’objet d’une qualification terroriste ou d’une revendication / analyse judiciaire publique. Les noms et organisations cités reprennent les constats des parquets, jugements d’assises ou informations judiciaires rendus publics (jusqu’à la date de mise à jour du fichier). Les affaires en cours peuvent évoluer : seuls les actes judiciaires à jour font foi.",
+  "officialCatalogNote": "Pour statistiques nationales, attentats déjoués et évolutions normatives, croiser les rapports du SGDSN, les publications du ministère de l’Intérieur et les rapports d’information du Parlement.",
+  "events": [
+    {
+      "date": "1980-10-03",
+      "place": "Paris — synagogue de la rue Copernic",
+      "summary": "Pose d’engin explosif ; quatre morts.",
+      "actorsOfficial": "Condamnations pénales en 2023 pour participation à l’attentat ; contexte d’extrême droite (dossiers d’assises / cour d’appel — consulter jugements publiés sur Judilib ou communiqués de justice).",
+      "judicialNote": "Longue instruction ; auteurs longtemps recherchés."
+    },
+    {
+      "date": "1982-08-09",
+      "place": "Paris — restaurant Jo Goldenberg (Marais)",
+      "summary": "Fusillade ; six morts, plusieurs blessés.",
+      "actorsOfficial": "Attribution historique à une faction palestinienne liée au réseau Abu Nidal selon enquêtes et analyses judiciaires internationales ; procédures françaises liées (interpolations, mandats).",
+      "judicialNote": "Dossier transnational ; se référer aux archives judiciaires."
+    },
+    {
+      "date": "1995-07-25",
+      "place": "Paris — RER B (Saint-Michel – Notre-Dame)",
+      "summary": "Premier attentat d’une série d’engins en Île-de-France (été 1995).",
+      "actorsOfficial": "Filière du GIA ; nombreuses condamnations pénales (dont Boualem Bensaïd, Smaïn Aït Ali Belkacem, etc.) en cour d’assises spéciale.",
+      "judicialNote": "Qualification terroriste ; enquête antiterroriste."
+    },
+    {
+      "date": "1996-08-17",
+      "place": "Paris — RER C (Maison-Blanche)",
+      "summary": "Nouvel attentat à la bombe dans la vague de 1995–1996.",
+      "actorsOfficial": "Même filière algérienne / GIA ; condamnations au titre du terrorisme.",
+      "judicialNote": "Cohérent avec le volet « attentats du GIA »."
+    },
+    {
+      "date": "2012-03-11",
+      "place": "Toulouse",
+      "summary": "Première série de meurtres ciblant des militaires.",
+      "actorsOfficial": "Mohamed Merah ; auteur identifié puis neutralisé par le RAID (22 mars).",
+      "judicialNote": "Qualification terroriste ; complicités jugées ultérieurement."
+    },
+    {
+      "date": "2012-03-19",
+      "place": "Toulouse — école Ozar Hatorah",
+      "summary": "Assassinat d’enfants et d’un enseignant.",
+      "actorsOfficial": "Mohamed Merah (même auteur que les faits du 11 et 15 mars).",
+      "judicialNote": "Antisémitisme et terrorisme djihadiste selon analyse judiciaire."
+    },
+    {
+      "date": "2015-01-07",
+      "place": "Paris — Charlie Hebdo (11e)",
+      "summary": "Fusillade dans les locaux de Charlie Hebdo ; douze morts.",
+      "actorsOfficial": "Saïd et Chérif Kouachi ; filière et complices jugés aux assises (complicité, logistique).",
+      "judicialNote": "Procès public ; revendication au nom d’Al-Qaida sur la péninsule arabique."
+    },
+    {
+      "date": "2015-01-09",
+      "place": "Montrouge puis Paris — Hyper Cacher (Porte de Vincennes)",
+      "summary": "Meurtre d’une policière municipale ; prise d’otages et assassinats dans un commerce casher.",
+      "actorsOfficial": "Amedy Coulibaly ; allégeance revendiquée à l’État islamique selon enquête.",
+      "judicialNote": "Lien opérationnel avec la filière Kouachi analysé par la justice."
+    },
+    {
+      "date": "2015-08-21",
+      "place": "Thalys Amsterdam — Paris (frontière / Nord)",
+      "summary": "Tentative d’attentat à l’arme à feu déjouée par les voyageurs et les forces de l’ordre.",
+      "actorsOfficial": "Ayoub El Khazzani ; condamnations pénales pour association de malfaiteurs terroristes et tentative d’assassinats terroristes.",
+      "judicialNote": "Procès dit « du Thalys » ; filière syro-marocaine établie par jugement."
+    },
+    {
+      "date": "2015-11-13",
+      "place": "Paris et Saint-Denis (Bataclan, terrasses, Stade de France)",
+      "summary": "Vague d’attentats coordonnés ; cent trente morts et des centaines de blessés.",
+      "actorsOfficial": "Commando affilié à l’État islamique ; instruction et procès « du 13-Novembre » (dont Salah Abdeslam condamné, Abdelhamid Abaaoud tué lors de l’assaut du 18 novembre à Saint-Denis).",
+      "judicialNote": "Cour d’assises spéciale ; jugement 2022."
+    },
+    {
+      "date": "2016-06-13",
+      "place": "Magnanville (Yvelines)",
+      "summary": "Assassinat d’un couple de fonctionnaires de police à leur domicile.",
+      "actorsOfficial": "Larossi Abballa ; revendication de l’État islamique selon enquête.",
+      "judicialNote": "Qualification terroriste."
+    },
+    {
+      "date": "2016-07-14",
+      "place": "Nice — promenade des Anglais",
+      "summary": "Attaque au camion lors des célébrations du 14 juillet ; quatre-vingt-six morts.",
+      "actorsOfficial": "Mohamed Lahouaiej-Bouhlel ; analyse judiciaire en lien avec une radicalisation djihadiste (débats sur le degré d’organisation ; qualification terroriste retenue).",
+      "judicialNote": "Instruction longue ; civil parties nombreuses."
+    },
+    {
+      "date": "2016-07-26",
+      "place": "Saint-Étienne-du-Rouvray (Seine-Maritime)",
+      "summary": "Assassinat d’un prêtre en église pendant la messe.",
+      "actorsOfficial": "Adel Kermiche et Abdel Malik Nabil Petitjean ; revendication ÉI selon enquête.",
+      "judicialNote": "Qualification terroriste."
+    },
+    {
+      "date": "2017-02-03",
+      "place": "Paris — musée du Louvre (cour Napoléon)",
+      "summary": "Agression au machette de militaires en sentinelle Vigipirate.",
+      "actorsOfficial": "Abdullah Reda Refai al-Hamamy (mis en examen ; qualifications selon dossier) ; contexte analysé par le parquet de Paris.",
+      "judicialNote": "Tentative d’assassinats sur personnes dépositaires de l’autorité publique."
+    },
+    {
+      "date": "2017-03-18",
+      "place": "Orly — aérogare Sud",
+      "summary": "Agression mortelle d’un militaire de l’opération Sentinelle ; auteur abattu.",
+      "actorsOfficial": "Ziyed Ben Belgacem ; filière et influences examinées par l’enquête.",
+      "judicialNote": "Qualification terroriste."
+    },
+    {
+      "date": "2017-04-20",
+      "place": "Paris — Champs-Élysées",
+      "summary": "Fusillade contre un fourgon de police ; un policier tué.",
+      "actorsOfficial": "Karim Cheurfi (tué sur place) ; revendication de l’État islamique selon enquête.",
+      "judicialNote": "Qualification terroriste."
+    },
+    {
+      "date": "2017-10-01",
+      "place": "Marseille — gare Saint-Charles",
+      "summary": "Attaque au couteau ; deux jeunes femmes tuées.",
+      "actorsOfficial": "Ahmed Hanachi ; revendication ÉI ; complices ou filière analysés par le parquet national antiterroriste.",
+      "judicialNote": "Qualification terroriste."
+    },
+    {
+      "date": "2018-03-23",
+      "place": "Carcassonne, Trèbes (Aude) — supermarché Super U",
+      "summary": "Série d’attaques et prise d’otages ; quatre morts civils et un gendarme (Lt-Col. Beltrame).",
+      "actorsOfficial": "Radouane Lakdim (tué) ; revendication ÉI ; complices jugés.",
+      "judicialNote": "Assises ; qualification terroriste."
+    },
+    {
+      "date": "2018-05-12",
+      "place": "Paris — quartier de l’Opéra",
+      "summary": "Attaque au couteau ; un mort et plusieurs blessés.",
+      "actorsOfficial": "Khamzat Azimov ; revendication ÉI ; jugement pour assassinats terroristes.",
+      "judicialNote": "Qualification terroriste."
+    },
+    {
+      "date": "2018-12-11",
+      "place": "Strasbourg — marché de Noël",
+      "summary": "Fusillade ; cinq morts et plusieurs blessés.",
+      "actorsOfficial": "Chérif Chekatt (tué après 48 h de fugue) ; revendication ÉI selon enquête.",
+      "judicialNote": "Instruction PNAT / parquet de Paris."
+    },
+    {
+      "date": "2019-10-03",
+      "place": "Paris — préfecture de police (Île de la Cité)",
+      "summary": "Attaque au couteau contre des agents ; quatre morts.",
+      "actorsOfficial": "Mickaël Harpon (fonctionnaire, tué sur place) ; radicalisation et motivations analysées par la justice et commissions d’enquête parlementaires.",
+      "judicialNote": "Qualification terroriste ; rapports publics Sénat / AN."
+    },
+    {
+      "date": "2020-04-04",
+      "place": "Romans-sur-Isère (Drôme)",
+      "summary": "Attaque au couteau dans le centre-ville ; deux morts et plusieurs blessés.",
+      "actorsOfficial": "Abdallah Ahmed-Osman (ressortissant soudanais) ; qualification terroriste du parquet national antiterroriste ; renvoi devant la cour d’assises spéciale (suivre jugements publiés).",
+      "judicialNote": "Instruction publique ; croiser arrêts et communiqués de justice."
+    },
+    {
+      "date": "2020-10-16",
+      "place": "Conflans-Sainte-Honorine (Yvelines)",
+      "summary": "Assassinat et mutilation d’un enseignant (Samuel Paty).",
+      "actorsOfficial": "Abdoullakh Anzorov (tué) ; filière de complicités jugée (mineurs et adultes) pour association terroristes et criminalité connexe.",
+      "judicialNote": "Assises pour plusieurs accusés ; enseignement sur la liberté d’expression."
+    },
+    {
+      "date": "2020-10-29",
+      "place": "Nice — basilique Notre-Dame de l’Assomption",
+      "summary": "Attaque au couteau ; trois personnes tuées dans l’édifice religieux.",
+      "actorsOfficial": "Brahim Aouissaoui (ressortissant tunisien) ; qualification terroriste ; filière et aide aux frontières examinées par la justice.",
+      "judicialNote": "Instruction PNAT ; procédures complémentaires sur réseaux et complicités."
+    },
+    {
+      "date": "2021-04-23",
+      "place": "Rambouillet (Yvelines)",
+      "summary": "Assassinat d’une fonctionnaire de police au commissariat.",
+      "actorsOfficial": "Jamel G. (ressortissant tunisien) ; qualification terroriste (parquet antiterroriste).",
+      "judicialNote": "Lien avec courant djihadiste analysé par enquête."
+    },
+    {
+      "date": "2021-05-29",
+      "place": "La Chapelle-sur-Erdre (Loire-Atlantique)",
+      "summary": "Attaque au couteau contre des policiers lors d’un contrôle ; une policière mortellement blessée.",
+      "actorsOfficial": "Damien T. ; qualification terroriste d’extrême droite retenue par le parquet (terrorisme d’extrême droite).",
+      "judicialNote": "Illustre la menace multiterroriste recensée par les autorités."
+    },
+    {
+      "date": "2023-10-13",
+      "place": "Arras — lycée Gambetta-Carnot",
+      "summary": "Attaque au couteau ; un enseignant tué, plusieurs blessés.",
+      "actorsOfficial": "Mohammed Mogouchkov et éléments de l’entourage suivis par instruction (parquet national antiterroriste) ; filière et radicalisation examinées au procès.",
+      "judicialNote": "Affaire en développement judiciaire au millésime du fichier — vérifier jugements à jour."
+    }
+  ]
+}

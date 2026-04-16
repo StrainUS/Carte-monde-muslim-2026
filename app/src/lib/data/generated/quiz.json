@@ -1,0 +1,1293 @@
+[
+  {
+    "type": "qcu",
+    "id": "q001",
+    "question": "Quelle est la plus grande population sunnite mondiale (ordre de grandeur courant) ?",
+    "options": [
+      "Pakistan",
+      "Arabie Saoudite",
+      "Indonésie",
+      "Bangladesh"
+    ],
+    "explain": "L’Indonésie concentre la plus grande population musulmane ; modèles type Pew la placent en tête des sunnites à l’échelle mondiale.",
+    "sourceId": "pew-muslim",
+    "answer": 2
+  },
+  {
+    "type": "qcu",
+    "id": "q002",
+    "question": "Quel pays est le centre mondial du chiisme duodécimain ?",
+    "options": [
+      "Irak",
+      "Arabie Saoudite",
+      "Iran",
+      "Azerbaïdjan"
+    ],
+    "explain": "L’Iran est l’État de référence du chiisme duodécimain (marja’iyyat, institutions d’État).",
+    "sourceId": "pew-muslim",
+    "answer": 2
+  },
+  {
+    "type": "qcu",
+    "id": "q003",
+    "question": "Kerbala et Najaf (villes saintes chiites) se trouvent dans quel pays ?",
+    "options": [
+      "Iran",
+      "Syrie",
+      "Pakistan",
+      "Irak"
+    ],
+    "explain": "Les lieux saints chiites cités sont en Irak méridional.",
+    "sourceId": "unhcr",
+    "answer": 3
+  },
+  {
+    "type": "qcu",
+    "id": "q004",
+    "question": "L’islam ibadi est majoritaire dans quel pays ?",
+    "options": [
+      "Bahreïn",
+      "Oman",
+      "Koweït",
+      "Qatar"
+    ],
+    "explain": "L’ibadisme est associé en pratique à une majorité omanaise.",
+    "sourceId": "cia",
+    "answer": 1
+  },
+  {
+    "type": "qcu",
+    "id": "q005",
+    "question": "L’épisode de Kerbala (680) est surtout associé à :",
+    "options": [
+      "la bataille qui fonde une mémoire chiite du martyre",
+      "la fondation de l’école hanafite",
+      "la conquête omeyyade de l’Inde",
+      "le traité de Taïf"
+    ],
+    "explain": "Kerbala structure une mémoire martyrologique majeure pour le chiisme.",
+    "sourceId": "pew",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q006",
+    "question": "La dynastie safavide (1501, Iran) a surtout contribué à :",
+    "options": [
+      "imposer le sunnisme hanafite",
+      "ancrer le chiisme duodécimain comme religion d’État",
+      "introduire l’ibadisme en Perse",
+      "abolir les confréries"
+    ],
+    "explain": "Les Safavides relient l’Iran moderne au chiisme d’État.",
+    "sourceId": "pew",
+    "answer": 1
+  },
+  {
+    "type": "qcu",
+    "id": "q007",
+    "question": "Le pacte wahhabite-saoudien (1744) est lié à :",
+    "options": [
+      "l’Empire ottoman",
+      "l’alliance Émir du Nedjd / cheikh Mohammed ibn Abd al-Wahhab",
+      "la révolution iranienne de 1979",
+      "la décolonisation du Yémen"
+    ],
+    "explain": "Alliance politico-religieuse fondateur du légitimement wahhabite sur le Nedjd.",
+    "sourceId": "pew",
+    "answer": 1
+  },
+  {
+    "type": "qcu",
+    "id": "q008",
+    "question": "Bahreïn : quelle particularité confessionnelle (synthèse indicative) ?",
+    "options": [
+      "100 % sunnite",
+      "majorité chiite dans un État à direction sunnite",
+      "50/50 équilibré",
+      "majorité ibadi"
+    ],
+    "explain": "Majorité chiite dans un cadre étatique sunnite — sujet de veille géopolitique.",
+    "sourceId": "cia",
+    "answer": 1
+  },
+  {
+    "type": "qcu",
+    "id": "q009",
+    "question": "En France, le suivi PNAT concerne notamment :",
+    "options": [
+      "uniquement les infractions routières",
+      "les personnes signalées pour radicalisation / terrorisme",
+      "les seules entreprises du CAC40",
+      "les sportifs de haut niveau"
+    ],
+    "explain": "Politique nationale d’anticipation de la radicalisation (cadre intérieur français).",
+    "sourceId": "pnat",
+    "answer": 1
+  },
+  {
+    "type": "qcu",
+    "id": "q010",
+    "question": "Ordre de grandeur documenté côté libérations de détention liées au terrorisme (France, cumul 2021→) :",
+    "options": [
+      "~50",
+      "~150",
+      "~340",
+      "~900"
+    ],
+    "explain": "Ordre de grandeur cité dans les débats publics à partir des rapports intérieur / commissions — vérifier millésime.",
+    "sourceId": "pnat",
+    "answer": 2
+  },
+  {
+    "type": "qcu",
+    "id": "q011",
+    "question": "Les Houthis (Yémen) relèvent principalement du courant :",
+    "options": [
+      "hanafi",
+      "zaïdi (chii)",
+      "ibadi",
+      "malékite"
+    ],
+    "explain": "Zaïdisme : branche du chiisme présente au Yémen.",
+    "sourceId": "unhcr",
+    "answer": 1
+  },
+  {
+    "type": "qcu",
+    "id": "q012",
+    "question": "Quel groupe est classiquement qualifié de chiite « pro-Iran » au Liban (enseignement général) ?",
+    "options": [
+      "Daech",
+      "Hezbollah",
+      "Al-Qaida",
+      "Ansar al-Sunna"
+    ],
+    "explain": "Hezbollah : acteur libanais étudié dans les rapports géopolitiques et UE.",
+    "sourceId": "eu-tesat",
+    "answer": 1
+  },
+  {
+    "type": "qcu",
+    "id": "q013",
+    "question": "En Irak post-2003, les PMF (Hashd al-Shaabi) sont surtout décrits comme :",
+    "options": [
+      "une coalition de milices paramilitaires majoritairement chiites",
+      "une armée sunnite unifiée",
+      "une force de l’OTAN",
+      "une garde royale wahhabite"
+    ],
+    "explain": "PMF : ensemble paramilitaire majoritairement chiite après 2014.",
+    "sourceId": "unhcr",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q014",
+    "question": "En Syrie (après 2011, synthèse), la phase 2024–2026 s’inscrit surtout dans :",
+    "options": [
+      "un retour du parti Baas inchangé",
+      "un effondrement du clan alaouite et une phase d’incertitude sécuritaire",
+      "l’annexion par l’Iran",
+      "l’adhésion à l’UE"
+    ],
+    "explain": "Transition post-Assad : acteurs type HTS, sécurité incertaine (sources diplomatiques & presse spécialisée).",
+    "sourceId": "unhcr",
+    "answer": 1
+  },
+  {
+    "type": "qcu",
+    "id": "q015",
+    "question": "Les Frères musulmans : dans les débats UE / listes terrorisme, le point de veille est :",
+    "options": [
+      "qu’il n’y a jamais eu de controverse juridique",
+      "qu’un même mouvement peut être analysé selon contextes et listes nationales",
+      "qu’ils sont toujours classés comme ONG humanitaire en Europe",
+      "qu’ils sont ibadites"
+    ],
+    "explain": "Statuts juridiques variables selon États ; veille listes UE / jurisprudence.",
+    "sourceId": "eu-tesat",
+    "answer": 1
+  },
+  {
+    "type": "qcu",
+    "id": "q016",
+    "question": "Terrorisme de type « salafiste djihadiste » : quel couple pays / groupe est souvent cité dans les analyses ?",
+    "options": [
+      "Iran / Hezbollah",
+      "Arabie historique / Al-Qaida ou filiales type Daech",
+      "Oman / Ibadi",
+      "Koweït / Houthis"
+    ],
+    "explain": "Filières sunnites radicales liées historiquement au Golfe et aux réseaux Al-Qaida / ÉI.",
+    "sourceId": "eu-tesat",
+    "answer": 1
+  },
+  {
+    "type": "qcu",
+    "id": "q017",
+    "question": "Projection démographique de référence (Pew, religions) vers 2060 :",
+    "options": [
+      "l’islam disparaît en Asie",
+      "le nombre de musulmans pourrait égaler puis dépasser les chrétiens à l’échelle mondiale",
+      "les chiites dépassent 90 % de l’humanité",
+      "l’ibadisme domine l’Europe"
+    ],
+    "explain": "Pew : scénarios de croissance démographique comparative des religions.",
+    "sourceId": "pew",
+    "answer": 1
+  },
+  {
+    "type": "qcu",
+    "id": "q018",
+    "question": "En Allemagne, l’enquête BAMF sur les musulmans cite souvent l’ordre de grandeur :",
+    "options": [
+      "50 000 personnes",
+      "550 000",
+      "5,5 millions",
+      "55 millions"
+    ],
+    "explain": "BAMF : enquêtes publiées sur l’ordre de grandeur des musulmans résidents.",
+    "sourceId": "bamf",
+    "answer": 2
+  },
+  {
+    "type": "qcu",
+    "id": "q019",
+    "question": "Risque professionnel (France/EU) : la radicalisation djihadiste se distingue par :",
+    "options": [
+      "une adhésion exclusivement génétique",
+      "un processus idéologique, social, parfois carcéral — jamais une « essence » communautaire",
+      "un critère linguistique obligatoire",
+      "une affiliation sportive"
+    ],
+    "explain": "Cadre PNAT / sciences sociales : processus, pas ethnie.",
+    "sourceId": "pnat",
+    "answer": 1
+  },
+  {
+    "type": "qcu",
+    "id": "q020",
+    "question": "Face à un discours politico-religieux agressif en accueil du public, le bon réflexe de prévention est de :",
+    "options": [
+      "humilier la personne devant les autres",
+      "signaler, documenter, respecter le cadre légal et la neutralité du service",
+      "diffuser sur les réseaux sans cadre",
+      "ignorer systématiquement"
+    ],
+    "explain": "Prévention : procédures internes, signalement encadré, neutralité de service.",
+    "sourceId": "pnat",
+    "answer": 1
+  },
+  {
+    "type": "qcm",
+    "id": "q021",
+    "question": "Cochez les sources **institutionnelles** utiles pour des ordres de grandeur de population par pays :",
+    "options": [
+      "ONU — World Population Prospects (WPP)",
+      "Pew Research Center (religion)",
+      "Europol TE-SAT",
+      "CIA World Factbook (champ religions)"
+    ],
+    "explain": "WPP et Pew répondent à la démographie ; le Factbook donne des fiches indicatives ; TE-SAT concerne la menace terroriste UE, pas la démo nationale.",
+    "sourceId": "un-wpp",
+    "answers": [
+      0,
+      1,
+      3
+    ]
+  },
+  {
+    "type": "qcm",
+    "id": "q022",
+    "question": "Parmi ces acteurs, lesquels relèvent typiquement de la **veille terrorisme en Europe** ?",
+    "options": [
+      "Europol (TE-SAT)",
+      "PNAT (France)",
+      "UNHCR",
+      "Hayat Tahrir al-Sham"
+    ],
+    "explain": "Europol et dispositifs nationaux type PNAT ; UNHCR = humanitaire ; HTS = acteur syrien.",
+    "sourceId": "eu-tesat",
+    "answers": [
+      0,
+      1
+    ]
+  },
+  {
+    "type": "qcm",
+    "id": "q023",
+    "question": "Quels pays sont souvent cités comme ayant une **majorité chiite** ou une chiité très significative (synthèses courantes) ?",
+    "options": [
+      "Iran",
+      "Irak",
+      "Arabie Saoudite (ensemble national)",
+      "Bahreïn"
+    ],
+    "explain": "Iran et Irak : chiites duodécimains majoritaires ; Bahreïn : majorité chiite, pouvoir sunnite ; Arabie : majorité sunnite.",
+    "sourceId": "cia",
+    "answers": [
+      0,
+      1,
+      3
+    ]
+  },
+  {
+    "type": "qcm",
+    "id": "q024",
+    "question": "Quels groupes ou étiquettes sont **fréquemment** associés au djihadisme sunnite dans les rapports publics UE/FR ?",
+    "options": [
+      "Al-Qaida",
+      "État islamique (Daech)",
+      "Hezbollah",
+      "Boko Haram / ISWAP"
+    ],
+    "explain": "Hezbollah est plutôt analysé comme réseau chiite libanais ; les trois autres relèvent des filières sunnites radicales selon contexte.",
+    "sourceId": "eu-tesat",
+    "answers": [
+      0,
+      1,
+      3
+    ]
+  },
+  {
+    "type": "qcu",
+    "id": "q025",
+    "question": "L’école juridique **hanafite** est surtout présente en :",
+    "options": [
+      "Maghreb et Afrique de l’Ouest",
+      "Asie centrale et sous-continent indien",
+      "Péninsule arabique orientale uniquement",
+      "Amérique latine"
+    ],
+    "explain": "Hanafisme : large diffusion turco-perse, Asie du Sud, etc.",
+    "sourceId": "pew",
+    "answer": 1
+  },
+  {
+    "type": "qcu",
+    "id": "q026",
+    "question": "Le **malékisme** domine historiquement en :",
+    "options": [
+      "Indonésie",
+      "Afrique du Nord et Sahel",
+      "Iran",
+      "Turquie"
+    ],
+    "explain": "École malékite : ancrage maghrébin et sahélien.",
+    "sourceId": "pew",
+    "answer": 1
+  },
+  {
+    "type": "qcu",
+    "id": "q027",
+    "question": "Le **chaféisme** est l’école officielle en :",
+    "options": [
+      "Malaisie et Indonésie",
+      "Iran",
+      "Oman",
+      "Kazakhstan uniquement"
+    ],
+    "explain": "Shafi’i : Malaisie, Indonésie, côtes swahili, etc.",
+    "sourceId": "pew",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q028",
+    "question": "Le **hanbalisme** est associé à :",
+    "options": [
+      "réforme wahhabite en péninsule arabique",
+      "zaïdisme yéménite",
+      "ismaélisme",
+      "ibadisme omanais"
+    ],
+    "explain": "Hanbalisme strict : base juridique souvent citée pour le wahhabisme.",
+    "sourceId": "pew",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q029",
+    "question": "Le **zaïdisme** concerne surtout :",
+    "options": [
+      "Yémen",
+      "Iran",
+      "Pakistan",
+      "Soudan"
+    ],
+    "explain": "Branche chiite zaïdite : Yémen (Houthis).",
+    "sourceId": "cia",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q030",
+    "question": "Les **alaouites** en Syrie sont :",
+    "options": [
+      "chiites duodécimains",
+      "une branche syncrétique souvent distinguée du duodécimal",
+      "ibadites",
+      "hanafites"
+    ],
+    "explain": "Analyses : alaouisme ≠ chiisme duodécimain irakien, mais régime syrien historique.",
+    "sourceId": "cia",
+    "answer": 1
+  },
+  {
+    "type": "qcu",
+    "id": "q031",
+    "question": "L’**ismaélisme** (Nizarites) est minoritaire ; un pays d’ancrage médiatique est :",
+    "options": [
+      "Portugal",
+      "Tadjikistan / Badakhchan",
+      "Brésil",
+      "Lettonie"
+    ],
+    "explain": "Communautés ismaéliennes en Asie centrale et diaspora.",
+    "sourceId": "pew",
+    "answer": 1
+  },
+  {
+    "type": "qcu",
+    "id": "q032",
+    "question": "Le **soufisme** désigne surtout :",
+    "options": [
+      "une branche politique unitaire",
+      "des voies spirituelles et confréries transverses sunnisme/chiisme",
+      "l’école ibadite",
+      "la diplomatie onusienne"
+    ],
+    "explain": "Turuq et tariqa : dimension mystique transversale.",
+    "sourceId": "pew",
+    "answer": 1
+  },
+  {
+    "type": "qcu",
+    "id": "q033",
+    "question": "Le **califat** autoproclamé par Daech (2014) visait surtout quel territoire ?",
+    "options": [
+      "Maghreb atlantique",
+      "Irak–Syrie",
+      "Caucase nord",
+      "Corne de l’Afrique uniquement"
+    ],
+    "explain": "ÉI : sanctuaire territorial Irak-Syrie.",
+    "sourceId": "eu-tesat",
+    "answer": 1
+  },
+  {
+    "type": "qcu",
+    "id": "q034",
+    "question": "**Ansar Allah** désigne :",
+    "options": [
+      "un parti laïc jordanien",
+      "les Houthis au Yémen",
+      "les Kurdes syriens",
+      "les talibans afghans"
+    ],
+    "explain": "Ansar Allah = label politique des Houthis.",
+    "sourceId": "unhcr",
+    "answer": 1
+  },
+  {
+    "type": "qcu",
+    "id": "q035",
+    "question": "Le **G5 Sahel** concernait principalement :",
+    "options": [
+      "coopération sécuritaire sahélienne (Burkina, Tchad, Mali, Mauritanie, Niger)",
+      "Union européenne élargie",
+      "OTAN Pacifique",
+      "Mercosur"
+    ],
+    "explain": "Format régional dissous / en crise — utile pour la chronologie de veille.",
+    "sourceId": "unhcr",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q036",
+    "question": "**Europol** siège en :",
+    "options": [
+      "Genève",
+      "La Haye (Pays-Bas)",
+      "Vienne",
+      "Bruxelles uniquement"
+    ],
+    "explain": "Europol : agence UE à La Haye.",
+    "sourceId": "eu-tesat",
+    "answer": 1
+  },
+  {
+    "type": "qcu",
+    "id": "q037",
+    "question": "Le **TE-SAT** est :",
+    "options": [
+      "un rapport annuel sur la menace terroriste UE",
+      "un recensement agricole",
+      "une norme maritime OMI",
+      "un indice boursier"
+    ],
+    "explain": "Terrorism Situation and Trend Report (Europol).",
+    "sourceId": "eu-tesat",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q038",
+    "question": "Les **Rohingyas** sont surtout suivis dans les crises :",
+    "options": [
+      "Myanmar / Bangladesh",
+      "Ukraine",
+      "Balkans occidentaux",
+      "Groenland"
+    ],
+    "explain": "Crise humanitaire documentée par l’UNHCR.",
+    "sourceId": "unhcr",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q039",
+    "question": "Le **PKK** est désigné comme organisation terroriste par :",
+    "options": [
+      "l’UE et les États-Unis (listes officielles)",
+      "aucun État",
+      "uniquement l’ONU générale",
+      "la FIFA"
+    ],
+    "explain": "Listes UE/US — vérifier mises à jour.",
+    "sourceId": "eu-tesat",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q040",
+    "question": "La **révolution iranienne** de 1979 a instauré :",
+    "options": [
+      "une monarchie constitutionnelle laïque",
+      "une république islamique",
+      "un protectorat soviétique",
+      "un sultanat ibadite"
+    ],
+    "explain": "République islamique d’Iran.",
+    "sourceId": "pew",
+    "answer": 1
+  },
+  {
+    "type": "qcu",
+    "id": "q041",
+    "question": "**Al-Azhar** (Le Caire) est surtout présenté comme :",
+    "options": [
+      "siège ibadite",
+      "haute instance sunnite de référence",
+      "séminaire zaïdite",
+      "cour constitutionnelle européenne"
+    ],
+    "explain": "Al-Azhar : institution sunnite médiatisée.",
+    "sourceId": "pew",
+    "answer": 1
+  },
+  {
+    "type": "qcu",
+    "id": "q042",
+    "question": "Le **charia** désigne en premier sens juridique classique :",
+    "options": [
+      "un code pénal unique mondial",
+      "la voie normative dérivée des sources islamiques (fiqh)",
+      "le droit romain",
+      "le règlement FIFA"
+    ],
+    "explain": "Charia / fiqh : cadre juridique musulman classique, diversifié par écoles.",
+    "sourceId": "pew",
+    "answer": 1
+  },
+  {
+    "type": "qcu",
+    "id": "q043",
+    "question": "**Djihad** en usage académique non militant désigne souvent :",
+    "options": [
+      "un effort spirituel ou communautaire",
+      "obligatoirement une guerre offensive",
+      "une taxe française",
+      "un rite ibadite"
+    ],
+    "explain": "Lexique : effort ; ne pas confondre avec instrumentalisation djihadiste.",
+    "sourceId": "pew",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q044",
+    "question": "**Taqiya** (chiite) désigne plutôt :",
+    "options": [
+      "prudence doctrinale face au danger",
+      "interdiction du jeûne",
+      "obligation du pèlerinage annuel",
+      "taxe caritative obligatoire"
+    ],
+    "explain": "Prudence en contexte minoritaire — sens débattu, à contextualiser.",
+    "sourceId": "pew",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q045",
+    "question": "Le **11 septembre 2001** est associé à :",
+    "options": [
+      "Al-Qaida",
+      "État islamique (fondé 2014)",
+      "Guerre de Crimée",
+      "Printemps de Prague"
+    ],
+    "explain": "Attentats attribués au réseau Ben Laden / Al-Qaida.",
+    "sourceId": "eu-tesat",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q046",
+    "question": "**Légifrance** sert surtout à :",
+    "options": [
+      "textes de loi français officiels",
+      "statistiques religieuses mondiales",
+      "cartes OSM",
+      "climatologie"
+    ],
+    "explain": "Base légale officielle France.",
+    "sourceId": "pnat",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q047",
+    "question": "**stop-djihadisme.gouv.fr** est une ressource :",
+    "options": [
+      "prévention / signalement (France)",
+      "recettes de cuisine",
+      "bourse de Tokyo",
+      "météo marine"
+    ],
+    "explain": "Dispositif public de prévention contre la radicalisation.",
+    "sourceId": "pnat",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q048",
+    "question": "En veille, **croiser les sources** signifie :",
+    "options": [
+      "ne lire qu’un seul blog",
+      "confronter données primaires, méthodes et millésimes",
+      "ignorer les rapports d’institutions",
+      "copier-coller sans citation"
+    ],
+    "explain": "Méthodologie : plusieurs instances, transparence des limites.",
+    "sourceId": "pew",
+    "answer": 1
+  },
+  {
+    "type": "qcu",
+    "id": "q049",
+    "question": "Le **Yémen** est souvent analysé comme :",
+    "options": [
+      "conflit avec dimension régionale Iran / monarchies du Golfe",
+      "espace sans dimension confessionnelle",
+      "province de l’Inde",
+      "État membre UE"
+    ],
+    "explain": "Proxy et zaïdisme ; crises humanitaires documentées ONU.",
+    "sourceId": "unhcr",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q050",
+    "question": "Le **Liban** est caractérisé par :",
+    "options": [
+      "équilibre confessionnel fragile et Hezbollah armé",
+      "monolithisme sunnite total",
+      "absence de chiites",
+      "intégration à l’OTAN"
+    ],
+    "explain": "Système consociatif et acteurs armés.",
+    "sourceId": "cia",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q051",
+    "question": "L’**Afghanistan** post-2021 est surtout associé à :",
+    "options": [
+      "retour des talibans au pouvoir",
+      "adhésion à l’UE",
+      "dissolution de l’ONU",
+      "neutralité nordique"
+    ],
+    "explain": "Contexte sécuritaire et droits humains suivis par l’ONU.",
+    "sourceId": "unhcr",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q052",
+    "question": "Le **Nigeria** (nord-est) est associé à la menace :",
+    "options": [
+      "Boko Haram / ISWAP",
+      "ETA basque",
+      "IRA provisoire",
+      "Shining Path péruvien"
+    ],
+    "explain": "Groupes jihadistes sahéliens/nigérians dans rapports UE.",
+    "sourceId": "eu-tesat",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q053",
+    "question": "Le **Mali** est cité dans les analyses pour :",
+    "options": [
+      "insurrection djihadiste et transitions militaires",
+      "hub financier luxembourgeois",
+      "neutralité suisse",
+      "Arctique"
+    ],
+    "explain": "Sahel : JNIM, putschs, présences étrangères.",
+    "sourceId": "unhcr",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q054",
+    "question": "Le **Cachemire** est surtout un sujet de tension entre :",
+    "options": [
+      "Inde et Pakistan",
+      "Canada et Groenland",
+      "Japon et Corée du Nord",
+      "France et Monaco"
+    ],
+    "explain": "Conflit frontalier longue durée.",
+    "sourceId": "cia",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q055",
+    "question": "La **Turquie** est membre de :",
+    "options": [
+      "OTAN",
+      "Mercosur",
+      "Commonwealth",
+      "UE depuis 1999"
+    ],
+    "explain": "OTAN ; candidature UE gelée.",
+    "sourceId": "eu-tesat",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q056",
+    "question": "Le **chiisme duodécimain** représente environ (modèles type Pew) :",
+    "options": [
+      "~1 % des musulmans",
+      "~12 % des musulmans",
+      "~60 % des musulmans",
+      "~90 % des musulmans"
+    ],
+    "explain": "Ordre de grandeur courant : minorité significative vs sunnisme.",
+    "sourceId": "pew-muslim",
+    "answer": 1
+  },
+  {
+    "type": "qcm",
+    "id": "q057",
+    "question": "Cochez les affirmations **exactes** sur la démarche de veille professionnelle :",
+    "options": [
+      "Distinguer idéologie d’État, société civile et individus",
+      "Utiliser les listes officielles et leurs mises à jour",
+      "Inférer des traits biologiques sur les croyances",
+      "Citer les sources dans un compte rendu"
+    ],
+    "explain": "Neutralité, sources primaires, absence d’essentialisme — cadre PNAT / bonnes pratiques.",
+    "sourceId": "pnat",
+    "answers": [
+      0,
+      1,
+      3
+    ]
+  },
+  {
+    "type": "qcm",
+    "id": "q058",
+    "question": "Quels pays comptent une **population musulmane** souvent citée au-dessus de 100 M (ordres de grandeur) ?",
+    "options": [
+      "Indonésie",
+      "Pakistan",
+      "France",
+      "Inde"
+    ],
+    "explain": "Indonésie, Pakistan, Inde (minorité musulmane très nombreuse en absolu) — France bien inférieur.",
+    "sourceId": "pew-muslim",
+    "answers": [
+      0,
+      1,
+      3
+    ]
+  },
+  {
+    "type": "qcu",
+    "id": "q059",
+    "question": "Le **hajj** a lieu à :",
+    "options": [
+      "La Mecque",
+      "Najaf",
+      "Istanbul uniquement",
+      "Le Caire uniquement"
+    ],
+    "explain": "Pèlerinage à La Mecque.",
+    "sourceId": "pew",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q060",
+    "question": "Le **ramadan** est :",
+    "options": [
+      "jeûne du mois lunaire musulman",
+      "fête juive",
+      "carême orthodoxe fixe",
+      "carnaval brésilien"
+    ],
+    "explain": "Quatrième pilier : jeûne rituel.",
+    "sourceId": "pew",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q061",
+    "question": "La **zakat** est :",
+    "options": [
+      "aumône obligatoire structurante",
+      "impôt français sur le revenu",
+      "taxe d’aéroport Schengen",
+      "cotisation FIFA"
+    ],
+    "explain": "Pilier social de l’islam.",
+    "sourceId": "pew",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q062",
+    "question": "Le **shirk** en théologie musulmane classique désigne :",
+    "options": [
+      "l’association à Dieu d’autres divinités ou cultes",
+      "le jeûne volontaire",
+      "le mariage civil",
+      "la lecture du Coran"
+    ],
+    "explain": "Polythéisme / associationnisme — concept théologique.",
+    "sourceId": "pew",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q063",
+    "question": "**OQTF** en France désigne :",
+    "options": [
+      "obligation de quitter le territoire français",
+      "office des quotas de tartes flambées",
+      "organisation qualité des transports fluviaux",
+      "ordre des quinquas"
+    ],
+    "explain": "Mesure administrative d’éloignement — cadre légal à consulter sur Légifrance.",
+    "sourceId": "pnat",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q064",
+    "question": "En **Union européenne**, la lutte contre le terrorisme implique typiquement :",
+    "options": [
+      "coopération judiciaire (Eurojust) et Europol",
+      "suppression des frontières internes uniquement sans cadre pénal",
+      "interdiction des passeports",
+      "harmonisation des langues régionales"
+    ],
+    "explain": "Instruments UE : Europol, Eurojust, mandats d’arrêt.",
+    "sourceId": "eu-tesat",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q065",
+    "question": "**UNHCR** traite surtout de :",
+    "options": [
+      "réfugiés et déplacés",
+      "taux d’intérêt BCE",
+      "brevets 5G",
+      "classement FIFA"
+    ],
+    "explain": "Haut-Commissariat aux réfugiés.",
+    "sourceId": "unhcr",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q066",
+    "question": "Le **WPP** de l’ONU fournit :",
+    "options": [
+      "projections démographiques par pays",
+      "calendrier liturgique orthodoxe",
+      "tarifs postaux",
+      "cotes boursières"
+    ],
+    "explain": "World Population Prospects.",
+    "sourceId": "un-wpp",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q067",
+    "question": "Le **chiisme duodécimain** reconnaît :",
+    "options": [
+      "12 imams successifs après l’imam ‘Ali",
+      "un seul imam caché sans suite",
+      "0 imam",
+      "500 califes"
+    ],
+    "explain": "Duodécimains : ligne des douze imams.",
+    "sourceId": "pew",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q068",
+    "question": "Le **sunisme** reconnaît en principe la **guidance** des quatre premiers califes comme :",
+    "options": [
+      "orthodoxe",
+      "hérétique",
+      "symbolique uniquement pour l’art",
+      "négociable par vote populaire"
+    ],
+    "explain": "Rashidun : consensus sunnite majoritaire.",
+    "sourceId": "pew",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q069",
+    "question": "**Daech** a visé notamment les **yazidis** en :",
+    "options": [
+      "2014 (génocide documenté)",
+      "1991 uniquement",
+      "2026 olympique",
+      "1789"
+    ],
+    "explain": "Sinjar 2014 ; enquêtes ONU / justice.",
+    "sourceId": "unhcr",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q070",
+    "question": "Le **soufisme** peut être **instrumentalisé** dans les analyses de sécurité pour :",
+    "options": [
+      "confréries et réseaux transnationaux",
+      "remplacer la physique quantique",
+      "réglementer le football",
+      "supprimer le droit international"
+    ],
+    "explain": "Réseaux turuq — sujet de veille sans amalgamme à la société.",
+    "sourceId": "eu-tesat",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q071",
+    "question": "Les infractions « en matière de terrorisme » du droit français figurent surtout dans :",
+    "options": [
+      "le Code de la route",
+      "le Code pénal (livre IV, titre II)",
+      "le Code du sport",
+      "le Code de la propriété intellectuelle"
+    ],
+    "explain": "Texte consolidé sur Légifrance — section terrorisme.",
+    "sourceId": "legi-cp-terror",
+    "answer": 1
+  },
+  {
+    "type": "qcu",
+    "id": "q072",
+    "question": "La directive **(UE) 2017/541** concerne principalement :",
+    "options": [
+      "la pêche en eaux profondes",
+      "la lutte contre le terrorisme (harmonisation et coopération)",
+      "les subventions agricoles",
+      "le droit d’auteur numérique"
+    ],
+    "explain": "Acte UE — texte sur EUR-Lex CELEX 32017L0541.",
+    "sourceId": "eu-dir-2017-541",
+    "answer": 1
+  },
+  {
+    "type": "qcu",
+    "id": "q073",
+    "question": "Le **SGDSN** (France) est surtout associé à :",
+    "options": [
+      "statistiques agricoles départementales",
+      "synthèses sur la menace terroriste et la radicalisation",
+      "calendrier des vacances scolaires",
+      "tarification des péages"
+    ],
+    "explain": "Secrétariat général de la défense et de la sécurité nationale — rapports publics.",
+    "sourceId": "sgdsn",
+    "answer": 1
+  },
+  {
+    "type": "qcu",
+    "id": "q074",
+    "question": "L’**ONUDC** (programme terrorisme) traite surtout de :",
+    "options": [
+      "conventions et assistance aux États",
+      "classement FIFA",
+      "météo maritime",
+      "brevets 6G"
+    ],
+    "explain": "Conventions sectorielles (ex. financement) et coopération technique.",
+    "sourceId": "unodc-terror",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q075",
+    "question": "Le **GAFI / FATF** publie surtout des :",
+    "options": [
+      "recommandations AML/CFT incluant le financement du terrorisme",
+      "recettes de cuisine halal",
+      "programmes TV nationaux",
+      "classements sportifs"
+    ],
+    "explain": "Normes internationales complémentaires au droit pénal.",
+    "sourceId": "fatf-tf",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q076",
+    "question": "**Eurojust** sert principalement à :",
+    "options": [
+      "coordonner enquêtes et poursuites judiciaires transfrontières",
+      "fixer les quotas laitiers UE",
+      "attribuer les visas Schengen",
+      "gérer le DNS européen"
+    ],
+    "explain": "Coopération judiciaire pénale entre États membres.",
+    "sourceId": "eurojust",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q077",
+    "question": "Le rapport **TE-SAT** est publié par :",
+    "options": [
+      "Europol",
+      "l’UNESCO",
+      "la Banque centrale européenne",
+      "l’OMI"
+    ],
+    "explain": "Terrorism Situation and Trend Report — millésime annuel à citer.",
+    "sourceId": "europol-tesat",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q078",
+    "question": "Le fichier **france-terror-chronology.json** du dépôt sert à :",
+    "options": [
+      "alimenter un tableau chronologique indicatif sur l’app",
+      "remplacer les jugements de justice",
+      "stocker les mots de passe",
+      "piloter les satellites"
+    ],
+    "explain": "Données indicatives ; croiser avec parquets et jugements.",
+    "sourceId": "sgdsn",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q079",
+    "question": "**stop-djihadisme.gouv.fr** est une ressource officielle de :",
+    "options": [
+      "prévention / repères contre la radicalisation",
+      "réservation de trains",
+      "déclaration d’impôts",
+      "météo des plages"
+    ],
+    "explain": "Dispositif public français de prévention.",
+    "sourceId": "stop-djihadisme",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q080",
+    "question": "Pour des **statistiques démographiques officielles sur la France**, on cite en priorité :",
+    "options": [
+      "l’INSEE",
+      "un forum anonyme",
+      "un moteur de recherche seul",
+      "la météo"
+    ],
+    "explain": "Institut national de la statistique et des études économiques.",
+    "sourceId": "insee",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q081",
+    "question": "Le **ministère de la Justice** publie notamment des informations sur :",
+    "options": [
+      "politique pénale et grands procès",
+      "catalogues de meubles",
+      "cotes boursières",
+      "pilotes de ligne"
+    ],
+    "explain": "Assises spéciales, communiqués, textes d’application.",
+    "sourceId": "justice-fr",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q082",
+    "question": "La **Banque mondiale — Open Data** sert surtout à :",
+    "options": [
+      "comparer des indicateurs socio-économiques par pays",
+      "réserver des hôtels",
+      "éditer des vidéos",
+      "gérer les DNS"
+    ],
+    "explain": "Contexte macro pour croiser avec la carte.",
+    "sourceId": "wb-data",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q083",
+    "question": "L’**OCDE** fournit surtout :",
+    "options": [
+      "indicateurs et rapports comparés entre pays membres",
+      "cartes IGN détaillées",
+      "listes de courses",
+      "codes-barres produits"
+    ],
+    "explain": "Organisation de coopération et de développement économiques.",
+    "sourceId": "oecd",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q084",
+    "question": "Le **Conseil de sécurité** de l’ONU adopte des résolutions sur le terrorisme qui imposent notamment aux États :",
+    "options": [
+      "certaines obligations de coopération (gels, poursuites, etc.)",
+      "d’adopter une langue unique",
+      "d’abolir les frontières",
+      "de fusionner les monnaies"
+    ],
+    "explain": "Cadre multilatéral — pas une définition unique remplaçant le droit interne.",
+    "sourceId": "un-sc-terror",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q085",
+    "question": "En veille, **Légifrance** est la référence pour :",
+    "options": [
+      "les textes de loi français consolidés",
+      "les classements sportifs mondiaux",
+      "les prévisions météo 16 jours",
+      "les stocks Amazon"
+    ],
+    "explain": "Base légale officielle.",
+    "sourceId": "legi-cp-terror",
+    "answer": 0
+  },
+  {
+    "type": "qcm",
+    "id": "q086",
+    "question": "Quels organismes relèvent typiquement du **cadre pénal et judiciaire** antiterroriste en Europe ?",
+    "options": [
+      "Europol",
+      "Eurojust",
+      "Pew Research Center",
+      "GAFI / FATF"
+    ],
+    "explain": "Europol et Eurojust = coopération ; GAFI = normes financières ; Pew = démographie religieuse.",
+    "sourceId": "eu-tesat",
+    "answers": [
+      0,
+      1,
+      3
+    ]
+  },
+  {
+    "type": "qcm",
+    "id": "q087",
+    "question": "Quelles sources sont adaptées pour vérifier une **population nationale** (habitants) ?",
+    "options": [
+      "ONU — WPP",
+      "INSEE (France)",
+      "TE-SAT",
+      "CIA Factbook (indicatif)"
+    ],
+    "explain": "WPP et INSEE = séries officielles ; Factbook indicatif ; TE-SAT = menace terroriste.",
+    "sourceId": "un-wpp",
+    "answers": [
+      0,
+      1,
+      3
+    ]
+  },
+  {
+    "type": "qcu",
+    "id": "q088",
+    "question": "Le **11 septembre 2001** a conduit notamment le Conseil de sécurité à renforcer :",
+    "options": [
+      "les obligations de lutte contre le terrorisme et le financement (ex. rés. 1373)",
+      "l’interdiction du football",
+      "la taxe Tobin obligatoire",
+      "le droit du maritime fluvial français"
+    ],
+    "explain": "Coopération internationale renforcée post-2001.",
+    "sourceId": "un-sc-terror",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q089",
+    "question": "Le **PNAT** en France relève du champ :",
+    "options": [
+      "anticipation de la radicalisation et suivi encadré",
+      "nutrition infantile",
+      "urbanisme des ZAC",
+      "subventions cinéma"
+    ],
+    "explain": "Politique nationale d’anticipation de la radicalisation (Intérieur).",
+    "sourceId": "pnat",
+    "answer": 0
+  },
+  {
+    "type": "qcu",
+    "id": "q090",
+    "question": "Dans le guide pédagogique, la **pyramide des sources** place en tête :",
+    "options": [
+      "la publication ou base primaire",
+      "un commentaire anonyme",
+      "une légende urbaine",
+      "un mème"
+    ],
+    "explain": "Méthode : primaire d’abord, puis synthèses intermédiaires.",
+    "sourceId": "pew",
+    "answer": 0
+  }
+]

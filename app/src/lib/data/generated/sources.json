@@ -1,0 +1,128 @@
+[
+  {
+    "id": "pew",
+    "label": "Pew Research Center — The Future of World Religions",
+    "url": "https://www.pewresearch.org/topic/religion/",
+    "note": "Démographie religieuse mondiale, projections (dont 2060)."
+  },
+  {
+    "id": "pew-muslim",
+    "label": "Pew — Muslims (séries démographiques)",
+    "url": "https://www.pewresearch.org/topic/religion/religious-affiliation/muslims/",
+    "note": "Ordre de grandeur ~2 milliards de musulmans (synthèses récentes)."
+  },
+  {
+    "id": "pnat",
+    "label": "France — Politique nationale d’anticipation de la radicalisation (PNAT) / rapports associés",
+    "url": "https://www.interieur.gouv.fr/",
+    "note": "Suivi des sorties de détention et dispositifs anti-radicalisation (consulter rapports actualisés)."
+  },
+  {
+    "id": "eu-tesat",
+    "label": "UE — TE-SAT / rapports sur la menace terroriste",
+    "url": "https://www.europol.europa.eu/",
+    "note": "Menace terroriste en Europe (Europol)."
+  },
+  {
+    "id": "bamf",
+    "label": "Allemagne — BAMF (enquêtes sur les musulmans en Allemagne)",
+    "url": "https://www.bamf.de/",
+    "note": "Ordre de grandeur population musulmane allemande (enquêtes publiées)."
+  },
+  {
+    "id": "unhcr",
+    "label": "UNHCR — situations de réfugiés / conflits",
+    "url": "https://www.unhcr.org/",
+    "note": "Contextes humanitaires liés aux crises au Moyen-Orient et au Sahel."
+  },
+  {
+    "id": "cia",
+    "label": "CIA — The World Factbook",
+    "url": "https://www.cia.gov/the-world-factbook/",
+    "note": "Fiches pays (religions, etc.) : ordres de grandeur indicatifs à croiser."
+  },
+  {
+    "id": "un-wpp",
+    "label": "ONU — World Population Prospects (WPP)",
+    "url": "https://population.un.org/wpp/",
+    "note": "Projections démographiques par pays."
+  },
+  {
+    "id": "legi-cp-terror",
+    "label": "France — Code pénal (terrorisme, texte consolidé)",
+    "url": "https://www.legifrance.gouv.fr/codes/texte_lc/LEGITEXT000006070719/",
+    "note": "Livre IV, titre II — infractions en matière de terrorisme ; intitulés et articles à jour sur Légifrance uniquement."
+  },
+  {
+    "id": "eu-dir-2017-541",
+    "label": "UE — Directive (UE) 2017/541 (lutte contre le terrorisme)",
+    "url": "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32017L0541",
+    "note": "Harmonisation pénale et coopération ; croiser avec transpositions nationales."
+  },
+  {
+    "id": "un-sc-terror",
+    "label": "ONU — Conseil de sécurité (terrorisme, résolutions)",
+    "url": "https://www.un.org/securitycouncil/content/threats-international-peace-and-security-terrorism",
+    "note": "Sanctions, obligations des États ; pas de définition unique substituable aux droits internes."
+  },
+  {
+    "id": "unodc-terror",
+    "label": "ONUDC — Programme contre le terrorisme",
+    "url": "https://www.unodc.org/unodc/en/terrorism/index.html",
+    "note": "Conventions sectorielles, assistance aux États."
+  },
+  {
+    "id": "fatf-tf",
+    "label": "GAFI / FATF — Financement du terrorisme",
+    "url": "https://www.fatf-gafi.org/en/topics/terrorist-financing.html",
+    "note": "Normes internationales AML/CFT complémentaires au droit pénal."
+  },
+  {
+    "id": "europol-tesat",
+    "label": "Europol — TE-SAT (rapport UE)",
+    "url": "https://www.europol.europa.eu/publications-events/main-reports/european-union-terrorism-situation-and-trend-report-te-sat",
+    "note": "Situation et tendances ; millésime annuel à citer."
+  },
+  {
+    "id": "eurojust",
+    "label": "Eurojust — coopération judiciaire",
+    "url": "https://www.eurojust.europa.eu/",
+    "note": "Coordination enquêtes et poursuites transfrontalières."
+  },
+  {
+    "id": "sgdsn",
+    "label": "France — SGDSN (menace terroriste, rapports)",
+    "url": "https://www.sgdsn.gouv.fr/",
+    "note": "Synthèses officielles sur la menace ; croiser avec parquets et jugements."
+  },
+  {
+    "id": "justice-fr",
+    "label": "France — Ministère de la Justice",
+    "url": "https://www.justice.gouv.fr/",
+    "note": "Politique pénale, assises spéciales, communiqués."
+  },
+  {
+    "id": "insee",
+    "label": "France — INSEE",
+    "url": "https://www.insee.fr/",
+    "note": "Statistiques publiques nationales officielles."
+  },
+  {
+    "id": "wb-data",
+    "label": "Banque mondiale — Données ouvertes",
+    "url": "https://data.worldbank.org/",
+    "note": "Indicateurs par pays (contexte socio-économique)."
+  },
+  {
+    "id": "oecd",
+    "label": "OCDE",
+    "url": "https://www.oecd.org/",
+    "note": "Indicateurs comparés et rapports thématiques."
+  },
+  {
+    "id": "stop-djihadisme",
+    "label": "France — stop-djihadisme.gouv.fr",
+    "url": "https://www.stop-djihadisme.gouv.fr/",
+    "note": "Prévention de la radicalisation (grand public)."
+  }
+]

@@ -1,0 +1,2252 @@
+[
+  {
+    "name": "Afghanistan",
+    "iso": "004",
+    "skipIsoMap": false,
+    "population": 41,
+    "muslimPct": 99,
+    "sunniPct": 85,
+    "shiaPct": 15,
+    "ibadiPct": 0,
+    "conflict": 3,
+    "region": "Asie Centrale",
+    "notes": "Talibans (Déobandi sunnite) au pouvoir depuis août 2021. Minorité Hazara (Imami chiite, ~15 %) persécutée. Ismaëliens dans le Badakhshan.",
+    "centroid": [
+      33.5,
+      66
+    ]
+  },
+  {
+    "name": "Afrique du Sud",
+    "iso": "710",
+    "skipIsoMap": false,
+    "population": 60,
+    "muslimPct": 2,
+    "sunniPct": 90,
+    "shiaPct": 10,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Afrique Australe",
+    "notes": "Cap Malais (descendants esclaves indonésiens XVIIe s) : communauté islamique historique au Cap. Indiens musulmans (Natal). ~800 000 musulmans.",
+    "centroid": [
+      -29,
+      25
+    ]
+  },
+  {
+    "name": "Albanie",
+    "iso": "008",
+    "skipIsoMap": false,
+    "population": 2.8,
+    "muslimPct": 57,
+    "sunniPct": 80,
+    "shiaPct": 5,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Europe Balkans",
+    "notes": "Bektachisme (soufi proche chiisme) : Albanie = siège mondial. Très sécularisé (religion interdite 1967–1990). Coexistence interreligieuse exemplaire.",
+    "centroid": [
+      41.1,
+      20.1
+    ]
+  },
+  {
+    "name": "Algérie",
+    "iso": "012",
+    "skipIsoMap": false,
+    "population": 46,
+    "muslimPct": 99,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Afrique du Nord",
+    "notes": "Maliki sunnite quasi unanime. Colonisation française 1830–1962 = blessure identitaire profonde. Décennie noire 1991–2002 (100 000+ morts). Puissance régionale, levier gazier.",
+    "centroid": [
+      28,
+      2.5
+    ]
+  },
+  {
+    "name": "Allemagne",
+    "iso": "276",
+    "skipIsoMap": false,
+    "population": 84,
+    "muslimPct": 5,
+    "sunniPct": 80,
+    "shiaPct": 20,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Europe Ouest",
+    "notes": "4,5–5 M de musulmans : Turcs (Gastarbeiter), Arabes, Afghans. Hanafi dominant. DITIB = bras de la Diyanet turque en Allemagne.",
+    "centroid": [
+      51.5,
+      10.5
+    ]
+  },
+  {
+    "name": "Arabie Saoudite",
+    "iso": "682",
+    "skipIsoMap": false,
+    "population": 36,
+    "muslimPct": 93,
+    "sunniPct": 85,
+    "shiaPct": 15,
+    "ibadiPct": 0,
+    "conflict": 1,
+    "region": "Pén. Arabique",
+    "notes": "Berceau de l'Islam (La Mecque, Médine). Doctrine wahhabite officielle depuis 1744. Gardien des Deux Saintes Mosquées. Minorité chiite à Al-Qatif/Al-Ahsa discriminée. Vision 2030 sous MBS.",
+    "centroid": [
+      24,
+      45
+    ]
+  },
+  {
+    "name": "Argentine",
+    "iso": "032",
+    "skipIsoMap": false,
+    "population": 45,
+    "muslimPct": 0.5,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Amérique du Sud",
+    "notes": "~400 000 musulmans : Arabes Levantins et convertis. Grande Mosquée du Roi Fahd, Buenos Aires (1996).",
+    "centroid": [
+      -38,
+      -65
+    ]
+  },
+  {
+    "name": "Australie",
+    "iso": "036",
+    "skipIsoMap": false,
+    "population": 26,
+    "muslimPct": 3,
+    "sunniPct": 80,
+    "shiaPct": 20,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Océanie",
+    "notes": "~800 000 musulmans : Libanais, Bangladais, Afghans. Sydney et Melbourne : grandes communautés. Attentat de Sydney 2014.",
+    "centroid": [
+      -25.5,
+      134
+    ]
+  },
+  {
+    "name": "Autriche",
+    "iso": "040",
+    "skipIsoMap": false,
+    "population": 9.1,
+    "muslimPct": 8,
+    "sunniPct": 75,
+    "shiaPct": 25,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Europe Centre",
+    "notes": "~700 000 musulmans : Turcs, Bosniaques. Loi sur l'Islam 2015. Attentat de Vienne 2020.",
+    "centroid": [
+      47.5,
+      14.5
+    ]
+  },
+  {
+    "name": "Azerbaïdjan",
+    "iso": "031",
+    "skipIsoMap": false,
+    "population": 10.4,
+    "muslimPct": 96,
+    "sunniPct": 35,
+    "shiaPct": 65,
+    "ibadiPct": 0,
+    "conflict": 1,
+    "region": "Caucase",
+    "notes": "Pays chiite le plus sécularisé au monde. Héritage soviétique : faible pratique religieuse. Victoire militaire au Haut-Karabakh (2023). Tensions avec l'Iran.",
+    "centroid": [
+      40.4,
+      47.5
+    ]
+  },
+  {
+    "name": "Bahreïn",
+    "iso": "048",
+    "skipIsoMap": false,
+    "population": 1.5,
+    "muslimPct": 73,
+    "sunniPct": 30,
+    "shiaPct": 70,
+    "ibadiPct": 0,
+    "conflict": 2,
+    "region": "Pén. Arabique",
+    "notes": "PARADOXE MAJEUR : 70 % de chiites gouvernés par la monarchie sunnite Al-Khalifa depuis 1783. Printemps arabe 2011 réprimé militairement (aide saoudienne).",
+    "centroid": [
+      26,
+      50.5
+    ]
+  },
+  {
+    "name": "Bangladesh",
+    "iso": "050",
+    "skipIsoMap": false,
+    "population": 172,
+    "muslimPct": 90,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Asie du Sud",
+    "notes": "Islam soufi hanafi très modéré. Peu de tensions sectaires. Islam arrivé via le saint Shah Jalal au XIVe s.",
+    "centroid": [
+      23.7,
+      90.3
+    ]
+  },
+  {
+    "name": "Belgique",
+    "iso": "056",
+    "skipIsoMap": false,
+    "population": 11.6,
+    "muslimPct": 6,
+    "sunniPct": 80,
+    "shiaPct": 20,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Europe Ouest",
+    "notes": "~700 000 musulmans : Marocains, Turcs. Molenbeek médiatisé. Attentats Bruxelles 2016 (32 morts).",
+    "centroid": [
+      50.8,
+      4.5
+    ]
+  },
+  {
+    "name": "Bénin",
+    "iso": "204",
+    "skipIsoMap": false,
+    "population": 13.5,
+    "muslimPct": 24,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Afrique de l'Ouest",
+    "notes": "Berceau du Vodoun. Islam dans le nord. Tolérance religieuse reconnue. Démocratie stable.",
+    "centroid": [
+      9.5,
+      2.3
+    ]
+  },
+  {
+    "name": "Bosnie",
+    "iso": "070",
+    "skipIsoMap": false,
+    "population": 3.5,
+    "muslimPct": 51,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Europe Balkans",
+    "notes": "Bosniaques : identité musulmane européenne unique. Génocide de Srebrenica 1995 (8 000 hommes tués). Islam modéré hanafi.",
+    "centroid": [
+      44,
+      17.5
+    ]
+  },
+  {
+    "name": "Brésil",
+    "iso": "076",
+    "skipIsoMap": false,
+    "population": 215,
+    "muslimPct": 0.1,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Amérique du Sud",
+    "notes": "~200 000 musulmans : descendants syriens/libanais et convertis afro-brésiliens (Malês). Communauté présente depuis le XVIe s.",
+    "centroid": [
+      -10,
+      -53
+    ]
+  },
+  {
+    "name": "Brunei",
+    "iso": "096",
+    "skipIsoMap": false,
+    "population": 0.46,
+    "muslimPct": 79,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Asie du Sud-Est",
+    "notes": "Sultanat appliquant la charia pénale depuis 2019. Sultan Hassanal Bolkiah, l'un des hommes les plus riches du monde.",
+    "centroid": [
+      4.5,
+      114.7
+    ]
+  },
+  {
+    "name": "Bulgarie",
+    "iso": "100",
+    "skipIsoMap": false,
+    "population": 7,
+    "muslimPct": 15,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Europe Balkans",
+    "notes": "Pomaks (Bulgares islamisés) et Turcs bulgares (~10 %). Assimilation forcée 1984–1989 ('Processus de renaissance').",
+    "centroid": [
+      42.7,
+      25.5
+    ]
+  },
+  {
+    "name": "Burkina Faso",
+    "iso": "854",
+    "skipIsoMap": false,
+    "population": 23,
+    "muslimPct": 61,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 2,
+    "region": "Afrique de l'Ouest",
+    "notes": "2 M+ déplacés internes. GSIM/JNIM contrôle de vastes zones rurales. Coup 2022 (Traore). Expulsion des ambassadeurs français. Rapprochement Russie/Wagner.",
+    "centroid": [
+      12.5,
+      -1.5
+    ]
+  },
+  {
+    "name": "Cambodge",
+    "iso": "116",
+    "skipIsoMap": false,
+    "population": 17,
+    "muslimPct": 2,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Asie du Sud-Est",
+    "notes": "Chams : rescapés du génocide khmer rouge (1/3 exterminé 1975-1979). Islam depuis le XIVe s.",
+    "centroid": [
+      12.5,
+      104.9
+    ]
+  },
+  {
+    "name": "Cameroun",
+    "iso": "120",
+    "skipIsoMap": false,
+    "population": 28,
+    "muslimPct": 24,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 1,
+    "region": "Afrique Centrale",
+    "notes": "Nord musulman (Fulani/Haoussa). Boko Haram à l'Extrême-Nord. Crise anglophone au NW/SW.",
+    "centroid": [
+      4.5,
+      12.5
+    ]
+  },
+  {
+    "name": "Canada",
+    "iso": "124",
+    "skipIsoMap": false,
+    "population": 38,
+    "muslimPct": 4,
+    "sunniPct": 80,
+    "shiaPct": 20,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Amérique du Nord",
+    "notes": "~1,8 M de musulmans : Pakistanais, Arabes, Somaliens. Multiculturalisme officiel. Attentat de Québec 2017 (6 morts dans une mosquée).",
+    "centroid": [
+      56,
+      -96
+    ]
+  },
+  {
+    "name": "Cap-Vert",
+    "iso": "132",
+    "skipIsoMap": false,
+    "population": 0.56,
+    "muslimPct": 1,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Atlantique",
+    "notes": "Archipel majoritairement catholique. Très petite minorité musulmane.",
+    "centroid": [
+      15,
+      -23.5
+    ]
+  },
+  {
+    "name": "Chine",
+    "iso": "156",
+    "skipIsoMap": false,
+    "population": 1415,
+    "muslimPct": 1.8,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 1,
+    "region": "Asie de l'Est",
+    "notes": "~27 M de musulmans : Ouïghours (Xinjiang), Hui (toute la Chine), Kazakhs. Camps de 'rééducation' du Xinjiang (1–1,8 M internés selon l'ONU). Assimilation forcée.",
+    "centroid": [
+      36,
+      103
+    ]
+  },
+  {
+    "name": "Chypre",
+    "iso": "196",
+    "skipIsoMap": false,
+    "population": 1.3,
+    "muslimPct": 18,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Méditerranée",
+    "notes": "Chypriotes turcs dans le Nord occupé depuis 1974. Ligne verte à Nicosie. Réunification bloquée.",
+    "centroid": [
+      35,
+      33
+    ]
+  },
+  {
+    "name": "Comores",
+    "iso": "174",
+    "skipIsoMap": false,
+    "population": 0.87,
+    "muslimPct": 98,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Océan Indien",
+    "notes": "Quasi unanimement sunnite shafi'i. Arabe co-officiel. Plus de 20 coups d'État depuis l'indépendance 1975.",
+    "centroid": [
+      -12,
+      44.3
+    ]
+  },
+  {
+    "name": "Congo",
+    "iso": "178",
+    "skipIsoMap": false,
+    "population": 5.9,
+    "muslimPct": 2,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Afrique Centrale",
+    "notes": "Petite minorité Haoussa/commerçants. Pays pétrolier.",
+    "centroid": [
+      -1,
+      15.5
+    ]
+  },
+  {
+    "name": "Corée du Sud",
+    "iso": "410",
+    "skipIsoMap": false,
+    "population": 51,
+    "muslimPct": 0.2,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Asie de l'Est",
+    "notes": "~100 000 musulmans, dont 35 000 Coréens convertis. Islam introduit par des soldats turcs (Guerre de Corée). Mosquée centrale de Séoul (1976).",
+    "centroid": [
+      36.5,
+      127.5
+    ]
+  },
+  {
+    "name": "Côte d'Ivoire",
+    "iso": "384",
+    "skipIsoMap": false,
+    "population": 27,
+    "muslimPct": 43,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Afrique de l'Ouest",
+    "notes": "Chrétiens 34 %, Musulmans 43 %, Animistes 20 %. Nord à majorité musulmane. Stabilité recouvrée depuis 2011.",
+    "centroid": [
+      7.5,
+      -5.5
+    ]
+  },
+  {
+    "name": "Danemark",
+    "iso": "208",
+    "skipIsoMap": false,
+    "population": 5.9,
+    "muslimPct": 5,
+    "sunniPct": 75,
+    "shiaPct": 25,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Europe Nord",
+    "notes": "~300 000 musulmans : Turcs, Pakistanais, Somaliens, Syriens. Débat public marqué sur intégration et caricatures (2005–présent).",
+    "centroid": [
+      56,
+      10
+    ]
+  },
+  {
+    "name": "Djibouti",
+    "iso": "262",
+    "skipIsoMap": false,
+    "population": 1,
+    "muslimPct": 97,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Afrique de l'Est",
+    "notes": "Carrefour stratégique (Bab-el-Mandeb). Bases militaires : France, USA, Chine, Japon. Populations Afar et Issa.",
+    "centroid": [
+      11.8,
+      42.5
+    ]
+  },
+  {
+    "name": "EAU",
+    "iso": "784",
+    "skipIsoMap": false,
+    "population": 10,
+    "muslimPct": 76,
+    "sunniPct": 85,
+    "shiaPct": 15,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Pén. Arabique",
+    "notes": "90 % d'expatriés. Gouvernance très ouverte. Dubaï = hub financier mondial. Abraham Accords avec Israël (2020). Mosquée Sheikh Zayed = une des plus grandes du monde.",
+    "centroid": [
+      24,
+      54
+    ]
+  },
+  {
+    "name": "Égypte",
+    "iso": "818",
+    "skipIsoMap": false,
+    "population": 106,
+    "muslimPct": 90,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 1,
+    "region": "Afrique du Nord",
+    "notes": "Al-Azhar (fondée 970 EC) : plus haute autorité sunnite mondiale. 10 % Coptes (chrétiens les plus anciens d'Afrique). Coup al-Sissi 2013. Jihadistes du Sinaï résiduels.",
+    "centroid": [
+      26.5,
+      30
+    ]
+  },
+  {
+    "name": "Érythrée",
+    "iso": "232",
+    "skipIsoMap": false,
+    "population": 3.5,
+    "muslimPct": 49,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Afrique de l'Est",
+    "notes": "Moitié orthodoxe éthiopienne, moitié sunnite. Coexistence historique. État autoritaire hermétique (Issaias Afeworki).",
+    "centroid": [
+      15.5,
+      39
+    ]
+  },
+  {
+    "name": "Espagne",
+    "iso": "724",
+    "skipIsoMap": false,
+    "population": 47,
+    "muslimPct": 4,
+    "sunniPct": 90,
+    "shiaPct": 10,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Europe Sud",
+    "notes": "~2 M de musulmans. Al-Andalus 711–1492 : civilisation islamique brillante. Attentats Madrid 2004 (192 morts), Barcelone 2017.",
+    "centroid": [
+      40,
+      -3.5
+    ]
+  },
+  {
+    "name": "États-Unis",
+    "iso": "840",
+    "skipIsoMap": false,
+    "population": 337,
+    "muslimPct": 1,
+    "sunniPct": 65,
+    "shiaPct": 25,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Amérique du Nord",
+    "notes": "3,5–4 M de musulmans : Arabes, Pakistanais, Afro-Américains (Nation of Islam). Islamophobie post-11 Septembre. Communauté la plus diversifiée ethniquement (ISPU).",
+    "centroid": [
+      39.5,
+      -98
+    ]
+  },
+  {
+    "name": "Éthiopie",
+    "iso": "231",
+    "skipIsoMap": false,
+    "population": 123,
+    "muslimPct": 34,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 1,
+    "region": "Afrique de l'Est",
+    "notes": "Hégire d'Abyssinie (615 EC) : premier exil des compagnons du Prophète. Islam cohabite avec le christianisme orthodoxe (43 %). Conflit Tigré 2020–2022.",
+    "centroid": [
+      10,
+      39
+    ]
+  },
+  {
+    "name": "Fidji",
+    "iso": "242",
+    "skipIsoMap": false,
+    "population": 0.93,
+    "muslimPct": 7,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Océanie",
+    "notes": "Indo-Fidjiens musulmans (travailleurs engagés XIXe s). Cohabitation avec les Mélanésiens.",
+    "centroid": [
+      -17.7,
+      178
+    ]
+  },
+  {
+    "name": "Finlande",
+    "iso": "246",
+    "skipIsoMap": false,
+    "population": 5.6,
+    "muslimPct": 2.5,
+    "sunniPct": 85,
+    "shiaPct": 15,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Europe Nord",
+    "notes": "~140 000 musulmans : Tatars historiques, Somaliens (plus grande diaspora par habitant en Europe).",
+    "centroid": [
+      61.2,
+      25.5
+    ]
+  },
+  {
+    "name": "France",
+    "iso": "250",
+    "skipIsoMap": false,
+    "population": 68,
+    "muslimPct": 8,
+    "sunniPct": 90,
+    "shiaPct": 10,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Europe Ouest",
+    "notes": "5–6 M de musulmans (8–9 %) : 2e religion de France. Maghrébins, Africains subsahariens, Turcs. Débat laïcité intense. Attentats 2015 (Paris) et 2016 (Nice). Loi contre le séparatisme 2021. Carte 110m : métropole et DOM partagent le même code ISO — la Guyane et les autres DOM ont une fiche au survol local.",
+    "centroid": [
+      46.5,
+      2.5
+    ]
+  },
+  {
+    "name": "Gabon",
+    "iso": "266",
+    "skipIsoMap": false,
+    "population": 2.3,
+    "muslimPct": 12,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Afrique Centrale",
+    "notes": "Coup militaire août 2023, fin de la famille Bongo. Islam importé via commerçants.",
+    "centroid": [
+      -1,
+      11.8
+    ]
+  },
+  {
+    "name": "Gambie",
+    "iso": "270",
+    "skipIsoMap": false,
+    "population": 2.4,
+    "muslimPct": 95,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Afrique de l'Ouest",
+    "notes": "Enclavé dans le Sénégal. Islam soufi modéré. Dictature Jammeh 1994–2017 ; démocratie restaurée.",
+    "centroid": [
+      13.5,
+      -15.5
+    ]
+  },
+  {
+    "name": "Géorgie",
+    "iso": "268",
+    "skipIsoMap": false,
+    "population": 3.7,
+    "muslimPct": 10,
+    "sunniPct": 90,
+    "shiaPct": 10,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Caucase",
+    "notes": "Ajarans (Géorgiens musulmans), Azerbaïdjanais (chiites), Kists (Tchétchènes). ~400 000 musulmans.",
+    "centroid": [
+      42,
+      43.5
+    ]
+  },
+  {
+    "name": "Ghana",
+    "iso": "288",
+    "skipIsoMap": false,
+    "population": 33,
+    "muslimPct": 20,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Afrique de l'Ouest",
+    "notes": "Nord à majorité musulmane. Démocratie modèle en Afrique. Cohabitation interreligieuse citée en exemple.",
+    "centroid": [
+      8,
+      -1
+    ]
+  },
+  {
+    "name": "Grèce",
+    "iso": "300",
+    "skipIsoMap": false,
+    "population": 10.7,
+    "muslimPct": 2,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Europe Sud",
+    "notes": "Minorité turque-musulmane en Thrace (Xanthi, Komotini) : reconnue par le traité de Lausanne 1923.",
+    "centroid": [
+      39.5,
+      22.5
+    ]
+  },
+  {
+    "name": "Guadeloupe",
+    "iso": "250",
+    "skipIsoMap": true,
+    "population": 0.4,
+    "muslimPct": 0.5,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "France (outre-mer)",
+    "notes": "Archipel DOM. Islam minoritaire (histoire des migrations).",
+    "centroid": [
+      16.18,
+      -61.7
+    ],
+    "overseasOf": "France"
+  },
+  {
+    "name": "Guinée",
+    "iso": "324",
+    "skipIsoMap": false,
+    "population": 13.5,
+    "muslimPct": 87,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Afrique de l'Ouest",
+    "notes": "Islam malékite, forte tradition soufie. Coup militaire 2021 (colonel Doumbouya).",
+    "centroid": [
+      11,
+      -11.5
+    ]
+  },
+  {
+    "name": "Guinée-Bissau",
+    "iso": "624",
+    "skipIsoMap": false,
+    "population": 2.1,
+    "muslimPct": 45,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Afrique de l'Ouest",
+    "notes": "Islam syncrétique mêlé aux traditions animistes locales. Instabilité politique chronique.",
+    "centroid": [
+      12,
+      -15
+    ]
+  },
+  {
+    "name": "Guyana",
+    "iso": "328",
+    "skipIsoMap": false,
+    "population": 0.8,
+    "muslimPct": 7,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Amérique du Sud",
+    "notes": "Indiens guyaniens musulmans. Descendance des travailleurs engagés sous colonisation britannique.",
+    "centroid": [
+      4.8,
+      -58.9
+    ]
+  },
+  {
+    "name": "Guyane française",
+    "iso": "250",
+    "skipIsoMap": true,
+    "population": 0.29,
+    "muslimPct": 6,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "France (outre-mer)",
+    "notes": "Département d'outre-mer en Amazonie (~300 k hab.). Islam minoritaire ; croissance liée à l'immigration régionale et aux recompositions démographiques. Données carte : ordre de grandeur local (croiser INSEE, Pew, enquêtes).",
+    "centroid": [
+      4,
+      -53.2
+    ],
+    "overseasOf": "France"
+  },
+  {
+    "name": "Île Maurice",
+    "iso": "480",
+    "skipIsoMap": false,
+    "population": 1.3,
+    "muslimPct": 17,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Océan Indien",
+    "notes": "Indo-mauriciens musulmans (descendants travailleurs engagés). Coexistence remarquable : hindous 50 %, chrétiens 28 %, musulmans 17 %.",
+    "centroid": [
+      -20.2,
+      57.5
+    ]
+  },
+  {
+    "name": "Inde",
+    "iso": "356",
+    "skipIsoMap": false,
+    "population": 1441,
+    "muslimPct": 14,
+    "sunniPct": 85,
+    "shiaPct": 15,
+    "ibadiPct": 0,
+    "conflict": 1,
+    "region": "Asie du Sud",
+    "notes": "3e population musulmane absolue (~200 M) malgré une minorité nationale. ~57 M chiites (Lucknow, Mumbai). Coexistence diverse mais tensions périodiques.",
+    "centroid": [
+      22,
+      79
+    ]
+  },
+  {
+    "name": "Indonésie",
+    "iso": "360",
+    "skipIsoMap": false,
+    "population": 278,
+    "muslimPct": 87,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Asie du Sud-Est",
+    "notes": "Plus grande population musulmane mondiale (~242 M). Islam arrivé via commerçants arabes et yéménites aux XIIIe–XVe s. Deux grandes organisations : Nahdlatul Ulama (90 M) et Muhammadiyah (60 M), très modérées.",
+    "centroid": [
+      -2.5,
+      118
+    ]
+  },
+  {
+    "name": "Irak",
+    "iso": "368",
+    "skipIsoMap": false,
+    "population": 43,
+    "muslimPct": 95,
+    "sunniPct": 35,
+    "shiaPct": 65,
+    "ibadiPct": 0,
+    "conflict": 3,
+    "region": "Moyen-Orient",
+    "notes": "Kerbala et Najaf = villes saintes chiites mondiales (martyrs Ali et Hussein). Invasion américaine 2003 = fracture sectaire majeure. PMF (milices chiites pro-iraniennes). Daech défait (2017) mais instabilité persistante.",
+    "centroid": [
+      33,
+      44
+    ]
+  },
+  {
+    "name": "Iran",
+    "iso": "364",
+    "skipIsoMap": false,
+    "population": 88,
+    "muslimPct": 99,
+    "sunniPct": 5,
+    "shiaPct": 95,
+    "ibadiPct": 0,
+    "conflict": 2,
+    "region": "Moyen-Orient",
+    "notes": "Centre mondial du chiisme duodécimain. République Islamique depuis la révolution Khomeini (1979). Guide suprême = autorité absolue. Axe de la résistance : Iran–Irak–Syrie–Hezbollah. Sanctions économiques américaines.",
+    "centroid": [
+      32.5,
+      53.7
+    ]
+  },
+  {
+    "name": "Irlande",
+    "iso": "372",
+    "skipIsoMap": false,
+    "population": 5.2,
+    "muslimPct": 1.5,
+    "sunniPct": 80,
+    "shiaPct": 20,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Europe Ouest",
+    "notes": "~80 000 musulmans : Pakistanais, Arabes, Africains. Croissance rapide depuis les années 1990 ; 1re grande mosquée à Dublin (projet long).",
+    "centroid": [
+      53.4,
+      -8
+    ]
+  },
+  {
+    "name": "Israël",
+    "iso": "376",
+    "skipIsoMap": false,
+    "population": 9.5,
+    "muslimPct": 17,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 3,
+    "region": "Moyen-Orient",
+    "notes": "Arabes israéliens (~20 %) : citoyens. Conflit Gaza depuis octobre 2023. Occupation de la Cisjordanie. 2,3 M Palestiniens à Gaza.",
+    "centroid": [
+      31.5,
+      35
+    ]
+  },
+  {
+    "name": "Italie",
+    "iso": "380",
+    "skipIsoMap": false,
+    "population": 60,
+    "muslimPct": 3,
+    "sunniPct": 85,
+    "shiaPct": 15,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Europe Sud",
+    "notes": "~2 M de musulmans : Marocains, Albanais, Bangladais. Pas de grande mosquée officielle à Rome.",
+    "centroid": [
+      42.5,
+      12.5
+    ]
+  },
+  {
+    "name": "Japon",
+    "iso": "392",
+    "skipIsoMap": false,
+    "population": 124,
+    "muslimPct": 0.1,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Asie de l'Est",
+    "notes": "~230 000 musulmans. Tokyo Camii = plus grande mosquée du Japon (don turc 2000). Communauté d'Indonésiens et Bangladais principalement.",
+    "centroid": [
+      36.5,
+      138
+    ]
+  },
+  {
+    "name": "Jordanie",
+    "iso": "400",
+    "skipIsoMap": false,
+    "population": 10.5,
+    "muslimPct": 97,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Moyen-Orient",
+    "notes": "Monarchie hachémite stable. Roi Abdallah II = gardien de la Mosquée al-Aqsa (Jérusalem). Hôte de 1,3 M réfugiés syriens et 2,3 M Palestiniens.",
+    "centroid": [
+      31,
+      36.5
+    ]
+  },
+  {
+    "name": "Kazakhstan",
+    "iso": "398",
+    "skipIsoMap": false,
+    "population": 20,
+    "muslimPct": 70,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Asie Centrale",
+    "notes": "Islam très sécularisé (héritage soviétique). Hanafi modéré. Tension entre identité nomade traditionnelle et Islam arabisé importé du Golfe.",
+    "centroid": [
+      48,
+      67
+    ]
+  },
+  {
+    "name": "Kenya",
+    "iso": "404",
+    "skipIsoMap": false,
+    "population": 56,
+    "muslimPct": 11,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Afrique de l'Est",
+    "notes": "Côte et Nord-Est à majorité musulmane. Mombasa = centre islamique historique d'Afrique orientale. Attaques Al-Shabaab : Westgate 2013, Garissa 2015.",
+    "centroid": [
+      1,
+      37.5
+    ]
+  },
+  {
+    "name": "Kirghizistan",
+    "iso": "417",
+    "skipIsoMap": false,
+    "population": 6.7,
+    "muslimPct": 90,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Asie Centrale",
+    "notes": "Islam hanafi, tradition nomade forte (épopée de Manas). Montée du conservatisme dans les années 2010.",
+    "centroid": [
+      41.5,
+      74.5
+    ]
+  },
+  {
+    "name": "Kosovo",
+    "iso": "383",
+    "skipIsoMap": false,
+    "population": 1.8,
+    "muslimPct": 96,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Europe Balkans",
+    "notes": "Islam hanafi très sécularisé. Indépendance 2008, reconnue par 115 pays. Très pro-occidental.",
+    "centroid": [
+      42.6,
+      21
+    ]
+  },
+  {
+    "name": "Koweït",
+    "iso": "414",
+    "skipIsoMap": false,
+    "population": 4.5,
+    "muslimPct": 76,
+    "sunniPct": 70,
+    "shiaPct": 30,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Pén. Arabique",
+    "notes": "30 % chiites bien intégrés dans la société. État pétrolier stable. Parlement élu mais Émir détient le pouvoir réel.",
+    "centroid": [
+      29.3,
+      47.6
+    ]
+  },
+  {
+    "name": "La Réunion",
+    "iso": "250",
+    "skipIsoMap": true,
+    "population": 0.87,
+    "muslimPct": 5,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "France (outre-mer)",
+    "notes": "Département océan Indien. Minorité musulmane (origines comoriennes, indo-pakistanaises, etc.) ; coexistence religieuse large.",
+    "centroid": [
+      -21.12,
+      55.53
+    ],
+    "overseasOf": "France"
+  },
+  {
+    "name": "Liban",
+    "iso": "422",
+    "skipIsoMap": false,
+    "population": 6.1,
+    "muslimPct": 55,
+    "sunniPct": 28,
+    "shiaPct": 27,
+    "ibadiPct": 0,
+    "conflict": 2,
+    "region": "Moyen-Orient",
+    "notes": "Équilibre confessionnel (Taïf 1989) : Président chrétien, PM sunnite, Président Parlement chiite. Hezbollah = État dans l'État. Effondrement économique depuis 2019. Guerre avec Israël 2024.",
+    "centroid": [
+      33.9,
+      35.9
+    ]
+  },
+  {
+    "name": "Liberia",
+    "iso": "430",
+    "skipIsoMap": false,
+    "population": 5.4,
+    "muslimPct": 12,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Afrique de l'Ouest",
+    "notes": "Fondé par esclaves américains libérés (1847). Majorité chrétienne. Islam importé via les Mandingues.",
+    "centroid": [
+      6.4,
+      -9.5
+    ]
+  },
+  {
+    "name": "Libye",
+    "iso": "434",
+    "skipIsoMap": false,
+    "population": 7.2,
+    "muslimPct": 97,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 2,
+    "region": "Afrique du Nord",
+    "notes": "Chaos post-Kadhafi (2011). Deux gouvernements rivaux : GNU (Tripoli) vs GNS (Benghazi). Mercenaires Wagner et turcs. Pétrole = enjeu central.",
+    "centroid": [
+      27,
+      17
+    ]
+  },
+  {
+    "name": "Macédoine du N.",
+    "iso": "807",
+    "skipIsoMap": false,
+    "population": 2.1,
+    "muslimPct": 33,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Europe Balkans",
+    "notes": "Albanais ethniques (25 %) : principale minorité musulmane. Conflit 2001 résolu par l'accord d'Ohrid.",
+    "centroid": [
+      41.6,
+      21.7
+    ]
+  },
+  {
+    "name": "Madagascar",
+    "iso": "450",
+    "skipIsoMap": false,
+    "population": 29,
+    "muslimPct": 7,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Océan Indien",
+    "notes": "Islam comoran et arabe dans les villes côtières. Majorité syncrétiste (christianisme + animisme Razana).",
+    "centroid": [
+      -20,
+      47
+    ]
+  },
+  {
+    "name": "Malaisie",
+    "iso": "458",
+    "skipIsoMap": false,
+    "population": 34,
+    "muslimPct": 61,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Asie du Sud-Est",
+    "notes": "Islam religion d'État (art. 3 de la constitution). Chiisme légalement interdit. École shafi'i dominante. JAKIM = autorité religieuse nationale.",
+    "centroid": [
+      3.8,
+      109.7
+    ]
+  },
+  {
+    "name": "Malawi",
+    "iso": "454",
+    "skipIsoMap": false,
+    "population": 20,
+    "muslimPct": 13,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Afrique de l'Est",
+    "notes": "Islam du lac (région de Mangochi). Majorité chrétienne protestante.",
+    "centroid": [
+      -13.5,
+      34.3
+    ]
+  },
+  {
+    "name": "Maldives",
+    "iso": "462",
+    "skipIsoMap": false,
+    "population": 0.52,
+    "muslimPct": 98,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Océan Indien",
+    "notes": "100 % légalement musulman (Constitution 2008). État insulaire menacé par la montée des eaux (altitude moyenne : 1,8 m).",
+    "centroid": [
+      3.2,
+      73.2
+    ]
+  },
+  {
+    "name": "Mali",
+    "iso": "466",
+    "skipIsoMap": false,
+    "population": 23,
+    "muslimPct": 95,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 2,
+    "region": "Afrique de l'Ouest",
+    "notes": "Tombouctou : patrimoine islamique. Charia imposée brièvement en 2012. Putschs 2020–2021. Présence Wagner. GSIM contrôle des zones rurales.",
+    "centroid": [
+      17.5,
+      -1.5
+    ]
+  },
+  {
+    "name": "Maroc",
+    "iso": "504",
+    "skipIsoMap": false,
+    "population": 37,
+    "muslimPct": 99,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Afrique du Nord",
+    "notes": "Maliki sunnite. Roi Mohammed VI = Chef d'État et Commandeur des croyants. Tradition soufie vivante (Tijaniyya, Qadiriyya). Sahara Occidental non résolu.",
+    "centroid": [
+      32,
+      -6
+    ]
+  },
+  {
+    "name": "Martinique",
+    "iso": "250",
+    "skipIsoMap": true,
+    "population": 0.37,
+    "muslimPct": 0.5,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "France (outre-mer)",
+    "notes": "DOM antillais. Très faible part musulmane (communautés réduites).",
+    "centroid": [
+      14.67,
+      -61
+    ],
+    "overseasOf": "France"
+  },
+  {
+    "name": "Mauritanie",
+    "iso": "478",
+    "skipIsoMap": false,
+    "population": 4.5,
+    "muslimPct": 99,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Afrique de l'Ouest",
+    "notes": "République Islamique. Malékite soufi Tijaniyya. Esclavage résiduel documenté. Zone Sahel : menace jihadiste croissante.",
+    "centroid": [
+      20,
+      -12
+    ]
+  },
+  {
+    "name": "Mayotte",
+    "iso": "250",
+    "skipIsoMap": true,
+    "population": 0.32,
+    "muslimPct": 97,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "France (outre-mer)",
+    "notes": "Département à très large majorité musulmane (école chaféite, influence comorienne). Ne pas amalgamer avec la métropole sur les seuls agrégats nationaux.",
+    "centroid": [
+      -12.85,
+      45.17
+    ],
+    "overseasOf": "France"
+  },
+  {
+    "name": "Mexique",
+    "iso": "484",
+    "skipIsoMap": false,
+    "population": 127,
+    "muslimPct": 0.1,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Amérique du Nord",
+    "notes": "~100 000 musulmans. Communauté chiapanèque (conversions depuis 1995). Islam en croissance.",
+    "centroid": [
+      24,
+      -102
+    ]
+  },
+  {
+    "name": "Mongolie",
+    "iso": "496",
+    "skipIsoMap": false,
+    "population": 3.4,
+    "muslimPct": 5,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Asie de l'Est",
+    "notes": "Kazakhs de l'Ouest (~140 000). Islam turcophone. Tradition nomade et chamanique dominante.",
+    "centroid": [
+      46,
+      104
+    ]
+  },
+  {
+    "name": "Monténégro",
+    "iso": "499",
+    "skipIsoMap": false,
+    "population": 0.62,
+    "muslimPct": 20,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Europe Balkans",
+    "notes": "Bosniaques et Albanais. Cohabitation ethnoreligieuse tendue mais stable. Indépendance 2006.",
+    "centroid": [
+      42.7,
+      19.4
+    ]
+  },
+  {
+    "name": "Mozambique",
+    "iso": "508",
+    "skipIsoMap": false,
+    "population": 32,
+    "muslimPct": 18,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 2,
+    "region": "Afrique de l'Est",
+    "notes": "Cabo Delgado : insurrection ISCAP depuis 2017. Ressources gazières (Total, Eni). 1 M déplacés. Intervention SADC et Rwanda.",
+    "centroid": [
+      -18,
+      35
+    ]
+  },
+  {
+    "name": "Myanmar",
+    "iso": "104",
+    "skipIsoMap": false,
+    "population": 54,
+    "muslimPct": 4,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 3,
+    "region": "Asie du Sud-Est",
+    "notes": "Génocide des Rohingyas reconnu par la CIJ (2019). 1 M+ réfugiés à Cox's Bazar (Bangladesh). Junte militaire au pouvoir depuis 2021.",
+    "centroid": [
+      20,
+      96
+    ]
+  },
+  {
+    "name": "Népal",
+    "iso": "524",
+    "skipIsoMap": false,
+    "population": 30,
+    "muslimPct": 4,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Asie du Sud",
+    "notes": "Minorité Madhesi dans le Teraï. Coexistence avec bouddhisme et hindouisme.",
+    "centroid": [
+      28.3,
+      84.1
+    ]
+  },
+  {
+    "name": "Niger",
+    "iso": "562",
+    "skipIsoMap": false,
+    "population": 27,
+    "muslimPct": 99,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 2,
+    "region": "Afrique de l'Ouest",
+    "notes": "IDH parmi les plus bas mondiaux. Coup militaire 2023. GSIM/JNIM dans la région des trois frontières Mali-Burkina-Niger.",
+    "centroid": [
+      17,
+      8.5
+    ]
+  },
+  {
+    "name": "Nigeria",
+    "iso": "566",
+    "skipIsoMap": false,
+    "population": 224,
+    "muslimPct": 53,
+    "sunniPct": 95,
+    "shiaPct": 5,
+    "ibadiPct": 0,
+    "conflict": 3,
+    "region": "Afrique de l'Ouest",
+    "notes": "Nord musulman (Haoussa-Fulani), sud chrétien. ISWAP / Boko Haram dans le Nord-Est. 1ère économie africaine. 12 États appliquant la charia dans le nord.",
+    "centroid": [
+      10,
+      8
+    ]
+  },
+  {
+    "name": "Norvège",
+    "iso": "578",
+    "skipIsoMap": false,
+    "population": 5.5,
+    "muslimPct": 5,
+    "sunniPct": 80,
+    "shiaPct": 20,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Europe Nord",
+    "notes": "~275 000 musulmans : Pakistanais, Somaliens, Irakiens. Attentat d'Utøya 2011 (extrême droite) ; attentat à Kongsberg 2021.",
+    "centroid": [
+      62.2,
+      9.5
+    ]
+  },
+  {
+    "name": "Nouvelle-Zélande",
+    "iso": "554",
+    "skipIsoMap": false,
+    "population": 5.1,
+    "muslimPct": 1,
+    "sunniPct": 80,
+    "shiaPct": 20,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Océanie",
+    "notes": "~65 000 musulmans. Attentat de Christchurch 15 mars 2019 (51 morts). Réponse exemplaire d'Ardern.",
+    "centroid": [
+      -42,
+      172
+    ]
+  },
+  {
+    "name": "Oman",
+    "iso": "512",
+    "skipIsoMap": false,
+    "population": 4.6,
+    "muslimPct": 85,
+    "sunniPct": 20,
+    "shiaPct": 5,
+    "ibadiPct": 75,
+    "conflict": 0,
+    "region": "Pén. Arabique",
+    "notes": "75 % IBADI — branche distincte, ni sunnite ni chiite, fondée au VIIe s. Diplomatie neutre légendaire : médiation Irak-Iran 1988, USA-Iran. Aucune tension sectaire interne.",
+    "centroid": [
+      22,
+      57
+    ]
+  },
+  {
+    "name": "Ouganda",
+    "iso": "800",
+    "skipIsoMap": false,
+    "population": 48,
+    "muslimPct": 14,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Afrique de l'Est",
+    "notes": "Majorité chrétienne. Islam XIXe s via commerçants swahilis. Grande Mosquée de Kampala (financement libyen, 2007).",
+    "centroid": [
+      1.5,
+      32
+    ]
+  },
+  {
+    "name": "Ouzbékistan",
+    "iso": "860",
+    "skipIsoMap": false,
+    "population": 36,
+    "muslimPct": 96,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Asie Centrale",
+    "notes": "Samarkand et Boukhara : joyaux de la civilisation islamique médiévale. Hanafi modéré. Réformes libérales sous Mirziyoyev depuis 2016.",
+    "centroid": [
+      41.3,
+      63.9
+    ]
+  },
+  {
+    "name": "Pakistan",
+    "iso": "586",
+    "skipIsoMap": false,
+    "population": 236,
+    "muslimPct": 96,
+    "sunniPct": 85,
+    "shiaPct": 15,
+    "ibadiPct": 0,
+    "conflict": 2,
+    "region": "Asie du Sud",
+    "notes": "2e plus grande population musulmane mondiale. Fondé en 1947 comme État des musulmans d'Inde. ~35 M chiites = plus grande population chiite absolue au monde. Tensions sectaires dans les zones tribales.",
+    "centroid": [
+      30,
+      69
+    ]
+  },
+  {
+    "name": "Pays-Bas",
+    "iso": "528",
+    "skipIsoMap": false,
+    "population": 17.7,
+    "muslimPct": 5,
+    "sunniPct": 80,
+    "shiaPct": 20,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Europe Ouest",
+    "notes": "~1 M de musulmans : Marocains, Turcs, Surinamiens. Assassinat Theo van Gogh 2004. PVV (Wilders) = 1er parti 2023.",
+    "centroid": [
+      52.3,
+      5.3
+    ]
+  },
+  {
+    "name": "Philippines",
+    "iso": "608",
+    "skipIsoMap": false,
+    "population": 114,
+    "muslimPct": 6,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 2,
+    "region": "Asie du Sud-Est",
+    "notes": "Bangsamoro (Mindanao) : région autonome musulmane depuis 2019. Accord de paix MILF signé. Abu Sayyaf lié à Daech encore actif. ~7 M de Moros.",
+    "centroid": [
+      12.5,
+      122.5
+    ]
+  },
+  {
+    "name": "Pologne",
+    "iso": "616",
+    "skipIsoMap": false,
+    "population": 38,
+    "muslimPct": 0.1,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Europe Est",
+    "notes": "Tatars polonais : plus ancienne communauté musulmane d'Europe (XIVe s). Mosquée de Kruszyniany (1717) encore en activité.",
+    "centroid": [
+      51.9,
+      19
+    ]
+  },
+  {
+    "name": "Portugal",
+    "iso": "620",
+    "skipIsoMap": false,
+    "population": 10.4,
+    "muslimPct": 0.4,
+    "sunniPct": 90,
+    "shiaPct": 10,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Europe Sud",
+    "notes": "~40 000 musulmans : descendants des Luso-africains, réfugiés récents. Communauté historiquement discrète, en croissance.",
+    "centroid": [
+      39.5,
+      -8
+    ]
+  },
+  {
+    "name": "Qatar",
+    "iso": "634",
+    "skipIsoMap": false,
+    "population": 2.9,
+    "muslimPct": 67,
+    "sunniPct": 95,
+    "shiaPct": 5,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Pén. Arabique",
+    "notes": "Wahhabite sunnite. Finance Al-Jazeera et Hamas. Hôte des négociations Israël-Hamas. Coupe du Monde 2022. Relations maintenues avec l'Iran.",
+    "centroid": [
+      25.2,
+      51.2
+    ]
+  },
+  {
+    "name": "RCA",
+    "iso": "140",
+    "skipIsoMap": false,
+    "population": 5.4,
+    "muslimPct": 15,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 2,
+    "region": "Afrique Centrale",
+    "notes": "Conflit ex-Séléka (majorité musulmane) vs Anti-balaka (chrétienne). Crimes contre l'humanité documentés. Wagner partenaire sécuritaire depuis 2018.",
+    "centroid": [
+      6.5,
+      20
+    ]
+  },
+  {
+    "name": "RD Congo",
+    "iso": "180",
+    "skipIsoMap": false,
+    "population": 100,
+    "muslimPct": 2,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 2,
+    "region": "Afrique Centrale",
+    "notes": "Minorité musulmane dans l'Est (Kivu). Guerre de l'Est (M23/Rwanda) interminable. Pays le plus peuplé d'Afrique francophone.",
+    "centroid": [
+      -4,
+      24
+    ]
+  },
+  {
+    "name": "Royaume-Uni",
+    "iso": "826",
+    "skipIsoMap": false,
+    "population": 67.5,
+    "muslimPct": 5,
+    "sunniPct": 80,
+    "shiaPct": 20,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Europe Ouest",
+    "notes": "3,9 M de musulmans : Pakistanais, Bangladais, Indiens. Birmingham, East London, Bradford. Attentat Manchester Arena 2017 (22 morts).",
+    "centroid": [
+      54,
+      -2.5
+    ]
+  },
+  {
+    "name": "Russie",
+    "iso": "643",
+    "skipIsoMap": false,
+    "population": 146,
+    "muslimPct": 10,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 1,
+    "region": "Europe/Asie",
+    "notes": "15–20 M de musulmans : Tatars (Kazan), Tchétchènes, Daghestanais, Bachkirs. 2e religion de Russie. Guerres de Tchétchénie 1994–2009. Grande Mosquée de Moscou (2015).",
+    "centroid": [
+      61,
+      65
+    ]
+  },
+  {
+    "name": "Rwanda",
+    "iso": "646",
+    "skipIsoMap": false,
+    "population": 14,
+    "muslimPct": 3,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Afrique de l'Est",
+    "notes": "Majorité chrétienne. Génocide 1994 : certaines mosquées ont abrité des Tutsi réfugiés.",
+    "centroid": [
+      -2,
+      29.9
+    ]
+  },
+  {
+    "name": "Sahara Occidental",
+    "iso": "732",
+    "skipIsoMap": false,
+    "population": 0.6,
+    "muslimPct": 99,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 1,
+    "region": "Afrique du Nord",
+    "notes": "Territoire disputé entre le Maroc et le Front Polisario (soutenu par l'Algérie). L'ONU reconnaît le droit à l'autodétermination.",
+    "centroid": [
+      24.5,
+      -13
+    ]
+  },
+  {
+    "name": "Saint-Pierre-et-Miquelon",
+    "iso": "250",
+    "skipIsoMap": true,
+    "population": 0.006,
+    "muslimPct": 0.1,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "France (outre-mer)",
+    "notes": "Collectivité archipel au large de Terre-Neuve. Population très réduite ; islam quasi absent.",
+    "centroid": [
+      46.94,
+      -56.32
+    ],
+    "overseasOf": "France"
+  },
+  {
+    "name": "Sénégal",
+    "iso": "686",
+    "skipIsoMap": false,
+    "population": 17.5,
+    "muslimPct": 96,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Afrique de l'Ouest",
+    "notes": "Islam soufi exemplaire : Mouridisme (Cheikh Ahmadou Bamba), Tijaniyya. Cohabitation islamo-chrétienne modèle. Démocratie stable.",
+    "centroid": [
+      14.5,
+      -14
+    ]
+  },
+  {
+    "name": "Serbie",
+    "iso": "688",
+    "skipIsoMap": false,
+    "population": 7.1,
+    "muslimPct": 3,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Europe Balkans",
+    "notes": "Bosniaques du Sandjak (Novi Pazar). Tensions post-guerres des années 1990.",
+    "centroid": [
+      44,
+      21
+    ]
+  },
+  {
+    "name": "Sierra Leone",
+    "iso": "694",
+    "skipIsoMap": false,
+    "population": 8.4,
+    "muslimPct": 78,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Afrique de l'Ouest",
+    "notes": "Islam modéré, coexistence interreligieuse citée comme modèle par l'ONU. Guerre civile RUF 1991–2002.",
+    "centroid": [
+      8.5,
+      -11.8
+    ]
+  },
+  {
+    "name": "Singapour",
+    "iso": "702",
+    "skipIsoMap": false,
+    "population": 5.9,
+    "muslimPct": 15,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Asie du Sud-Est",
+    "notes": "Malais musulmans (15 %). Multiculturalisme légal strict. MUIS = autorité islamique nationale.",
+    "centroid": [
+      1.3,
+      103.8
+    ]
+  },
+  {
+    "name": "Somalie",
+    "iso": "706",
+    "skipIsoMap": false,
+    "population": 17.5,
+    "muslimPct": 99,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 3,
+    "region": "Afrique de l'Est",
+    "notes": "Islam sunnite shafi'i depuis le IXe s. Al-Shabaab (Al-Qaïda) contrôle des zones rurales. Puntland et Somaliland semi-autonomes.",
+    "centroid": [
+      7.5,
+      46
+    ]
+  },
+  {
+    "name": "Soudan",
+    "iso": "729",
+    "skipIsoMap": false,
+    "population": 47,
+    "muslimPct": 97,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 3,
+    "region": "Afrique de l'Est",
+    "notes": "Guerre civile depuis avril 2023 : FAR vs RSF. 10 M+ déplacés. Catastrophe humanitaire. Islam enraciné depuis le VIIe s.",
+    "centroid": [
+      15,
+      30
+    ]
+  },
+  {
+    "name": "Soudan du Sud",
+    "iso": "728",
+    "skipIsoMap": false,
+    "population": 11,
+    "muslimPct": 6,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 2,
+    "region": "Afrique de l'Est",
+    "notes": "Majorité animiste et chrétienne. Minorité musulmane dans le nord. Fragilité politique persistante.",
+    "centroid": [
+      7,
+      30.5
+    ]
+  },
+  {
+    "name": "Sri Lanka",
+    "iso": "144",
+    "skipIsoMap": false,
+    "population": 22,
+    "muslimPct": 9,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Asie du Sud",
+    "notes": "Maures de Sri Lanka : présents depuis le IXe s. Attentats du dimanche de Pâques 2019 (253 morts). Islam modéré.",
+    "centroid": [
+      7.6,
+      80.7
+    ]
+  },
+  {
+    "name": "Suède",
+    "iso": "752",
+    "skipIsoMap": false,
+    "population": 10.5,
+    "muslimPct": 8,
+    "sunniPct": 80,
+    "shiaPct": 20,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Europe Nord",
+    "notes": "~800 000 musulmans : Irakiens, Somaliens, Afghans, Iraniens. Débat immigration polarisé (Sverigedemokraterna).",
+    "centroid": [
+      62,
+      16
+    ]
+  },
+  {
+    "name": "Suisse",
+    "iso": "756",
+    "skipIsoMap": false,
+    "population": 8.9,
+    "muslimPct": 6,
+    "sunniPct": 75,
+    "shiaPct": 25,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Europe Centre",
+    "notes": "~550 000 musulmans : Balkaniques, Turcs, Maghrébins. Modèle fédéral : cantons compétents en cultes. Votations récurrentes sur minarets et burqa.",
+    "centroid": [
+      46.8,
+      8.2
+    ]
+  },
+  {
+    "name": "Suriname",
+    "iso": "740",
+    "skipIsoMap": false,
+    "population": 0.63,
+    "muslimPct": 14,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Amérique du Sud",
+    "notes": "Javanais et Hindoustanais musulmans. Diversité remarquable : 35 ethnies, 15 religions coexistent.",
+    "centroid": [
+      4,
+      -56
+    ]
+  },
+  {
+    "name": "Syrie",
+    "iso": "760",
+    "skipIsoMap": false,
+    "population": 21,
+    "muslimPct": 90,
+    "sunniPct": 74,
+    "shiaPct": 15,
+    "ibadiPct": 0,
+    "conflict": 3,
+    "region": "Moyen-Orient",
+    "notes": "74 % sunnites, 12 % alaouites (branche chiite = clan Assad, renversé déc. 2024 par HTS). 13 M déplacés. Reconstruction post-guerre sous incertitude politique.",
+    "centroid": [
+      35,
+      38
+    ]
+  },
+  {
+    "name": "Tadjikistan",
+    "iso": "762",
+    "skipIsoMap": false,
+    "population": 10,
+    "muslimPct": 96,
+    "sunniPct": 95,
+    "shiaPct": 5,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Asie Centrale",
+    "notes": "Lien culturel persan avec l'Iran. 3 % d'Ismaëliens (Badakhshan). Régime Rahmon : Parti islamique interdit depuis 2015.",
+    "centroid": [
+      38.5,
+      71
+    ]
+  },
+  {
+    "name": "Tanzanie",
+    "iso": "834",
+    "skipIsoMap": false,
+    "population": 65,
+    "muslimPct": 35,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Afrique de l'Est",
+    "notes": "Zanzibar (97 % sunnite) semi-autonome. Côte swahilie islamisée depuis le IXe s.",
+    "centroid": [
+      -6.5,
+      35
+    ]
+  },
+  {
+    "name": "Tchad",
+    "iso": "148",
+    "skipIsoMap": false,
+    "population": 18,
+    "muslimPct": 55,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 1,
+    "region": "Afrique Centrale",
+    "notes": "Nord largement musulman, sud chrétien/animiste. Hub anti-Boko Haram. Déby fils au pouvoir depuis 2021.",
+    "centroid": [
+      15.5,
+      18.5
+    ]
+  },
+  {
+    "name": "Thaïlande",
+    "iso": "764",
+    "skipIsoMap": false,
+    "population": 72,
+    "muslimPct": 5,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 2,
+    "region": "Asie du Sud-Est",
+    "notes": "4 provinces du sud (Pattani, Yala, Narathiwat) : Malais musulmans. Insurrection à bas bruit depuis 2004, ~7 000 morts. 3,7 M de musulmans.",
+    "centroid": [
+      15,
+      101
+    ]
+  },
+  {
+    "name": "Timor oriental",
+    "iso": "626",
+    "skipIsoMap": false,
+    "population": 1.3,
+    "muslimPct": 1,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Asie du Sud-Est",
+    "notes": "Majorité catholique (~97 %). Très petite minorité musulmane.",
+    "centroid": [
+      -8.8,
+      125.8
+    ]
+  },
+  {
+    "name": "Togo",
+    "iso": "768",
+    "skipIsoMap": false,
+    "population": 8.9,
+    "muslimPct": 20,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Afrique de l'Ouest",
+    "notes": "Islam dans le nord. Famille Gnassingbé : 55+ ans au pouvoir.",
+    "centroid": [
+      8.5,
+      0.8
+    ]
+  },
+  {
+    "name": "Trinidad et Tobago",
+    "iso": "780",
+    "skipIsoMap": false,
+    "population": 1.4,
+    "muslimPct": 6,
+    "sunniPct": 95,
+    "shiaPct": 5,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Caraïbes",
+    "notes": "Indo-Trinidadiens musulmans (travailleurs engagés XIXe s). Islam présent depuis 1845.",
+    "centroid": [
+      10.7,
+      -61.3
+    ]
+  },
+  {
+    "name": "Tunisie",
+    "iso": "788",
+    "skipIsoMap": false,
+    "population": 12,
+    "muslimPct": 98,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Afrique du Nord",
+    "notes": "Pays arabe le plus avancé en droits des femmes (Code du statut personnel 1956). Berceau du Printemps arabe (Bouazizi 2010). Dérive autoritaire sous Saïed depuis 2021.",
+    "centroid": [
+      34,
+      9
+    ]
+  },
+  {
+    "name": "Turkménistan",
+    "iso": "795",
+    "skipIsoMap": false,
+    "population": 6.1,
+    "muslimPct": 89,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Asie Centrale",
+    "notes": "Régime ultra-autoritaire. Islam pratiqué discrètement. L'un des États les plus fermés au monde.",
+    "centroid": [
+      40,
+      59
+    ]
+  },
+  {
+    "name": "Turquie",
+    "iso": "792",
+    "skipIsoMap": false,
+    "population": 85,
+    "muslimPct": 99,
+    "sunniPct": 74,
+    "shiaPct": 26,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Moyen-Orient/UE",
+    "notes": "74 % sunnite Hanafi, 26 % Alevi (syncrétique, proche chiisme). Laïcité constitutionnelle depuis Atatürk (1923). Recul sous Erdoğan. 2e armée de l'OTAN.",
+    "centroid": [
+      39,
+      35
+    ]
+  },
+  {
+    "name": "Ukraine",
+    "iso": "804",
+    "skipIsoMap": false,
+    "population": 44,
+    "muslimPct": 1,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 2,
+    "region": "Europe Est",
+    "notes": "Tatars de Crimée (260 000) : pro-Ukraine. Annexion russe de Crimée 2014.",
+    "centroid": [
+      49,
+      31.5
+    ]
+  },
+  {
+    "name": "Vietnam",
+    "iso": "704",
+    "skipIsoMap": false,
+    "population": 98,
+    "muslimPct": 0.1,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Asie du Sud-Est",
+    "notes": "Chams (~80 000). Islam pratiqué discrètement. Coexistence pacifique.",
+    "centroid": [
+      16.5,
+      107.5
+    ]
+  },
+  {
+    "name": "Yémen",
+    "iso": "887",
+    "skipIsoMap": false,
+    "population": 34,
+    "muslimPct": 99,
+    "sunniPct": 65,
+    "shiaPct": 35,
+    "ibadiPct": 0,
+    "conflict": 3,
+    "region": "Pén. Arabique",
+    "notes": "CONFLIT ACTIF depuis 2015 : Houthis (Ansar Allah, Zaïdi chiite) vs gouvernement soutenu par la coalition saoudienne. Pire crise humanitaire mondiale selon l'ONU. 21 M personnes en besoin d'aide. +150 000 morts.",
+    "centroid": [
+      15.5,
+      47.5
+    ]
+  },
+  {
+    "name": "Zambie",
+    "iso": "894",
+    "skipIsoMap": false,
+    "population": 20,
+    "muslimPct": 1,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Afrique Australe",
+    "notes": "Nation chrétienne (constitution). Très petite minorité musulmane.",
+    "centroid": [
+      -14,
+      28
+    ]
+  },
+  {
+    "name": "Zimbabwe",
+    "iso": "716",
+    "skipIsoMap": false,
+    "population": 16,
+    "muslimPct": 1,
+    "sunniPct": 99,
+    "shiaPct": 1,
+    "ibadiPct": 0,
+    "conflict": 0,
+    "region": "Afrique Australe",
+    "notes": "Majorité chrétienne. Islam mineur (commerçants asiatiques).",
+    "centroid": [
+      -20,
+      30
+    ]
+  }
+]

@@ -1,0 +1,167 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ───────────────────────────────────────────────
+   Tokens : surfaces, ink, accents, couches carte
+   Mode sombre par défaut (contexte sécurité / veille)
+   ─────────────────────────────────────────────── */
+:root,
+[data-theme='dark'] {
+  --ink: 232 235 240;
+  --muted: 152 164 179;
+  --paper: 14 17 23;
+  --surface-1: 20 25 33;
+  --surface-2: 26 31 40;
+  --surface-3: 32 38 48;
+  --accent: 96 165 250;
+  --danger: 248 113 113;
+  --warn: 250 204 21;
+  --ok: 74 222 128;
+
+  --sunni-strong: 20 92 34;
+  --sunni-soft: 30 138 48;
+  --shia-strong: 11 61 138;
+  --shia-soft: 20 86 200;
+  --mixed: 74 20 120;
+  --ibadi: 106 27 154;
+
+  --ring: var(--accent);
+}
+
+[data-theme='light'] {
+  --ink: 23 29 41;
+  --muted: 95 108 130;
+  --paper: 248 250 252;
+  --surface-1: 255 255 255;
+  --surface-2: 241 245 249;
+  --surface-3: 226 232 240;
+  --accent: 37 99 235;
+  --danger: 220 38 38;
+  --warn: 202 138 4;
+  --ok: 22 163 74;
+
+  --sunni-strong: 15 88 29;
+  --sunni-soft: 40 150 60;
+  --shia-strong: 10 57 130;
+  --shia-soft: 30 90 200;
+  --mixed: 90 30 140;
+  --ibadi: 120 40 175;
+}
+
+* {
+  min-width: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  @apply bg-paper text-ink font-sans antialiased;
+  min-height: 100dvh;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Accessibility helpers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  @apply absolute left-4 top-4 z-[9999] bg-accent text-white px-3 py-2 rounded shadow-soft;
+  transform: translateY(-200%);
+  transition: transform 150ms ease;
+}
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+*:focus-visible {
+  outline: 2px solid rgb(var(--ring));
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Scrollbar discrète */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--surface-3));
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--muted) / 0.6);
+}
+
+/* Print overrides */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  .no-print,
+  header nav,
+  .skip-link,
+  .map-tools {
+    display: none !important;
+  }
+}
+
+/* Display headings */
+.h-display {
+  font-family: 'Syne', ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* Prose / MDX content */
+.prose-app {
+  @apply text-ink leading-relaxed;
+}
+.prose-app h1,
+.prose-app h2,
+.prose-app h3 {
+  @apply h-display text-ink;
+}
+.prose-app h2 {
+  @apply text-2xl mt-8 mb-3;
+}
+.prose-app h3 {
+  @apply text-xl mt-6 mb-2;
+}
+.prose-app p {
+  @apply my-3;
+}
+.prose-app a {
+  @apply text-accent underline underline-offset-2 hover:no-underline;
+}
+.prose-app ul {
+  @apply my-3 pl-5 list-disc space-y-1;
+}
+.prose-app blockquote {
+  @apply border-l-4 border-accent/60 pl-4 italic text-muted my-4;
+}
+.prose-app code {
+  @apply bg-surface-2 px-1.5 py-0.5 rounded text-sm font-mono;
+}
