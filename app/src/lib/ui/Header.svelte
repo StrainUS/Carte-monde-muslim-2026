@@ -26,18 +26,31 @@
   class="sticky top-0 z-[1100] border-b border-surface-3 bg-paper/85 backdrop-blur supports-[backdrop-filter]:bg-paper/70"
 >
   <div class="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3 sm:px-6">
-    <a href="{base}/" class="flex items-center gap-2.5 min-w-0">
-      <span
-        aria-hidden="true"
-        class="grid size-9 place-items-center rounded-lg bg-gradient-to-br from-sunni-soft to-shia-soft text-white font-display text-lg shadow-soft"
-      >
-        ☪
+    <div class="flex min-w-0 items-center gap-2.5">
+      <a href="{base}/" aria-label="Accueil" class="flex-shrink-0">
+        <span
+          aria-hidden="true"
+          class="grid size-9 place-items-center rounded-lg bg-gradient-to-br from-sunni-soft to-shia-soft font-display text-lg text-white shadow-soft"
+        >
+          ☪
+        </span>
+      </a>
+      <span class="hidden min-w-0 leading-tight sm:flex sm:flex-col">
+        <a
+          href="{base}/"
+          class="h-display truncate text-sm font-bold text-ink hover:text-accent"
+          >Islam mondial · veille &amp; prévention</a
+        >
+        <span class="truncate text-xs text-muted">
+          2026 · carte, contexte, quiz, guide · by <a
+            href="https://github.com/StrainUS"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-medium text-accent hover:underline">@StrainUS</a
+          > 🧠
+        </span>
       </span>
-      <span class="hidden sm:flex sm:flex-col leading-tight min-w-0">
-        <strong class="h-display text-sm truncate">Islam mondial · veille &amp; prévention</strong>
-        <span class="text-xs text-muted truncate">2026 · carte, contexte, quiz, guide</span>
-      </span>
-    </a>
+    </div>
 
     <nav class="ml-auto hidden items-center gap-0.5 md:flex" aria-label="Navigation principale">
       {#each routes as r (r.key)}
