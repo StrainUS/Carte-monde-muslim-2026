@@ -33,11 +33,16 @@ sw.addEventListener('activate', (event) => {
 });
 
 /**
- * Fetch strategy:
- * - Build assets & static files : cache-first (they are content-hashed or stable)
- * - HTML navigation : network-first with cache fallback (fresh content when online)
- * - Other GET requests : stale-while-revalidate
- * Never intercept POST / non-GET.
+ * Fetch strategy (ordre important) :
+ *  1. HTML navigation → network-first, TOUJOURS. Ça garantit que l'HTML
+ *     renvoyé référence les hash d'assets du build courant. Sans ça, un
+ *     ancien index.html en cache pointait vers des chunks CSS/JS qui
+ *     n'existent plus après rebuild → page totalement dé-stylée.
+ *  2. Assets build content-hashés (/_app/immutable/...) → cache-first,
+ *     leur nom change à chaque build donc ils sont immuables.
+ *  3. Autres fichiers statiques précachés → cache-first.
+ *  4. Reste (GeoJSON, données, images) → stale-while-revalidate.
+ *  Les requêtes non-GET ne sont jamais interceptées.
  */
 sw.addEventListener('fetch', (event) => {
   const req = event.request;
@@ -45,15 +50,15 @@ sw.addEventListener('fetch', (event) => {
   const url = new URL(req.url);
   if (url.origin !== location.origin) return;
 
-  const isPrecached = PRECACHE_URLS.includes(url.pathname);
   const isHtml = req.mode === 'navigate' || req.headers.get('accept')?.includes('text/html');
-
-  if (isPrecached) {
-    event.respondWith(cacheFirst(req));
-    return;
-  }
   if (isHtml) {
     event.respondWith(networkFirst(req));
+    return;
+  }
+  const isImmutable = url.pathname.startsWith('/_app/immutable/');
+  const isPrecached = PRECACHE_URLS.includes(url.pathname);
+  if (isImmutable || isPrecached) {
+    event.respondWith(cacheFirst(req));
     return;
   }
   event.respondWith(staleWhileRevalidate(req));
