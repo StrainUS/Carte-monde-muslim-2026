@@ -36,9 +36,7 @@
         </span>
       </a>
       <span class="hidden min-w-0 leading-tight sm:flex sm:flex-col">
-        <a
-          href="{base}/"
-          class="h-display truncate text-sm font-bold text-ink hover:text-accent"
+        <a href="{base}/" class="h-display truncate text-sm font-bold text-ink hover:text-accent"
           >Islam mondial · veille &amp; prévention</a
         >
         <span class="truncate text-xs text-muted">

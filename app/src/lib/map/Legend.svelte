@@ -30,9 +30,7 @@
           class="relative inline-flex size-5 shrink-0 items-center justify-center"
           aria-hidden="true"
         >
-          <span
-            class="absolute size-5 rounded-full border opacity-30"
-            style:border-color={r.color}
+          <span class="absolute size-5 rounded-full border opacity-30" style:border-color={r.color}
           ></span>
           <span
             class="absolute size-3.5 rounded-full border opacity-60"
@@ -55,8 +53,7 @@
     </li>
   </ul>
   <p class="pt-2 text-xs text-muted">
-    Radars à ondes = tensions (1/2/3 ondes selon le niveau, dévoilées
-    progressivement au zoom). Triangles pulsants ⚠ = hotspots terroristes. Les deux sont
-    cliquables pour le détail.
+    Radars à ondes = tensions (1/2/3 ondes selon le niveau, dévoilées progressivement au zoom).
+    Triangles pulsants ⚠ = hotspots terroristes. Les deux sont cliquables pour le détail.
   </p>
 </section>

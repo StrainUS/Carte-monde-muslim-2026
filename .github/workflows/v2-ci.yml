@@ -1,14 +1,14 @@
-name: v2 · lint + tests + build
+name: CI · lint + tests + build
 
 on:
   push:
-    branches: [main, v2-rewrite]
+    branches: [main]
   pull_request:
-    branches: [main, v2-rewrite]
+    branches: [main]
   workflow_dispatch:
 
 concurrency:
-  group: v2-ci-${{ github.ref }}
+  group: ci-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -28,11 +28,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Import legacy data (deterministic)
-        run: npm run import:legacy
-
       - name: Build world GeoJSON
-        run: node tools/build-geojson.mjs
+        run: npm run data:geojson
 
       - name: TypeScript / Svelte check
         run: npm run check
@@ -52,7 +49,7 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: v2-build
+          name: build
           path: app/build
 
   e2e:
@@ -70,8 +67,7 @@ jobs:
           cache-dependency-path: app/package-lock.json
 
       - run: npm ci
-      - run: npm run import:legacy
-      - run: node tools/build-geojson.mjs
+      - run: npm run data:geojson
       - run: npx playwright install --with-deps chromium
       - run: npm run build
       - name: Playwright tests

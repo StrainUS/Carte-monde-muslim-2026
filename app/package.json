@@ -17,8 +17,9 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "test:e2e:install": "playwright install --with-deps chromium",
-    "import:legacy": "node tools/import-legacy.mjs",
-    "bundle:offline": "node tools/bundle-offline.mjs"
+    "data:geojson": "node tools/build-geojson.mjs",
+    "data:enrich": "node tools/enrich-sources.mjs",
+    "audit": "node tools/audit.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.49.0",

@@ -161,10 +161,7 @@
    *  visible au lieu de laisser l'UI tourner indéfiniment. */
   function withTimeout<T>(p: Promise<T>, ms: number, label: string): Promise<T> {
     return new Promise<T>((resolve, reject) => {
-      const t = setTimeout(
-        () => reject(new Error(`${label} : délai dépassé (${ms / 1000}s)`)),
-        ms
-      );
+      const t = setTimeout(() => reject(new Error(`${label} : délai dépassé (${ms / 1000}s)`)), ms);
       p.then(
         (v) => {
           clearTimeout(t);
@@ -180,9 +177,7 @@
 
   async function loadMap() {
     try {
-      const L = (
-        await withTimeout(import('leaflet'), 10000, 'Chargement de Leaflet')
-      ).default;
+      const L = (await withTimeout(import('leaflet'), 10000, 'Chargement de Leaflet')).default;
       await withTimeout(import('leaflet/dist/leaflet.css'), 10000, 'Styles Leaflet');
 
       const geoRes = await withTimeout(
@@ -662,8 +657,8 @@
         {#if stuckHint}
           <div class="mt-2 flex flex-col items-center gap-2 text-xs">
             <p class="max-w-xs text-center text-muted/80">
-              Ça prend plus de temps que prévu — un cache obsolète bloque
-              sans doute un ancien chunk.
+              Ça prend plus de temps que prévu — un cache obsolète bloque sans doute un ancien
+              chunk.
             </p>
             <button
               type="button"

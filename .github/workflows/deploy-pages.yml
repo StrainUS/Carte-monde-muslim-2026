@@ -1,6 +1,6 @@
-# Déploiement GitHub Pages de la v2 (SvelteKit statique).
-# La v1 legacy reste disponible dans la branche `v1-legacy-freeze`.
-name: Deploy v2 (GitHub Pages)
+# Déploiement GitHub Pages — application SvelteKit statique servie depuis app/build.
+# La v1 historique reste disponible via le tag git `v1-legacy-freeze`.
+name: Deploy (GitHub Pages)
 
 on:
   push:
@@ -31,8 +31,7 @@ jobs:
           cache-dependency-path: app/package-lock.json
 
       - run: npm ci
-      - run: npm run import:legacy
-      - run: node tools/build-geojson.mjs
+      - run: npm run data:geojson
 
       - name: Build
         env:

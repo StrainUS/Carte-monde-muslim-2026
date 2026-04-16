@@ -1,29 +1,24 @@
-# Islam 2026 — v2
+# `app/` — application SvelteKit
 
-> Carte interactive, veille pédagogique et prévention terrorisme
-> destinée aux agents de sécurité privée et publique.
-
-Refonte complète de la v1 monolithique vers une application SvelteKit
-statique, hors-ligne-d'abord, testable et maintenable.
+Documentation technique de l'application. Pour la présentation produit et le guide utilisateur, voir le [README racine](../README.md).
 
 ---
 
 ## Stack
 
-| Couche      | Choix                                                 |
-| ----------- | ----------------------------------------------------- |
-| Framework   | SvelteKit + Svelte 5 (`$state`, runes)                |
-| Langage     | TypeScript strict                                     |
-| Style       | Tailwind CSS + design tokens CSS                      |
-| Carte       | Leaflet + GeoJSON local (world-atlas 110m)            |
-| Données     | Zod schemas + JSON générés depuis legacy              |
-| Build       | Vite + `@sveltejs/adapter-static` (prerender complet) |
-| Tests       | Vitest (unit) + Playwright (e2e)                      |
-| Offline     | Service worker natif SvelteKit, stratégies mixtes     |
-| Lint/format | ESLint + Prettier                                     |
+| Couche      | Choix                                                       |
+| ----------- | ----------------------------------------------------------- |
+| Framework   | SvelteKit 2 + Svelte 5 (runes `$state`, `$derived`)         |
+| Langage     | TypeScript strict                                           |
+| Style       | Tailwind CSS + design tokens CSS (`app.css`)                |
+| Carte       | Leaflet + GeoJSON local (world-atlas 110m, SVG renderer)    |
+| Données     | Zod schemas + JSON versionnés en source de vérité           |
+| Build       | Vite + `@sveltejs/adapter-static` (prerender complet)       |
+| Tests       | Vitest (unit) + Playwright (e2e, Chromium)                  |
+| Offline     | Service worker natif SvelteKit (network-first HTML, CF/SWR) |
+| Lint/format | ESLint (flat config) + Prettier                             |
 
-Aucun runtime serveur : l'ensemble est pré-rendu en HTML et sert depuis
-GitHub Pages, une clé USB, ou tout hébergement statique.
+Aucun runtime serveur : l'ensemble est pré-rendu en HTML et sert depuis GitHub Pages, un bucket statique, un Nginx, ou une clé USB.
 
 ---
 
@@ -34,18 +29,18 @@ app/
 ├── src/
 │   ├── app.css                     tokens + base Tailwind
 │   ├── app.html                    shell HTML (theme init inline)
-│   ├── service-worker.ts           précache + SWR + network-first
+│   ├── service-worker.ts           précache + SWR + network-first HTML
 │   ├── lib/
 │   │   ├── data/
 │   │   │   ├── schemas.ts          contrats Zod
 │   │   │   ├── index.ts            store + accesseurs typés
 │   │   │   ├── contracts.test.ts   invariants testés
-│   │   │   └── generated/          issus de tools/import-legacy.mjs
-│   │   ├── map/                    MapCanvas, colors, layers, panel…
+│   │   │   └── generated/          source de vérité (JSON versionnés)
+│   │   ├── map/                    MapCanvas, colors, layers, panels…
 │   │   ├── quiz/                   engine.ts + tests
 │   │   └── ui/                     Header, Footer, ThemeToggle, Offline
 │   └── routes/
-│       ├── +layout.svelte          shell global + SW register
+│       ├── +layout.svelte          shell global + enregistrement SW
 │       ├── +page.svelte            accueil
 │       ├── carte/                  carte interactive
 │       ├── savoir/                 timeline, courants, glossaire
@@ -57,10 +52,11 @@ app/
 ├── static/
 │   ├── favicon.svg
 │   ├── manifest.webmanifest
-│   └── geo/countries-110m.json     GeoJSON embarqué (offline)
+│   └── geo/countries-110m.json     GeoJSON monde (généré, versionné)
 ├── tools/
-│   ├── import-legacy.mjs           extraction data v1 → JSON
-│   └── build-geojson.mjs           TopoJSON → GeoJSON
+│   ├── build-geojson.mjs           TopoJSON world-atlas → GeoJSON lean
+│   ├── enrich-sources.mjs          patch des champs sources[] / asOf
+│   └── audit.mjs                   audit multi-routes Playwright
 └── e2e/                            specs Playwright
 ```
 
@@ -68,109 +64,118 @@ app/
 
 ## Démarrage
 
-Prérequis : Node 20+.
+**Prérequis :** Node 20+.
 
 ```bash
-cd app
 npm ci
-npm run import:legacy          # génère src/lib/data/generated/
-node tools/build-geojson.mjs   # génère static/geo/countries-110m.json
-npm run dev
+npm run data:geojson     # génère static/geo/countries-110m.json
+npm run dev              # http://127.0.0.1:5173
 ```
-
-L'application est servie sur <http://127.0.0.1:5173>.
 
 ## Scripts npm
 
-| Script          | Rôle                              |
-| --------------- | --------------------------------- |
-| `dev`           | serveur de dev (HMR)              |
-| `build`         | build statique dans `build/`      |
-| `preview`       | sert `build/` en local            |
-| `check`         | `svelte-kit sync && svelte-check` |
-| `lint`          | ESLint                            |
-| `format`        | Prettier                          |
-| `test`          | Vitest (unitaires)                |
-| `test:e2e`      | Playwright (chromium)             |
-| `import:legacy` | reconstruit les JSON depuis la v1 |
+| Script             | Rôle                                     |
+| ------------------ | ---------------------------------------- |
+| `dev`              | Serveur de dev Vite (HMR)                |
+| `build`            | Build statique dans `build/`             |
+| `preview`          | Sert `build/` en local (`:4173`)         |
+| `check`            | `svelte-kit sync && svelte-check`        |
+| `check:watch`      | Idem en mode watch                       |
+| `lint`             | ESLint (flat config)                     |
+| `format`           | Prettier `--write`                       |
+| `format:check`     | Prettier `--check` (utilisé par la CI)   |
+| `test`             | Vitest (unitaires)                       |
+| `test:watch`       | Vitest en mode watch                     |
+| `test:e2e`         | Playwright (Chromium)                    |
+| `test:e2e:install` | Télécharge le navigateur Playwright      |
+| `data:geojson`     | Régénère le GeoJSON monde                |
+| `data:enrich`      | Applique les patchs de sources / `asOf`  |
+| `audit`            | Audit automatisé des routes (Playwright) |
 
 ---
 
-## Architecture de la donnée
+## Architecture des données
 
-La v1 exposait `window.IslamMapData` dans un IIFE. `tools/import-legacy.mjs`
-exécute ce bundle dans un sandbox `vm`, extrait les structures et émet
-des JSON normalisés dans `src/lib/data/generated/`.
+Les fichiers de `src/lib/data/generated/` sont **versionnés** dans le dépôt et constituent la **source de vérité** :
 
-À la compilation, `src/lib/data/index.ts` charge ces JSON et les valide
-via Zod (`schemas.ts`). **Toute donnée violant un invariant fait échouer
-le build**, ce qui interdit la régression silencieuse :
+| Fichier               | Contenu                                                      |
+| --------------------- | ------------------------------------------------------------ |
+| `countries.json`      | Fiches pays (démographie, courants, sécurité, sources, asOf) |
+| `iso-index.json`      | Correspondance ISO-3 / ID interne                            |
+| `quiz.json`           | Banque de 20 questions QCU/QCM                               |
+| `hotspots.json`       | Points chauds terrorisme (intensité, géolocalisation)        |
+| `security-notes.json` | Notes de vigilance par pays                                  |
+| `glossary.json`       | Glossaire (sunnisme, chiisme, djihadisme…)                   |
+| `chronology.json`     | Chronologie terrorisme France                                |
+| `timeline.json`       | Repères historiques religieux                                |
+| `editorial.json`      | Textes éditoriaux (intros, mises en garde)                   |
+| `sources.json`        | Catalogue des organismes cités                               |
+| `overseas-boxes.json` | Cadres DROM-COM pour la carte                                |
 
-- `countries` — 100+ entrées, ISO uniques, centroïdes présents
+À la compilation, `src/lib/data/index.ts` charge ces JSON et les **valide via Zod** (`schemas.ts`). Toute donnée violant un invariant fait échouer le build :
+
+- `countries` — ISO uniques, centroïdes présents, pourcentages ∈ [0, 100]
 - `quiz` — IDs uniques, `answer` dans la plage des options
-- `hotspots` — `intensity ∈ [0,1]`
-- etc.
+- `hotspots` — `intensity ∈ [0, 1]`, coordonnées valides
 
-La dette legacy (sommes sunnite+chiite+ibadi qui dévient de 100) est
-**tracée et documentée** par un test (`contracts.test.ts`) plutôt que
-masquée.
+La dette héritée (sommes sunnite + chiite + ibadi qui dévient de 100 pour certains pays) est **tracée et documentée** par `contracts.test.ts` plutôt que masquée.
+
+### Enrichir les données
+
+Pour ajouter une source à un pays :
+
+1. Éditer `src/lib/data/generated/sources.json` (ajouter une entrée `{id, name, url, kind}`).
+2. Éditer la fiche pays dans `countries.json` :
+   ```json
+   {
+     "iso": "FRA",
+     "name": "France",
+     "sources": ["insee-religion", "interieur-fr", "europol-tesat"],
+     "asOf": "2026-03"
+   }
+   ```
+3. Les schémas Zod valident automatiquement au build.
+
+---
 
 ## Thème et accessibilité
 
 - Sombre par défaut (contexte veille nocturne / OPEX), bascule clair.
-- Préférence persistée en `localStorage`, initialisée avant l'hydratation
-  pour éviter le flash.
+- Préférence persistée en `localStorage`, initialisée **avant l'hydratation** pour éviter le flash.
 - `prefers-color-scheme` respecté au premier chargement.
-- Skip link, landmarks ARIA, focus visibles, raccourcis clavier sur la
-  carte (`+/-`, flèches, `0` reset, `Esc` ferme le panneau).
+- Skip link, landmarks ARIA, `:focus-visible`, raccourcis clavier sur la carte (`+`/`-`, flèches, `0` reset, `Échap`).
+- `prefers-reduced-motion` désactive les animations radar et les pulsations hotspot.
 - Styles `@media print` dédiés pour export papier.
 
 ## Offline-first
 
-Le `service-worker.ts` :
+`service-worker.ts` applique quatre stratégies :
 
-1. **Précache** tous les chunks `build` et fichiers `static` à l'install.
+1. **Précache** des chunks `build` et fichiers `static` à l'install.
 2. **Cache-first** pour les assets versionnés (hash dans l'URL).
-3. **Network-first + fallback cache + fallback `/`** pour les pages HTML.
-4. **Stale-while-revalidate** pour les GeoJSON et JSON dynamiques.
-5. **Badge visuel** (`OfflineBadge.svelte`) quand `navigator.onLine = false`.
-6. Route `/offline` dédiée.
+3. **Network-first + fallback cache + fallback `/offline`** pour les navigations HTML — garantit de toujours récupérer l'index courant et évite les pages dé-stylées après un nouveau déploiement.
+4. **Stale-while-revalidate** pour les JSON dynamiques (`geo/`, `data/`).
 
-L'application complète (~3 MB compressé) tient sur une clé USB et
-fonctionne sans réseau après la première visite.
+L'application complète (~3 Mo compressés) tient sur une clé USB et fonctionne sans réseau après la première visite. Un **badge visuel** (`OfflineBadge.svelte`) apparaît dès que `navigator.onLine = false`, et une route `/offline` sert de fallback.
+
+Un bouton **Réinitialiser le cache et recharger** est proposé dans la carte après 6 s de chargement anormal, pour purger le service worker en cas de pépin (migration majeure, cache corrompu).
 
 ## Tests
 
 ```bash
-npm test          # 25 tests unitaires (data + quiz engine)
-npm run test:e2e  # smoke e2e : accueil, carte, quiz, thème, timeline
+npm test          # invariants data + moteur de quiz
+npm run test:e2e  # smoke : accueil, carte, quiz, thème, timeline
 ```
 
-Un workflow GitHub Actions (`.github/workflows/v2-ci.yml`) rejoue
-lint + check + unit + build + e2e à chaque push et PR.
-
----
-
-## Migration depuis la v1
-
-La v1 monolithique (`/index.html`, `/assets/`) reste présente dans
-la branche `v1-legacy-freeze` à titre de référence. La v2 vit dans
-`app/` et n'a aucune dépendance vers elle en runtime — seul
-`tools/import-legacy.mjs` lit les fichiers de la v1 pour reconstruire
-les données. Une fois la v2 déployée, la v1 peut être retirée sans
-risque.
+La CI (`.github/workflows/v2-ci.yml`) rejoue **lint + check + format:check + unit + build + e2e** à chaque push et PR sur `main`.
 
 ## Limites et dette reconnue
 
-- Certains pourcentages sunnite/chiite/ibadi de la v1 mélangent "% de
-  la population totale" et "% des musulmans" — document dans
-  `contracts.test.ts`, à nettoyer avec relecture éditoriale.
+- Certains pourcentages sunnite/chiite/ibadi héritent d'ambiguïtés (« % de la population totale » vs « % des musulmans ») — tracés dans `contracts.test.ts`, à nettoyer avec relecture éditoriale.
 - i18n non implémentée (FR uniquement pour l'instant).
-- Layer "tensions" et "hotspots" ont vocation à s'enrichir d'un flux
-  open-source (Europol TE-SAT, GTD) — actuellement données locales.
+- Les couches « tensions » et « hotspots » ont vocation à s'enrichir d'un flux open-source (Europol TE-SAT, GTD) — actuellement données locales versionnées.
 
 ## Licence
 
-Le code est sous licence MIT. Les textes éditoriaux, la chronologie
-et les fiches pays proviennent de sources publiques citées dans
-`/sources` ; se reporter à ces sources pour la réutilisation.
+Code sous licence MIT (voir `LICENSE` à la racine).
+Textes éditoriaux : voir les sources citées dans `docs/SOURCES.md` et dans l'application (`/sources`).
