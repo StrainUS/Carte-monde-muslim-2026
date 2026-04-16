@@ -1,0 +1,8 @@
+.svelte-kit
+build
+node_modules
+static/geo
+src/lib/data/generated
+playwright-report
+test-results
+package-lock.json

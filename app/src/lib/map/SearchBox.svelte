@@ -73,7 +73,7 @@
     <ul
       id="search-results"
       role="listbox"
-      class="absolute left-0 right-0 z-20 mt-1 max-h-72 overflow-auto rounded-md border border-surface-3 bg-surface-1 py-1 text-sm shadow-soft"
+      class="absolute left-0 right-0 z-[1001] mt-1 max-h-72 overflow-auto rounded-md border border-surface-3 bg-surface-1 py-1 text-sm shadow-soft"
     >
       {#each results as c, i (c.name)}
         <li>

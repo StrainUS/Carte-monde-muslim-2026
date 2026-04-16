@@ -68,23 +68,11 @@ export const glossary: GlossaryEntry[] = parseOrThrow(
 
 export const sources: Source[] = parseOrThrow(z.array(SourceSchema), sourcesJson, 'sources');
 
-export const quiz: QuizQuestion[] = parseOrThrow(
-  z.array(QuizQuestionSchema),
-  quizJson,
-  'quiz'
-);
+export const quiz: QuizQuestion[] = parseOrThrow(z.array(QuizQuestionSchema), quizJson, 'quiz');
 
-export const chronology: Chronology = parseOrThrow(
-  ChronologySchema,
-  chronologyJson,
-  'chronology'
-);
+export const chronology: Chronology = parseOrThrow(ChronologySchema, chronologyJson, 'chronology');
 
-export const editorial: Editorial = parseOrThrow(
-  EditorialSchema,
-  editorialJson,
-  'editorial'
-);
+export const editorial: Editorial = parseOrThrow(EditorialSchema, editorialJson, 'editorial');
 
 export const overseasBoxes = overseasBoxesJson as Record<
   string,

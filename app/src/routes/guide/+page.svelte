@@ -2,7 +2,7 @@
   const slides = [
     {
       n: 1,
-      title: 'Diversité plutôt qu\'uniformité',
+      title: "Diversité plutôt qu'uniformité",
       lede: '~2 milliards de musulmans, répartis sur tous les continents. Pas une seule culture, mais des centaines — arabes, turques, perses, subsahariennes, sud-est-asiatiques, balkaniques, diasporiques.',
       bullets: [
         'Pays le plus peuplé : Indonésie (~242 M musulmans), non arabe.',
@@ -13,7 +13,7 @@
     {
       n: 2,
       title: 'Lire la carte — la légende',
-      lede: 'Sur la carte, les couleurs indiquent la branche dominante, l\'intensité indique le % de musulmans dans la population totale.',
+      lede: "Sur la carte, les couleurs indiquent la branche dominante, l'intensité indique le % de musulmans dans la population totale.",
       bullets: [
         'Vert : sunnites ; Bleu : chiites ; Violet : mixte ou ibadi.',
         'Cercles orangés : tensions régionales indicatives.',
@@ -35,25 +35,25 @@
       lede: '~10–13 % des musulmans. Duodécimain majoritaire (Iran, Irak). Zaïdites au Yémen, Ismaéliens en Asie centrale. Alaouites de Syrie souvent distingués du duodécimain.',
       bullets: [
         'Villes saintes : Najaf, Kerbala, Qom, Machhad.',
-        'Autorité spirituelle : marja\' (Irak, Iran).',
+        "Autorité spirituelle : marja' (Irak, Iran).",
         'Hezbollah (Liban) : acteur politico-militaire, listes UE/US variables selon périodes.'
       ]
     },
     {
       n: 5,
       title: 'Ibadisme — la branche discrète',
-      lede: 'Né au VIIᵉ siècle, ni sunnite ni chiite. Majorité en Oman (~75 %). Tradition d\'ouverture doctrinale, neutralité diplomatique régionale légendaire (médiations Iran-USA, Iran-Irak).',
+      lede: "Né au VIIᵉ siècle, ni sunnite ni chiite. Majorité en Oman (~75 %). Tradition d'ouverture doctrinale, neutralité diplomatique régionale légendaire (médiations Iran-USA, Iran-Irak).",
       bullets: [
-        'Rappel : pas de tensions sectaires internes notables au sein d\'Oman.',
-        'Présence mineure au Maghreb (Mozabites d\'Algérie, Djerba tunisienne).'
+        "Rappel : pas de tensions sectaires internes notables au sein d'Oman.",
+        "Présence mineure au Maghreb (Mozabites d'Algérie, Djerba tunisienne)."
       ]
     },
     {
       n: 6,
       title: 'Conflits — distinguer les causes',
-      lede: 'Les conflits « musulmans » sont d\'abord politiques, économiques, ethniques ou postcoloniaux. La religion peut y être instrumentalisée — elle en est rarement la cause première.',
+      lede: "Les conflits « musulmans » sont d'abord politiques, économiques, ethniques ou postcoloniaux. La religion peut y être instrumentalisée — elle en est rarement la cause première.",
       bullets: [
-        'Syrie, Yémen, Irak, Libye, Sahel : enchevêtrement d\'acteurs locaux et régionaux.',
+        "Syrie, Yémen, Irak, Libye, Sahel : enchevêtrement d'acteurs locaux et régionaux.",
         'Guerres par procuration Iran / Arabie Saoudite dans plusieurs théâtres.',
         'Éviter le réductionnisme « sunnites vs chiites » : les alliances évoluent.'
       ]
@@ -65,7 +65,7 @@
       bullets: [
         'Documenter les faits, pas les apparences.',
         'Suivre les procédures internes et le cadre PNAT.',
-        'Distinguer idéologie d\'État, société civile et individus.'
+        "Distinguer idéologie d'État, société civile et individus."
       ]
     },
     {
@@ -73,7 +73,7 @@
       title: 'Pyramide des sources',
       lede: 'Toute synthèse sérieuse remonte à la source primaire : Pew Research, ONU WPP, INSEE, Légifrance, EUR-Lex, SGDSN, Europol.',
       bullets: [
-        'Primaire d\'abord : textes de loi, rapports officiels, bases statistiques.',
+        "Primaire d'abord : textes de loi, rapports officiels, bases statistiques.",
         'Synthèses reconnues ensuite : IFRI, ICG, académiques revus.',
         'Presse et commentaires en dernier — avec esprit critique.'
       ]
@@ -105,9 +105,14 @@
     <h1 class="h-display mt-2 text-4xl">Huit écrans pour comprendre</h1>
   </header>
 
-  <div class="relative overflow-hidden rounded-2xl border border-surface-3 bg-surface-1 shadow-soft">
+  <div
+    class="relative overflow-hidden rounded-2xl border border-surface-3 bg-surface-1 shadow-soft"
+  >
     <div class="h-1 bg-surface-3">
-      <div class="h-full bg-accent transition-all duration-500" style="width: {((idx + 1) / slides.length) * 100}%"></div>
+      <div
+        class="h-full bg-accent transition-all duration-500"
+        style="width: {((idx + 1) / slides.length) * 100}%"
+      ></div>
     </div>
     <div class="p-6 sm:p-10">
       <p class="text-sm font-medium text-accent">{current.n} / {slides.length}</p>
@@ -123,7 +128,9 @@
       </ul>
     </div>
 
-    <div class="flex items-center justify-between gap-3 border-t border-surface-3 bg-surface-2/40 px-5 py-3">
+    <div
+      class="flex items-center justify-between gap-3 border-t border-surface-3 bg-surface-2/40 px-5 py-3"
+    >
       <button
         type="button"
         class="rounded-md bg-surface-1 px-3 py-2 text-sm hover:bg-surface-3 disabled:cursor-not-allowed disabled:opacity-40"
@@ -136,7 +143,9 @@
         {#each slides as s, i (s.n)}
           <button
             type="button"
-            class="size-2 rounded-full transition-all {i === idx ? 'bg-accent w-6' : 'bg-surface-3 hover:bg-muted'}"
+            class="size-2 rounded-full transition-all {i === idx
+              ? 'bg-accent w-6'
+              : 'bg-surface-3 hover:bg-muted'}"
             aria-label="Écran {s.n} : {s.title}"
             onclick={() => (idx = i)}
           ></button>

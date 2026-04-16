@@ -10,17 +10,17 @@ statique, hors-ligne-d'abord, testable et maintenable.
 
 ## Stack
 
-| Couche | Choix |
-| --- | --- |
-| Framework | SvelteKit + Svelte 5 (`$state`, runes) |
-| Langage | TypeScript strict |
-| Style | Tailwind CSS + design tokens CSS |
-| Carte | Leaflet + GeoJSON local (world-atlas 110m) |
-| Données | Zod schemas + JSON générés depuis legacy |
-| Build | Vite + `@sveltejs/adapter-static` (prerender complet) |
-| Tests | Vitest (unit) + Playwright (e2e) |
-| Offline | Service worker natif SvelteKit, stratégies mixtes |
-| Lint/format | ESLint + Prettier |
+| Couche      | Choix                                                 |
+| ----------- | ----------------------------------------------------- |
+| Framework   | SvelteKit + Svelte 5 (`$state`, runes)                |
+| Langage     | TypeScript strict                                     |
+| Style       | Tailwind CSS + design tokens CSS                      |
+| Carte       | Leaflet + GeoJSON local (world-atlas 110m)            |
+| Données     | Zod schemas + JSON générés depuis legacy              |
+| Build       | Vite + `@sveltejs/adapter-static` (prerender complet) |
+| Tests       | Vitest (unit) + Playwright (e2e)                      |
+| Offline     | Service worker natif SvelteKit, stratégies mixtes     |
+| Lint/format | ESLint + Prettier                                     |
 
 Aucun runtime serveur : l'ensemble est pré-rendu en HTML et sert depuis
 GitHub Pages, une clé USB, ou tout hébergement statique.
@@ -82,16 +82,16 @@ L'application est servie sur <http://127.0.0.1:5173>.
 
 ## Scripts npm
 
-| Script | Rôle |
-| --- | --- |
-| `dev` | serveur de dev (HMR) |
-| `build` | build statique dans `build/` |
-| `preview` | sert `build/` en local |
-| `check` | `svelte-kit sync && svelte-check` |
-| `lint` | ESLint |
-| `format` | Prettier |
-| `test` | Vitest (unitaires) |
-| `test:e2e` | Playwright (chromium) |
+| Script          | Rôle                              |
+| --------------- | --------------------------------- |
+| `dev`           | serveur de dev (HMR)              |
+| `build`         | build statique dans `build/`      |
+| `preview`       | sert `build/` en local            |
+| `check`         | `svelte-kit sync && svelte-check` |
+| `lint`          | ESLint                            |
+| `format`        | Prettier                          |
+| `test`          | Vitest (unitaires)                |
+| `test:e2e`      | Playwright (chromium)             |
 | `import:legacy` | reconstruit les JSON depuis la v1 |
 
 ---

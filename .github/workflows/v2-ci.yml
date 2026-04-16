@@ -37,6 +37,12 @@ jobs:
       - name: TypeScript / Svelte check
         run: npm run check
 
+      - name: ESLint
+        run: npm run lint
+
+      - name: Prettier format check
+        run: npm run format:check
+
       - name: Unit tests (Vitest)
         run: npm test
 

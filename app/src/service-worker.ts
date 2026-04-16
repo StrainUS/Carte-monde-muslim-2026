@@ -12,7 +12,10 @@ const PRECACHE_URLS = [...build, ...files, '/'];
 
 sw.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE).then((cache) => cache.addAll(PRECACHE_URLS)).then(() => sw.skipWaiting())
+    caches
+      .open(CACHE)
+      .then((cache) => cache.addAll(PRECACHE_URLS))
+      .then(() => sw.skipWaiting())
   );
 });
 
@@ -21,7 +24,9 @@ sw.addEventListener('activate', (event) => {
     caches
       .keys()
       .then((keys) =>
-        Promise.all(keys.filter((k) => k !== CACHE && k.startsWith('islam2026-')).map((k) => caches.delete(k)))
+        Promise.all(
+          keys.filter((k) => k !== CACHE && k.startsWith('islam2026-')).map((k) => caches.delete(k))
+        )
       )
       .then(() => sw.clients.claim())
   );
@@ -74,10 +79,13 @@ async function networkFirst(req: Request): Promise<Response> {
     if (cached) return cached;
     const fallback = await cache.match('/');
     if (fallback) return fallback;
-    return new Response('<!doctype html><meta charset="utf-8"><title>Hors ligne</title><p>Application indisponible hors ligne.</p>', {
-      status: 503,
-      headers: { 'content-type': 'text/html; charset=utf-8' }
-    });
+    return new Response(
+      '<!doctype html><meta charset="utf-8"><title>Hors ligne</title><p>Application indisponible hors ligne.</p>',
+      {
+        status: 503,
+        headers: { 'content-type': 'text/html; charset=utf-8' }
+      }
+    );
   }
 }
 

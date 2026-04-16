@@ -14,19 +14,22 @@
     {
       id: 'pnat',
       name: 'PNAT — France',
-      description: 'Parquet national antiterroriste (créé 2019). Centralise les enquêtes et poursuites pour actes terroristes.',
+      description:
+        'Parquet national antiterroriste (créé 2019). Centralise les enquêtes et poursuites pour actes terroristes.',
       href: 'https://www.justice.gouv.fr/parquet-national-antiterroriste'
     },
     {
       id: 'sgdsn',
       name: 'SGDSN',
-      description: 'Secrétariat général de la défense et de la sécurité nationale. Rapports publics sur la menace.',
+      description:
+        'Secrétariat général de la défense et de la sécurité nationale. Rapports publics sur la menace.',
       href: 'https://www.sgdsn.gouv.fr/'
     },
     {
       id: 'europol',
       name: 'Europol TE-SAT',
-      description: "Rapport annuel UE sur la situation et les tendances du terrorisme (European Union Terrorism Situation and Trend Report).",
+      description:
+        'Rapport annuel UE sur la situation et les tendances du terrorisme (European Union Terrorism Situation and Trend Report).',
       href: 'https://www.europol.europa.eu/publications-events/main-reports/european-union-terrorism-situation-and-trend-report-te-sat'
     },
     {
@@ -38,13 +41,15 @@
     {
       id: 'un-1373',
       name: 'ONU — Résolution 1373',
-      description: 'Obligations renforcées aux États post-11 septembre : coopération, gel des avoirs, poursuites.',
+      description:
+        'Obligations renforcées aux États post-11 septembre : coopération, gel des avoirs, poursuites.',
       href: 'https://www.un.org/securitycouncil/ctc/content/1373'
     },
     {
       id: 'gafi',
       name: 'GAFI / FATF',
-      description: "Normes internationales anti-blanchiment et contre le financement du terrorisme (AML/CFT).",
+      description:
+        'Normes internationales anti-blanchiment et contre le financement du terrorisme (AML/CFT).',
       href: 'https://www.fatf-gafi.org/en/topics/terrorist-financing.html'
     }
   ];
@@ -66,9 +71,9 @@
   <div class="mb-10 rounded-lg border border-danger/30 bg-danger/5 p-5 text-sm">
     <p class="font-medium text-ink">Avertissement légal.</p>
     <p class="mt-2 text-muted">
-      Les qualifications « terroristes » et les imputations relèvent exclusivement du juge
-      pénal (Légifrance, cour d'assises spéciale, cour d'appel). Les synthèses ci-dessous reprennent
-      des constats judiciaires publiés. Les affaires en cours peuvent évoluer.
+      Les qualifications « terroristes » et les imputations relèvent exclusivement du juge pénal
+      (Légifrance, cour d'assises spéciale, cour d'appel). Les synthèses ci-dessous reprennent des
+      constats judiciaires publiés. Les affaires en cours peuvent évoluer.
     </p>
   </div>
 
@@ -88,7 +93,8 @@
                 <p class="mt-2 text-sm text-muted">{e.summary}</p>
                 {#if e.actorsOfficial}
                   <p class="mt-1.5 text-xs text-muted">
-                    <span class="font-medium text-ink">Constats judiciaires :</span> {e.actorsOfficial}
+                    <span class="font-medium text-ink">Constats judiciaires :</span>
+                    {e.actorsOfficial}
                   </p>
                 {/if}
                 {#if e.judicialNote}
@@ -152,10 +158,20 @@
       {#each securityNotes as n (n.country)}
         <article class="rounded-xl border border-surface-3 bg-surface-1 p-5">
           <h3 class="h-display text-lg">{n.country}</h3>
-          {#if n.conflit}<p class="mt-2 text-sm"><strong class="text-ink">Conflit :</strong> <span class="text-muted">{n.conflit}</span></p>{/if}
-          {#if n.terrorisme}<p class="mt-1.5 text-sm"><strong class="text-ink">Terrorisme :</strong> <span class="text-muted">{n.terrorisme}</span></p>{/if}
-          {#if n.france}<p class="mt-1.5 text-sm"><strong class="text-ink">France :</strong> <span class="text-muted">{n.france}</span></p>{/if}
-          {#if n.ue}<p class="mt-1.5 text-sm"><strong class="text-ink">UE :</strong> <span class="text-muted">{n.ue}</span></p>{/if}
+          {#if n.conflit}<p class="mt-2 text-sm">
+              <strong class="text-ink">Conflit :</strong>
+              <span class="text-muted">{n.conflit}</span>
+            </p>{/if}
+          {#if n.terrorisme}<p class="mt-1.5 text-sm">
+              <strong class="text-ink">Terrorisme :</strong>
+              <span class="text-muted">{n.terrorisme}</span>
+            </p>{/if}
+          {#if n.france}<p class="mt-1.5 text-sm">
+              <strong class="text-ink">France :</strong> <span class="text-muted">{n.france}</span>
+            </p>{/if}
+          {#if n.ue}<p class="mt-1.5 text-sm">
+              <strong class="text-ink">UE :</strong> <span class="text-muted">{n.ue}</span>
+            </p>{/if}
         </article>
       {/each}
     </div>

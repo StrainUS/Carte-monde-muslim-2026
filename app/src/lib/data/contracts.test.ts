@@ -29,7 +29,7 @@ describe('data contract — pays', () => {
    * expriment s/h en % de la population totale et non au sein des musulmans.
    * v2 accepte l'héritage mais trace ces cas pour un nettoyage ultérieur.
    */
-  it('trace les pays dont la somme s+h+ib s\'écarte fortement de 100 (dette données legacy)', () => {
+  it("trace les pays dont la somme s+h+ib s'écarte fortement de 100 (dette données legacy)", () => {
     const drift = countries
       .filter((c) => c.muslimPct >= 0.5)
       .map((c) => ({

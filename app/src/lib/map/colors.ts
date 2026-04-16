@@ -14,7 +14,6 @@ export interface FillStyle {
 export function dominant(c: Country): DominantSect {
   if (c.muslimPct < 2) return 'none';
   if (c.ibadiPct >= 60) return 'ibadi';
-  const major = Math.max(c.sunniPct, c.shiaPct);
   const diff = Math.abs(c.sunniPct - c.shiaPct);
   if (diff < 20 && c.shiaPct > 20 && c.sunniPct > 20) return 'mixed';
   return c.sunniPct >= c.shiaPct ? 'sunni' : 'shia';

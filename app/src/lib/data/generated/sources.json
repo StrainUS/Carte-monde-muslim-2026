@@ -124,5 +124,47 @@
     "label": "France — stop-djihadisme.gouv.fr",
     "url": "https://www.stop-djihadisme.gouv.fr/",
     "note": "Prévention de la radicalisation (grand public)."
+  },
+  {
+    "id": "arda",
+    "label": "ARDA — Association of Religion Data Archives",
+    "url": "https://www.thearda.com/",
+    "note": "Archive académique de référence pour la démographie religieuse par pays."
+  },
+  {
+    "id": "rosstat",
+    "label": "Russie — Rosstat (Service fédéral des statistiques)",
+    "url": "https://rosstat.gov.ru/",
+    "note": "Recensement national russe — pas de variable religion depuis 2002."
+  },
+  {
+    "id": "insee-religion",
+    "label": "France — INSEE / Trajectoires et Origines (TeO)",
+    "url": "https://www.insee.fr/fr/statistiques/fichier/5422681/TeO2.pdf",
+    "note": "Part des personnes se déclarant de religion musulmane en France (enquêtes TeO 2008, 2019)."
+  },
+  {
+    "id": "destatis",
+    "label": "Allemagne — Destatis / Office fédéral de la statistique",
+    "url": "https://www.destatis.de/",
+    "note": "Statistiques officielles de population."
+  },
+  {
+    "id": "ons-uk",
+    "label": "Royaume-Uni — ONS Census 2021",
+    "url": "https://www.ons.gov.uk/peoplepopulationandcommunity/culturalidentity/religion",
+    "note": "Recensement 2021 — chapitre religion : 6,5 % de musulmans en Angleterre et Pays de Galles."
+  },
+  {
+    "id": "uscirf",
+    "label": "USCIRF — U.S. Commission on International Religious Freedom",
+    "url": "https://www.uscirf.gov/",
+    "note": "Rapports annuels officiels sur la liberté religieuse dans le monde."
+  },
+  {
+    "id": "state-irf",
+    "label": "US Department of State — International Religious Freedom Reports",
+    "url": "https://www.state.gov/reports/2023-report-on-international-religious-freedom/",
+    "note": "Rapports annuels pays par pays, données religieuses officielles américaines."
   }
 ]

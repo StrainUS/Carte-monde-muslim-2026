@@ -16,7 +16,10 @@ export const CountrySchema = z.object({
   region: z.string().min(1),
   notes: z.string().min(1),
   centroid: z.tuple([z.number(), z.number()]).optional(),
-  overseasOf: z.string().optional()
+  overseasOf: z.string().optional(),
+  // Traçabilité : IDs renvoyant vers `sources.json`, et millésime de la donnée.
+  sources: z.array(z.string()).optional(),
+  asOf: z.string().optional()
 });
 export type Country = z.infer<typeof CountrySchema>;
 

@@ -22,7 +22,9 @@
   }
 </script>
 
-<header class="sticky top-0 z-50 border-b border-surface-3 bg-paper/85 backdrop-blur supports-[backdrop-filter]:bg-paper/70">
+<header
+  class="sticky top-0 z-[1100] border-b border-surface-3 bg-paper/85 backdrop-blur supports-[backdrop-filter]:bg-paper/70"
+>
   <div class="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3 sm:px-6">
     <a href="{base}/" class="flex items-center gap-2.5 min-w-0">
       <span
@@ -37,10 +39,7 @@
       </span>
     </a>
 
-    <nav
-      class="ml-auto hidden items-center gap-0.5 md:flex"
-      aria-label="Navigation principale"
-    >
+    <nav class="ml-auto hidden items-center gap-0.5 md:flex" aria-label="Navigation principale">
       {#each routes as r (r.key)}
         <a
           href="{base}{r.href}"
@@ -80,7 +79,9 @@
             <a
               href="{base}{r.href}"
               class="block rounded-md px-3 py-2.5 text-sm font-medium
-                     {isActive(r.href) ? 'bg-surface-2 text-ink' : 'text-muted hover:bg-surface-2 hover:text-ink'}"
+                     {isActive(r.href)
+                ? 'bg-surface-2 text-ink'
+                : 'text-muted hover:bg-surface-2 hover:text-ink'}"
               aria-current={isActive(r.href) ? 'page' : undefined}
               onclick={() => (menuOpen = false)}
             >

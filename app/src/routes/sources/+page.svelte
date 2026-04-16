@@ -12,7 +12,13 @@
       'fatf-tf',
       'eurojust'
     ],
-    'France — veille officielle': ['pnat', 'sgdsn', 'justice-fr', 'legi-cp-terror', 'stop-djihadisme'],
+    'France — veille officielle': [
+      'pnat',
+      'sgdsn',
+      'justice-fr',
+      'legi-cp-terror',
+      'stop-djihadisme'
+    ],
     'Humanitaire & contexte': ['unhcr', 'bamf']
   };
 
@@ -38,9 +44,16 @@
   <div class="mb-10 rounded-lg border border-accent/30 bg-accent/5 p-5 text-sm">
     <p class="font-medium text-ink">Pyramide des sources</p>
     <ol class="mt-2 space-y-1 text-muted list-decimal list-inside">
-      <li><strong class="text-ink">Primaire</strong> : textes de loi (Légifrance, EUR-Lex), bases statistiques (INSEE, ONU WPP), rapports officiels (SGDSN, Europol).</li>
-      <li><strong class="text-ink">Synthèses institutionnelles</strong> : Pew Research, ICG, UNHCR, BAMF.</li>
-      <li><strong class="text-ink">Presse et commentaires</strong> : à utiliser pour le contexte, avec croisement.</li>
+      <li>
+        <strong class="text-ink">Primaire</strong> : textes de loi (Légifrance, EUR-Lex), bases statistiques
+        (INSEE, ONU WPP), rapports officiels (SGDSN, Europol).
+      </li>
+      <li>
+        <strong class="text-ink">Synthèses institutionnelles</strong> : Pew Research, ICG, UNHCR, BAMF.
+      </li>
+      <li>
+        <strong class="text-ink">Presse et commentaires</strong> : à utiliser pour le contexte, avec croisement.
+      </li>
     </ol>
   </div>
 

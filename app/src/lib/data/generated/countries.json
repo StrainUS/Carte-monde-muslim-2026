@@ -82,7 +82,14 @@
     "centroid": [
       51.5,
       10.5
-    ]
+    ],
+    "sources": [
+      "bamf",
+      "destatis",
+      "pew",
+      "un-wpp"
+    ],
+    "asOf": "2023"
   },
   {
     "name": "Arabie Saoudite",
@@ -99,7 +106,14 @@
     "centroid": [
       24,
       45
-    ]
+    ],
+    "sources": [
+      "pew",
+      "cia",
+      "state-irf",
+      "un-wpp"
+    ],
+    "asOf": "2024"
   },
   {
     "name": "Argentine",
@@ -558,7 +572,14 @@
     "centroid": [
       26.5,
       30
-    ]
+    ],
+    "sources": [
+      "pew",
+      "cia",
+      "state-irf",
+      "un-wpp"
+    ],
+    "asOf": "2024"
   },
   {
     "name": "Érythrée",
@@ -609,7 +630,14 @@
     "centroid": [
       39.5,
       -98
-    ]
+    ],
+    "sources": [
+      "pew",
+      "state-irf",
+      "arda",
+      "un-wpp"
+    ],
+    "asOf": "2023"
   },
   {
     "name": "Éthiopie",
@@ -677,7 +705,15 @@
     "centroid": [
       46.5,
       2.5
-    ]
+    ],
+    "sources": [
+      "pew",
+      "insee",
+      "insee-religion",
+      "cia",
+      "un-wpp"
+    ],
+    "asOf": "2024"
   },
   {
     "name": "Gabon",
@@ -883,7 +919,14 @@
     "centroid": [
       22,
       79
-    ]
+    ],
+    "sources": [
+      "pew",
+      "cia",
+      "un-wpp",
+      "arda"
+    ],
+    "asOf": "2024"
   },
   {
     "name": "Indonésie",
@@ -900,7 +943,14 @@
     "centroid": [
       -2.5,
       118
-    ]
+    ],
+    "sources": [
+      "pew",
+      "cia",
+      "arda",
+      "un-wpp"
+    ],
+    "asOf": "2024"
   },
   {
     "name": "Irak",
@@ -934,7 +984,14 @@
     "centroid": [
       32.5,
       53.7
-    ]
+    ],
+    "sources": [
+      "pew",
+      "cia",
+      "state-irf",
+      "un-wpp"
+    ],
+    "asOf": "2024"
   },
   {
     "name": "Irlande",
@@ -1481,7 +1538,14 @@
     "centroid": [
       10,
       8
-    ]
+    ],
+    "sources": [
+      "pew",
+      "cia",
+      "un-wpp",
+      "arda"
+    ],
+    "asOf": "2024"
   },
   {
     "name": "Norvège",
@@ -1583,7 +1647,14 @@
     "centroid": [
       30,
       69
-    ]
+    ],
+    "sources": [
+      "pew",
+      "cia",
+      "un-wpp",
+      "arda"
+    ],
+    "asOf": "2024"
   },
   {
     "name": "Pays-Bas",
@@ -1719,7 +1790,13 @@
     "centroid": [
       54,
       -2.5
-    ]
+    ],
+    "sources": [
+      "ons-uk",
+      "pew",
+      "un-wpp"
+    ],
+    "asOf": "2021"
   },
   {
     "name": "Russie",
@@ -1736,7 +1813,15 @@
     "centroid": [
       61,
       65
-    ]
+    ],
+    "sources": [
+      "pew",
+      "cia",
+      "un-wpp",
+      "arda",
+      "rosstat"
+    ],
+    "asOf": "2024"
   },
   {
     "name": "Rwanda",
@@ -2162,7 +2247,14 @@
     "centroid": [
       39,
       35
-    ]
+    ],
+    "sources": [
+      "pew",
+      "cia",
+      "un-wpp",
+      "arda"
+    ],
+    "asOf": "2024"
   },
   {
     "name": "Ukraine",

@@ -8,7 +8,8 @@ export default defineConfig({
   reporter: process.env.CI ? [['github'], ['html', { open: 'never' }]] : 'list',
   use: {
     baseURL: 'http://127.0.0.1:4173',
-    trace: 'on-first-retry'
+    trace: 'retain-on-failure',
+    viewport: { width: 1280, height: 720 }
   },
   webServer: {
     command: 'npm run preview',
@@ -16,7 +17,5 @@ export default defineConfig({
     reuseExistingServer: !process.env.CI,
     timeout: 120_000
   },
-  projects: [
-    { name: 'chromium', use: { ...devices['Desktop Chrome'] } }
-  ]
+  projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }]
 });

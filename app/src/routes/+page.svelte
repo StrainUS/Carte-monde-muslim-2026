@@ -2,10 +2,7 @@
   import { base } from '$app/paths';
   import { countries, quiz, sources, chronology, timeline } from '$data';
 
-  const totalMuslims = countries.reduce(
-    (sum, c) => sum + (c.population * c.muslimPct) / 100,
-    0
-  );
+  const totalMuslims = countries.reduce((sum, c) => sum + (c.population * c.muslimPct) / 100, 0);
   const muslimBn = (totalMuslims / 1000).toFixed(2);
 
   const features = [
@@ -141,10 +138,11 @@
   <div class="rounded-xl border border-warn/30 bg-warn/5 p-5 text-sm">
     <p class="font-medium text-ink">Avertissement pédagogique.</p>
     <p class="mt-2 text-muted">
-      Les synthèses et cartographies présentées sont des <strong>ordres de grandeur indicatifs</strong>
-      à des fins de sensibilisation et de veille. Elles ne se substituent pas au droit positif, aux
-      consignes employeur, ni aux publications officielles à jour (Légifrance, EUR-Lex, Europol,
-      SGDSN, INSEE).
+      Les synthèses et cartographies présentées sont des <strong
+        >ordres de grandeur indicatifs</strong
+      >
+      à des fins de sensibilisation et de veille. Elles ne se substituent pas au droit positif, aux consignes
+      employeur, ni aux publications officielles à jour (Légifrance, EUR-Lex, Europol, SGDSN, INSEE).
     </p>
   </div>
 </section>

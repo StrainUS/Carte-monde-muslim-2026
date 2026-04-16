@@ -17,7 +17,7 @@
       name: 'Sunnisme',
       share: '~85–90 % des musulmans',
       description:
-        "Majorité, héritée du consensus autour des quatre premiers califes (rashidun). Quatre écoles juridiques (hanafite, malékite, chaféite, hanbalite), transverse avec le soufisme et avec le salafisme.",
+        'Majorité, héritée du consensus autour des quatre premiers califes (rashidun). Quatre écoles juridiques (hanafite, malékite, chaféite, hanbalite), transverse avec le soufisme et avec le salafisme.',
       keyCountries: ['Indonésie', 'Pakistan', 'Bangladesh', 'Égypte', 'Arabie Saoudite']
     },
     {
@@ -38,7 +38,7 @@
       name: 'Ismaélisme',
       share: '< 1 %',
       description:
-        "Branche chiite (septimaniens). Communautés Nizarites (Aga Khan) et Mustaaliennes. Présence marquée en Asie centrale et en diaspora.",
+        'Branche chiite (septimaniens). Communautés Nizarites (Aga Khan) et Mustaaliennes. Présence marquée en Asie centrale et en diaspora.',
       keyCountries: ['Tadjikistan', 'Inde', 'Pakistan']
     },
     {
@@ -52,7 +52,7 @@
       name: 'Soufisme',
       share: 'Transverse',
       description:
-        "Voies spirituelles et confréries (turuq) traversant sunnisme et chiisme. Tijaniyya, Qadiriyya, Mouridiyya, Bektachiyya. Exemple : Sénégal, Maroc, Turquie.",
+        'Voies spirituelles et confréries (turuq) traversant sunnisme et chiisme. Tijaniyya, Qadiriyya, Mouridiyya, Bektachiyya. Exemple : Sénégal, Maroc, Turquie.',
       keyCountries: ['Sénégal', 'Maroc', 'Turquie', 'Albanie']
     }
   ];
@@ -81,8 +81,8 @@
     <p class="text-sm font-medium uppercase tracking-wider text-muted">Savoir</p>
     <h1 class="h-display mt-2 text-4xl">Comprendre avant de surveiller</h1>
     <p class="mt-3 max-w-2xl text-muted">
-      Courants, écoles juridiques, repères chronologiques et glossaire pour distinguer
-      idéologies, sociétés et individus.
+      Courants, écoles juridiques, repères chronologiques et glossaire pour distinguer idéologies,
+      sociétés et individus.
     </p>
   </header>
 
@@ -118,7 +118,8 @@
           </div>
           <p class="mt-2 text-sm text-muted">{c.description}</p>
           <p class="mt-3 text-xs text-muted">
-            <span class="font-medium text-ink">Pays clés :</span> {c.keyCountries.join(' · ')}
+            <span class="font-medium text-ink">Pays clés :</span>
+            {c.keyCountries.join(' · ')}
           </p>
         </article>
       {/each}
@@ -163,7 +164,9 @@
         </tbody>
       </table>
     </div>
-    <p class="mt-2 text-xs text-muted">Ordres de grandeur. Source : Pew / CIA Factbook (croiser avec WPP ONU).</p>
+    <p class="mt-2 text-xs text-muted">
+      Ordres de grandeur. Source : Pew / CIA Factbook (croiser avec WPP ONU).
+    </p>
   </section>
 
   <section id="glossaire" class="scroll-mt-20">

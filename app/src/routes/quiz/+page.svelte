@@ -1,19 +1,11 @@
 <script lang="ts">
   import { quiz, sourceById } from '$data';
-  import {
-    isCorrect,
-    togglePick,
-    summarize,
-    shuffle,
-    type AnswerState
-  } from '$lib/quiz/engine';
+  import { isCorrect, togglePick, summarize, shuffle, type AnswerState } from '$lib/quiz/engine';
 
   const QUESTIONS_PER_SESSION = 20;
 
   let sessionSeed = $state(Date.now());
-  const sessionQuestions = $derived(
-    shuffle(quiz, sessionSeed).slice(0, QUESTIONS_PER_SESSION)
-  );
+  const sessionQuestions = $derived(shuffle(quiz, sessionSeed).slice(0, QUESTIONS_PER_SESSION));
   let answers = $state<Record<string, AnswerState>>({});
   let idx = $state(0);
   let finished = $state(false);
@@ -22,9 +14,7 @@
   const currentAnswer = $derived<AnswerState>(
     answers[current?.id] ?? { picks: [], submitted: false, correct: false }
   );
-  const progress = $derived(
-    Object.values(answers).filter((a) => a.submitted).length
-  );
+  const progress = $derived(Object.values(answers).filter((a) => a.submitted).length);
   const summary = $derived(finished ? summarize(sessionQuestions, answers) : null);
 
   function pick(i: number) {
@@ -100,11 +90,15 @@
     <div class="grid gap-3 sm:grid-cols-2 mb-8">
       <div class="rounded-xl border border-surface-3 bg-surface-1 p-5 text-center">
         <p class="text-xs uppercase tracking-wider text-muted">QCU</p>
-        <p class="h-display mt-1 text-2xl">{summary.byType.qcu.correct} / {summary.byType.qcu.total}</p>
+        <p class="h-display mt-1 text-2xl">
+          {summary.byType.qcu.correct} / {summary.byType.qcu.total}
+        </p>
       </div>
       <div class="rounded-xl border border-surface-3 bg-surface-1 p-5 text-center">
         <p class="text-xs uppercase tracking-wider text-muted">QCM</p>
-        <p class="h-display mt-1 text-2xl">{summary.byType.qcm.correct} / {summary.byType.qcm.total}</p>
+        <p class="h-display mt-1 text-2xl">
+          {summary.byType.qcm.correct} / {summary.byType.qcm.total}
+        </p>
       </div>
     </div>
 
@@ -159,7 +153,9 @@
 
     <article class="rounded-2xl border border-surface-3 bg-surface-1 p-6 shadow-soft">
       <p class="mb-4 text-xs font-semibold uppercase tracking-wider text-accent">
-        {current.type === 'qcu' ? 'QCU — une seule bonne réponse' : 'QCM — plusieurs bonnes réponses'}
+        {current.type === 'qcu'
+          ? 'QCU — une seule bonne réponse'
+          : 'QCM — plusieurs bonnes réponses'}
       </p>
       <h2 class="h-display text-xl leading-snug">{current.question}</h2>
 
@@ -168,13 +164,16 @@
           <li>
             <button
               type="button"
-              class="flex w-full items-start gap-3 rounded-lg border p-3.5 text-left transition {optionClass(i)}"
+              class="flex w-full items-start gap-3 rounded-lg border p-3.5 text-left transition {optionClass(
+                i
+              )}"
               disabled={currentAnswer.submitted}
               onclick={() => pick(i)}
               aria-pressed={isPicked(i)}
             >
               <span
-                class="mt-0.5 grid size-5 shrink-0 place-items-center rounded-{current.type === 'qcu' ? 'full' : 'sm'} border-2
+                class="mt-0.5 grid size-5 shrink-0 place-items-center border-2
+                       {current.type === 'qcu' ? 'rounded-full' : 'rounded-sm'}
                        {isPicked(i) ? 'border-accent bg-accent text-white' : 'border-surface-3'}"
                 aria-hidden="true"
               >
