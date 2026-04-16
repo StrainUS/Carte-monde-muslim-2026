@@ -228,11 +228,12 @@
         .addTo(map);
       L.control.zoom({ position: 'topright' }).addTo(map);
 
-      /* ── Fond neutre, lié au thème via un MutationObserver ── */
+      /* ── Fond neutre + re-stylisation des pays liée au thème ── */
       const applyBg = () => {
         if (!map) return;
         const dark = document.documentElement.getAttribute('data-theme') !== 'light';
         map.getContainer().style.background = dark ? '#0b0d12' : '#e6eaf0';
+        countriesLayer?.setStyle((f) => countryStyleFor(f as CountryFeature, layers));
       };
       applyBg();
       themeObserver = new MutationObserver(applyBg);
@@ -243,51 +244,32 @@
 
       /* ── Couche pays ── */
       countriesLayer = L.geoJSON(geo, {
-        style: (f) => {
-          const feat = f as CountryFeature | undefined;
-          const c = byIsoCanonical.get(String(feat?.id ?? '').padStart(3, '0'));
-          const s = styleCountry(c);
-          const d = s.dominant;
-          const visible =
-            d === 'none' ||
-            (d === 'sunni' && layers.sunni) ||
-            (d === 'shia' && layers.shia) ||
-            (d === 'mixed' && layers.mixed) ||
-            (d === 'ibadi' && layers.ibadi);
-          return {
-            ...s,
-            fillOpacity: visible ? s.fillOpacity : 0,
-            opacity: visible ? 1 : 0.15,
-            weight: visible ? s.weight : 0.25
-          };
-        },
+        style: (f) => countryStyleFor(f as CountryFeature, layers),
         onEachFeature: (f, layer) => {
           const feat = f as CountryFeature;
           const iso = String(feat.id ?? '').padStart(3, '0');
           const c = byIsoCanonical.get(iso);
           if (!c) return;
           const path = layer as L.Path;
-          const isLayerOnFor = (): boolean => {
-            const d = dominant(c);
-            if (d === 'none') return true;
-            return Boolean(layers[d as LayerKey]);
-          };
           layer.on({
             mouseover: (e: L.LeafletMouseEvent) => {
-              if (!isLayerOnFor()) return; // pas de hover sur pays masqué
-              (e.target as L.Path).setStyle({ weight: 1.5, color: '#ffffff' });
+              const isLight =
+                typeof document !== 'undefined' &&
+                document.documentElement.getAttribute('data-theme') === 'light';
+              (e.target as L.Path).setStyle({
+                weight: 1.6,
+                color: isLight ? '#111827' : '#ffffff'
+              });
               (e.target as L.Path).bringToFront();
             },
             mouseout: (e: L.LeafletMouseEvent) => {
               countriesLayer?.resetStyle(e.target as L.Path);
             },
             click: () => {
-              if (!isLayerOnFor()) return;
               onSelect?.(c);
               selected = c.name;
             },
             keypress: (e: L.LeafletKeyboardEvent) => {
-              if (!isLayerOnFor()) return;
               if (e.originalEvent.key === 'Enter' || e.originalEvent.key === ' ') {
                 onSelect?.(c);
                 selected = c.name;
@@ -491,27 +473,57 @@
     }
   }
 
+  /**
+   * Style d'un pays selon les couches actives et le thème.
+   *
+   * - Si la couche thématique dominante du pays est activée (ou si le pays
+   *   n'a pas de dominante musulmane) → fill coloré complet.
+   * - Sinon → fond de carte "neutre" mais toujours visible : fill très
+   *   discret + contour lisible. Le pays reste cliquable.
+   *
+   * Le contour et le fond neutre s'adaptent au thème clair / sombre.
+   */
+  function countryStyleFor(
+    f: CountryFeature | undefined,
+    l: Record<LayerKey, boolean>
+  ): L.PathOptions {
+    const c = byIsoCanonical.get(String(f?.id ?? '').padStart(3, '0'));
+    const s = styleCountry(c);
+    const d = s.dominant;
+    const layerOn =
+      d === 'none' ||
+      (d === 'sunni' && l.sunni) ||
+      (d === 'shia' && l.shia) ||
+      (d === 'mixed' && l.mixed) ||
+      (d === 'ibadi' && l.ibadi);
+
+    const isLight =
+      typeof document !== 'undefined' &&
+      document.documentElement.getAttribute('data-theme') === 'light';
+    const strokeColor = isLight ? 'rgba(20, 28, 48, 0.45)' : 'rgba(255, 255, 255, 0.32)';
+
+    if (layerOn) {
+      return {
+        fillColor: s.fillColor,
+        fillOpacity: s.fillOpacity,
+        color: strokeColor,
+        weight: 0.6,
+        opacity: 1
+      };
+    }
+    return {
+      fillColor: isLight ? '#1a2035' : '#ffffff',
+      fillOpacity: isLight ? 0.05 : 0.04,
+      color: strokeColor,
+      weight: 0.65,
+      opacity: 1
+    };
+  }
+
   function applyLayers(l: Record<LayerKey, boolean>) {
     if (!map) return;
     const m = map;
-    countriesLayer?.setStyle((f) => {
-      const feat = f as CountryFeature | undefined;
-      const c = byIsoCanonical.get(String(feat?.id ?? '').padStart(3, '0'));
-      const s = styleCountry(c);
-      const d = s.dominant;
-      const visible =
-        d === 'none' ||
-        (d === 'sunni' && l.sunni) ||
-        (d === 'shia' && l.shia) ||
-        (d === 'mixed' && l.mixed) ||
-        (d === 'ibadi' && l.ibadi);
-      return {
-        ...s,
-        fillOpacity: visible ? s.fillOpacity : 0,
-        opacity: visible ? 1 : 0.15,
-        weight: visible ? s.weight : 0.25
-      };
-    });
+    countriesLayer?.setStyle((f) => countryStyleFor(f as CountryFeature, l));
 
     const swap = (layer: L.LayerGroup | null, on: boolean) => {
       if (!layer) return;
