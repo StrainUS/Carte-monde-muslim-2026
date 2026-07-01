@@ -24,8 +24,9 @@
 8. [Données et sources](#données-et-sources)
 9. [Accessibilité et hors-ligne](#accessibilité-et-hors-ligne)
 10. [Contribuer](#contribuer)
-11. [Avertissement](#avertissement)
-12. [Licence](#licence)
+11. [Sécurité](#sécurité)
+12. [Avertissement](#avertissement)
+13. [Licence](#licence)
 
 ---
 
@@ -155,6 +156,10 @@ Sources externes citées : Pew Research Center · CIA World Factbook · UN WPP �
 ## Contribuer
 
 Les issues et PR sont les bienvenues. Consulter [`CONTRIBUTING.md`](CONTRIBUTING.md) pour les conventions de commit, la checklist de PR et le workflow de tests locaux.
+
+## Sécurité
+
+Consulter [`SECURITY.md`](SECURITY.md) pour signaler une vulnérabilité, une erreur factuelle sensible ou un problème lié aux données/source.
 
 ## Avertissement
 
